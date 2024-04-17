@@ -30,13 +30,17 @@ module.exports = function(config, env) {
 			},
 		}),
 		addWebpackPlugin(new PurgeCSSPlugin({
-			paths: glob.sync(`${paths.appSrc}/app/**/*`, { nodir: true }),
+			paths: glob.sync([`${paths.appSrc}/app/**/*`, `${paths.appSrc}/public/**/*`], { nodir: true }),
 			safelist: {
-				standard: [/backdrop/], // for Bootstrap Modal
-				variables: [
-					"--bs-primary",
+				standard: [
+					/backdrop/,
+					/bs-theme/,
 					/^--bs-btn-disabled/,
 				],
+				greedy: [
+					/creasePattern|boundary/,
+					/(point|line|arc|label|target)-/
+				]
 			},
 		}))
 	)(config);

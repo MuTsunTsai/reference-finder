@@ -14,10 +14,12 @@
 		window.dataLayer = window.dataLayer || [];
 		function gtag() { dataLayer.push(arguments); }
 		gtag('js', new Date());
-		if(location.hostname != "localhost") gtag('config', 'G-GG1TEZGBCQ', {
-			page_title: document.title,
-			page_path: "/reference-finder",
-		});
+		if(location.hostname != "localhost") {
+			gtag('config', 'G-GG1TEZGBCQ', {
+				page_title: document.title,
+				page_path: "/reference-finder",
+			});
+		}
 
 		// Setup dark mode if needed immediately on first visit, to avoid flashing
 		const match = matchMedia("(prefers-color-scheme: dark)");
