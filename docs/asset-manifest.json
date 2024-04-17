@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "./static/css/main.deb5bc17.css",
-    "main.js": "./static/js/main.a0d29951.js",
-    "ref.js": "./static/js/ref.fa1e2d47.chunk.js",
-    "locale.js": "./static/js/locale.16afa651.js",
-    "rabbit-ear.js": "./static/js/rabbit-ear.5fe2350f.js",
-    "static/bin/ref.wasm": "./static/bin/ref.8369a89a.wasm",
-    "static/media/twemoji.woff2": "./static/media/twemoji.4125b4ad8575aa931ecb.woff2",
-    "workbox-cbbbbfe9.js": "./workbox-cbbbbfe9.js",
-    "service-worker.js": "./service-worker.js",
-    "index.html": "./index.html"
+    "main.css": "/reference-finder/static/css/main.102071ae.css",
+    "main.js": "/reference-finder/static/js/main.47a04e60.js",
+    "ref.js": "/reference-finder/static/js/ref.103be60e.chunk.js",
+    "locale.js": "/reference-finder/static/js/locale.16afa651.js",
+    "rabbit-ear.js": "/reference-finder/static/js/rabbit-ear.5fe2350f.js",
+    "static/bin/ref.wasm": "/reference-finder/static/bin/ref.8369a89a.wasm",
+    "static/media/twemoji.woff2": "/reference-finder/static/media/twemoji.4125b4ad8575aa931ecb.woff2",
+    "workbox-cbbbbfe9.js": "/reference-finder/workbox-cbbbbfe9.js",
+    "service-worker.js": "/reference-finder/service-worker.js",
+    "index.html": "/reference-finder/index.html"
   },
   "entrypoints": [
     "static/js/locale.16afa651.js",
     "static/js/rabbit-ear.5fe2350f.js",
-    "static/css/main.deb5bc17.css",
-    "static/js/main.a0d29951.js"
+    "static/css/main.102071ae.css",
+    "static/js/main.47a04e60.js"
   ]
 }
