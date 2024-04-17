@@ -38,6 +38,7 @@
 		"ok": "OK",
 		"cancel": "cancel"
 	},
+	"tip": "Tip: you can use math expression such as {{exp}} (trigonometry functions uses degrees).",
 	"phrase": {
 		"settings": "settings",
 		"point": "point",

@@ -30,7 +30,6 @@ export function Diagram({ data, last }: DiagramProps) {
 	const { width, height } = data[0] as PolyElement;
 
 	function render(svg: RabbitEarSVG) {
-		svg.innerHTML = `<defs><marker id="arrow" viewBox="0 0 10 10" refX="6" refY="3" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M 0 0 L 6 3 L 0 6 L 1 3 z" /></marker></defs>`;
 		const root = svg.origami(ear.cp.rectangle(width, height));
 		root.setAttribute("transform", `translate(0 ${height}) scale(1 -1)`); // lower-left origin
 		for(const el of data) {

@@ -107,7 +107,7 @@ function App() {
 						</div>
 					</div>
 				</div>
-				{store.solutions.length > 0 && (
+				{store.solutions.length > 0 ? (
 					<>
 						<div className="card mt-3 d-none d-md-block">
 							<div className="card-body">
@@ -126,14 +126,11 @@ function App() {
 								</div>
 							</div>
 						</div>
-						<div className="d-none d-md-block">
-							<SolutionComponent data={store.solutions[sol]} />
-						</div>
+						{store.solutions.map((s, i) => <SolutionComponent key={i} data={s} show={sol == i} onSelect={() => setSol(i)} />)}
 					</>
+				) : (
+					<div>{t("tip", { exp: "1/sqrt(2)+sin(10)", interpolation: { escapeValue: false } })}</div>
 				)}
-				<div className="d-md-none">
-					{store.solutions.map((s, i) => <SolutionComponent key={i} data={s} />)}
-				</div>
 			</div>
 			<footer className="row justify-content-end flex-wrap pb-3">
 				<div className="col-auto">© 1999-2007 <a href="https://langorigami.com/article/referencefinder/" target="_blank">Robert J. Lang</a></div>

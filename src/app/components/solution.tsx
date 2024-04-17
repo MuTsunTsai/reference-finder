@@ -5,16 +5,21 @@ import { Diagram } from "./diagram";
 
 interface SolutionComponentProps {
 	data: Solution;
+	show: boolean;
+	onSelect: () => void;
 }
 
-export function SolutionComponent({ data }: SolutionComponentProps) {
+export function SolutionComponent({ data, show, onSelect }: SolutionComponentProps) {
 	const { t } = useTranslation();
 	return (
-		<div className="card mt-3">
-			<div className="card-header capitalize">
-				{t("phrase.solution")} {data.solution}, {t("phrase.error")} {data.err}, rank {data.rank}
+		<div className={"card mt-3 " + (show ? "" : "d-md-none")} style={{ overflow: "hidden" }}>
+			<div className="card-header capitalize d-none d-md-block">
+				<span className="d-inline-block">{t("phrase.solution")} {data.solution},</span> <span className="d-inline-block">{t("phrase.error")} {data.err},</span> <span className="d-inline-block">rank {data.rank}</span>
 			</div>
-			<div className="card-body">
+			<div className={"card-header capitalize d-md-none " + (show ? "text-bg-primary" : "")} onClick={onSelect} style={{ cursor: "pointer" }}>
+				<span className="d-inline-block">{t("phrase.solution")} {data.solution},</span> <span className="d-inline-block">{t("phrase.error")} {data.err},</span> <span className="d-inline-block">rank {data.rank}</span>
+			</div>
+			<div className={"card-body " + (show ? "" : "d-none")}>
 				{data.steps.length == 0 && (
 					<div className="row justify-content-center">
 						<div className="col" style={{ flex: "0 1 12rem" }}>

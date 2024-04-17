@@ -55,5 +55,6 @@
 		"expMax": "Deve ser um número de 0 a {{max}} ou uma expressão equivalente",
 		"int": "Deve ser um número inteiro de pelo menos {{min}}",
 		"intMax": "Deve ser um número inteiro de {{min}} a {{max}}"
-	}
+	},
+	"tip": "Dica: você pode usar expressões matemáticas como {{exp}} (funções trigonométricas usam graus)."
 }
