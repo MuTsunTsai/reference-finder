@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.344a1c9d.css",
+    "main.js": "/static/js/main.8444137e.js",
+    "ref.js": "/static/js/ref.0a04451a.chunk.js",
+    "locale.js": "/static/js/locale.16afa651.js",
+    "rabbit-ear.js": "/static/js/rabbit-ear.5fe2350f.js",
+    "static/bin/ref.wasm": "/static/bin/ref.8369a89a.wasm",
+    "static/media/twemoji.woff2": "/static/media/twemoji.4125b4ad8575aa931ecb.woff2",
+    "workbox-cbbbbfe9.js": "/workbox-cbbbbfe9.js",
+    "service-worker.js": "/service-worker.js",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/js/locale.16afa651.js",
+    "static/js/rabbit-ear.5fe2350f.js",
+    "static/css/main.344a1c9d.css",
+    "static/js/main.8444137e.js"
+  ]
+}

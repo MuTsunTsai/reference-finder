@@ -1,0 +1,59 @@
+{
+	"name": "English",
+	"flag": "🇺🇸",
+	"axiom": [
+		"Make crease {{x}} by folding through {{p0}} and {{p1}}.",
+		"Make crease {{x}} by bringing {{p0}} to {{p1}}.",
+		"Make crease {{x}} by bringing {{l0}} to {{l1}}.",
+		"Make crease {{x}} by bringing {{l0}} onto itself, passing through {{p0}}.",
+		"Make crease {{x}} by bringing {{p0}} to {{l0}}, passing through {{p1}}.",
+		"Make crease {{x}} by bringing {{p0}} to {{l0}} and {{p1}} to {{l1}}.",
+		"Make crease {{x}} by bringing {{l1}} onto itself and bringing {{p0}} to {{l0}}."
+	],
+	"axiom_solution": [
+		"The solution is made by folding through {{p0}} and {{p1}}.",
+		"The solution is made by bringing {{p0}} to {{p1}}.",
+		"The solution is made by bringing {{l0}} to {{l1}}.",
+		"The solution is made by bringing {{l0}} onto itself, passing through {{p0}}.",
+		"The solution is made by bringing {{p0}} to {{l0}}, passing through {{p1}}.",
+		"The solution is made by bringing {{p0}} to {{l0}} and {{p1}} to {{l1}}.",
+		"The solution is made by bringing {{l1}} onto itself and bringing {{p0}} to {{l0}}."
+	],
+	"intersection": "Point {{x}} is at the intersection of {{l0}} and {{l1}}.",
+	"intersection_solution": "The solution is at the intersection of {{l0}} and {{l1}}.",
+	"paper": {
+		"ne": "the top right corner",
+		"se": "the bottom right corner",
+		"sw": "the bottom left corner",
+		"nw": "the top left corner",
+		"n": "the top edge",
+		"e": "the right edge",
+		"s": "the bottom edge",
+		"w": "the left edge",
+		"sw_ne": "the upward diagonal",
+		"nw_se": "the downward diagonal"
+	},
+	"settings": {
+		"reset": "Reset to defaults",
+		"ok": "OK",
+		"cancel": "cancel"
+	},
+	"phrase": {
+		"settings": "settings",
+		"point": "point",
+		"line": "line",
+		"error": "error",
+		"solution": "solution",
+		"go": "go",
+		"initializing": "Initializing...",
+		"findLine": "find a line",
+		"findPoint": "find a point",
+		"referenceFinder": "ReferenceFinder"
+	},
+	"invalid": {
+		"exp": "Should be a number at least 0, or an equivalent expression",
+		"expMax": "Should be a number from 0 to {{max}}, or an equivalent expression",
+		"int": "Should be an integer at least {{min}}",
+		"intMax": "Should be an integer from {{min}} to {{max}}"
+	}
+}

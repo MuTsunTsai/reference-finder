@@ -1,0 +1,75 @@
+$enable-negative-margins: true;
+
+@import "bootstrap/scss/bootstrap";
+
+@font-face {
+	font-family: Flag;
+	src:
+		local("Twemoji Mozilla"),
+		local("Apple Color Emoji"),
+		/* Segoe UI Emoji (Windows) doesn't support color flags. */ local("Noto Color Emoji"),
+		local("EmojiOne Color"),
+		local("Android Emoji"),
+		/* fallback to font file if none of the above is found */ url("twemoji.woff2");
+
+	/* This is the full range of flags. */
+	unicode-range: U+1F1E6-1F1FF;
+}
+
+html {
+	font-size: 11pt;
+}
+
+body {
+	overflow-y: scroll;
+}
+
+html,
+body,
+#root {
+	height: 100%;
+}
+
+ol {
+	margin-bottom: 0;
+	padding-left: 1.5rem;
+}
+
+.flag {
+	font-family: Flag, var(--bs-body-font-family);
+}
+
+.capitalize::first-letter {
+	text-transform: uppercase;
+}
+
+svg {
+	.creasePattern {
+		polygon.boundary {
+			fill: var(--bs-gray-100);
+		}
+
+		.boundary {
+			stroke: var(--crease-line);
+		}
+
+		.target-point {
+			fill: var(--bs-warning);
+		}
+
+		.target-line {
+			stroke: var(--bs-danger);
+			stroke-width: 0.02;
+		}
+	}
+}
+
+[data-bs-theme="dark"] {
+	svg {
+		.creasePattern {
+			polygon.boundary {
+				fill: var(--bs-gray-800);
+			}
+		}
+	}
+}

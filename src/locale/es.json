@@ -1,0 +1,59 @@
+{
+	"name": "Español",
+	"flag": "🇪🇸",
+	"axiom": [
+		"Haga el pliegue {{x}} doblando entre {{p0}} y {{p1}}.",
+		"Haga el pliegue {{x}} llevando {{p0}} a {{p1}}.",
+		"Haga el pliegue {{x}} llevando {{l0}} a {{l1}}.",
+		"Haga el pliegue {{x}} que pasa por {{p0}} llevando {{l0}} sobre ella misma.",
+		"Haga que el pliegue {{x}} pase por {{p1}} llevando {{p0}} a {{l0}}.",
+		"Haga el pliegue {{x}} llevando {{p0}} a {{l0}} y {{p1}} a {{l1}}.",
+		"Haga el pliegue {{x}} que lleva {{p0}} a {{l0}} llevando {{l1}} sobre ella misma."
+	],
+	"axiom_solution": [
+		"La solución se logra plegando entre {{p0}} y {{p1}}.",
+		"La solución se logra llevando {{p0}} a {{p1}}.",
+		"La solución se logra llevando {{l0}} a {{l1}}.",
+		"La solución se logra llevando {{l0}} sobre ella misma, pasando por {{p0}}.",
+		"La solución se logra llevando {{p0}} a {{l0}}, pasando por {{p1}}.",
+		"La solución se logra llevando {{p0}} a {{l0}} y {{p1}} a {{l1}}.",
+		"La solución se logra llevando {{l1}} sobre ella misma y llevando {{p0}} a {{l0}}."
+	],
+	"intersection": "{{x}} es la intersección de {{l0}} y {{l1}}.",
+	"intersection_solution": "La solución es la intersección de {{l0}} y {{l1}}.",
+	"paper": {
+		"ne": "la esquina superior derecha",
+		"se": "la esquina inferior derecha",
+		"sw": "la esquina inferior izquierda",
+		"nw": "la esquina superior izquierda",
+		"n": "el borde superior",
+		"e": "el borde derecho",
+		"s": "el borde inferior",
+		"w": "el borde izquierdo",
+		"sw_ne": "la diagonal que va hacia arriba",
+		"nw_se": "la diagonal que va hacia abajo"
+	},
+	"phrase": {
+		"point": "punto",
+		"line": "línea",
+		"error": "error",
+		"solution": "solución",
+		"go": "ir",
+		"findLine": "encuentre una línea",
+		"findPoint": "encuentre un punto",
+		"referenceFinder": "Buscador de Referencias",
+		"settings": "ajustes",
+		"initializing": "Inicializando..."
+	},
+	"settings": {
+		"cancel": "Cancelar",
+		"ok": "DE ACUERDO",
+		"reset": "Restablecer los valores predeterminados"
+	},
+	"invalid": {
+		"exp": "Debe ser un número al menos 0, o una expresión equivalente",
+		"expMax": "Debe ser un número del 0 al {{max}}, o una expresión equivalente",
+		"int": "Debe ser un número entero al menos {{min}}",
+		"intMax": "Debe ser un número entero de {{min}} a {{max}}"
+	}
+}

@@ -1,0 +1,33 @@
+import ear from "rabbit-ear";
+import { useDB } from "../store";
+import { Svg } from "./svg";
+
+import type { RabbitEarSVG } from "rabbit-ear";
+
+interface PreviewProps {
+	cp: Fold;
+	points?: IPoint[];
+}
+
+export function Preview({ cp, points }: PreviewProps) {
+	const { width, height } = useDB();
+	const boundary = ear.rect(0, 0, width, height);
+
+	function render(svg: RabbitEarSVG) {
+		const root = svg.origami(cp);
+		root.setAttribute("transform", `translate(0 ${height}) scale(1 -1)`); // lower-left origin
+		if(points) {
+			for(const pt of points) {
+				const circle = root.vertices.circle(pt, 0.03);
+				circle.classList.add("target-point");
+			}
+			if(points.length == 2) {
+				const segment = boundary.clip(ear.line.fromPoints(points[0], points[1]));
+				const line = root.edges.line(segment[0], segment[1]);
+				line.classList.add("target-line");
+			}
+		}
+	}
+
+	return Svg({ render, width, height });
+}

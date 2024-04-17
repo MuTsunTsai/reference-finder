@@ -1,0 +1,99 @@
+:root {
+	--crease-line: var(--bs-gray-600);
+	--action-line: var(--bs-gray-700);
+}
+
+.point-normal {
+	fill: var(--crease-line);
+	stroke-width: 0;
+}
+
+.point-highlight {
+	fill: var(--bs-info);
+	stroke-width: 0;
+}
+
+.point-action {
+	fill: var(--bs-warning);
+	stroke-width: 0;
+}
+
+.line-valley {
+	stroke: var(--bs-primary);
+	stroke-dasharray: 0.05 0.025;
+	stroke-width: 0.02;
+}
+
+.line-mountain {
+	stroke: var(--bs-danger);
+}
+
+.line-highlight {
+	stroke: var(--bs-info);
+}
+
+.line-arrow {
+	display: none;
+}
+
+.line-crease {
+	stroke: var(--crease-line);
+}
+
+.arc-arrow {
+	fill: none;
+	stroke: var(--action-line);
+	stroke-width: 0.015;
+	z-index: 10;
+	marker-start: url(#arrow);
+
+	&.reverse {
+		marker-start: none;
+		marker-end: url(#arrow);
+	}
+}
+
+.creasePattern {
+	text {
+		font-size: 0.1px;
+		stroke-width: 0;
+	}
+
+	.label-border {
+		stroke-width: 0.025px;
+		stroke: black;
+		stroke-linejoin: bevel;
+	}
+}
+
+.label-action,
+.label-highlight {
+	fill: white;
+}
+
+marker path {
+	fill: var(--action-line);
+}
+
+[data-bs-theme="dark"] {
+	--crease-line: var(--bs-gray-500);
+	--action-line: var(--bs-gray-300);
+}
+
+.solution-preview {
+	text,
+	.arc-arrow,
+	.point-normal,
+	.point-highlight {
+		display: none;
+	}
+
+	.line-highlight {
+		stroke: var(--crease-line);
+	}
+
+	.line-valley {
+		stroke-dasharray: none;
+		stroke: var(--bs-danger);
+	}
+}

@@ -1,0 +1,27 @@
+# Contributing Guidelines
+
+It is recommended that you use [VS Code](https://code.visualstudio.com/) for this project.
+
+## Environment and build instructions
+
+To build and run this project, you will need the following:
+- [Node.js](https://nodejs.org/)
+- [PNPM](https://pnpm.io/), and then execute the following in the project folder: `pnpm install`.
+- [Emscripten](https://emscripten.org/), and make sure that `emcc` is available in PATH.
+- [GNU make](https://community.chocolatey.org/packages/make) (Note: the makefile of this project is configured for Windows and probably won't work on other platforms.)
+
+Then you can build the project by the following:
+
+```bash
+pnpm build
+```
+
+## Project structure
+
+All source codes are located in the `src` folder, in which you'll find:
+
+- `app`: User interface, written in React (I usually use Vue, but I decided to give it a try for this project).
+- `core`: The C++ part. For the most part, it is the same as Lang's original source code (with some refactoring). I only did some minor modifications to make it interop with JavaScript. Most notably, I have a new `JsonStreamDgmr` class replacing the original `VerbalStreamDgmr`.
+- `lib`: This contains the compiled WebAssembly and some bridging scripts.
+- `locale`: All locale files, based on the previous work by Robby Kraft etc.
+- `public`: The HTML file and other unbundled assets.

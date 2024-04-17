@@ -1,0 +1,59 @@
+{
+	"name": "Português",
+	"flag": "🇵🇹",
+	"axiom": [
+		"Faça o vinco {{x}} dobrando através da {{p0}} e {{p1}}.",
+		"Faça o vinco {{x}} trazendo {{p0}} para {{p1}}.",
+		"Faça o vinco {{x}} trazendo {{l0}} para {{l1}}.",
+		"Faça o vinco {{x}} colocando {{l0}} em si mesmo, passando por {{p0}}.",
+		"Faça o vinco {{x}} trazendo {{p0}} para {{l0}}, passando por {{p1}}.",
+		"Faça o vinco {{x}} trazendo {{p0}} para {{l0}} e {{p1}} para {{l1}}.",
+		"Faça o vinco {{x}} colocando {{l1}} em si mesmo e levando {{p0}} para {{l0}}."
+	],
+	"axiom_solution": [
+		"A soluçăo é feita dobrando através da {{p0}} e {{p1}}.",
+		"A soluçăo é feita trazendo {{p0}} para {{p1}}.",
+		"A soluçăo é feita trazendo {{l0}} para {{l1}}.",
+		"A soluçăo é feita trazendo {{l0}} para si mesmo, passando por {{p0}}.",
+		"A soluçăo é feita trazendo {{p0}} para {{l0}}, passando por {{p1}}.",
+		"A soluçăo é feita trazendo {{p0}} para {{l0}} e {{p1}} para {{l1}}.",
+		"A soluçăo é feita trazendo {{l1}} para si mesmo e trazendo {{p0}} para {{l0}}."
+	],
+	"intersection": "O ponto {{x}} está na interseçăo da {{l0}} e {{l1}}.",
+	"intersection_solution": "A soluçăo está na interseçăo da {{l0}} e {{l1}}.",
+	"paper": {
+		"ne": "o canto superior direito",
+		"se": "o canto inferior direito",
+		"sw": "o canto inferior esquerdo",
+		"nw": "o canto superior esquerdo",
+		"n": "aresta superior",
+		"e": "aresta direita",
+		"s": "aresta inferior",
+		"w": "aresta esquerda",
+		"sw_ne": "diagonal ascendente",
+		"nw_se": "diagonal descendente"
+	},
+	"phrase": {
+		"point": "ponto",
+		"line": "linha",
+		"error": "erro",
+		"solution": "soluçăo",
+		"go": "ir",
+		"findLine": "encontre uma linha",
+		"findPoint": "encontre um ponto",
+		"referenceFinder": "Localizador de Referência",
+		"settings": "configurações",
+		"initializing": "Inicializando..."
+	},
+	"settings": {
+		"cancel": "cancelar",
+		"ok": "OK",
+		"reset": "Redefinir para os padrões"
+	},
+	"invalid": {
+		"exp": "Deve ser um número pelo menos 0 ou uma expressão equivalente",
+		"expMax": "Deve ser um número de 0 a {{max}} ou uma expressão equivalente",
+		"int": "Deve ser um número inteiro de pelo menos {{min}}",
+		"intMax": "Deve ser um número inteiro de {{min}} a {{max}}"
+	}
+}

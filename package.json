@@ -1,0 +1,43 @@
+{
+	"name": "reference-finder",
+	"version": "1.0.0",
+	"description": "Find reference points and lines in crease patterns.",
+	"scripts": {
+		"start": "make && react-app-rewired start",
+		"build": "make && react-app-rewired build"
+	},
+	"keywords": [
+		"origami"
+	],
+	"contributors": [
+		"Robert J. Lang <robert@langorigami.com>",
+		"Mu-Tsun Tsai <don.m.t.tsai@gmail.com>"
+	],
+	"license": "GPL-2.0",
+	"devDependencies": {
+		"@types/bootstrap": "^5.2.10",
+		"@types/react": "^18.2.79",
+		"@types/react-dom": "^18.2.25",
+		"@types/webpack": "^5.28.5",
+		"customize-cra": "^1.0.0",
+		"glob": "^10.3.12",
+		"http-server": "^14.1.1",
+		"purgecss-webpack-plugin": "^6.0.0",
+		"react-app-rewired": "^2.2.1",
+		"react-scripts": "^5.0.1",
+		"sass": "^1.75.0",
+		"typescript": "^5.4.5",
+		"workbox-webpack-plugin": "^7.0.0"
+	},
+	"dependencies": {
+		"bootstrap": "^5.3.3",
+		"i18next": "^23.11.2",
+		"i18next-browser-languagedetector": "^7.2.1",
+		"math-expression-evaluator": "^2.0.5",
+		"rabbit-ear": "^0.9.32",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-i18next": "^14.1.0",
+		"zustand": "^4.5.2"
+	}
+}
