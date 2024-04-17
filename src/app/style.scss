@@ -1,4 +1,5 @@
 $enable-negative-margins: true;
+$enable-gradients: true;
 
 @import "bootstrap/scss/bootstrap";
 
@@ -64,7 +65,15 @@ svg {
 	}
 }
 
+.btn-ld {
+	@extend .btn-light
+}
+
 [data-bs-theme="dark"] {
+	.btn-ld {
+		@extend .btn-dark
+	}
+
 	svg {
 		.creasePattern {
 			polygon.boundary {

@@ -19,7 +19,7 @@ function parsePt(p: string): IPoint {
 // 	return [pt[0] + r * Math.cos(angle), pt[1] + r * Math.sin(angle)];
 // }
 
-function createText(root: RabbitEarOrigami, height: number, el: LabelElement): RabbitEarSVG {
+function createText(root: RabbitEarOrigami, el: LabelElement): RabbitEarSVG {
 	const pt = parsePt(el.pt);
 	const text = root.edges.text(el.text, pt);
 	text.setAttribute("transform", `translate(0 ${2 * pt[1]}) scale(1 -1)`);
@@ -54,10 +54,10 @@ export function Diagram({ data, last }: DiagramProps) {
 				}
 			}
 			if(el.type == ElementType.label) {
-				const border = createText(root, height, el);
+				const border = createText(root, el);
 				border.classList.add("label-border");
 
-				const text = createText(root, height, el);
+				const text = createText(root, el);
 				text.classList.add("label-" + LabelStyle[el.style]);
 			}
 		}

@@ -12,11 +12,11 @@ interface SolutionComponentProps {
 export function SolutionComponent({ data, show, onSelect }: SolutionComponentProps) {
 	const { t } = useTranslation();
 	return (
-		<div className={"card mt-3 " + (show ? "" : "d-md-none")} style={{ overflow: "hidden" }}>
-			<div className="card-header capitalize d-none d-md-block">
+		<div className={"card mt-3 " + (show ? "" : "d-sm-none")} style={{ overflow: "hidden" }}>
+			<div className="card-header capitalize d-none d-sm-block">
 				<span className="d-inline-block">{t("phrase.solution")} {data.solution},</span> <span className="d-inline-block">{t("phrase.error")} {data.err},</span> <span className="d-inline-block">rank {data.rank}</span>
 			</div>
-			<div className={"card-header capitalize d-md-none " + (show ? "text-bg-primary" : "")} onClick={onSelect} style={{ cursor: "pointer" }}>
+			<div className={"card-header capitalize d-sm-none " + (show ? "text-bg-primary" : "")} onClick={onSelect} style={{ cursor: "pointer" }}>
 				<span className="d-inline-block">{t("phrase.solution")} {data.solution},</span> <span className="d-inline-block">{t("phrase.error")} {data.err},</span> <span className="d-inline-block">rank {data.rank}</span>
 			</div>
 			<div className={"card-body " + (show ? "" : "d-none")}>

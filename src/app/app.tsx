@@ -48,7 +48,7 @@ function App() {
 	}, [i18n.language])
 
 	return (
-		<div className="container px-4 d-flex flex-column h-100" style={{ maxWidth: "65rem" }}>
+		<div className="container px-4 d-flex flex-column h-100" style={{ maxWidth: "63rem" }}>
 			<div className="flex-grow-1 pb-5">
 				<div className="text-end py-2">
 					<select className="form-select flag d-inline-block" style={{ width: "max-content" }}
@@ -109,22 +109,18 @@ function App() {
 				</div>
 				{store.solutions.length > 0 ? (
 					<>
-						<div className="card mt-3 d-none d-md-block">
-							<div className="card-body">
-								<div className="row gx-2 mb-n2">
-									{store.solutions.map((s, i) => (
-										<div className="col mb-2" key={i} style={{ flex: "0 1 12rem" }}>
-											<button className={"w-100 p-1 btn btn-outline-secondary col solution-preview " + (sol == i ? "active" : "")}
-												onClick={() => setSol(i)}>
-												<Diagram data={s.diagrams[s.diagrams.length - 1]} />
-												<div>{s.solution}</div>
-												<div>{t("phrase.error")} {s.err}</div>
-												<div>rank {s.rank}</div>
-											</button>
-										</div>
-									))}
+						<div className="row gx-2 d-none d-sm-flex">
+							{store.solutions.map((s, i) => (
+								<div className="col mb-2" key={i} style={{ flex: "0 1 12rem" }}>
+									<button className={"w-100 p-1 btn btn-ld col solution-preview " + (sol == i ? "active" : "")}
+										onClick={() => setSol(i)}>
+										<Diagram data={s.diagrams[s.diagrams.length - 1]} />
+										<div>{s.solution}</div>
+										<div>{t("phrase.error")} {s.err}</div>
+										<div>rank {s.rank}</div>
+									</button>
 								</div>
-							</div>
+							))}
 						</div>
 						{store.solutions.map((s, i) => <SolutionComponent key={i} data={s} show={sol == i} onSelect={() => setSol(i)} />)}
 					</>
