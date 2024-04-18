@@ -31,7 +31,7 @@ const isChina =
 	detectChinaTimeZone.includes(timeZone) ||
 	detectChinaLanguage.includes(navigator.language) ||
 	navigator.languages.some(l => detectChinaLanguage.includes(l));
-if(isChina) resources["zh-CN"].translation.flag = "🇭🇰";
+if(isChina) resources["zh-TW"].translation.flag = "🇭🇰";
 
 export const supportedLngs = Object.keys(resources);
 
