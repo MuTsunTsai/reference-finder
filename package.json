@@ -5,7 +5,7 @@
 	"scripts": {
 		"start": "make && react-app-rewired start",
 		"build": "make && react-app-rewired build",
-		"serve": "ws -d docs -p 31214 --hostname localhost --rewrite \"/reference-finder/(.*) -> /$1\""
+		"serve": "ws -o -d docs -p 31214 --hostname localhost --rewrite \"/reference-finder/(.*) -> /$1\""
 	},
 	"keywords": [
 		"origami"

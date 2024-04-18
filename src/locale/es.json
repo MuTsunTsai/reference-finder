@@ -48,7 +48,26 @@
 	"settings": {
 		"cancel": "Cancelar",
 		"ok": "DE ACUERDO",
-		"reset": "Restablecer los valores predeterminados"
+		"reset": "Restablecer los valores predeterminados",
+		"display": {
+			"showAxiom": "Mostrar el número de axioma en la descripción.",
+			"theme": {
+				"dark": "Oscuro",
+				"light": "Luz",
+				"system": "Sistema",
+				"_": "Tema"
+			},
+			"_": "Mostrar"
+		},
+		"advanced": {
+			"_": "Avanzado"
+		},
+		"basic": {
+			"_": "Básico",
+			"height": "Altura de la hoja",
+			"width": "Ancho de hoja"
+		},
+		"reInit": "Requiere reinicialización."
 	},
 	"invalid": {
 		"exp": "Debe ser un número al menos 0, o una expresión equivalente",

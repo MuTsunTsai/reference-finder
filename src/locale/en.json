@@ -36,7 +36,26 @@
 	"settings": {
 		"reset": "Reset to defaults",
 		"ok": "OK",
-		"cancel": "cancel"
+		"cancel": "cancel",
+		"reInit": "Requires re-initializing.",
+		"basic": {
+			"_": "Basic",
+			"width": "Sheet width",
+			"height": "Sheet height"
+		},
+		"advanced": {
+			"_": "Advanced"
+		},
+		"display": {
+			"theme": {
+				"system": "System",
+				"light": "Light",
+				"dark": "Dark",
+				"_": "Theme"
+			},
+			"showAxiom": "Show axiom number in description.",
+			"_": "Display"
+		}
 	},
 	"tip": {
 		"title": "Tip:",

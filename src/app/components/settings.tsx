@@ -52,36 +52,36 @@ export function Settings() {
 						<div className="modal-body">
 							<ul className="nav nav-tabs mb-3">
 								<li className="nav-item">
-									<a className={"nav-link " + (tab == 0 ? "active" : "")} onClick={() => setTab(0)}>Basic</a>
+									<a className={"nav-link " + (tab == 0 ? "active" : "")} onClick={() => setTab(0)}>{t("settings.basic._")}</a>
 								</li>
 								<li className="nav-item">
-									<a className={"nav-link " + (tab == 1 ? "active" : "")} onClick={() => setTab(1)}>Advanced</a>
+									<a className={"nav-link " + (tab == 1 ? "active" : "")} onClick={() => setTab(1)}>{t("settings.advanced._")}</a>
 								</li>
 								<li className="nav-item">
-									<a className={"nav-link " + (tab == 2 ? "active" : "")} onClick={() => setTab(2)}>Display</a>
+									<a className={"nav-link " + (tab == 2 ? "active" : "")} onClick={() => setTab(2)}>{t("settings.display._")}</a>
 								</li>
 							</ul>
 							<div className={(tab == 0 ? "" : "d-none")}>
-								<SettingsRow label="Sheet width:">
+								<SettingsRow label={t("settings.basic.width")}>
 									<ExpInput value={tempDb.width} exp={tempDb.widthExp}
 										onInput={(v, exp) => setTempDb({ ...tempDb, width: v, widthExp: exp })} />
 								</SettingsRow>
-								<SettingsRow label="Sheet height:">
+								<SettingsRow label={t("settings.basic.height")}>
 									<ExpInput value={tempDb.height} exp={tempDb.heightExp}
 										onInput={(v, exp) => setTempDb({ ...tempDb, height: v, heightExp: exp })} />
 								</SettingsRow>
-								<SettingsRow label="Max rank:">
+								<SettingsRow label="Max rank">
 									<IntInput value={tempDb.maxRank} min={2} onInput={v => setTempDb({ ...tempDb, maxRank: v })} />
 								</SettingsRow>
-								<SettingsRow label="Max lines:">
+								<SettingsRow label="Max lines">
 									<IntInput value={tempDb.maxLines} onInput={v => setTempDb({ ...tempDb, maxLines: v })} />
 								</SettingsRow>
-								<SettingsRow label="Max marks:">
+								<SettingsRow label="Max marks">
 									<IntInput value={tempDb.maxMarks} onInput={v => setTempDb({ ...tempDb, maxMarks: v })} />
 								</SettingsRow>
 								<hr />
 								<div className="mb-1">
-									<h6>Huzita-Hatori axioms:</h6>
+									<h6>Huzita-Hatori axioms</h6>
 									<Checkbox value={tempDb.axioms[0]} onInput={v => setAxiom(0, v)}>O1 - Crease through two points.</Checkbox>
 									<Checkbox value={tempDb.axioms[1]} onInput={v => setAxiom(1, v)}>O2 - Two points together.</Checkbox>
 									<Checkbox value={tempDb.axioms[2]} onInput={v => setAxiom(2, v)}>O3 - Line to another line.</Checkbox>
@@ -92,48 +92,48 @@ export function Settings() {
 								</div>
 							</div>
 							<div className={(tab == 1 ? "" : "d-none")}>
-								<SettingsRow label="X divisions:">
+								<SettingsRow label="X divisions">
 									<IntInput value={tempDb.numX} min={100} onInput={v => setTempDb({ ...tempDb, numX: v })} />
 								</SettingsRow>
-								<SettingsRow label="Y divisions:">
+								<SettingsRow label="Y divisions">
 									<IntInput value={tempDb.numY} min={100} onInput={v => setTempDb({ ...tempDb, numY: v })} />
 								</SettingsRow>
-								<SettingsRow label="Angle divisions:">
+								<SettingsRow label="Angle divisions">
 									<IntInput value={tempDb.numA} min={100} onInput={v => setTempDb({ ...tempDb, numA: v })} />
 								</SettingsRow>
-								<SettingsRow label="Radial divisions:">
+								<SettingsRow label="Radial divisions">
 									<IntInput value={tempDb.numD} min={100} onInput={v => setTempDb({ ...tempDb, numD: v })} />
 								</SettingsRow>
-								<SettingsRow label="Good enough error:">
+								<SettingsRow label="Good enough error">
 									<ExpInput value={tempDb.error} exp={tempDb.errorExp}
 										onInput={(v, exp) => setTempDb({ ...tempDb, error: v, errorExp: exp })} />
 								</SettingsRow>
-								<SettingsRow label="Min aspect ratio:">
+								<SettingsRow label="Min aspect ratio">
 									<ExpInput value={tempDb.minAspectRatio} exp={tempDb.minAspectRatioExp}
 										onInput={(v, exp) => setTempDb({ ...tempDb, minAspectRatio: v, minAspectRatioExp: exp })} />
 								</SettingsRow>
-								<SettingsRow label="Min angle sine:">
+								<SettingsRow label="Min angle sine">
 									<ExpInput value={tempDb.minAngleSine} exp={tempDb.minAngleSineExp}
 										onInput={(v, exp) => setTempDb({ ...tempDb, minAngleSine: v, minAngleSineExp: exp })} />
 								</SettingsRow>
 							</div>
 							<div className={(tab == 2 ? "" : "d-none")}>
-								<SettingsRow label="Theme:">
+								<SettingsRow label={t("settings.display.theme._")}>
 									<select value={settings.theme} className="form-select"
 										onChange={e => useSettings.setState({ ...settings, theme: Number(e.currentTarget.value) })} >
-										<option value={Theme.system}>System</option>
-										<option value={Theme.light}>Light</option>
-										<option value={Theme.dark}>Dark</option>
+										<option value={Theme.system}>{t("settings.display.theme.system")}</option>
+										<option value={Theme.light}>{t("settings.display.theme.light")}</option>
+										<option value={Theme.dark}>{t("settings.display.theme.dark")}</option>
 										<option value={Theme.rabbitEar}>RabbitEar</option>
 									</select>
 								</SettingsRow>
 								<div className="mt-3 mb-1">
 									<Checkbox value={settings.showAxiom}
-										onInput={v => useSettings.setState({ ...settings, showAxiom: v })}>Show axiom number in description.</Checkbox>
+										onInput={v => useSettings.setState({ ...settings, showAxiom: v })}>{t("settings.display.showAxiom")}</Checkbox>
 								</div>
 							</div>
 							{hasChanged(db, tempDb) && (
-								<div className="text-warning mt-2">* Requires re-initializing.</div>
+								<div className="text-warning mt-2">* {t("settings.reInit")}</div>
 							)}
 						</div>
 						<div className="modal-footer">

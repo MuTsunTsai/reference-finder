@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.css": "/reference-finder/static/css/main.3e595737.css",
-    "main.js": "/reference-finder/static/js/main.df5c3da8.js",
+    "main.css": "/reference-finder/static/css/main.38912270.css",
+    "main.js": "/reference-finder/static/js/main.25843f3e.js",
     "ref.js": "/reference-finder/static/js/ref.103be60e.chunk.js",
-    "locale.js": "/reference-finder/static/js/locale.98bcfc27.js",
+    "locale.js": "/reference-finder/static/js/locale.98c154d3.js",
     "rabbit-ear.js": "/reference-finder/static/js/rabbit-ear.5fe2350f.js",
     "static/bin/ref.wasm": "/reference-finder/static/bin/ref.8369a89a.wasm",
     "static/media/twemoji.woff2": "/reference-finder/static/media/twemoji.4125b4ad8575aa931ecb.woff2",
@@ -12,9 +12,9 @@
     "service-worker.js": "/reference-finder/service-worker.js"
   },
   "entrypoints": [
-    "static/js/locale.98bcfc27.js",
+    "static/js/locale.98c154d3.js",
     "static/js/rabbit-ear.5fe2350f.js",
-    "static/css/main.3e595737.css",
-    "static/js/main.df5c3da8.js"
+    "static/css/main.38912270.css",
+    "static/js/main.25843f3e.js"
   ]
 }
