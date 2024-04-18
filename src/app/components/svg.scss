@@ -1,0 +1,20 @@
+svg {
+	.creasePattern {
+		polygon.boundary {
+			fill: var(--sheet-bg);
+		}
+
+		.boundary {
+			stroke: var(--crease-line);
+		}
+
+		.target-point {
+			fill: var(--bs-warning);
+		}
+
+		.target-line {
+			stroke: var(--bs-danger);
+			stroke-width: 0.02;
+		}
+	}
+}

@@ -44,13 +44,20 @@ export function Diagram({ data, last }: DiagramProps) {
 			}
 			if(el.type == ElementType.arc) {
 				const center = parsePt(el.center)
+				const { radius } = el;
 				let { from, to } = el;
 				if(!el.ccw) [from, to] = [to, from];
-				const arc = root.edges.arc(center[0], center[1], el.radius, from, to);
+
+				// Apply a slight offset to the arrow to make it look better
+				const max = Math.abs(to - from) / 8;
+				from += Math.min(0.075 / radius, max);
+				to -= Math.min(0.075 / radius, max);
+
+				const arc = root.edges.arc(center[0], center[1], radius, from, to);
 				arc.classList.add("arc-" + LineStyle[el.style]);
 				if(el.ccw) arc.classList.add("reverse");
-				if(el.radius < 0.5) {
-					arc.style.strokeWidth = Math.max(0.005, 0.015 * el.radius / 0.5).toString();
+				if(radius < 0.5) {
+					arc.style.strokeWidth = Math.max(0.005, 0.015 * radius / 0.5).toString();
 				}
 			}
 			if(el.type == ElementType.label) {

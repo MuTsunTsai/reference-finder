@@ -102,8 +102,6 @@ function App() {
 							</div>
 						</div>
 					</div>
-					{/* <NumberInput value={db.width} exp={db.widthExp} onInput={(v, exp) => useDB.setState({ ...db, width: v, widthExp: exp })} /> */}
-
 					<PointInput label={mode == Mode.line ? " 1" : ""} value={p1} onInput={p => setP1(p)} />
 					{mode == Mode.line && (
 						<PointInput label=" 2" value={p2} onInput={p => setP2(p)} />

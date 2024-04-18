@@ -1,6 +1,8 @@
 import ear from "rabbit-ear";
 import { useEffect, useRef, useState } from "react";
 
+import "./svg.scss";
+
 import type { RabbitEarSVG } from "rabbit-ear";
 
 function createRabbitEar(width: number, height: number) {

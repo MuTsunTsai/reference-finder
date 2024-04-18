@@ -1,12 +1,5 @@
 $enable-negative-margins: true;
 $enable-gradients: true;
-$container-max-widths: (
-	sm: 100%,
-	md: 100%,
-	lg: 63rem,
-	xl: 63rem,
-	xxl: 63rem
-);
 
 @import "bootstrap/scss/bootstrap";
 
@@ -42,33 +35,16 @@ ol {
 	padding-left: 1.5rem;
 }
 
+.container {
+	max-width: 63rem;
+}
+
 .flag {
 	font-family: Flag, var(--bs-body-font-family);
 }
 
 .capitalize::first-letter {
 	text-transform: uppercase;
-}
-
-svg {
-	.creasePattern {
-		polygon.boundary {
-			fill: var(--sheet-bg);
-		}
-
-		.boundary {
-			stroke: var(--crease-line);
-		}
-
-		.target-point {
-			fill: var(--bs-warning);
-		}
-
-		.target-line {
-			stroke: var(--bs-danger);
-			stroke-width: 0.02;
-		}
-	}
 }
 
 .btn-ld {
@@ -123,6 +99,6 @@ svg {
 	}
 
 	.form-select {
-		--bs-form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27none%27 stroke=%27%23dee2e6%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27m2 5 6 6 6-6%27/%3e%3c/svg%3e");
+		--bs-form-select-bg-img: #{escape-svg($form-select-indicator-dark)};
 	}
 }
