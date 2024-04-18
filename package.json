@@ -4,7 +4,8 @@
 	"description": "Find reference points and lines in crease patterns.",
 	"scripts": {
 		"start": "make && react-app-rewired start",
-		"build": "make && react-app-rewired build"
+		"build": "make && react-app-rewired build",
+		"serve": "ws -d docs -p 31214 --hostname localhost --rewrite \"/reference-finder/(.*) -> /$1\""
 	},
 	"keywords": [
 		"origami"
@@ -21,7 +22,7 @@
 		"@types/webpack": "^5.28.5",
 		"customize-cra": "^1.0.0",
 		"glob": "^10.3.12",
-		"http-server": "^14.1.1",
+		"local-web-server": "^5.3.3",
 		"purgecss-webpack-plugin": "^6.0.0",
 		"react-app-rewired": "^2.2.1",
 		"react-scripts": "^5.0.1",

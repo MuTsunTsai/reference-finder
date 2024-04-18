@@ -56,7 +56,6 @@ function App() {
 		if(settings.theme == Theme.dark || settings.theme == Theme.system && systemDark) theme = "dark";
 		if(settings.theme == Theme.rabbitEar) theme = "rabbit";
 		document.documentElement.dataset.bsTheme = theme;
-		console.log(theme, settings.theme, systemDark);
 	});
 
 	useEffect(() => {
