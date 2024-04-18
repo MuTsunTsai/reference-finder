@@ -125,7 +125,7 @@ function App() {
 					</div>
 				</div>
 			</div>
-			{store.solutions.length == 0 && !store.running && (
+			{store.solutions.length == 0 && (!store.ready || !store.running) && (
 				<div>
 					<div>{t("tip.title")}</div>
 					<ol>
