@@ -12,22 +12,24 @@ export function Settings() {
 	const { t } = useTranslation();
 	const db = useDB();
 	const settings = useSettings();
-	const [tempSettings, setTempSettings] = useState(structuredClone(settings));
+	const [cacheSettings, cacheTempSettings] = useState(structuredClone(settings));
 	const [tempDb, setTempDb] = useState(structuredClone(db));
 	const [tab, setTab] = useState(0);
 	const ref = useRef(null);
 	const handleShow = () => {
-		setTempSettings(structuredClone(settings));
+		cacheTempSettings(structuredClone(settings));
 		setTempDb(structuredClone(db));
 		Modal.getOrCreateInstance(ref.current!, { backdrop: "static" }).show();
 	};
 	const handleSave = () => {
-		useSettings.setState(tempSettings);
 		if(hasChanged(db, tempDb)) {
 			useDB.setState(tempDb);
 			resetWorker(tempDb);
 		}
 	};
+	const handleCancel = () => {
+		useSettings.setState(cacheSettings);
+	}
 	const setAxiom = (index: number, v: boolean) => {
 		const axioms = tempDb.axioms.concat();
 		axioms[index] = v;
@@ -35,7 +37,7 @@ export function Settings() {
 	}
 
 	const reset = () => {
-		setTempSettings(structuredClone(defaultSettings));
+		cacheTempSettings(structuredClone(defaultSettings));
 		setTempDb(structuredClone(defaultDB));
 	}
 
@@ -117,8 +119,8 @@ export function Settings() {
 							</div>
 							<div className={(tab == 2 ? "" : "d-none")}>
 								<SettingsRow label="Theme:">
-									<select value={tempSettings.theme} className="form-select"
-										onChange={e => setTempSettings({ ...tempSettings, theme: Number(e.currentTarget.value) })} >
+									<select value={settings.theme} className="form-select"
+										onChange={e => useSettings.setState({ ...settings, theme: Number(e.currentTarget.value) })} >
 										<option value={Theme.system}>System</option>
 										<option value={Theme.light}>Light</option>
 										<option value={Theme.dark}>Dark</option>
@@ -126,8 +128,8 @@ export function Settings() {
 									</select>
 								</SettingsRow>
 								<div className="mt-3 mb-1">
-									<Checkbox value={tempSettings.showAxiom}
-										onInput={v => setTempSettings({ ...tempSettings, showAxiom: v })}>Show axiom number in description.</Checkbox>
+									<Checkbox value={settings.showAxiom}
+										onInput={v => useSettings.setState({ ...settings, showAxiom: v })}>Show axiom number in description.</Checkbox>
 								</div>
 							</div>
 							{hasChanged(db, tempDb) && (
@@ -139,7 +141,7 @@ export function Settings() {
 								<button className="btn btn-secondary" onClick={reset}>{t("settings.reset")}</button>
 							</div>
 							<div>
-								<button className="btn btn-secondary me-2 capitalize" data-bs-dismiss="modal">{t("settings.cancel")}</button>
+								<button className="btn btn-secondary me-2 capitalize" data-bs-dismiss="modal" onClick={handleCancel}>{t("settings.cancel")}</button>
 								<button className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSave}>{t("settings.ok")}</button>
 							</div>
 						</div>
