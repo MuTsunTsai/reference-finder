@@ -38,7 +38,11 @@
 		"ok": "OK",
 		"cancel": "cancel"
 	},
-	"tip": "Tip: you can use math expression such as {{exp}} (trigonometry functions uses degrees).",
+	"tip": {
+		"title": "Tip:",
+		"origin": "The origin of coordinates is at the lower left corner.",
+		"exp": "You can use math expression such as {{exp}} (trigonometry functions uses degrees)."
+	},
 	"phrase": {
 		"settings": "settings",
 		"point": "point",

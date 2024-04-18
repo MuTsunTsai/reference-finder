@@ -26,13 +26,13 @@
 		}
 
 		// Setup dark mode if needed immediately on first visit, to avoid flashing
-		const match = matchMedia("(prefers-color-scheme: dark)");
-		match.addEventListener("change", toggleDark);
-		function toggleDark() {
-			document.documentElement.dataset.bsTheme = match.matches ? "dark" : undefined;
+		const settings = localStorage.getItem("settings");
+		if((!settings || JSON.parse(settings).state.theme == 0) && matchMedia("(prefers-color-scheme: dark)").matches) {
+			document.documentElement.dataset.bsTheme = "dark";
 		}
-		toggleDark();
 
+		// Service worker registration
+		// workbox-webpack-plugin doesn't do that automatically for us; we need to do it here.
 		if('serviceWorker' in navigator) {
 			navigator.serviceWorker.register("%PUBLIC_URL%/service-worker.js", { scope: "%PUBLIC_URL%/" });
 		}
@@ -41,7 +41,7 @@
 
 <body>
 	<noscript class="p-3">You need to enable JavaScript to run this app.</noscript>
-	<div id="root"></div>
+	<div id="root" class="d-flex flex-column h-100"></div>
 </body>
 
 </html>

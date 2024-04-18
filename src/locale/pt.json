@@ -56,5 +56,9 @@
 		"int": "Deve ser um número inteiro de pelo menos {{min}}",
 		"intMax": "Deve ser um número inteiro de {{min}} a {{max}}"
 	},
-	"tip": "Dica: você pode usar expressões matemáticas como {{exp}} (funções trigonométricas usam graus)."
+	"tip": {
+		"title": "Dica:",
+		"exp": "Você pode usar expressões matemáticas como {{exp}} (funções trigonométricas usam graus).",
+		"origin": "A origem das coordenadas está no canto inferior esquerdo."
+	}
 }

@@ -24,6 +24,18 @@ export interface Step extends StepBase {
 	intersection?: StepBase;
 }
 
+export enum Theme {
+	system,
+	light,
+	dark,
+	rabbitEar,
+};
+
+export const defaultSettings = {
+	showAxiom: false,
+	theme: Theme.system,
+};
+
 const defaultStore = {
 	ready: false,
 	running: false,
@@ -53,6 +65,7 @@ export const defaultDB = {
 export type DbSettings = typeof defaultDB;
 
 export const useStore = create(() => defaultStore);
+export const useSettings = create(persist(() => defaultSettings, { name: "settings" }));
 export const useDB = create(persist(() => defaultDB, { name: "db" }));
 
 export enum ElementType {
