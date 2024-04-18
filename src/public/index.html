@@ -21,7 +21,7 @@
 		if(location.hostname != "localhost") {
 			gtag('config', 'G-GG1TEZGBCQ', {
 				page_title: document.title,
-				page_path: "/reference-finder",
+				page_path: "%PUBLIC_URL%/",
 			});
 		}
 
@@ -32,6 +32,10 @@
 			document.documentElement.dataset.bsTheme = match.matches ? "dark" : undefined;
 		}
 		toggleDark();
+
+		if('serviceWorker' in navigator) {
+			navigator.serviceWorker.register("%PUBLIC_URL%/service-worker.js", { scope: "%PUBLIC_URL%/" });
+		}
 	</script>
 </head>
 
