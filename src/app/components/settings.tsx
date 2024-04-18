@@ -33,7 +33,9 @@ export function Settings() {
 
 	return (
 		<>
-			<button type="button" className="btn btn-secondary capitalize" onClick={handleShow}>{t("phrase.settings")}</button>
+			<button type="button" className="btn btn-secondary capitalize" onClick={handleShow}>
+				<i className="fa-solid fa-gear"></i>&nbsp;{t("phrase.settings")}
+			</button>
 			<div className="modal fade modal-lg" ref={ref}>
 				<div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">

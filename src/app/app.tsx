@@ -1,4 +1,5 @@
 import ear from "rabbit-ear";
+
 import { Preview } from "./components/preview";
 import { useEffect, useMemo, useState } from "react";
 import { PointInput } from "./components/point-input";
@@ -101,7 +102,11 @@ function App() {
 							<div className="col-auto text-end">
 								<button type="button" className="btn btn-primary capitalize"
 									onClick={find} disabled={store.running}>
-									{store.running && !store.ready ? t("phrase.initializing") : t("phrase.go")}
+									{store.running && !store.ready ? (
+										<span>{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
+									) : (
+										<span><i className="fa-solid fa-play"></i>&nbsp;{t("phrase.go")}</span>
+									)}
 								</button>
 							</div>
 						</div>

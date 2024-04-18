@@ -80,7 +80,7 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 		suffix.current!.style.left = getTextWidth(el.current!, temp) + "px";
 	});
 
-	return (
+	return (<>
 		<div className="position-relative">
 			<div className="exp-container">
 				<input ref={el} type="text" className={"form-control exp-input " + (isValid() ? "" : "is-invalid")}
@@ -94,11 +94,12 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 			<div className="exp-suffix-sm d-block d-sm-none">
 				<span>{shouldShowSuffix() ? `= ${format(tempValue)}` : ""}</span>
 			</div>
-			{!isValid() && (
-				<div className="text-danger small">
-					{max !== undefined ? t("invalid.expMax", { max }) : t("invalid.exp")}
-				</div>
-			)}
+
 		</div>
-	);
+		{!isValid() && (
+			<div className="text-danger small mt-1">
+				{max !== undefined ? t("invalid.expMax", { max }) : t("invalid.exp")}
+			</div>
+		)}
+	</>);
 }
