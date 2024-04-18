@@ -17,7 +17,7 @@ export function Preview({ cp, points }: PreviewProps) {
 		// We only need to define markers once in the entire application,
 		// and the container SVG needs to be visible all the time.
 		// The preview SVG is then the most suitable for this.
-		svg.innerHTML = `<defs><marker id="arrow" viewBox="0 0 10 10" refX="6" refY="3" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M 0 0 L 6 3 L 0 6 L 1 3 z" /></marker></defs>`;
+		svg.innerHTML = `<defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="3" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M 0 0 L 6 3 L 0 6 L 2 3 z" /></marker></defs>`;
 
 		const root = svg.origami(cp);
 		root.setAttribute("transform", `translate(0 ${height}) scale(1 -1)`); // lower-left origin

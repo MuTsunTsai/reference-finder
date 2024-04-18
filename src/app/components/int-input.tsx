@@ -28,9 +28,12 @@ export function IntInput({ max, min, value, onInput }: IntInputProps) {
 
 	function blur() {
 		if(!isValid()) setTemp(value.toString());
+		else setTemp(Number(value).toString());
 	}
 
-	useEffect(() => setTemp(value.toString()), [value]);
+	useEffect(() => {
+		if(Number(temp) != value) setTemp(value.toString());
+	}, [value]);
 
 	return (
 		<div className="position-relative">
