@@ -56,7 +56,10 @@ export function resetWorker(db: DbSettings) {
 
 			useStore.setState({ solutions: solutions.concat() });
 		}
-		if(msg.err) console.error(new Error(msg.err));
+		if(msg.err) {
+			useStore.setState({ coreError: msg.err });
+			console.error(new Error(msg.err));
+		}
 	};
 }
 

@@ -28,8 +28,12 @@ export function Preview({ cp, points }: PreviewProps) {
 			}
 			if(points.length == 2) {
 				const segment = boundary.clip(ear.line.fromPoints(points[0], points[1]));
-				const line = root.edges.line(segment[0], segment[1]);
-				line.classList.add("target-line");
+				try {
+					const line = root.edges.line(segment[0], segment[1]);
+					line.classList.add("target-line");
+				} catch {
+					// Ignore error if the two points are identical
+				}
 			}
 		}
 	}

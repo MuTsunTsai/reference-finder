@@ -40,7 +40,7 @@ function App() {
 	function find() {
 		const query = [mode, p1.x, p1.y];
 		if(mode == Mode.line) query.push(p2.x, p2.y);
-		useStore.setState({ running: true, solutions: [] });
+		useStore.setState({ running: true, solutions: [], coreError: null });
 		setSol(0);
 		useWorker().postMessage(query.map(Number));
 	}
@@ -123,7 +123,9 @@ function App() {
 					</div>
 				</div>
 			</div>
-			{store.solutions.length == 0 && (!store.ready || !store.running) && (
+			{store.coreError && (
+				<div className="text-danger mb-3">Error: {store.coreError}</div>
+			) || store.solutions.length == 0 && (!store.ready || !store.running) && (
 				<div>
 					<div>{t("tip.title")}</div>
 					<ol>

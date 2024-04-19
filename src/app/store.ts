@@ -39,6 +39,7 @@ export const defaultSettings = {
 const defaultStore = {
 	ready: false,
 	running: false,
+	coreError: null as string | null,
 	solutions: [] as Solution[],
 };
 
