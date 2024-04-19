@@ -68,11 +68,11 @@ function App() {
 				<div className="col small text-muted">
 					{store.progress && settings.showInit && (<>
 						<span className="d-none d-sm-block">
-							Initializing {store.progress.lines} lines and {store.progress.marks} marks of rank ≤ {store.progress.rank}...
+							{store.ready ? "" : "Initializing"} {store.progress.lines} lines and {store.progress.marks} marks of rank ≤ {store.progress.rank}{store.ready ? " ready." : "..."}
 						</span>
 						<div className="d-sm-none" style={{ lineHeight: 1 }}>
-							{store.progress.lines} lines,<br />
-							{store.progress.marks} marks...
+							{store.progress.lines} lines<br />
+							{store.progress.marks} marks{store.ready ? "" : "..."}
 						</div>
 					</>)}
 				</div>

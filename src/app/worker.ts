@@ -11,7 +11,7 @@ export function useWorker() {
 export function resetWorker(db: DbSettings) {
 	if(worker) {
 		worker.terminate();
-		useStore.setState({ running: false, ready: false });
+		useStore.setState({ running: false, ready: false, progress: null });
 		console.log("Reset worker");
 	}
 	worker = new Worker(
@@ -42,7 +42,7 @@ export function resetWorker(db: DbSettings) {
 				else console.log(text);
 			}
 			if(text == "Ready") {
-				useStore.setState({ running: running && !ready, ready: true, progress: null });
+				useStore.setState({ running: running && !ready, ready: true });
 				return;
 			}
 			if(!running || !ready) return;
