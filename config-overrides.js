@@ -36,8 +36,10 @@ module.exports = function(config, env) {
 					/backdrop/,
 					/bs-theme/,
 					/^--bs-btn-disabled/,
+					/^--bs-tooltip/,
 				],
 				greedy: [
+					/tooltip/,
 					/creasePattern|boundary/,
 					/(point|line|arc|label|target)-/
 				]
