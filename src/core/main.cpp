@@ -5,7 +5,7 @@ Purpose:      Implementation for command-line version of ReferenceFinder
 Author:       Robert J. Lang
 Modified by:  Mu-Tsun Tsai
 Created:      2006-04-22
-Copyright:    �1999-2006 Robert J. Lang. All Rights Reserved.
+Copyright:    ©1999-2006 Robert J. Lang. All Rights Reserved.
 ******************************************************************************/
 
 #include "RFVersion.h"

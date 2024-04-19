@@ -116,7 +116,6 @@ Put the contents of the buffer into the main container.
 template <class R>
 void RefContainer<R>::FlushBuffer() {
 	// Make room for the buffer in the sortable list.
-	// Tsai: Add this
 	this->reserve(this->size() + rcbz);
 
 	// Go through the buffer and add each element to the appropriate rank in the main container.
@@ -125,7 +124,6 @@ void RefContainer<R>::FlushBuffer() {
 	while (bi != buffer.end()) {
 		R *&rr = bi->second;		 // get pointer to each new element
 		maps[rr->mRank].insert(*bi); // add to the map of the appropriate rank
-									 // Tsai: Add this
 		this->push_back(rr);		 // also add to our sortable list
 		rcsz++;						 // increment our size counter
 		bi++;						 // increment the buffer iterator

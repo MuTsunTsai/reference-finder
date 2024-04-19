@@ -5,7 +5,7 @@ Purpose:      Version macros used in About box and Info.plist on Mac
 Author:       Robert J. Lang
 Modified by:  Mu-Tsun Tsai
 Created:      2006-05-07
-Copyright:    �2006-2007 Robert J. Lang. All Rights Reserved.
+Copyright:    ©2006-2007 Robert J. Lang. All Rights Reserved.
 *******************************************************************************/
 
 #ifndef _RFVERSION_H_
