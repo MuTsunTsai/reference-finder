@@ -176,7 +176,7 @@ Main program loop
 int main()
 {
 	cout << APP_V_M_B_NAME_STR << " (build " << BUILD_CODE_STR << ")" << endl;
-	cout << "Copyright (c)1999-2006 by Robert J. Lang. All rights reserved." << endl;
+	cout << "Copyright (c)1999-2006 by Robert J. Lang and (c)2024 by Mu-Tsun Tsai. All rights reserved." << endl;
 
 	readSettings();
 

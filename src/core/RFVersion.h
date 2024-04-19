@@ -3,9 +3,9 @@ File:         Version.h
 Project:      ReferenceFinder
 Purpose:      Version macros used in About box and Info.plist on Mac
 Author:       Robert J. Lang
-Modified by:  
+Modified by:  Mu-Tsun Tsai
 Created:      2006-05-07
-Copyright:    ©2006-2007 Robert J. Lang. All Rights Reserved.
+Copyright:    ï¿½2006-2007 Robert J. Lang. All Rights Reserved.
 *******************************************************************************/
 
 #ifndef _RFVERSION_H_
@@ -19,8 +19,8 @@ needs to be changed.
 #define APP_FAMILY ReferenceFinder
 #define VERSION_MAJOR 4
 #define VERSION_MINOR 0
-#define VERSION_BUGFIX 1
-#define VERSION_BUILD 20070210
+#define VERSION_BUGFIX 2
+#define VERSION_BUILD 20240419
 
 /******************************************************************************/
 

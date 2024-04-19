@@ -184,7 +184,7 @@ void RefLine_P2L_C2P::MakeAll(rank_t arank)
               if (ReferenceFinder::GetNumLines() >=
                 ReferenceFinder::sMaxLines) return;
               RefLine_P2L_C2P rlh2(mi->second, lj->second, mk->second, 1);
-              ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh1);
+              ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh2);
             };
             mk++;
           };
