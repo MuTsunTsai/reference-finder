@@ -21,7 +21,7 @@ pnpm build
 All source codes are located in the `src` folder, in which you'll find:
 
 - `app`: User interface, written in React (I usually use Vue, but I decided to give it a try for this project).
-- `core`: The C++ part. For the most part, it is the same as Lang's original source code (with some refactoring). I only did some minor modifications to make it interop with JavaScript. Most notably, I have a new `JsonStreamDgmr` class replacing the original `VerbalStreamDgmr`.
+- `core`: The C++ part. See [change log](./CHANGELOG.md) for the changes made to the original source code of ReferenceFinder.
 - `lib`: This contains the compiled WebAssembly and some bridging scripts.
 - `locale`: All locale files, based on the previous work by Robby Kraft etc.
 - `public`: The HTML file and other unbundled assets.
