@@ -74,10 +74,10 @@ export function Settings() {
 									<IntInput value={tempDb.maxRank} min={2} onInput={v => setTempDb({ ...tempDb, maxRank: v })} />
 								</SettingsRow>
 								<SettingsRow label="Max lines">
-									<IntInput value={tempDb.maxLines} onInput={v => setTempDb({ ...tempDb, maxLines: v })} />
+									<IntInput value={tempDb.maxLinesV1} onInput={v => setTempDb({ ...tempDb, maxLinesV1: v })} />
 								</SettingsRow>
 								<SettingsRow label="Max marks">
-									<IntInput value={tempDb.maxMarks} onInput={v => setTempDb({ ...tempDb, maxMarks: v })} />
+									<IntInput value={tempDb.maxMarksV1} onInput={v => setTempDb({ ...tempDb, maxMarksV1: v })} />
 								</SettingsRow>
 								<hr />
 								<div className="mb-1">
