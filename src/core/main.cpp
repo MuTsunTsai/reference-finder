@@ -96,7 +96,10 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, boo
 	}
 }
 
-void readSettings() {
+/******************************
+Read settings related to database generating
+******************************/
+void readDbSettings() {
 	double width, height, rank, lines, marks, o[7], num[7];
 	ReadNumber(width);
 	ReadNumber(height);
@@ -115,14 +118,24 @@ void readSettings() {
 	ReferenceFinder::sUseRefLine_P2L_C2P = o[4];
 	ReferenceFinder::sUseRefLine_P2L_P2L = o[5];
 	ReferenceFinder::sUseRefLine_L2L_P2L = o[6];
-	for (int i = 0; i < 7; i++) ReadNumber(num[i]);
+	for (int i = 0; i < 6; i++) ReadNumber(num[i]);
 	ReferenceFinder::sNumX = num[0];
 	ReferenceFinder::sNumY = num[1];
 	ReferenceFinder::sNumA = num[2];
 	ReferenceFinder::sNumD = num[3];
-	ReferenceFinder::sGoodEnoughError = num[4];
-	ReferenceFinder::sMinAspectRatio = num[5];
-	ReferenceFinder::sMinAngleSine = num[6];
+	ReferenceFinder::sMinAspectRatio = num[4];
+	ReferenceFinder::sMinAngleSine = num[5];
+}
+
+/******************************
+Read settings related to search only
+******************************/
+int readSearchSettings() {
+	double error, count;
+	ReadNumber(error);
+	ReadNumber(count);
+	ReferenceFinder::sGoodEnoughError = error;
+	return (int)count;
 }
 
 /******************************
@@ -134,7 +147,7 @@ int main() {
 			"Tsai. All rights reserved."
 		 << endl;
 
-	readSettings();
+	readDbSettings();
 
 	JsonStreamDgmr jsonDgmr(cout);
 	ReferenceFinder::SetDatabaseFn(&ConsoleDatabaseProgress);
@@ -156,6 +169,7 @@ int main() {
 			break;
 		}
 		case 1: {
+			int count = readSearchSettings();
 			XYPt pp(0, 0);
 			// cout << "Enter x coordinate: " << endl;
 			if (!ReadNumber(pp.x)) continue;
@@ -164,7 +178,7 @@ int main() {
 			string err;
 			if (ReferenceFinder::ValidateMark(pp, err)) {
 				vector<RefMark *> vm;
-				ReferenceFinder::FindBestMarks(pp, vm, 5);
+				ReferenceFinder::FindBestMarks(pp, vm, count);
 
 				jsonDgmr.PutMarkList(pp, vm);
 			} else
@@ -172,6 +186,7 @@ int main() {
 			break;
 		}
 		case 2: {
+			int count = readSearchSettings();
 			XYPt p1, p2;
 			// cout << "Enter p1 x coordinate: " << endl;
 			if (!ReadNumber(p1.x)) continue;
@@ -185,7 +200,7 @@ int main() {
 			if (ReferenceFinder::ValidateLine(p1, p2, err)) {
 				XYLine ll(p1, p2);
 				vector<RefLine *> vl;
-				ReferenceFinder::FindBestLines(ll, vl, 5);
+				ReferenceFinder::FindBestLines(ll, vl, count);
 
 				jsonDgmr.PutLineList(ll, vl);
 			} else

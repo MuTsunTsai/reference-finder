@@ -35,6 +35,9 @@ export const defaultSettings = {
 	showInit: true,
 	showAxiom: false,
 	theme: Theme.system,
+	error: 0.005,
+	errorExp: "0.005",
+	count: 5,
 };
 
 export interface InitInfo {
@@ -63,8 +66,6 @@ export const defaultDB = {
 	numY: 5000,
 	numA: 5000,
 	numD: 5000,
-	error: 0.005,
-	errorExp: "0.005",
 	minAspectRatio: 0.1,
 	minAspectRatioExp: "0.1",
 	minAngleSine: 0.342,

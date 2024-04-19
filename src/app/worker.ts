@@ -28,7 +28,6 @@ export function resetWorker(db: DbSettings) {
 		db.numY,
 		db.numA,
 		db.numD,
-		db.error,
 		db.minAspectRatio,
 		db.minAngleSine,
 	]);

@@ -99,20 +99,16 @@ export function Settings() {
 							</div>
 							<div className={"grid " + (tab == 1 ? "" : "d-none")}>
 								<SettingsRow label="X divisions" help={t("help.divisions")}>
-									<IntInput value={tempDb.numX} min={100} onInput={v => setTempDb({ ...tempDb, numX: v })} />
+									<IntInput value={tempDb.numX} min={100} max={46000} onInput={v => setTempDb({ ...tempDb, numX: v })} />
 								</SettingsRow>
 								<SettingsRow label="Y divisions" help={t("help.divisions")}>
-									<IntInput value={tempDb.numY} min={100} onInput={v => setTempDb({ ...tempDb, numY: v })} />
+									<IntInput value={tempDb.numY} min={100} max={46000} onInput={v => setTempDb({ ...tempDb, numY: v })} />
 								</SettingsRow>
 								<SettingsRow label="Angle divisions" help={t("help.lineDivisions")}>
-									<IntInput value={tempDb.numA} min={100} onInput={v => setTempDb({ ...tempDb, numA: v })} />
+									<IntInput value={tempDb.numA} min={100} max={46000} onInput={v => setTempDb({ ...tempDb, numA: v })} />
 								</SettingsRow>
 								<SettingsRow label="Radial divisions" help={t("help.lineDivisions")}>
-									<IntInput value={tempDb.numD} min={100} onInput={v => setTempDb({ ...tempDb, numD: v })} />
-								</SettingsRow>
-								<SettingsRow label="Good enough error" help={t("help.goodEnoughError")}>
-									<ExpInput value={tempDb.error} exp={tempDb.errorExp}
-										onInput={(v, exp) => setTempDb({ ...tempDb, error: v, errorExp: exp })} />
+									<IntInput value={tempDb.numD} min={100} max={46000} onInput={v => setTempDb({ ...tempDb, numD: v })} />
 								</SettingsRow>
 								<SettingsRow label="Min aspect ratio" help={t("help.minAspectRatio")}>
 									<ExpInput value={tempDb.minAspectRatio} exp={tempDb.minAspectRatioExp}
@@ -122,12 +118,21 @@ export function Settings() {
 									<ExpInput value={tempDb.minAngleSine} exp={tempDb.minAngleSineExp}
 										onInput={(v, exp) => setTempDb({ ...tempDb, minAngleSine: v, minAngleSineExp: exp })} />
 								</SettingsRow>
+								<div style={{ gridColumn: "1/3" }}><hr /></div>
+								<SettingsRow label="Good enough error" help={t("help.goodEnoughError")}>
+									<ExpInput value={settings.error} exp={settings.errorExp}
+										onInput={(v, exp) => useSettings.setState({ error: v, errorExp: exp })} />
+								</SettingsRow>
+								<SettingsRow label="Solution count">
+									<IntInput min={1} max={20} value={settings.count}
+										onInput={v => useSettings.setState({ count: v })} />
+								</SettingsRow>
 							</div>
 							<div className={(tab == 2 ? "" : "d-none")}>
 								<div className="grid">
 									<SettingsRow label={t("settings.display.theme._")}>
 										<select value={settings.theme} className="form-select"
-											onChange={e => useSettings.setState({ ...settings, theme: Number(e.currentTarget.value) })} >
+											onChange={e => useSettings.setState({ theme: Number(e.currentTarget.value) })} >
 											<option value={Theme.system}>{t("settings.display.theme.system")}</option>
 											<option value={Theme.light}>{t("settings.display.theme.light")}</option>
 											<option value={Theme.dark}>{t("settings.display.theme.dark")}</option>
@@ -137,9 +142,9 @@ export function Settings() {
 								</div>
 								<div className="mt-3 mb-1">
 									<Checkbox value={settings.showInit}
-										onInput={v => useSettings.setState({ ...settings, showInit: v })}>{t("settings.display.showInit")}</Checkbox>
+										onInput={v => useSettings.setState({ showInit: v })}>{t("settings.display.showInit")}</Checkbox>
 									<Checkbox value={settings.showAxiom}
-										onInput={v => useSettings.setState({ ...settings, showAxiom: v })}>{t("settings.display.showAxiom")}</Checkbox>
+										onInput={v => useSettings.setState({ showAxiom: v })}>{t("settings.display.showAxiom")}</Checkbox>
 								</div>
 							</div>
 							{hasChanged(db, tempDb) && (
@@ -157,7 +162,7 @@ export function Settings() {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div >
 		</>
 	);
 }

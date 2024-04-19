@@ -4,7 +4,7 @@ import ear from "rabbit-ear";
 import { Preview } from "./svg/preview";
 import { FormEvent, useMemo, useState } from "react";
 import { PointInput } from "./form/point-input";
-import { useDB, useStore } from "../store";
+import { useDB, useSettings, useStore } from "../store";
 import { useWorker } from "../worker";
 import { Settings } from "./settings";
 import { useTranslation } from "react-i18next";
@@ -21,6 +21,7 @@ interface PanelProps {
 export function Panel({ onSubmit }: PanelProps) {
 	const { t } = useTranslation();
 	const store = useStore();
+	const settings = useSettings();
 	const db = useDB();
 	const [mode, setMode] = useState(Mode.point);
 	const [p1, setP1] = useState({ x: 0, y: 0 });
@@ -37,7 +38,7 @@ export function Panel({ onSubmit }: PanelProps) {
 
 	function find(e: FormEvent) {
 		e.preventDefault();
-		const query = [mode, p1.x, p1.y];
+		const query = [mode, settings.error, settings.count, p1.x, p1.y];
 		if(mode == Mode.line) query.push(p2.x, p2.y);
 		useStore.setState({ running: true, solutions: [], coreError: null });
 		onSubmit();
