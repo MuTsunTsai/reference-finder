@@ -148,11 +148,11 @@ export function Settings() {
 						</div>
 						<div className="modal-footer">
 							<div className="flex-grow-1">
-								<button className="btn btn-secondary" onClick={reset}>{t("settings.reset")}</button>
+								<button type="button" className="btn btn-secondary" onClick={reset}>{t("settings.reset")}</button>
 							</div>
 							<div>
-								<button className="btn btn-secondary me-2 capitalize" data-bs-dismiss="modal" onClick={handleCancel}>{t("settings.cancel")}</button>
-								<button className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSave}>{t("settings.ok")}</button>
+								<button type="button" className="btn btn-secondary me-2 capitalize" data-bs-dismiss="modal" onClick={handleCancel}>{t("settings.cancel")}</button>
+								<button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSave}>{t("settings.ok")}</button>
 							</div>
 						</div>
 					</div>

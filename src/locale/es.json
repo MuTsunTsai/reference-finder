@@ -43,7 +43,8 @@
 		"findPoint": "encuentre un punto",
 		"referenceFinder": "Buscador de Referencias",
 		"settings": "ajustes",
-		"initializing": "Inicializando..."
+		"initializing": "Inicializando...",
+		"coreVer": "Versión principal"
 	},
 	"settings": {
 		"cancel": "Cancelar",

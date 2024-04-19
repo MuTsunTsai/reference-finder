@@ -1,6 +1,6 @@
 {
 	"name": "reference-finder",
-	"version": "1.0.0",
+	"version": "4.0.2",
 	"description": "Find reference points and lines in crease patterns.",
 	"scripts": {
 		"start": "make && react-app-rewired start",

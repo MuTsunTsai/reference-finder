@@ -84,7 +84,8 @@
 		"initializing": "Initializing...",
 		"findLine": "find a line",
 		"findPoint": "find a point",
-		"referenceFinder": "ReferenceFinder"
+		"referenceFinder": "ReferenceFinder",
+		"coreVer": "Core version"
 	},
 	"invalid": {
 		"exp": "Should be a number at least 0, or an equivalent expression",

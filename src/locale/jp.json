@@ -43,7 +43,8 @@
 		"referenceFinder": "レファレンスファインダー",
 		"settings": "設定",
 		"solution": "解答",
-		"initializing": "初期化中..."
+		"initializing": "初期化中...",
+		"coreVer": "コアバージョン"
 	},
 	"settings": {
 		"cancel": "キャンセル",

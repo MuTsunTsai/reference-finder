@@ -43,7 +43,8 @@
 		"findPoint": "Найти точку",
 		"referenceFinder": "ReferenceFinder",
 		"settings": "настройки",
-		"initializing": "Инициализация..."
+		"initializing": "Инициализация...",
+		"coreVer": "Базовая версия"
 	},
 	"settings": {
 		"cancel": "отмена",
