@@ -41,7 +41,17 @@
 		"basic": {
 			"_": "Basic",
 			"width": "Sheet width",
-			"height": "Sheet height"
+			"height": "Sheet height",
+			"axioms": {
+				"_": "Huzita-Hatori axioms",
+				"O1": "Crease through two points.",
+				"O2": "Two points together.",
+				"O3": "Line to another line.",
+				"O4": "Line to self, crease through point.",
+				"O5": "Point to line, crease through point.",
+				"O6": "Two points to two lines.",
+				"O7": "Line to self, point to line."
+			}
 		},
 		"advanced": {
 			"_": "Advanced"

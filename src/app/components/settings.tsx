@@ -87,14 +87,14 @@ export function Settings() {
 								</div>
 								<hr />
 								<div className="mb-1">
-									<h6>Huzita-Hatori axioms<InfoTooltip title={t("help.axioms")} /></h6>
-									<Checkbox value={tempDb.axioms[0]} onInput={v => setAxiom(0, v)}>O1 - Crease through two points.</Checkbox>
-									<Checkbox value={tempDb.axioms[1]} onInput={v => setAxiom(1, v)}>O2 - Two points together.</Checkbox>
-									<Checkbox value={tempDb.axioms[2]} onInput={v => setAxiom(2, v)}>O3 - Line to another line.</Checkbox>
-									<Checkbox value={tempDb.axioms[3]} onInput={v => setAxiom(3, v)}>O4 - Line to self, crease through point.</Checkbox>
-									<Checkbox value={tempDb.axioms[4]} onInput={v => setAxiom(4, v)}>O5 - Point to line, crease through point.</Checkbox>
-									<Checkbox value={tempDb.axioms[5]} onInput={v => setAxiom(5, v)}>O6 - Two points to two lines.</Checkbox>
-									<Checkbox value={tempDb.axioms[6]} onInput={v => setAxiom(6, v)}>O7 - Line to self, point to line.</Checkbox>
+									<h6>{t("settings.basic.axioms._")}<InfoTooltip title={t("help.axioms")} /></h6>
+									<Checkbox value={tempDb.axioms[0]} onInput={v => setAxiom(0, v)}>O1 - {t("settings.basic.axioms.O1")}</Checkbox>
+									<Checkbox value={tempDb.axioms[1]} onInput={v => setAxiom(1, v)}>O2 - {t("settings.basic.axioms.O2")}</Checkbox>
+									<Checkbox value={tempDb.axioms[2]} onInput={v => setAxiom(2, v)}>O3 - {t("settings.basic.axioms.O3")}</Checkbox>
+									<Checkbox value={tempDb.axioms[3]} onInput={v => setAxiom(3, v)}>O4 - {t("settings.basic.axioms.O4")}</Checkbox>
+									<Checkbox value={tempDb.axioms[4]} onInput={v => setAxiom(4, v)}>O5 - {t("settings.basic.axioms.O5")}</Checkbox>
+									<Checkbox value={tempDb.axioms[5]} onInput={v => setAxiom(5, v)}>O6 - {t("settings.basic.axioms.O6")}</Checkbox>
+									<Checkbox value={tempDb.axioms[6]} onInput={v => setAxiom(6, v)}>O7 - {t("settings.basic.axioms.O7")}</Checkbox>
 								</div>
 							</div>
 							<div className={"grid " + (tab == 1 ? "" : "d-none")}>

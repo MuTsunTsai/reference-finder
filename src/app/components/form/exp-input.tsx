@@ -94,7 +94,6 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 			<div className="exp-suffix-sm d-block d-sm-none">
 				<span>{shouldShowSuffix() ? `= ${format(tempValue)}` : ""}</span>
 			</div>
-
 		</div>
 		{!isValid() && (
 			<div className="text-danger small mt-1">
