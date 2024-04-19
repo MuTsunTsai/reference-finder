@@ -46,21 +46,18 @@ EM_JS(void, emscripten_utils_clear_impl, (), {
 });
 // clang-format on
 
-void emscripten_utils_clear()
-{
+void emscripten_utils_clear() {
 	emscripten_utils_clear_impl();
 }
 
 #if CALCINPUT
-void emscripten_utils_getline(std::string &result)
-{
+void emscripten_utils_getline(std::string &result) {
 	const char *ptr = emscripten_utils_getline_impl();
 	result = ptr;
 	std::free((void *)ptr);
 }
 #else
-void emscripten_utils_get_double(double &n)
-{
+void emscripten_utils_get_double(double &n) {
 	const double *ptr = emscripten_utils_get_double_impl();
 	n = *ptr;
 	std::free((void *)ptr);

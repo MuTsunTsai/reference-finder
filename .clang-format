@@ -1,0 +1,7 @@
+BreakBeforeBraces: Attach
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+UseTab: Always
+IndentWidth: 4
+TabWidth: 4
+ColumnLimit: 0

@@ -13,7 +13,6 @@ header, intended to be inlined for speed.
 Stream I/O for a XYPt spits out the point as a parenthesis-enclosed,
 comma-delimited pair.
 *****/
-ostream& operator<<(ostream& os, const XYPt& p)
-{
-  return os << "(" << (p.x) << ", " << (p.y) << ")";
+ostream &operator<<(ostream &os, const XYPt &p) {
+	return os << "(" << (p.x) << ", " << (p.y) << ")";
 }

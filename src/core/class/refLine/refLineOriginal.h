@@ -9,20 +9,20 @@ class RefLine_Original - Specialization of RefLine that represents a line that
 is the edge of the paper or an initial crease (like the diagonal).
 **********/
 class RefLine_Original : public RefLine {
-private:
-  std::string mName;  // name of the line
-  
-public:
-  RefLine_Original(const XYLine& al, rank_t arank, std::string aName);
+  private:
+	std::string mName; // name of the line
 
-  bool IsActionLine() const;
-  const char GetLabel() const;
-  bool PutName(std::ostream& os) const;
-  void DrawSelf(RefStyle rstyle, short ipass) const;
+  public:
+	RefLine_Original(const XYLine &al, rank_t arank, std::string aName);
 
-protected:
-  virtual bool IsDerived() const;
-  void SetIndex();
+	bool IsActionLine() const;
+	const char GetLabel() const;
+	bool PutName(std::ostream &os) const;
+	void DrawSelf(RefStyle rstyle, short ipass) const;
+
+  protected:
+	virtual bool IsDerived() const;
+	void SetIndex();
 };
 
 #endif

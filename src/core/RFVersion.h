@@ -32,12 +32,8 @@ needs to be changed.
 #define APP_FAMILY_STR MACRO_MAKE_STR(APP_FAMILY)
 
 /* Name of the executable as string */
-#define APP_V_NAME_STR (APP_FAMILY_STR " " \
-  MACRO_MAKE_STR(VERSION_MAJOR))
-#define APP_V_M_B_NAME_STR (APP_FAMILY_STR " " \
-  MACRO_MAKE_STR(VERSION_MAJOR) "." \
-  MACRO_MAKE_STR(VERSION_MINOR) "." \
-  MACRO_MAKE_STR(VERSION_BUGFIX))
+#define APP_V_NAME_STR (APP_FAMILY_STR " " MACRO_MAKE_STR(VERSION_MAJOR))
+#define APP_V_M_B_NAME_STR (APP_FAMILY_STR " " MACRO_MAKE_STR(VERSION_MAJOR) "." MACRO_MAKE_STR(VERSION_MINOR) "." MACRO_MAKE_STR(VERSION_BUGFIX))
 
 /* Build code as string (used in About box) */
 #define BUILD_CODE_STR MACRO_MAKE_STR(VERSION_BUILD)
@@ -47,11 +43,11 @@ needs to be changed.
 #define MACRO_PASTE_5(a, b, c, d, e) a##b##c##d##e
 #define MACRO_PASTE_5A(a, b, c, d, e) MACRO_PASTE_5(a, b, c, d, e)
 #define MAC_CFBUNDLE_SHORT_VERSION_STRING \
-  MACRO_PASTE_5A(VERSION_MAJOR, ., VERSION_MINOR, ., VERSION_BUGFIX)
+	MACRO_PASTE_5A(VERSION_MAJOR, ., VERSION_MINOR, ., VERSION_BUGFIX)
 #define MACRO_PASTE_7(a, b, c, d, e, f, g) a##b##c##d##e##f##g
 #define MACRO_PASTE_7A(a, b, c, d, e, f, g) MACRO_PASTE_7(a, b, c, d, e, f, g)
-#define MAC_CFBUNDLE_VERSION \
-  MACRO_PASTE_7A(VERSION_MAJOR, ., VERSION_MINOR, ., VERSION_BUGFIX, \
-  ., VERSION_BUILD)
+#define MAC_CFBUNDLE_VERSION                                           \
+	MACRO_PASTE_7A(VERSION_MAJOR, ., VERSION_MINOR, ., VERSION_BUGFIX, \
+				   ., VERSION_BUILD)
 
 #endif // _RFVERSION_H_

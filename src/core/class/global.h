@@ -17,8 +17,8 @@ typedef int key_t;
 Utilities
 *****/
 template <class T>
-inline T min_val(T t1, T t2) {return (t1 < t2) ? t1 : t2;};
+inline T min_val(T t1, T t2) { return (t1 < t2) ? t1 : t2; };
 template <class T>
-inline T max_val(T t1, T t2) {return (t1 > t2) ? t1 : t2;};
+inline T max_val(T t1, T t2) { return (t1 > t2) ? t1 : t2; };
 
 #endif

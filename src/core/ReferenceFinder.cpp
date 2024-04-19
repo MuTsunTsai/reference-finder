@@ -10,26 +10,26 @@ Copyright:    �1999-2007 Robert J. Lang. All Rights Reserved.
 
 #include "ReferenceFinder.h"
 
-#include <sstream>
 #include <algorithm>
 #include <iomanip>
+#include <sstream>
 
-#include "class/xypt.h"
 #include "class/xyline.h"
+#include "class/xypt.h"
 #include "class/xyrect.h"
 
 #include "class/paper.h"
-#include "class/refMark/refMarkOriginal.h"
-#include "class/refMark/refMarkIntersection.h"
 #include "class/refLine/refLineOriginal.h"
+#include "class/refMark/refMarkIntersection.h"
+#include "class/refMark/refMarkOriginal.h"
 
 #include "class/refLine/refLineC2PC2P.h"
-#include "class/refLine/refLineP2P.h"
 #include "class/refLine/refLineL2L.h"
 #include "class/refLine/refLineL2LC2P.h"
+#include "class/refLine/refLineL2LP2L.h"
 #include "class/refLine/refLineP2LC2P.h"
 #include "class/refLine/refLineP2LP2L.h"
-#include "class/refLine/refLineL2LP2L.h"
+#include "class/refLine/refLineP2P.h"
 
 using namespace std;
 
@@ -109,15 +109,14 @@ bool ReferenceFinder::sClarifyVerbalAmbiguities = true;
 bool ReferenceFinder::sAxiomsInVerbalDirections = true;
 
 // Variables used when we calculate statistics on the database
-int ReferenceFinder::sNumBuckets = 11;          // how many error buckets to use
-double ReferenceFinder::sBucketSize = 0.001;    // size of each bucket
-int ReferenceFinder::sNumTrials = 1000;         // number of test cases total
-string ReferenceFinder::sStatistics;            // holds results of analysis
+int ReferenceFinder::sNumBuckets = 11;		 // how many error buckets to use
+double ReferenceFinder::sBucketSize = 0.001; // size of each bucket
+int ReferenceFinder::sNumTrials = 1000;		 // number of test cases total
+string ReferenceFinder::sStatistics;		 // holds results of analysis
 
 // Letters that are used for labels for marks and lines.
 char RefLine::sLabels[] = "ABCDEFGHIJ";
 char RefMark::sLabels[] = "PQRSTUVWXYZ";
-
 
 /*****
 private static member initialization
@@ -125,17 +124,15 @@ private static member initialization
 RefContainer<RefLine> ReferenceFinder::sBasisLines;
 RefContainer<RefMark> ReferenceFinder::sBasisMarks;
 ReferenceFinder::DatabaseFn ReferenceFinder::sDatabaseFn = 0;
-void* ReferenceFinder::sDatabaseUserData = 0;
+void *ReferenceFinder::sDatabaseUserData = 0;
 ReferenceFinder::StatisticsFn ReferenceFinder::sStatisticsFn = 0;
-void* ReferenceFinder::sStatisticsUserData = 0;
+void *ReferenceFinder::sStatisticsUserData = 0;
 int ReferenceFinder::sStatusCount = 0;
 rank_t ReferenceFinder::sCurRank = 0;
-
 
 #ifdef __MWERKS__
 #pragma mark -
 #endif
-
 
 /*****
 Routine called by RefContainer<R> to report progress during the time-consuming
@@ -145,328 +142,300 @@ can adjust the frequency of calling by changing the variable
 sDatabaseStatusSkip. If the client DatabaseFn sets the value of haltFlag to
 true, we immediately terminate construction of references.
 *****/
-void ReferenceFinder::CheckDatabaseStatus()
-{
-  if (sStatusCount < sDatabaseStatusSkip) sStatusCount++;
-  else {
-    bool haltFlag = false;
-    if (sDatabaseFn) (*sDatabaseFn)(
-      DatabaseInfo(DATABASE_WORKING, sCurRank, GetNumLines(), GetNumMarks()),
-      sDatabaseUserData, haltFlag);
-    if (haltFlag) throw EXC_HALT();
-    sStatusCount = 0;
-  }
+void ReferenceFinder::CheckDatabaseStatus() {
+	if (sStatusCount < sDatabaseStatusSkip)
+		sStatusCount++;
+	else {
+		bool haltFlag = false;
+		if (sDatabaseFn) (*sDatabaseFn)(
+			DatabaseInfo(DATABASE_WORKING, sCurRank, GetNumLines(), GetNumMarks()),
+			sDatabaseUserData, haltFlag);
+		if (haltFlag) throw EXC_HALT();
+		sStatusCount = 0;
+	}
 }
-
 
 /*****
 Create all marks and lines of a given rank.
 *****/
-void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank)
-{
-  sCurRank = arank;
+void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank) {
+	sCurRank = arank;
 
-  // Construct all types of lines of the given rank. Note that the order in
-  // which we call the MakeAll() functions determines which types of RefLine
-  // get built, since the first object with a given key to be constructed gets
-  // the key slot.
+	// Construct all types of lines of the given rank. Note that the order in
+	// which we call the MakeAll() functions determines which types of RefLine
+	// get built, since the first object with a given key to be constructed gets
+	// the key slot.
 
-  // We give first preference to lines that don't involve making creases
-  // through points, because these are the hardest to do accurately in practice.
-  if (sUseRefLine_L2L) RefLine_L2L::MakeAll(arank);
-  if (sUseRefLine_P2P) RefLine_P2P::MakeAll(arank);
-  if (sUseRefLine_L2L_P2L) RefLine_L2L_P2L::MakeAll(arank);
-  if (sUseRefLine_P2L_P2L) RefLine_P2L_P2L::MakeAll(arank);
+	// We give first preference to lines that don't involve making creases
+	// through points, because these are the hardest to do accurately in practice.
+	if (sUseRefLine_L2L) RefLine_L2L::MakeAll(arank);
+	if (sUseRefLine_P2P) RefLine_P2P::MakeAll(arank);
+	if (sUseRefLine_L2L_P2L) RefLine_L2L_P2L::MakeAll(arank);
+	if (sUseRefLine_P2L_P2L) RefLine_P2L_P2L::MakeAll(arank);
 
-  // Next, we'll make lines that put a crease through a single point.
-  if (sUseRefLine_P2L_C2P) RefLine_P2L_C2P::MakeAll(arank);
-  if (sUseRefLine_L2L_C2P) RefLine_L2L_C2P::MakeAll(arank);
+	// Next, we'll make lines that put a crease through a single point.
+	if (sUseRefLine_P2L_C2P) RefLine_P2L_C2P::MakeAll(arank);
+	if (sUseRefLine_L2L_C2P) RefLine_L2L_C2P::MakeAll(arank);
 
-  // Finally, we'll do lines that put a crease through both points.
-  if (sUseRefLine_C2P_C2P) RefLine_C2P_C2P::MakeAll(arank);
+	// Finally, we'll do lines that put a crease through both points.
+	if (sUseRefLine_C2P_C2P) RefLine_C2P_C2P::MakeAll(arank);
 
-  // Having constructed all lines in the buffer, add them to the main collection.
-  sBasisLines.FlushBuffer();
+	// Having constructed all lines in the buffer, add them to the main collection.
+	sBasisLines.FlushBuffer();
 
-  // construct all types of marks of the given rank
-  RefMark_Intersection::MakeAll(arank);
-  sBasisMarks.FlushBuffer();
+	// construct all types of marks of the given rank
+	RefMark_Intersection::MakeAll(arank);
+	sBasisMarks.FlushBuffer();
 
-  // if we're reporting status, say how many we constructed.
-  bool haltFlag = false;
-  if (sDatabaseFn) (*sDatabaseFn)(
-    DatabaseInfo(DATABASE_RANK_COMPLETE, arank, GetNumLines(), GetNumMarks()),
-    sDatabaseUserData, haltFlag);
-  if (haltFlag) throw EXC_HALT();
+	// if we're reporting status, say how many we constructed.
+	bool haltFlag = false;
+	if (sDatabaseFn) (*sDatabaseFn)(
+		DatabaseInfo(DATABASE_RANK_COMPLETE, arank, GetNumLines(), GetNumMarks()),
+		sDatabaseUserData, haltFlag);
+	if (haltFlag) throw EXC_HALT();
 }
-
 
 /*****
 Create all marks and lines sequentially. you should have previously verified
 that LineKeySizeOK() and MarkKeySizeOK() return true.
 *****/
-void ReferenceFinder::MakeAllMarksAndLines()
-{
-  // Start by clearing out any old marks or lines; this is so we can restart if
-  // we want.
-  sBasisLines.Rebuild();
-  sBasisMarks.Rebuild();
+void ReferenceFinder::MakeAllMarksAndLines() {
+	// Start by clearing out any old marks or lines; this is so we can restart if
+	// we want.
+	sBasisLines.Rebuild();
+	sBasisMarks.Rebuild();
 
-  // Let the user know that we're initializing and what operations we're using.
-  bool haltFlag = false;
-  if (sDatabaseFn) (*sDatabaseFn)(
-    DatabaseInfo(DATABASE_INITIALIZING, 0, GetNumLines(), GetNumMarks()),
-    sDatabaseUserData, haltFlag);
+	// Let the user know that we're initializing and what operations we're using.
+	bool haltFlag = false;
+	if (sDatabaseFn) (*sDatabaseFn)(
+		DatabaseInfo(DATABASE_INITIALIZING, 0, GetNumLines(), GetNumMarks()),
+		sDatabaseUserData, haltFlag);
 
-  // Build a bunch of marks of successively higher rank. Note that building
-  // lines up to rank 4 and marks up to rank 8 with no limits would result in
-  // 4185 lines and 1,090,203 marks, which would take about 60 MB of memory.
+	// Build a bunch of marks of successively higher rank. Note that building
+	// lines up to rank 4 and marks up to rank 8 with no limits would result in
+	// 4185 lines and 1,090,203 marks, which would take about 60 MB of memory.
 
-  // Rank 0: Construct the four edges of the square.
-  sBasisLines.Add(new RefLine_Original(sPaper.mBottomEdge, 0, string("s")));
-  sBasisLines.Add(new RefLine_Original(sPaper.mLeftEdge, 0, string("w")));
-  sBasisLines.Add(new RefLine_Original(sPaper.mRightEdge, 0, string("e")));
-  sBasisLines.Add(new RefLine_Original(sPaper.mTopEdge, 0, string("n")));
+	// Rank 0: Construct the four edges of the square.
+	sBasisLines.Add(new RefLine_Original(sPaper.mBottomEdge, 0, string("s")));
+	sBasisLines.Add(new RefLine_Original(sPaper.mLeftEdge, 0, string("w")));
+	sBasisLines.Add(new RefLine_Original(sPaper.mRightEdge, 0, string("e")));
+	sBasisLines.Add(new RefLine_Original(sPaper.mTopEdge, 0, string("n")));
 
-  // Rank 0: Construct the four corners of the square.
-  sBasisMarks.Add(new RefMark_Original(sPaper.mBotLeft, 0, string("sw")));
-  sBasisMarks.Add(new RefMark_Original(sPaper.mBotRight, 0, string("se")));
-  sBasisMarks.Add(new RefMark_Original(sPaper.mTopLeft, 0, string("nw")));
-  sBasisMarks.Add(new RefMark_Original(sPaper.mTopRight, 0, string("ne")));
+	// Rank 0: Construct the four corners of the square.
+	sBasisMarks.Add(new RefMark_Original(sPaper.mBotLeft, 0, string("sw")));
+	sBasisMarks.Add(new RefMark_Original(sPaper.mBotRight, 0, string("se")));
+	sBasisMarks.Add(new RefMark_Original(sPaper.mTopLeft, 0, string("nw")));
+	sBasisMarks.Add(new RefMark_Original(sPaper.mTopRight, 0, string("ne")));
 
-  // Report our status for rank 0.
-  if (sDatabaseFn) (*sDatabaseFn)(
-    DatabaseInfo(DATABASE_RANK_COMPLETE, 0, GetNumLines(), GetNumMarks()),
-    sDatabaseUserData, haltFlag);
+	// Report our status for rank 0.
+	if (sDatabaseFn) (*sDatabaseFn)(
+		DatabaseInfo(DATABASE_RANK_COMPLETE, 0, GetNumLines(), GetNumMarks()),
+		sDatabaseUserData, haltFlag);
 
-  // Rank 1: Construct the two diagonals.
-  sBasisLines.Add(new RefLine_Original(sPaper.mUpwardDiagonal, 1, string("sw_ne")));
-  sBasisLines.Add(new RefLine_Original(sPaper.mDownwardDiagonal, 1, string("nw_se")));
+	// Rank 1: Construct the two diagonals.
+	sBasisLines.Add(new RefLine_Original(sPaper.mUpwardDiagonal, 1, string("sw_ne")));
+	sBasisLines.Add(new RefLine_Original(sPaper.mDownwardDiagonal, 1, string("nw_se")));
 
-  // Flush the buffers.
-  sBasisLines.FlushBuffer();
-  sBasisMarks.FlushBuffer();
+	// Flush the buffers.
+	sBasisLines.FlushBuffer();
+	sBasisMarks.FlushBuffer();
 
-  // Now build the rest, one rank at a time, starting with rank 1. This can
-  // be terminated by a EXC_HALT if the user cancelled during the callback.
-  try {
-    for (rank_t irank = 1; irank <= sMaxRank; irank++) {
-      MakeAllMarksAndLinesOfRank(irank);
-    }
-  }
-  catch(EXC_HALT) {
-    sBasisLines.FlushBuffer();
-    sBasisMarks.FlushBuffer();
-  }
+	// Now build the rest, one rank at a time, starting with rank 1. This can
+	// be terminated by a EXC_HALT if the user cancelled during the callback.
+	try {
+		for (rank_t irank = 1; irank <= sMaxRank; irank++) {
+			MakeAllMarksAndLinesOfRank(irank);
+		}
+	} catch (EXC_HALT) {
+		sBasisLines.FlushBuffer();
+		sBasisMarks.FlushBuffer();
+	}
 
-  // Once that's done, all the objects are in the sortable arrays and we can
-  // free up the memory used by the maps.
-  sBasisLines.ClearMaps();
-  sBasisMarks.ClearMaps();
+	// Once that's done, all the objects are in the sortable arrays and we can
+	// free up the memory used by the maps.
+	sBasisLines.ClearMaps();
+	sBasisMarks.ClearMaps();
 
-  // And perform a final update of progress.
-  if (sDatabaseFn) (*sDatabaseFn)(
-    DatabaseInfo(DATABASE_READY, sCurRank, GetNumLines(), GetNumMarks()),
-    sDatabaseUserData, haltFlag);
+	// And perform a final update of progress.
+	if (sDatabaseFn) (*sDatabaseFn)(
+		DatabaseInfo(DATABASE_READY, sCurRank, GetNumLines(), GetNumMarks()),
+		sDatabaseUserData, haltFlag);
 }
-
 
 /*****
 Find the best marks closest to a given point ap, storing the results in the
 vector vm.
 *****/
-void ReferenceFinder::FindBestMarks(const XYPt& ap, vector<RefMark*>& vm,
-  short numMarks)
-{
-  vm.resize(numMarks);
-  partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), vm.begin(), vm.end(),
-    CompareRankAndError<RefMark>(ap));
+void ReferenceFinder::FindBestMarks(const XYPt &ap, vector<RefMark *> &vm, short numMarks) {
+	vm.resize(numMarks);
+	partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), vm.begin(), vm.end(),
+					  CompareRankAndError<RefMark>(ap));
 }
-
 
 /*****
 Find the best lines closest to a given line al, storing the results in the
 vector vl.
 *****/
-void ReferenceFinder::FindBestLines(const XYLine& al, vector<RefLine*>& vl,
-  short numLines)
-{
-  vl.resize(numLines);
-  partial_sort_copy(sBasisLines.begin(), sBasisLines.end(), vl.begin(), vl.end(),
-    CompareRankAndError<RefLine>(al));
+void ReferenceFinder::FindBestLines(const XYLine &al, vector<RefLine *> &vl, short numLines) {
+	vl.resize(numLines);
+	partial_sort_copy(sBasisLines.begin(), sBasisLines.end(), vl.begin(), vl.end(),
+					  CompareRankAndError<RefLine>(al));
 }
-
 
 /*****
 Return true if ap is a valid mark. Return an error message if it isn't.
 *****/
-bool ReferenceFinder::ValidateMark(const XYPt& ap, string& err)
-{
-  if (ap.x < 0 || ap.x > sPaper.mWidth) {
-    stringstream ss;
-    ss << "x coordinate should lie between 0 and " <<
-      sPaper.mWidth;
-    err = ss.str();
-    return false;
-  }
+bool ReferenceFinder::ValidateMark(const XYPt &ap, string &err) {
+	if (ap.x < 0 || ap.x > sPaper.mWidth) {
+		stringstream ss;
+		ss << "x coordinate should lie between 0 and " << sPaper.mWidth;
+		err = ss.str();
+		return false;
+	}
 
-  if (ap.y < 0 || ap.y > sPaper.mHeight) {
-    stringstream ss;
-    ss << "y coordinate should lie between 0 and " <<
-      sPaper.mHeight;
-    err = ss.str();
-    return false;
-  }
-  return true;
+	if (ap.y < 0 || ap.y > sPaper.mHeight) {
+		stringstream ss;
+		ss << "y coordinate should lie between 0 and " << sPaper.mHeight;
+		err = ss.str();
+		return false;
+	}
+	return true;
 }
-
 
 /*****
 Validate the two entered points that define the line. Return an error message
 if they aren't distinct.
 *****/
-bool ReferenceFinder::ValidateLine(const XYPt& ap1, const XYPt& ap2,
-  string& err)
-{
-  if ((ap1 - ap2).Mag() > EPS) return true;
-  stringstream ss;
-  ss.precision(10);
-  ss << "The two points must be distinct (separated by at least " << EPS << ").";
-  err = ss.str();
-  return false;
+bool ReferenceFinder::ValidateLine(const XYPt &ap1, const XYPt &ap2, string &err) {
+	if ((ap1 - ap2).Mag() > EPS) return true;
+	stringstream ss;
+	ss.precision(10);
+	ss << "The two points must be distinct (separated by at least " << EPS << ").";
+	err = ss.str();
+	return false;
 }
-
 
 /*****
 Compute statistics on the accuracy of the current set of marks for a randomly
 chosen set of points and pass the results in our static string variable.
 *****/
-void ReferenceFinder::CalcStatistics()
-{
-  bool cancel = false;
-  if (sStatisticsFn) {
-    sStatisticsFn(StatisticsInfo(STATISTICS_BEGIN),
-      sStatisticsUserData, cancel);
-  }
+void ReferenceFinder::CalcStatistics() {
+	bool cancel = false;
+	if (sStatisticsFn) {
+		sStatisticsFn(StatisticsInfo(STATISTICS_BEGIN), sStatisticsUserData, cancel);
+	}
 
-  vector<int> errBucket;              // number of errors in each bucket
-  errBucket.assign(sNumBuckets, 0);
-  vector<double> errors;              // list of all errors
-  vector <RefMark*> sortMarks(1);     // a vector to do our sorting into
+	vector<int> errBucket; // number of errors in each bucket
+	errBucket.assign(sNumBuckets, 0);
+	vector<double> errors;			// list of all errors
+	vector<RefMark *> sortMarks(1); // a vector to do our sorting into
 
-  // Run a bunch of test cases on random points.
-  int actNumTrials = sNumTrials;
-  for (size_t i = 0; i < size_t(sNumTrials); i++) {
-    XYPt testPt((double(rand()) / (RAND_MAX * sPaper.mWidth)),
-      double(rand()) / (RAND_MAX * sPaper.mHeight));
+	// Run a bunch of test cases on random points.
+	int actNumTrials = sNumTrials;
+	for (size_t i = 0; i < size_t(sNumTrials); i++) {
+		XYPt testPt((double(rand()) / (RAND_MAX * sPaper.mWidth)),
+					double(rand()) / (RAND_MAX * sPaper.mHeight));
 
-    // Find the mark closest to the test mark.
-    partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(),
-      sortMarks.begin(), sortMarks.end(), CompareError<RefMark>(testPt));
+		// Find the mark closest to the test mark.
+		partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(),
+						  sortMarks.begin(), sortMarks.end(), CompareError<RefMark>(testPt));
 
-    // note how close we were
-    double error = (testPt - sortMarks[0]->p).Mag();
-    errors.push_back(error);
-    // Report progress, and check for early termination from user
-    if (sStatisticsFn) {
-      sStatisticsFn(StatisticsInfo(STATISTICS_WORKING, i, error),
-        sStatisticsUserData, cancel);
-      if (cancel) {
-        actNumTrials = 1 + int(i);
-        break;
-      }
-    }
+		// note how close we were
+		double error = (testPt - sortMarks[0]->p).Mag();
+		errors.push_back(error);
+		// Report progress, and check for early termination from user
+		if (sStatisticsFn) {
+			sStatisticsFn(StatisticsInfo(STATISTICS_WORKING, i, error), sStatisticsUserData, cancel);
+			if (cancel) {
+				actNumTrials = 1 + int(i);
+				break;
+			}
+		}
 
-    // Compute a bucket index for this error. Over the top goes into last
-    // bucket. Then record the error in the appropriate bucket.
-    int errindex = int(error / sBucketSize);
-    if (errindex >= sNumBuckets) errindex = sNumBuckets - 1;
-    errBucket[errindex] += 1;
-  }
+		// Compute a bucket index for this error. Over the top goes into last
+		// bucket. Then record the error in the appropriate bucket.
+		int errindex = int(error / sBucketSize);
+		if (errindex >= sNumBuckets) errindex = sNumBuckets - 1;
+		errBucket[errindex] += 1;
+	}
 
-  // Now compose a report of the results.
-  stringstream ss;
-  ss << fixed << showpoint << setprecision(1);
-  ss << "Distribution of errors for " << actNumTrials << " trials:" << endl;
-  int total = 0;
-  // Report the number of errors for each error bucket
-  for (int i = 0; i < sNumBuckets - 1; i++) {
-    total += errBucket[i];
-    ss << "error < " <<
-      setprecision(3) << sBucketSize * (i + 1) <<
-      " = " << total << " (" <<
-      setprecision(1) << 100. * double(total) / actNumTrials <<
-      "%)" << endl;
-  }
-  ss << "error > " <<
-    setprecision(3) << sBucketSize * (sNumBuckets - 1) <<
-    " = " << (actNumTrials - total) << " (" <<
-    setprecision(1) << 100. * double(actNumTrials - total) / actNumTrials <<
-    "%)" << endl;
+	// Now compose a report of the results.
+	stringstream ss;
+	ss << fixed << showpoint << setprecision(1);
+	ss << "Distribution of errors for " << actNumTrials << " trials:" << endl;
+	int total = 0;
+	// Report the number of errors for each error bucket
+	for (int i = 0; i < sNumBuckets - 1; i++) {
+		total += errBucket[i];
+		ss << "error < " << setprecision(3) << sBucketSize * (i + 1)
+		   << " = " << total << " (" << setprecision(1) << 100. * double(total) / actNumTrials << "%)" << endl;
+	}
+	ss << "error > " << setprecision(3) << sBucketSize * (sNumBuckets - 1)
+	   << " = " << (actNumTrials - total)
+	   << " (" << setprecision(1) << 100. * double(actNumTrials - total) / actNumTrials << "%)" << endl;
 
-  // Sort the errors and write percentiles of the errors into output string
-  sort(errors.begin(), errors.end());
-  ss << setprecision(4);
-  ss << endl << "Distribution of errors:" << endl;
-  ss << "10th percentile :" << errors[int(.10 * errors.size())] << endl;
-  ss << "20th percentile :" << errors[int(.20 * errors.size())] << endl;
-  ss << "50th percentile :" << errors[int(.50 * errors.size())] << endl;
-  ss << "80th percentile :" << errors[int(.80 * errors.size())] << endl;
-  ss << "90th percentile :" << errors[int(.90 * errors.size())] << endl;
-  ss << "95th percentile :" << errors[int(.95 * errors.size())] << endl;
-  ss << "99th percentile :" << errors[int(.99 * errors.size())] << endl;
+	// Sort the errors and write percentiles of the errors into output string
+	sort(errors.begin(), errors.end());
+	ss << setprecision(4);
+	ss << endl
+	   << "Distribution of errors:" << endl;
+	ss << "10th percentile :" << errors[int(.10 * errors.size())] << endl;
+	ss << "20th percentile :" << errors[int(.20 * errors.size())] << endl;
+	ss << "50th percentile :" << errors[int(.50 * errors.size())] << endl;
+	ss << "80th percentile :" << errors[int(.80 * errors.size())] << endl;
+	ss << "90th percentile :" << errors[int(.90 * errors.size())] << endl;
+	ss << "95th percentile :" << errors[int(.95 * errors.size())] << endl;
+	ss << "99th percentile :" << errors[int(.99 * errors.size())] << endl;
 
-  sStatistics = ss.str();
+	sStatistics = ss.str();
 
-  // Call the callback for the final time, passing the string containing the
-  // results.
-  if (sStatisticsFn) {
-    sStatisticsFn(StatisticsInfo(STATISTICS_DONE),
-      sStatisticsUserData, cancel);
-  }
+	// Call the callback for the final time, passing the string containing the
+	// results.
+	if (sStatisticsFn) {
+		sStatisticsFn(StatisticsInfo(STATISTICS_DONE),
+					  sStatisticsUserData, cancel);
+	}
 }
-
 
 /*****
 This routine builds Peter Messer's construction of  cube root of 2. Only used
 for testing, but I'll leave it in here for edification.
 *****/
-void ReferenceFinder::MesserCubeRoot(ostream& os)
-{
-  // Rank 0: Construct the four edges of the square.
-  RefLine *be, *le, *re, *te;
+void ReferenceFinder::MesserCubeRoot(ostream &os) {
+	// Rank 0: Construct the four edges of the square.
+	RefLine *be, *le, *re, *te;
 
-  sBasisLines.Add(be = new RefLine_Original(sPaper.mBottomEdge, 0, string("bottom edge")));
-  sBasisLines.Add(le = new RefLine_Original(sPaper.mLeftEdge, 0, string("left edge")));
-  sBasisLines.Add(re = new RefLine_Original(sPaper.mRightEdge, 0, string("right edge")));
-  sBasisLines.Add(te = new RefLine_Original(sPaper.mTopEdge, 0, string("top edge")));
+	sBasisLines.Add(be = new RefLine_Original(sPaper.mBottomEdge, 0, string("bottom edge")));
+	sBasisLines.Add(le = new RefLine_Original(sPaper.mLeftEdge, 0, string("left edge")));
+	sBasisLines.Add(re = new RefLine_Original(sPaper.mRightEdge, 0, string("right edge")));
+	sBasisLines.Add(te = new RefLine_Original(sPaper.mTopEdge, 0, string("top edge")));
 
-  // Rank 0: Construct the four corners of the square.
-  RefMark *blc, *brc, *tlc, *trc;
+	// Rank 0: Construct the four corners of the square.
+	RefMark *blc, *brc, *tlc, *trc;
 
-  sBasisMarks.Add(blc = new RefMark_Original(sPaper.mBotLeft, 0, string("bot left corner")));
-  sBasisMarks.Add(brc = new RefMark_Original(sPaper.mBotRight, 0, string("bot right corner")));
-  sBasisMarks.Add(tlc = new RefMark_Original(sPaper.mTopLeft, 0, string("top left corner")));
-  sBasisMarks.Add(trc = new RefMark_Original(sPaper.mTopRight, 0, string("top right corner")));
+	sBasisMarks.Add(blc = new RefMark_Original(sPaper.mBotLeft, 0, string("bot left corner")));
+	sBasisMarks.Add(brc = new RefMark_Original(sPaper.mBotRight, 0, string("bot right corner")));
+	sBasisMarks.Add(tlc = new RefMark_Original(sPaper.mTopLeft, 0, string("top left corner")));
+	sBasisMarks.Add(trc = new RefMark_Original(sPaper.mTopRight, 0, string("top right corner")));
 
-  // Create the endpoints of the two initial fold lines
-  RefMark *rma1, *rma2, *rmb1, *rmb2;
-  sBasisMarks.Add(rma1 = new RefMark_Original(XYPt(0, 1./3), 0, string("(0, 1/3)")));
-  sBasisMarks.Add(rma2 = new RefMark_Original(XYPt(1, 1./3), 0, string("(1, 1/3)")));
-  sBasisMarks.Add(rmb1 = new RefMark_Original(XYPt(0, 2./3), 0, string("(0, 2/3)")));
-  sBasisMarks.Add(rmb2 = new RefMark_Original(XYPt(1, 2./3), 0, string("(1, 2/3)")));
+	// Create the endpoints of the two initial fold lines
+	RefMark *rma1, *rma2, *rmb1, *rmb2;
+	sBasisMarks.Add(rma1 = new RefMark_Original(XYPt(0, 1. / 3), 0, string("(0, 1/3)")));
+	sBasisMarks.Add(rma2 = new RefMark_Original(XYPt(1, 1. / 3), 0, string("(1, 1/3)")));
+	sBasisMarks.Add(rmb1 = new RefMark_Original(XYPt(0, 2. / 3), 0, string("(0, 2/3)")));
+	sBasisMarks.Add(rmb2 = new RefMark_Original(XYPt(1, 2. / 3), 0, string("(1, 2/3)")));
 
-  // Create and add the two initial fold lines.
-  RefLine *rla, *rlb;
-  sBasisLines.Add(rla = new RefLine_C2P_C2P(rma1, rma2));
-  sBasisLines.Add(rlb = new RefLine_C2P_C2P(rmb1, rmb2));
+	// Create and add the two initial fold lines.
+	RefLine *rla, *rlb;
+	sBasisLines.Add(rla = new RefLine_C2P_C2P(rma1, rma2));
+	sBasisLines.Add(rlb = new RefLine_C2P_C2P(rmb1, rmb2));
 
-  // Construct the fold line
-  RefLine_P2L_P2L rlc(brc, le, rma2, rlb, 0);
+	// Construct the fold line
+	RefLine_P2L_P2L rlc(brc, le, rma2, rlb, 0);
 
-  // Print the entire sequence
-  rlc.PutHowtoSequence(os);
+	// Print the entire sequence
+	rlc.PutHowtoSequence(os);
 
-  // quit the program
-  exit(1);
+	// quit the program
+	exit(1);
 }
