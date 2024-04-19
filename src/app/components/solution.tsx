@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Solution } from "../store";
 import { StepComponent } from "./step";
-import { Diagram } from "./diagram";
+import { Diagram } from "./svg/diagram";
 import { useRef } from "react";
 
 interface SolutionComponentProps {

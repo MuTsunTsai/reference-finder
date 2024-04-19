@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useDB } from "../store";
+import { useDB } from "../../store";
 import { ExpInput } from "./exp-input";
 import { InputProps } from "./int-input";
 

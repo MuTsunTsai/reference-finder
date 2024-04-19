@@ -1,5 +1,5 @@
 import ear from "rabbit-ear";
-import { useDB } from "../store";
+import { useDB } from "../../store";
 import { Svg } from "./svg";
 
 import type { RabbitEarSVG } from "rabbit-ear";

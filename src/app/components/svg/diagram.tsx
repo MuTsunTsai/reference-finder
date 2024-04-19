@@ -4,7 +4,7 @@ import { Svg } from "./svg";
 import "./diagram.scss";
 
 import type { RabbitEarOrigami, RabbitEarSVG } from "rabbit-ear";
-import { ElementType, LabelElement, LabelStyle, LineStyle, PointStyle, type DiagramElement, type PolyElement } from "../store";
+import { ElementType, LabelElement, LabelStyle, LineStyle, PointStyle, type DiagramElement, type PolyElement } from "../../store";
 
 interface DiagramProps {
 	data: DiagramElement[];

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { InfoTooltip } from "./tooltip";
+import { InfoTooltip } from "../tooltip";
 
 interface SettingsRowProps {
 	label: string;

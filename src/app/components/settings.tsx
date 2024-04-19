@@ -2,12 +2,12 @@ import { useRef, useState } from "react";
 import { Modal } from "bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { ExpInput } from "./exp-input";
-import { IntInput } from "./int-input";
+import { ExpInput } from "./form/exp-input";
+import { IntInput } from "./form/int-input";
 import { Theme, defaultDB, defaultSettings, useDB, useSettings } from "../store";
 import { resetWorker } from "../worker";
-import { SettingsRow } from "./settings-row";
-import { Checkbox } from "./checkbox";
+import { SettingsRow } from "./form/settings-row";
+import { Checkbox } from "./form/checkbox";
 
 import "./settings.scss";
 import { InfoTooltip } from "./tooltip";
@@ -85,10 +85,9 @@ export function Settings() {
 										<IntInput value={tempDb.maxMarksV1} onInput={v => setTempDb({ ...tempDb, maxMarksV1: v })} />
 									</SettingsRow>
 								</div>
-
 								<hr />
 								<div className="mb-1">
-									<h6>Huzita-Hatori axioms <InfoTooltip title={t("help.axioms")} /></h6>
+									<h6>Huzita-Hatori axioms<InfoTooltip title={t("help.axioms")} /></h6>
 									<Checkbox value={tempDb.axioms[0]} onInput={v => setAxiom(0, v)}>O1 - Crease through two points.</Checkbox>
 									<Checkbox value={tempDb.axioms[1]} onInput={v => setAxiom(1, v)}>O2 - Two points together.</Checkbox>
 									<Checkbox value={tempDb.axioms[2]} onInput={v => setAxiom(2, v)}>O3 - Line to another line.</Checkbox>

@@ -1,49 +1,18 @@
-import ear from "rabbit-ear";
 
-import { Preview } from "./components/preview";
-import { useEffect, useMemo, useState } from "react";
-import { PointInput } from "./components/point-input";
-import { Theme, useDB, useSettings, useStore } from "./store";
-import { SolutionComponent } from "./components/solution";
-import { useWorker } from "./worker";
-import { Settings } from "./components/settings";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Theme, useSettings, useStore } from "./store";
+import { SolutionComponent } from "./components/solution";
 import { supportedLngs } from "./locale";
-import { Diagram } from "./components/diagram";
-
-enum Mode {
-	point = 1,
-	line = 2,
-}
-
-// (window as any).test = (...args: unknown[]) => useWorker().postMessage(args);
+import { Diagram } from "./components/svg/diagram";
+import { Panel } from "./components/panel";
 
 function App() {
 	const { t, i18n } = useTranslation();
 	const store = useStore();
 	const settings = useSettings();
-	const db = useDB();
-	const [mode, setMode] = useState(Mode.point);
-	const [p1, setP1] = useState({ x: 0, y: 0 });
-	const [p2, setP2] = useState({ x: 1, y: 1 });
 	const [sol, setSol] = useState<number>(0);
-
-	const cp = useMemo(() => ear.cp.rectangle(db.width, db.height), [db.width, db.height]);
-	const points = useMemo(() => {
-		const results: IPoint[] = [
-			[p1.x, p1.y]
-		];
-		if(mode == Mode.line) results.push([p2.x, p2.y]);
-		return results;
-	}, [mode, p1.x, p1.y, p2.x, p2.y]);
-
-	function find() {
-		const query = [mode, p1.x, p1.y];
-		if(mode == Mode.line) query.push(p2.x, p2.y);
-		useStore.setState({ running: true, solutions: [], coreError: null });
-		setSol(0);
-		useWorker().postMessage(query.map(Number));
-	}
 
 	const [systemDark, setSystemDark] = useState(true);
 	const match = matchMedia("(prefers-color-scheme: dark)");
@@ -85,57 +54,8 @@ function App() {
 					</select>
 				</div>
 			</div>
-			<div className="row">
-				<div className="col">
-					<h1>{t("phrase.referenceFinder")}</h1>
-				</div>
-			</div>
-			<div className="row mt-3 justify-content-center">
-				<div className="col mb-3" style={{ flex: "0 1 12rem" }}>
-					<Preview cp={cp} points={points} />
-				</div>
-				<div className="col mb-3" style={{ flex: "1 0 36rem" }}>
-					<div className="row">
-						<div className="col-auto">
-							<div className="form-check">
-								<input className="form-check-input" type="radio" name="mode" id="m1"
-									checked={mode == Mode.point} onChange={() => setMode(Mode.point)} />
-								<label className="form-check-label capitalize" htmlFor="m1">
-									{t("phrase.findPoint")}
-								</label>
-							</div>
-						</div>
-						<div className="col-auto">
-							<div className="form-check">
-								<input className="form-check-input" type="radio" name="mode" id="m2"
-									checked={mode == Mode.line} onChange={() => setMode(Mode.line)} />
-								<label className="form-check-label capitalize" htmlFor="m2">
-									{t("phrase.findLine")}
-								</label>
-							</div>
-						</div>
-					</div>
-					<PointInput label={mode == Mode.line ? " 1" : ""} value={p1} onInput={p => setP1(p)} />
-					{mode == Mode.line && (
-						<PointInput label=" 2" value={p2} onInput={p => setP2(p)} />
-					)}
-					<div className="row mt-2">
-						<div className="col">
-							<Settings />
-						</div>
-						<div className="col-auto text-end">
-							<button type="button" className="btn btn-primary capitalize"
-								onClick={find} disabled={store.running}>
-								{store.running && !store.ready ? (
-									<span>{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
-								) : (
-									<span><i className="fa-solid fa-play"></i>&nbsp;{t("phrase.go")}</span>
-								)}
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
+			<h1>{t("phrase.referenceFinder")}</h1>
+			<Panel onSubmit={() => setSol(0)} />
 			{store.coreError && (
 				<div className="text-danger mb-3">Error: {store.coreError}</div>
 			) || store.solutions.length == 0 && (!store.ready || !store.running) && (
@@ -168,7 +88,9 @@ function App() {
 			</section>
 		)}
 		<div className="container px-4 flex-grow-1">
-			{store.solutions.map((s, i) => <SolutionComponent key={i} data={s} show={sol == i} onSelect={() => setSol(i)} />)}
+			{store.solutions.map((s, i) =>
+				<SolutionComponent key={i} data={s} show={sol == i} onSelect={() => setSol(i)} />
+			)}
 		</div>
 		<div className="container mt-4 px-4">
 			<footer className="row justify-content-end flex-wrap pb-3">
