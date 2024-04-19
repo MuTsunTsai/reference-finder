@@ -64,13 +64,26 @@ function App() {
 
 	return (<>
 		<div className="container px-4">
-			<div className="text-end py-2">
-				<select className="form-select flag d-inline-block" style={{ width: "max-content" }}
-					value={i18n.language} onChange={e => i18n.changeLanguage(e.currentTarget.value)}>
-					{supportedLngs.map(l => (
-						<option key={l} value={l}>{t("flag", { lng: l })} {t("name", { lng: l })}</option>
-					))}
-				</select>
+			<div className="row gx-0 py-2">
+				<div className="col small text-muted">
+					{store.progress && settings.showInit && (<>
+						<span className="d-none d-sm-block">
+							Initializing {store.progress.lines} lines and {store.progress.marks} marks of rank ≤ {store.progress.rank}...
+						</span>
+						<div className="d-sm-none" style={{ lineHeight: 1 }}>
+							{store.progress.lines} lines,<br />
+							{store.progress.marks} marks...
+						</div>
+					</>)}
+				</div>
+				<div className="col-auto">
+					<select className="form-select flag d-inline-block" style={{ width: "max-content" }}
+						value={i18n.language} onChange={e => i18n.changeLanguage(e.currentTarget.value)}>
+						{supportedLngs.map(l => (
+							<option key={l} value={l}>{t("flag", { lng: l })} {t("name", { lng: l })}</option>
+						))}
+					</select>
+				</div>
 			</div>
 			<div className="row">
 				<div className="col">

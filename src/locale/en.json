@@ -54,6 +54,7 @@
 				"_": "Theme"
 			},
 			"showAxiom": "Show axiom number in description.",
+			"showInit": "Show initialization progress.",
 			"_": "Display"
 		}
 	},

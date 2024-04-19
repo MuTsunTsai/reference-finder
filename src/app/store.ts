@@ -32,11 +32,19 @@ export enum Theme {
 };
 
 export const defaultSettings = {
+	showInit: true,
 	showAxiom: false,
 	theme: Theme.system,
 };
 
+export interface InitInfo {
+	rank: number;
+	lines: number;
+	marks: number;
+}
+
 const defaultStore = {
+	progress: null as InitInfo | null,
 	ready: false,
 	running: false,
 	coreError: null as string | null,

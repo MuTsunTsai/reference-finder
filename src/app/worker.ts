@@ -37,9 +37,12 @@ export function resetWorker(db: DbSettings) {
 		if(msg.text) {
 			const text = msg.text;
 			const { running, ready, solutions } = useStore.getState();
-			if(!ready) console.log(text);
+			if(!ready) {
+				if(text.startsWith("{")) useStore.setState({ progress: JSON.parse(text) });
+				else console.log(text);
+			}
 			if(text == "Ready") {
-				useStore.setState({ running: running && !ready, ready: true });
+				useStore.setState({ running: running && !ready, ready: true, progress: null });
 				return;
 			}
 			if(!running || !ready) return;

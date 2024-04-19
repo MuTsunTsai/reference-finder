@@ -97,7 +97,7 @@ bool ReferenceFinder::sLineWorstCaseError = true;
 
 // We make a call to our show progress callback routine every sDatabaseStatusSkip
 // attempts.
-int ReferenceFinder::sDatabaseStatusSkip = 200000;
+int ReferenceFinder::sDatabaseStatusSkip = 400000;
 
 // If sClarifyVerbalAmbiguities == true, then verbal instructions that could be
 // ambiguous because there are multiples solutions are clarified with

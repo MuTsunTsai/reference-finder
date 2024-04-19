@@ -41,7 +41,8 @@ static bool ReadNumber(double &n, bool assumeDefault = true)
 	string buffer; // text read here
 	emscripten_utils_getline(buffer);
 	Parser::Status st = parser.evaluate(buffer, n, assumeDefault);
-	if (!st.isOK()) {
+	if (!st.isOK())
+	{
 		cerr << st << endl;
 		return false;
 	}
@@ -95,13 +96,18 @@ void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &)
 		cout << endl;
 		break;
 
+	// Initialization progress report
+	case ReferenceFinder::DATABASE_WORKING:
 	case ReferenceFinder::DATABASE_RANK_COMPLETE:
-		// Called when we've finished a rank
-		cout << "There are " << info.mNumLines << " lines and " << info.mNumMarks << " marks of rank <= " << info.mRank << " " << endl;
+		cout << "{\"rank\": " << info.mRank
+			 << ", \"lines\": " << info.mNumLines
+			 << ", \"marks\": " << info.mNumMarks
+			 << "}" << endl;
+		// cout
+		// 	<< "There are " << info.mNumLines << " lines and " << info.mNumMarks << " marks of rank <= " << info.mRank << " " << endl;
 		break;
 
 	default:
-		// Tsai: don't do anything here
 		break;
 	}
 }
@@ -149,7 +155,8 @@ void readSettings()
 	ReadNumber(rank);
 	ReadNumber(lines);
 	ReadNumber(marks);
-	for (int i = 0; i < 7; i++) ReadNumber(o[i]);
+	for (int i = 0; i < 7; i++)
+		ReadNumber(o[i]);
 	ReferenceFinder::sMaxRank = rank;
 	ReferenceFinder::sMaxLines = lines;
 	ReferenceFinder::sMaxMarks = marks;
@@ -160,7 +167,8 @@ void readSettings()
 	ReferenceFinder::sUseRefLine_P2L_C2P = o[4];
 	ReferenceFinder::sUseRefLine_P2L_P2L = o[5];
 	ReferenceFinder::sUseRefLine_L2L_P2L = o[6];
-	for (int i = 0; i < 7; i++) ReadNumber(num[i]);
+	for (int i = 0; i < 7; i++)
+		ReadNumber(num[i]);
 	ReferenceFinder::sNumX = num[0];
 	ReferenceFinder::sNumY = num[1];
 	ReferenceFinder::sNumA = num[2];
@@ -193,7 +201,8 @@ int main()
 		// cout << "0 = exit, 1 = find mark, 2 = find line : " << endl;
 		cout << "Ready" << endl;
 		double ns;
-		if(!ReadNumber(ns, false)) continue;
+		if (!ReadNumber(ns, false))
+			continue;
 
 		switch (int(ns))
 		{
@@ -206,9 +215,11 @@ int main()
 		{
 			XYPt pp(0, 0);
 			// cout << "Enter x coordinate: " << endl;
-			if(!ReadNumber(pp.x)) continue;
+			if (!ReadNumber(pp.x))
+				continue;
 			// cout << "Enter y coordinate: " << endl;
-			if(!ReadNumber(pp.y)) continue;
+			if (!ReadNumber(pp.y))
+				continue;
 			string err;
 			if (ReferenceFinder::ValidateMark(pp, err))
 			{
@@ -225,13 +236,17 @@ int main()
 		{
 			XYPt p1, p2;
 			// cout << "Enter p1 x coordinate: " << endl;
-			if(!ReadNumber(p1.x)) continue;
+			if (!ReadNumber(p1.x))
+				continue;
 			// cout << "Enter p1 y coordinate: " << endl;
-			if(!ReadNumber(p1.y)) continue;
+			if (!ReadNumber(p1.y))
+				continue;
 			// cout << "Enter p2 x coordinate: " << endl;
-			if(!ReadNumber(p2.x)) continue;
+			if (!ReadNumber(p2.x))
+				continue;
 			// cout << "Enter p2 y coordinate: " << endl;
-			if(!ReadNumber(p2.y)) continue;
+			if (!ReadNumber(p2.y))
+				continue;
 			string err;
 			if (ReferenceFinder::ValidateLine(p1, p2, err))
 			{

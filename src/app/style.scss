@@ -94,6 +94,11 @@ ol {
 		--bs-nav-link-hover-color: var(--bs-gray-300);
 	}
 
+	.text-muted {
+		color: var(--bs-white) !important;
+		opacity: 0.5;
+	}
+
 	.card {
 		--bs-card-border-color: var(--bs-gray-500);
 	}

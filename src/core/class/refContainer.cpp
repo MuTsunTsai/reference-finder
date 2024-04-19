@@ -67,7 +67,7 @@ void RefContainer<R>::AddCopyIfValidAndUnique(const Rs& ars)
   // It's unique if the container doesn't already have one with the same key in
   // one of the rank maps.
   if (ars.mKey != 0 && !Contains(&ars)) Add(new Rs(ars));
-  // ReferenceFinder::CheckDatabaseStatus();  // report progress if appropriate
+  ReferenceFinder::CheckDatabaseStatus();  // report progress if appropriate
 }
 
 

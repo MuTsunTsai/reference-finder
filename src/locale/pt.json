@@ -57,7 +57,8 @@
 				"system": "Sistema",
 				"_": "Tema"
 			},
-			"_": "Mostrar"
+			"_": "Mostrar",
+			"showInit": "Mostrar o progresso da inicialização."
 		},
 		"advanced": {
 			"_": "Avançado"

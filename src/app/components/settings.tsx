@@ -88,7 +88,7 @@ export function Settings() {
 
 								<hr />
 								<div className="mb-1">
-									<h6>Huzita-Hatori axioms <InfoTooltip title="The Huzita-Hatori Axioms group lets you choose which of the 7 axioms to include in the database. The default is to include all 7, but you can exclude one or more. Of course, the more axioms you exclude, the higher the rank you'll need to allow to obtain a given level of accuracy."/></h6>
+									<h6>Huzita-Hatori axioms <InfoTooltip title="The Huzita-Hatori Axioms group lets you choose which of the 7 axioms to include in the database. The default is to include all 7, but you can exclude one or more. Of course, the more axioms you exclude, the higher the rank you'll need to allow to obtain a given level of accuracy." /></h6>
 									<Checkbox value={tempDb.axioms[0]} onInput={v => setAxiom(0, v)}>O1 - Crease through two points.</Checkbox>
 									<Checkbox value={tempDb.axioms[1]} onInput={v => setAxiom(1, v)}>O2 - Two points together.</Checkbox>
 									<Checkbox value={tempDb.axioms[2]} onInput={v => setAxiom(2, v)}>O3 - Line to another line.</Checkbox>
@@ -137,6 +137,8 @@ export function Settings() {
 									</SettingsRow>
 								</div>
 								<div className="mt-3 mb-1">
+									<Checkbox value={settings.showInit}
+										onInput={v => useSettings.setState({ ...settings, showInit: v })}>{t("settings.display.showInit")}</Checkbox>
 									<Checkbox value={settings.showAxiom}
 										onInput={v => useSettings.setState({ ...settings, showAxiom: v })}>{t("settings.display.showAxiom")}</Checkbox>
 								</div>
