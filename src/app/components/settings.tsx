@@ -8,6 +8,8 @@ import { SettingsRow } from "./settings-row";
 import { Checkbox } from "./checkbox";
 import { useTranslation } from "react-i18next";
 
+import "./settings.scss";
+
 export function Settings() {
 	const { t } = useTranslation();
 	const db = useDB();
@@ -62,23 +64,26 @@ export function Settings() {
 								</li>
 							</ul>
 							<div className={(tab == 0 ? "" : "d-none")}>
-								<SettingsRow label={t("settings.basic.width")}>
-									<ExpInput value={tempDb.width} exp={tempDb.widthExp}
-										onInput={(v, exp) => setTempDb({ ...tempDb, width: v, widthExp: exp })} />
-								</SettingsRow>
-								<SettingsRow label={t("settings.basic.height")}>
-									<ExpInput value={tempDb.height} exp={tempDb.heightExp}
-										onInput={(v, exp) => setTempDb({ ...tempDb, height: v, heightExp: exp })} />
-								</SettingsRow>
-								<SettingsRow label="Max rank">
-									<IntInput value={tempDb.maxRank} min={2} onInput={v => setTempDb({ ...tempDb, maxRank: v })} />
-								</SettingsRow>
-								<SettingsRow label="Max lines">
-									<IntInput value={tempDb.maxLinesV1} onInput={v => setTempDb({ ...tempDb, maxLinesV1: v })} />
-								</SettingsRow>
-								<SettingsRow label="Max marks">
-									<IntInput value={tempDb.maxMarksV1} onInput={v => setTempDb({ ...tempDb, maxMarksV1: v })} />
-								</SettingsRow>
+								<div className="grid">
+									<SettingsRow label={t("settings.basic.width")}>
+										<ExpInput value={tempDb.width} exp={tempDb.widthExp}
+											onInput={(v, exp) => setTempDb({ ...tempDb, width: v, widthExp: exp })} />
+									</SettingsRow>
+									<SettingsRow label={t("settings.basic.height")}>
+										<ExpInput value={tempDb.height} exp={tempDb.heightExp}
+											onInput={(v, exp) => setTempDb({ ...tempDb, height: v, heightExp: exp })} />
+									</SettingsRow>
+									<SettingsRow label="Max rank">
+										<IntInput value={tempDb.maxRank} min={2} onInput={v => setTempDb({ ...tempDb, maxRank: v })} />
+									</SettingsRow>
+									<SettingsRow label="Max lines">
+										<IntInput value={tempDb.maxLinesV1} onInput={v => setTempDb({ ...tempDb, maxLinesV1: v })} />
+									</SettingsRow>
+									<SettingsRow label="Max marks">
+										<IntInput value={tempDb.maxMarksV1} onInput={v => setTempDb({ ...tempDb, maxMarksV1: v })} />
+									</SettingsRow>
+								</div>
+
 								<hr />
 								<div className="mb-1">
 									<h6>Huzita-Hatori axioms</h6>
@@ -91,7 +96,7 @@ export function Settings() {
 									<Checkbox value={tempDb.axioms[6]} onInput={v => setAxiom(6, v)}>O7 - Line to self, point to line.</Checkbox>
 								</div>
 							</div>
-							<div className={(tab == 1 ? "" : "d-none")}>
+							<div className={"grid " + (tab == 1 ? "" : "d-none")}>
 								<SettingsRow label="X divisions">
 									<IntInput value={tempDb.numX} min={100} onInput={v => setTempDb({ ...tempDb, numX: v })} />
 								</SettingsRow>
@@ -118,15 +123,17 @@ export function Settings() {
 								</SettingsRow>
 							</div>
 							<div className={(tab == 2 ? "" : "d-none")}>
-								<SettingsRow label={t("settings.display.theme._")}>
-									<select value={settings.theme} className="form-select"
-										onChange={e => useSettings.setState({ ...settings, theme: Number(e.currentTarget.value) })} >
-										<option value={Theme.system}>{t("settings.display.theme.system")}</option>
-										<option value={Theme.light}>{t("settings.display.theme.light")}</option>
-										<option value={Theme.dark}>{t("settings.display.theme.dark")}</option>
-										<option value={Theme.rabbitEar}>RabbitEar</option>
-									</select>
-								</SettingsRow>
+								<div className="grid">
+									<SettingsRow label={t("settings.display.theme._")}>
+										<select value={settings.theme} className="form-select"
+											onChange={e => useSettings.setState({ ...settings, theme: Number(e.currentTarget.value) })} >
+											<option value={Theme.system}>{t("settings.display.theme.system")}</option>
+											<option value={Theme.light}>{t("settings.display.theme.light")}</option>
+											<option value={Theme.dark}>{t("settings.display.theme.dark")}</option>
+											<option value={Theme.rabbitEar}>RabbitEar</option>
+										</select>
+									</SettingsRow>
+								</div>
 								<div className="mt-3 mb-1">
 									<Checkbox value={settings.showAxiom}
 										onInput={v => useSettings.setState({ ...settings, showAxiom: v })}>{t("settings.display.showAxiom")}</Checkbox>

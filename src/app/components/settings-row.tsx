@@ -7,11 +7,11 @@ interface SettingsRowProps {
 
 export function SettingsRow({ label, children }: SettingsRowProps) {
 	return (
-		<div className="row mb-1">
-			<label className="col-12 col-sm-5 col-form-label">{label}</label>
-			<div className="col">
-				{ children }
+		<>
+			<label className="col-form-label">{label}</label>
+			<div>
+				{children}
 			</div>
-		</div>
+		</>
 	);
 }
