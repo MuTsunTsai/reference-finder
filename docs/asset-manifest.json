@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/reference-finder/static/css/main.dc2367cb.css",
-    "main.js": "/reference-finder/static/js/main.f2174120.js",
+    "main.js": "/reference-finder/static/js/main.9461a4fb.js",
     "ref.js": "/reference-finder/static/js/ref.c750c18c.chunk.js",
     "locale.js": "/reference-finder/static/js/locale.ce2c0ba4.js",
     "rabbit-ear.js": "/reference-finder/static/js/rabbit-ear.5fe2350f.js",
@@ -15,6 +15,6 @@
     "static/js/locale.ce2c0ba4.js",
     "static/js/rabbit-ear.5fe2350f.js",
     "static/css/main.dc2367cb.css",
-    "static/js/main.f2174120.js"
+    "static/js/main.9461a4fb.js"
   ]
 }

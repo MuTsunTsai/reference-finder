@@ -80,11 +80,11 @@ export function Panel({ onSubmit }: PanelProps) {
 						<Settings />
 					</div>
 					<div className="col-auto text-end">
-						<button type="submit" className="btn btn-primary capitalize" disabled={store.running}>
+						<button type="submit" className="btn btn-primary" disabled={store.running}>
 							{store.running && !store.ready ? (
-								<span>{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
+								<span className="capitalize">{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
 							) : (
-								<span><i className="fa-solid fa-play"></i>&nbsp;{t("phrase.go")}</span>
+								<span><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></span>
 							)}
 						</button>
 					</div>
