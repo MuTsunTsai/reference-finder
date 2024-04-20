@@ -43,6 +43,10 @@ ol {
 	font-family: Flag, var(--bs-body-font-family);
 }
 
+span.capitalize {
+	display: inline-block;
+}
+
 .capitalize::first-letter {
 	text-transform: uppercase;
 }
