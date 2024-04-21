@@ -36,7 +36,7 @@ export const defaultSettings = {
 	showAxiom: false,
 	theme: Theme.system,
 	error: 0.005,
-	errorExp: "0.005",
+	errorExp: "1/200",
 	count: 5,
 };
 
@@ -67,7 +67,7 @@ export const defaultDB = {
 	numA: 5000,
 	numD: 5000,
 	minAspectRatio: 0.1,
-	minAspectRatioExp: "0.1",
+	minAspectRatioExp: "1/10",
 	minAngleSine: 0.342,
 	minAngleSineExp: "sin(20)",
 	axioms: [true, true, true, true, true, true, true],

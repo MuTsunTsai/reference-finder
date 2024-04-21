@@ -41,7 +41,8 @@ export function Settings() {
 	}
 
 	const reset = () => {
-		cacheTempSettings(structuredClone(defaultSettings));
+		// Settings are written in-place, so that it can be reflected on UI immediately
+		useSettings.setState(structuredClone(defaultSettings));
 		setTempDb(structuredClone(defaultDB));
 	}
 
