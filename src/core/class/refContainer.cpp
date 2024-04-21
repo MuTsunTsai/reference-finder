@@ -29,6 +29,7 @@ template void RefContainer<RefLine>::ClearMaps();
 
 template class RefContainer<RefMark>;
 template RefContainer<RefMark>::RefContainer();
+template void RefContainer<RefMark>::Add(RefMark *);
 template void RefContainer<RefMark>::FlushBuffer();
 template void RefContainer<RefMark>::Rebuild();
 template void RefContainer<RefMark>::AddCopyIfValidAndUnique<RefMark_Intersection>(RefMark_Intersection const &);

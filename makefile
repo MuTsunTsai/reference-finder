@@ -36,7 +36,7 @@ $(WASM): $(OBJ) $(PRE) makefile
 
 $(TEMP)/%.o: $(SRCF)/%.cpp
 	@if not exist "$(dir $@)" mkdir "$(dir $@)"
-	$(CC) $(STD) -MMD -c $< -o $@
+	$(CC) $(STD) -O3 -MMD -c $< -o $@
 
 %.h: ;
 %.d: ;
