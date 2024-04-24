@@ -137,7 +137,3 @@ Reset the counter used for indexing marks in a sequence.
 void RefMark::ResetCount() {
 	sCount = 0;
 }
-
-#ifdef __MWERKS__
-#pragma mark -
-#endif

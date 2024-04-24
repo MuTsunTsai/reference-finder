@@ -31,8 +31,6 @@ class RefBase {
 	index_t mIndex;		   // used to label this ref in a folding sequence
 
 	static RefDgmr *sDgmr;				   // object that draws diagrams
-	static bool sClarifyVerbalAmbiguities; // true = clarify ambiguous verbal instructions
-	static bool sAxiomsInVerbalDirections; // true = list the axiom number in verbal instructions
 	enum {
 		// Drawing happens in multiple passes to get the stacking order correct
 		PASS_LINES,

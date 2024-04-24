@@ -63,9 +63,6 @@ class ReferenceFinder {
 	static bool sLineWorstCaseError; // true = use worst-case error vs Pythagorean
 	static int sDatabaseStatusSkip;	 // frequency that sDatabaseFn gets called
 
-	static bool sClarifyVerbalAmbiguities;
-	static bool sAxiomsInVerbalDirections;
-
 	static int sNumBuckets;			// how many error buckets to use
 	static double sBucketSize;		// size of each bucket
 	static int sNumTrials;			// number of test cases total
@@ -122,10 +119,8 @@ class ReferenceFinder {
 	static void MakeAllMarksAndLines();
 
 	// Functions for searching for the best marks and/or lines
-	static void FindBestMarks(const XYPt &ap, std::vector<RefMark *> &vm,
-							  short numMarks);
-	static void FindBestLines(const XYLine &al, std::vector<RefLine *> &vl,
-							  short numLines);
+	static void FindBestMarks(const XYPt &ap, std::vector<RefMark *> &vm, short numMarks);
+	static void FindBestLines(const XYLine &al, std::vector<RefLine *> &vl, short numLines);
 
 	// Utility routines for validating user input
 	static bool ValidateMark(const XYPt &ap, std::string &err);
@@ -160,9 +155,6 @@ class ReferenceFinder {
 
 	// Routine for calculating statistics on marks for a random set of trial points
 	static void CalcStatistics();
-
-	// An example that tests axiom O6.
-	static void MesserCubeRoot(std::ostream &os);
 
   private:
 	static RefContainer<RefLine> sBasisLines; // all lines
@@ -214,10 +206,8 @@ class CompareError {
 		// equal, then compare the refs by their rank.
 		double d1 = r1->DistanceTo(mTarget);
 		double d2 = r2->DistanceTo(mTarget);
-		if (d1 == d2)
-			return r1->mRank < r2->mRank;
-		else
-			return d1 < d2;
+		if (d1 == d2) return r1->mRank < r2->mRank;
+		else return d1 < d2;
 	};
 };
 
@@ -238,15 +228,11 @@ class CompareRankAndError {
 		double d2 = r2->DistanceTo(mTarget);
 		if ((d1 > ReferenceFinder::sGoodEnoughError) ||
 			(d2 > ReferenceFinder::sGoodEnoughError)) {
-			if (d1 == d2)
-				return r1->mRank < r2->mRank;
-			else
-				return d1 < d2;
+			if (d1 == d2) return r1->mRank < r2->mRank;
+			else return d1 < d2;
 		} else {
-			if (r1->mRank == r2->mRank)
-				return d1 < d2;
-			else
-				return r1->mRank < r2->mRank;
+			if (r1->mRank == r2->mRank) return d1 < d2;
+			else return r1->mRank < r2->mRank;
 		}
 	};
 };

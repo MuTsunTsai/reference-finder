@@ -311,8 +311,6 @@ bool RefLine_P2L_P2L::PutHowto(ostream &os) const {
 		rm1->PutName(os);
 		os << "\", \"l0\": \"";
 		rl1->PutName(os);
-		//   if (ReferenceFinder::sClarifyVerbalAmbiguities)
-		//     os << " at point " << l.Fold(rm1->p).Chop();
 		os << "\", \"p1\": \"";
 		rm2->PutName(os);
 		os << "\", \"l1\": \"";
@@ -322,8 +320,6 @@ bool RefLine_P2L_P2L::PutHowto(ostream &os) const {
 	case WHOMOVES_L1L2:
 		os << "\"l0\": \"";
 		rl1->PutName(os);
-		//   if (ReferenceFinder::sClarifyVerbalAmbiguities)
-		//     os << " so that point " << l.Fold(rm1->p).Chop();
 		os << "\", \"p0\": \"";
 		rm1->PutName(os);
 		os << "\", \"l1\": \"";
@@ -337,8 +333,6 @@ bool RefLine_P2L_P2L::PutHowto(ostream &os) const {
 		rm1->PutName(os);
 		os << "\", \"l0\": \"";
 		rl1->PutName(os);
-		//   if (ReferenceFinder::sClarifyVerbalAmbiguities)
-		//     os << " at point " << l.Fold(rm1->p).Chop();
 		os << "\", \"l1\": \"";
 		rl2->PutName(os);
 		os << "\", \"p1\": \"";
@@ -354,8 +348,6 @@ bool RefLine_P2L_P2L::PutHowto(ostream &os) const {
 		rm2->PutName(os);
 		os << "\", \"l1\": \"";
 		rl2->PutName(os);
-		//   if (ReferenceFinder::sClarifyVerbalAmbiguities)
-		//     os << " at point " << l.Fold(rm2->p).Chop();
 		break;
 	};
 	os << "\", \"x\": \"";

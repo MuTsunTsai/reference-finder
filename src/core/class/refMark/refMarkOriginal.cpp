@@ -38,8 +38,8 @@ Draw this mark
 *****/
 void RefMark_Original::DrawSelf(RefStyle rstyle, short ipass) const {
 	// Override the default because original marks don't get labels and are only
-	// drawn when they are hilited or action (in which case we still draw them
-	// hilited).
+	// drawn when they are highlighted or action (in which case we still draw them
+	// highlighted).
 	if ((ipass == PASS_POINTS) &&
 		(rstyle == REFSTYLE_HILITE || rstyle == REFSTYLE_ACTION))
 		sDgmr->DrawPt(p, RefDgmr::POINTSTYLE_HILITE);

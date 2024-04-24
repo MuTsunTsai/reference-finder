@@ -99,15 +99,6 @@ bool ReferenceFinder::sLineWorstCaseError = true;
 // attempts.
 int ReferenceFinder::sDatabaseStatusSkip = 400000;
 
-// If sClarifyVerbalAmbiguities == true, then verbal instructions that could be
-// ambiguous because there are multiples solutions are clarified with
-// additional information.
-bool ReferenceFinder::sClarifyVerbalAmbiguities = true;
-
-// If sAxiomsInVerbalDirections == true, we list the axiom number at the
-// beginning of each verbal direction.
-bool ReferenceFinder::sAxiomsInVerbalDirections = true;
-
 // Variables used when we calculate statistics on the database
 int ReferenceFinder::sNumBuckets = 11;		 // how many error buckets to use
 double ReferenceFinder::sBucketSize = 0.001; // size of each bucket
@@ -129,10 +120,6 @@ ReferenceFinder::StatisticsFn ReferenceFinder::sStatisticsFn = 0;
 void *ReferenceFinder::sStatisticsUserData = 0;
 int ReferenceFinder::sStatusCount = 0;
 rank_t ReferenceFinder::sCurRank = 0;
-
-#ifdef __MWERKS__
-#pragma mark -
-#endif
 
 /*****
 Routine called by RefContainer<R> to report progress during the time-consuming
@@ -395,47 +382,4 @@ void ReferenceFinder::CalcStatistics() {
 		sStatisticsFn(StatisticsInfo(STATISTICS_DONE),
 					  sStatisticsUserData, cancel);
 	}
-}
-
-/*****
-This routine builds Peter Messer's construction of  cube root of 2. Only used
-for testing, but I'll leave it in here for edification.
-*****/
-void ReferenceFinder::MesserCubeRoot(ostream &os) {
-	// Rank 0: Construct the four edges of the square.
-	RefLine *be, *le, *re, *te;
-
-	sBasisLines.Add(be = new RefLine_Original(sPaper.mBottomEdge, 0, string("bottom edge")));
-	sBasisLines.Add(le = new RefLine_Original(sPaper.mLeftEdge, 0, string("left edge")));
-	sBasisLines.Add(re = new RefLine_Original(sPaper.mRightEdge, 0, string("right edge")));
-	sBasisLines.Add(te = new RefLine_Original(sPaper.mTopEdge, 0, string("top edge")));
-
-	// Rank 0: Construct the four corners of the square.
-	RefMark *blc, *brc, *tlc, *trc;
-
-	sBasisMarks.Add(blc = new RefMark_Original(sPaper.mBotLeft, 0, string("bot left corner")));
-	sBasisMarks.Add(brc = new RefMark_Original(sPaper.mBotRight, 0, string("bot right corner")));
-	sBasisMarks.Add(tlc = new RefMark_Original(sPaper.mTopLeft, 0, string("top left corner")));
-	sBasisMarks.Add(trc = new RefMark_Original(sPaper.mTopRight, 0, string("top right corner")));
-
-	// Create the endpoints of the two initial fold lines
-	RefMark *rma1, *rma2, *rmb1, *rmb2;
-	sBasisMarks.Add(rma1 = new RefMark_Original(XYPt(0, 1. / 3), 0, string("(0, 1/3)")));
-	sBasisMarks.Add(rma2 = new RefMark_Original(XYPt(1, 1. / 3), 0, string("(1, 1/3)")));
-	sBasisMarks.Add(rmb1 = new RefMark_Original(XYPt(0, 2. / 3), 0, string("(0, 2/3)")));
-	sBasisMarks.Add(rmb2 = new RefMark_Original(XYPt(1, 2. / 3), 0, string("(1, 2/3)")));
-
-	// Create and add the two initial fold lines.
-	RefLine *rla, *rlb;
-	sBasisLines.Add(rla = new RefLine_C2P_C2P(rma1, rma2));
-	sBasisLines.Add(rlb = new RefLine_C2P_C2P(rmb1, rmb2));
-
-	// Construct the fold line
-	RefLine_P2L_P2L rlc(brc, le, rma2, rlb, 0);
-
-	// Print the entire sequence
-	rlc.PutHowtoSequence(os);
-
-	// quit the program
-	exit(1);
 }

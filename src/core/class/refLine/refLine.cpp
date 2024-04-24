@@ -130,7 +130,7 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 	};
 		break;
 
-	case PASS_HLINES: // hilited lines and action lines go on top of others
+	case PASS_HLINES: // highlighted lines and action lines go on top of others
 	{
 		switch (rstyle) {
 		case REFSTYLE_HILITE:

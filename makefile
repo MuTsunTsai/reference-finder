@@ -12,7 +12,7 @@ DEP := $(patsubst $(SRCF)/%.cpp,$(TEMP)/%.d,$(SRC))
 PRE := $(SRCF)/pre.js
 OUT := ref
 
-STD := -std=c++14
+STD := -std=c++17
 ESFLAGS :=\
 	-sINITIAL_MEMORY=100MB\
 	-sALLOW_MEMORY_GROWTH\
@@ -22,8 +22,8 @@ ESFLAGS :=\
 	-sEXPORTED_RUNTIME_METHODS=['setValue']\
 	-sFILESYSTEM=0\
 	-sMODULARIZE=1\
-	-sENVIRONMENT=worker\
-	-O3
+	-sENVIRONMENT=worker
+OPTI :=	-O3
 
 WASM := $(TARGET)/$(OUT).wasm
 
@@ -31,12 +31,12 @@ all: $(WASM)
 
 $(WASM): $(OBJ) $(PRE) makefile
 	@if not exist "$(TARGET)" mkdir "$(TARGET)"
-	$(CC) $(ESFLAGS) --pre-js $(PRE) -o $(TEMP)/$(OUT).js $(OBJ)
+	$(CC) $(ESFLAGS) $(OPTI) --pre-js $(PRE) -o $(TEMP)/$(OUT).js $(OBJ)
 	@move $(TEMP)\$(OUT).* $(TARGET) >nul
 
-$(TEMP)/%.o: $(SRCF)/%.cpp
+$(TEMP)/%.o: $(SRCF)/%.cpp makefile
 	@if not exist "$(dir $@)" mkdir "$(dir $@)"
-	$(CC) $(STD) -O3 -MMD -c $< -o $@
+	$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
 
 %.h: ;
 %.d: ;

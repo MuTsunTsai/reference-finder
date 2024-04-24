@@ -43,15 +43,11 @@ void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *,
 		if (ReferenceFinder::sUseRefLine_P2L_P2L) cout << " O6,";
 		if (ReferenceFinder::sUseRefLine_L2L_P2L) cout << " O7,";
 		cout << " vis=";
-		if (ReferenceFinder::sVisibilityMatters)
-			cout << "true";
-		else
-			cout << "false";
+		if (ReferenceFinder::sVisibilityMatters) cout << "true";
+		else cout << "false";
 		cout << " wce=";
-		if (ReferenceFinder::sLineWorstCaseError)
-			cout << "true";
-		else
-			cout << "false";
+		if (ReferenceFinder::sLineWorstCaseError) cout << "true";
+		else cout << "false";
 		cout << endl;
 		break;
 
@@ -177,12 +173,13 @@ int main() {
 			if (!ReadNumber(pp.y)) continue;
 			string err;
 			if (ReferenceFinder::ValidateMark(pp, err)) {
-				vector<RefMark *> vm;
-				ReferenceFinder::FindBestMarks(pp, vm, count);
+				vector<RefMark *> marks;
+				ReferenceFinder::FindBestMarks(pp, marks, count);
 
-				jsonDgmr.PutMarkList(pp, vm);
-			} else
+				jsonDgmr.PutMarkList(pp, marks);
+			} else {
 				cerr << err << endl;
+			}
 			break;
 		}
 		case 2: {
@@ -199,12 +196,13 @@ int main() {
 			string err;
 			if (ReferenceFinder::ValidateLine(p1, p2, err)) {
 				XYLine ll(p1, p2);
-				vector<RefLine *> vl;
-				ReferenceFinder::FindBestLines(ll, vl, count);
+				vector<RefLine *> lines;
+				ReferenceFinder::FindBestLines(ll, lines, count);
 
-				jsonDgmr.PutLineList(ll, vl);
-			} else
+				jsonDgmr.PutLineList(ll, lines);
+			} else {
 				cerr << err << endl;
+			}
 			break;
 		}
 		case 99: {

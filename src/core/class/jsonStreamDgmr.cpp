@@ -25,6 +25,7 @@ template <class R>
 void JsonStreamDgmr::PutRefList(const typename R::bare_t &ar, vector<R *> &vr) {
 	for (size_t i = 0; i < vr.size(); i++) {
 		vr[i]->PutDistanceAndRank(*mStream, ar);
+		vr[i]->BuildAndNumberSequence();
 		vr[i]->PutHowtoSequence(*mStream);
 		(*mStream) << "], \"diagrams\": [";
 

@@ -89,7 +89,6 @@ bool RefBase::PutHowto(ostream & /* os */) const {
 Send the full how-to sequence to the given stream.
 *****/
 ostream &RefBase::PutHowtoSequence(ostream &os) {
-	BuildAndNumberSequence();
 	for (size_t i = 0; i < sSequence.size(); i++) {
 		if (sSequence[i]->PutHowto(os) && i < sSequence.size() - 1) {
 			os << ", ";
@@ -120,13 +119,13 @@ subsequences of sSequence).
 *****/
 void RefBase::BuildDiagrams() {
 	sDgms.clear();
-	BuildAndNumberSequence();
 
 	// Now, we need to note which elements of the sequence are action lines;
 	// there will be a diagram for each one of these.
 	size_t ss = sSequence.size();
-	for (size_t i = 0; i < ss; i++)
+	for (size_t i = 0; i < ss; i++) {
 		if (sSequence[i]->IsActionLine()) sDgms.push_back(DgmInfo(i, i));
+	}
 
 	// We should always have at least one diagram, even if there was only one ref
 	// in sSequence (which happens if the ref was a RefMark_Original or
@@ -178,10 +177,9 @@ void RefBase::DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm) {
 	for (short ipass = 0; ipass < NUM_PASSES; ipass++) {
 		for (size_t i = 0; i < aDgm.iact; i++) {
 			RefBase *rb = sSequence[i];
-			if ((i >= aDgm.idef && rb->IsDerived()) || ral->UsesImmediate(rb))
-				rb->DrawSelf(REFSTYLE_HILITE, ipass);
-			else
-				rb->DrawSelf(REFSTYLE_NORMAL, ipass);
+			bool shouldHighlight = (i >= aDgm.idef && rb->IsDerived()) || ral->UsesImmediate(rb);
+			RefStyle style = shouldHighlight ? REFSTYLE_HILITE : REFSTYLE_NORMAL;
+			rb->DrawSelf(style, ipass);
 		};
 		sSequence[aDgm.iact]->DrawSelf(REFSTYLE_ACTION, ipass);
 	}

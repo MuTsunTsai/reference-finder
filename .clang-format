@@ -1,5 +1,5 @@
 BreakBeforeBraces: Attach
-AllowShortIfStatementsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
 AllowShortLoopsOnASingleLine: true
 UseTab: Always
 IndentWidth: 4
