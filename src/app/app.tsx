@@ -50,7 +50,7 @@ function App() {
 			{store.coreError && (
 				<div className="text-danger mb-3">Error: {store.coreError}</div>
 			) || store.solutions.length == 0 && (!store.ready || !store.running) && (
-				<div>
+				<div className="mb-3">
 					<div>{t("tip.title")}</div>
 					<ol>
 						<li>{t("tip.origin")}</li>
@@ -59,8 +59,8 @@ function App() {
 				</div>
 			)}
 		</div>
-		{store.solutions.length > 0 && (
-			<section className="solutions d-none d-sm-flex">
+		<section className="solutions d-none d-sm-flex">
+			{store.solutions.length > 0 && (
 				<div className="container px-4">
 					<div className="row gx-2">
 						{store.solutions.map((s, i) => (
@@ -76,8 +76,8 @@ function App() {
 						))}
 					</div>
 				</div>
-			</section>
-		)}
+			)}
+		</section>
 		<div className="container px-4 flex-grow-1">
 			{store.solutions.map((s, i) =>
 				<SolutionComponent key={i} data={s} show={sol == i} onSelect={() => setSol(i)} />

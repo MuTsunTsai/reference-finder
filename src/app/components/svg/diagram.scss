@@ -1,6 +1,9 @@
 :root {
 	--sheet-bg: var(--bs-gray-100);
 	--crease-line: var(--bs-gray-600);
+	--boundary: var(--bs-gray-600);
+	--highlight: var(--bs-info);
+	--valley: var(--bs-primary);
 	--action-line: var(--bs-gray-700);
 }
 
@@ -10,7 +13,7 @@
 }
 
 .point-highlight {
-	fill: var(--bs-info);
+	fill: var(--highlight);
 	stroke-width: 0;
 }
 
@@ -20,7 +23,7 @@
 }
 
 .line-valley {
-	stroke: var(--bs-primary);
+	stroke: var(--valley);
 	stroke-dasharray: 0.05 0.025;
 	stroke-width: 0.02;
 }
@@ -30,7 +33,7 @@
 }
 
 .line-highlight {
-	stroke: var(--bs-info);
+	stroke: var(--highlight);
 }
 
 .line-arrow {

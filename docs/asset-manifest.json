@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/reference-finder/static/css/main.adde45de.css",
-    "main.js": "/reference-finder/static/js/main.51ca2b25.js",
+    "main.css": "/reference-finder/static/css/main.06bc8e2b.css",
+    "main.js": "/reference-finder/static/js/main.19e05189.js",
     "ref.js": "/reference-finder/static/js/ref.ace3252a.chunk.js",
     "locale.js": "/reference-finder/static/js/locale.ce2c0ba4.js",
     "rabbit-ear.js": "/reference-finder/static/js/rabbit-ear.5fe2350f.js",
@@ -14,7 +14,7 @@
   "entrypoints": [
     "static/js/locale.ce2c0ba4.js",
     "static/js/rabbit-ear.5fe2350f.js",
-    "static/css/main.adde45de.css",
-    "static/js/main.51ca2b25.js"
+    "static/css/main.06bc8e2b.css",
+    "static/js/main.19e05189.js"
   ]
 }
