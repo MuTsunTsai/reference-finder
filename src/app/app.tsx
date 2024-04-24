@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Theme, useSettings, useStore } from "./store";
-import { SolutionComponent } from "./components/solution";
+import { SolutionComponent, formatSolution } from "./components/solution";
 import { Diagram } from "./components/svg/diagram";
 import { Panel } from "./components/panel";
 import { Footer } from "./components/footer";
@@ -68,7 +68,7 @@ function App() {
 								<button type="button" onClick={() => setSol(i)}
 									className={"w-100 p-1 btn btn-ld col solution-preview " + (sol == i ? "active" : "")}>
 									<Diagram data={s.diagrams[s.diagrams.length - 1]} />
-									<div>{s.solution}</div>
+									<div>{formatSolution(s)}</div>
 									<div>{t("phrase.error")} {s.err}</div>
 									<div>rank {s.rank}</div>
 								</button>

@@ -11,19 +11,26 @@ interface DiagramProps {
 	last?: boolean;
 }
 
-function parsePt(p: string): IPoint {
-	return p.match(/-?\d+\.\d+/g)!.map(v => Number(v)) as IPoint;
+function createText(root: RabbitEarOrigami, el: LabelElement, offset: IPoint): RabbitEarSVG {
+	const text = root.edges.text(el.text, el.pt);
+	text.setAttribute("transform", `translate(${offset[0]} ${2 * el.pt[1] - 0.05 + offset[1]}) scale(1 -1)`);
+	return text;
 }
 
-// function offset(pt: IPoint, r: number, angle: number): IPoint {
-// 	return [pt[0] + r * Math.cos(angle), pt[1] + r * Math.sin(angle)];
-// }
+const OFFSET_SIZE = 0.09;
 
-function createText(root: RabbitEarOrigami, el: LabelElement): RabbitEarSVG {
-	const pt = parsePt(el.pt);
-	const text = root.edges.text(el.text, pt);
-	text.setAttribute("transform", `translate(0 ${2 * pt[1]}) scale(1 -1)`);
-	return text;
+/**
+ * Spread out the labels from each other.
+ */
+function getTextOffset(text: LabelElement, data: DiagramElement[]): IPoint {
+	const pts = (data.filter(e => e && e.type == ElementType.label && e != text) as LabelElement[]).map(l => l.pt);
+	if(pts.length == 0) return [0, 0];
+	const avgX = pts.map(p => p[0]).reduce((x, v) => x + v, 0) / pts.length;
+	const avgY = pts.map(p => p[1]).reduce((x, v) => x + v, 0) / pts.length;
+	const diffX = text.pt[0] - avgX;
+	const diffY = text.pt[1] - avgY;
+	const norm = Math.sqrt(diffX * diffX + diffY * diffY);
+	return [OFFSET_SIZE * diffX / norm, OFFSET_SIZE * diffY / norm];
 }
 
 export function Diagram({ data, last }: DiagramProps) {
@@ -35,16 +42,15 @@ export function Diagram({ data, last }: DiagramProps) {
 		for(const el of data) {
 			if(!el) continue;
 			if(el.type == ElementType.point) {
-				const pt = root.edges.circle(parsePt(el.pt), el.style == PointStyle.normal ? 0.02 : 0.03);
+				const pt = root.edges.circle(el.pt, el.style == PointStyle.normal ? 0.02 : 0.03);
 				pt.classList.add("point-" + PointStyle[el.style]);
 			}
 			if(el.type == ElementType.line) {
-				const line = root.edges.line(parsePt(el.from), parsePt(el.to));
+				const line = root.edges.line(el.from, el.to);
 				line.classList.add(el.style == LineStyle.valley && last ? "target-line" : "line-" + LineStyle[el.style]);
 			}
 			if(el.type == ElementType.arc) {
-				const center = parsePt(el.center)
-				const { radius } = el;
+				const { radius, center } = el;
 				let { from, to } = el;
 				if(!el.ccw) [from, to] = [to, from];
 
@@ -61,10 +67,11 @@ export function Diagram({ data, last }: DiagramProps) {
 				}
 			}
 			if(el.type == ElementType.label) {
-				const border = createText(root, el);
+				const offset = getTextOffset(el, data);
+				const border = createText(root, el, offset);
 				border.classList.add("label-border");
 
-				const text = createText(root, el);
+				const text = createText(root, el, offset);
 				text.classList.add("label-" + LabelStyle[el.style]);
 			}
 		}

@@ -8,7 +8,7 @@ import type { RabbitEarSVG } from "rabbit-ear";
 function createRabbitEar(width: number, height: number) {
 	const svg = ear.svg();
 	svg.size(width, height)
-		.padding(0.1)
+		.padding(0.15)
 		.strokeWidth(0.01);
 	return svg;
 }

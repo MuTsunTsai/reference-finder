@@ -62,8 +62,8 @@ void JsonStreamDgmr::PutMarkList(const XYPt &pp, vector<RefMark *> &vm) {
 Draw a point in the indicated style.
 *****/
 void JsonStreamDgmr::DrawPt(const XYPt &aPt, PointStyle pstyle) {
-	(*mStream) << "{\"type\": 0, \"pt\": \"" << aPt
-			   << "\", \"style\": " << pstyle << "}, ";
+	(*mStream) << "{\"type\": 0, \"pt\": " << aPt
+			   << ", \"style\": " << pstyle << "}, ";
 }
 
 /*****
@@ -71,9 +71,9 @@ Draw a line in the indicated style.
 *****/
 void JsonStreamDgmr::DrawLine(const XYPt &fromPt, const XYPt &toPt,
 							  LineStyle lstyle) {
-	(*mStream) << "{\"type\": 1, \"from\": \"" << fromPt
-			   << "\", \"to\": \"" << toPt
-			   << "\", \"style\": " << lstyle << "}, ";
+	(*mStream) << "{\"type\": 1, \"from\": " << fromPt
+			   << ", \"to\": " << toPt
+			   << ", \"style\": " << lstyle << "}, ";
 }
 
 /*****
@@ -81,8 +81,8 @@ Draw an arc in the indicated style.
 *****/
 void JsonStreamDgmr::DrawArc(const XYPt &ctr, double rad, double fromAngle,
 							 double toAngle, bool ccw, LineStyle lstyle) {
-	(*mStream) << "{\"type\": 2, \"center\": \"" << ctr
-			   << "\", \"radius\": " << rad
+	(*mStream) << "{\"type\": 2, \"center\": " << ctr
+			   << ", \"radius\": " << rad
 			   << ", \"from\": " << fromAngle
 			   << ", \"to\": " << toAngle
 			   << ", \"ccw\": " << ccw
@@ -104,8 +104,8 @@ Draw a text label at the point aPt in the indicated style
 *****/
 void JsonStreamDgmr::DrawLabel(const XYPt &aPt, const string &aString,
 							   LabelStyle lstyle) {
-	(*mStream) << "{\"type\": 4, \"pt\": \"" << aPt
-			   << "\", \"text\": \"" << aString
+	(*mStream) << "{\"type\": 4, \"pt\": " << aPt
+			   << ", \"text\": \"" << aString
 			   << "\", \"style\": " << lstyle
 			   << "}, ";
 }

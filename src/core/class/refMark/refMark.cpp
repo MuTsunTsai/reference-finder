@@ -82,7 +82,7 @@ Put the distance from this mark to point ap to a stream.
 void RefMark::PutDistanceAndRank(ostream &os, const XYPt &ap) const {
 	os.precision(4);
 	os.setf(ios_base::fixed, ios_base::floatfield);
-	os << "{\"solution\": \"" << p.Chop() << "\", \"err\": " << DistanceTo(ap) << ", \"rank\": " << mRank << ", \"steps\": [";
+	os << "{\"solution\": " << p.Chop() << ", \"err\": " << DistanceTo(ap) << ", \"rank\": " << mRank << ", \"steps\": [";
 }
 
 /*****

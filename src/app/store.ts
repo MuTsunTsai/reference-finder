@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export interface Solution {
-	solution: string;
+	solution: string | IPoint;
 	err: number;
 	rank: number;
 	steps: Step[];
@@ -88,7 +88,7 @@ export enum ElementType {
 
 export interface PointElement {
 	type: ElementType.point;
-	pt: string;
+	pt: IPoint;
 	style: PointStyle;
 }
 
@@ -100,8 +100,8 @@ export enum PointStyle {
 
 export interface LineElement {
 	type: ElementType.line;
-	from: string;
-	to: string;
+	from: IPoint;
+	to: IPoint;
 	style: LineStyle;
 }
 
@@ -116,7 +116,7 @@ export enum LineStyle {
 
 export interface ArcElement {
 	type: ElementType.arc;
-	center: string;
+	center: IPoint;
 	radius: number;
 	from: number;
 	to: number;
@@ -132,7 +132,7 @@ export interface PolyElement {
 
 export interface LabelElement {
 	type: ElementType.label;
-	pt: string;
+	pt: IPoint;
 	text: string;
 	style: LabelStyle;
 }

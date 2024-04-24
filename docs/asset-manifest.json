@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.css": "/reference-finder/static/css/main.06bc8e2b.css",
-    "main.js": "/reference-finder/static/js/main.19e05189.js",
-    "ref.js": "/reference-finder/static/js/ref.ace3252a.chunk.js",
+    "main.css": "/reference-finder/static/css/main.9fd62063.css",
+    "main.js": "/reference-finder/static/js/main.7ea71e1a.js",
+    "ref.js": "/reference-finder/static/js/ref.d9883de3.chunk.js",
     "locale.js": "/reference-finder/static/js/locale.ce2c0ba4.js",
     "rabbit-ear.js": "/reference-finder/static/js/rabbit-ear.5fe2350f.js",
-    "static/bin/ref.wasm": "/reference-finder/static/bin/ref.5b3b6079.wasm",
+    "static/bin/ref.wasm": "/reference-finder/static/bin/ref.ab17614c.wasm",
     "static/media/twemoji.woff2": "/reference-finder/static/media/twemoji.4125b4ad8575aa931ecb.woff2",
     "workbox-cbbbbfe9.js": "/reference-finder/workbox-cbbbbfe9.js",
     "index.html": "/reference-finder/index.html",
@@ -14,7 +14,7 @@
   "entrypoints": [
     "static/js/locale.ce2c0ba4.js",
     "static/js/rabbit-ear.5fe2350f.js",
-    "static/css/main.06bc8e2b.css",
-    "static/js/main.19e05189.js"
+    "static/css/main.9fd62063.css",
+    "static/js/main.7ea71e1a.js"
   ]
 }

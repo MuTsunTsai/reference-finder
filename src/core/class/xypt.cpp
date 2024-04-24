@@ -14,5 +14,5 @@ Stream I/O for a XYPt spits out the point as a parenthesis-enclosed,
 comma-delimited pair.
 *****/
 ostream &operator<<(ostream &os, const XYPt &p) {
-	return os << "(" << (p.x) << ", " << (p.y) << ")";
+	return os << "[" << (p.x) << "," << (p.y) << "]";
 }
