@@ -23,14 +23,19 @@ const OFFSET_SIZE = 0.09;
  * Spread out the labels from each other.
  */
 function getTextOffset(text: LabelElement, data: DiagramElement[]): IPoint {
-	const pts = (data.filter(e => e && e.type == ElementType.label && e != text) as LabelElement[]).map(l => l.pt);
+	const pts = (data.filter(e => e && e.type == ElementType.label && e != text) as LabelElement[])
+		.map(l => {
+			// Other labels that are closer have greater weights
+			const dx = text.pt[0] - l.pt[0];
+			const dy = text.pt[1] - l.pt[1];
+			const d = Math.sqrt(dx * dx + dy * dy);
+			return [dx / d / d, dy / d / d];
+		});
 	if(pts.length == 0) return [0, 0];
 	const avgX = pts.map(p => p[0]).reduce((x, v) => x + v, 0) / pts.length;
 	const avgY = pts.map(p => p[1]).reduce((x, v) => x + v, 0) / pts.length;
-	const diffX = text.pt[0] - avgX;
-	const diffY = text.pt[1] - avgY;
-	const norm = Math.sqrt(diffX * diffX + diffY * diffY);
-	return [OFFSET_SIZE * diffX / norm, OFFSET_SIZE * diffY / norm];
+	const norm = Math.sqrt(avgX * avgX + avgY * avgY);
+	return [OFFSET_SIZE * avgX / norm, OFFSET_SIZE * avgY / norm];
 }
 
 export function Diagram({ data, last }: DiagramProps) {
