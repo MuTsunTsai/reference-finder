@@ -20,7 +20,7 @@ needs to be changed.
 #define VERSION_MAJOR 4
 #define VERSION_MINOR 0
 #define VERSION_BUGFIX 2
-#define VERSION_BUILD 20240424
+#define VERSION_BUILD 20240425
 
 /******************************************************************************/
 

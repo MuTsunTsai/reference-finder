@@ -37,6 +37,7 @@ export const defaultSettings = {
 	theme: Theme.system,
 	error: 0.005,
 	errorExp: "1/200",
+	worstCaseError: true,
 	count: 5,
 };
 
@@ -70,6 +71,7 @@ export const defaultDB = {
 	minAspectRatioExp: "1/10",
 	minAngleSine: 0.342,
 	minAngleSineExp: "sin(20)",
+	visibility: true,
 	axioms: [true, true, true, true, true, true, true],
 };
 export type DbSettings = typeof defaultDB;

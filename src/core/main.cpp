@@ -114,23 +114,26 @@ void readDbSettings() {
 	ReferenceFinder::sUseRefLine_P2L_C2P = o[4];
 	ReferenceFinder::sUseRefLine_P2L_P2L = o[5];
 	ReferenceFinder::sUseRefLine_L2L_P2L = o[6];
-	for (int i = 0; i < 6; i++) ReadNumber(num[i]);
+	for (int i = 0; i < 7; i++) ReadNumber(num[i]);
 	ReferenceFinder::sNumX = num[0];
 	ReferenceFinder::sNumY = num[1];
 	ReferenceFinder::sNumA = num[2];
 	ReferenceFinder::sNumD = num[3];
 	ReferenceFinder::sMinAspectRatio = num[4];
 	ReferenceFinder::sMinAngleSine = num[5];
+	ReferenceFinder::sVisibilityMatters = num[6];
 }
 
 /******************************
 Read settings related to search only
 ******************************/
 int readSearchSettings() {
-	double error, count;
+	double error, count, worstCase;
 	ReadNumber(error);
 	ReadNumber(count);
+	ReadNumber(worstCase);
 	ReferenceFinder::sGoodEnoughError = error;
+	ReferenceFinder::sLineWorstCaseError = worstCase;
 	return (int)count;
 }
 

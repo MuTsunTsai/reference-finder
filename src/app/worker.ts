@@ -30,6 +30,7 @@ export function resetWorker(db: DbSettings) {
 		db.numD,
 		db.minAspectRatio,
 		db.minAngleSine,
+		db.visibility,
 	]);
 	worker.onmessage = e => {
 		const msg = e.data;

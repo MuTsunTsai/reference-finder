@@ -14,7 +14,7 @@ OUT := ref
 
 STD := -std=c++17
 ESFLAGS :=\
-	-sINITIAL_MEMORY=100MB\
+	-sINITIAL_MEMORY=50MB\
 	-sALLOW_MEMORY_GROWTH\
 	-sMALLOC=dlmalloc\
 	-sASYNCIFY=1\

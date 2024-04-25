@@ -1,5 +1,6 @@
 $enable-negative-margins: true;
 $enable-gradients: true;
+$tooltip-max-width: min(400px, 90vw);
 
 @import "bootstrap/scss/bootstrap";
 

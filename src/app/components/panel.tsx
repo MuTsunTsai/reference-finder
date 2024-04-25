@@ -38,7 +38,7 @@ export function Panel({ onSubmit }: PanelProps) {
 
 	function find(e: FormEvent) {
 		e.preventDefault();
-		const query = [mode, settings.error, settings.count, p1.x, p1.y];
+		const query = [mode, settings.error, settings.count, settings.worstCaseError, p1.x, p1.y];
 		if(mode == Mode.line) query.push(p2.x, p2.y);
 		useStore.setState({ running: true, solutions: [], coreError: null });
 		onSubmit();

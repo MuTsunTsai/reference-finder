@@ -119,7 +119,17 @@ export function Settings() {
 									<ExpInput value={tempDb.minAngleSine} exp={tempDb.minAngleSineExp}
 										onInput={(v, exp) => setTempDb({ ...tempDb, minAngleSine: v, minAngleSineExp: exp })} />
 								</SettingsRow>
-								<div style={{ gridColumn: "1/3" }}><hr /></div>
+								<SettingsRow label="Visibility matters" help={t("help.visibility")}>
+									<Checkbox className="col-form-label" value={tempDb.visibility} onInput={v => setTempDb({ ...tempDb, visibility: v })} />
+								</SettingsRow>
+								<div className="mt-n2" style={{ gridColumn: "1/3" }}><hr /></div>
+								<SettingsRow label="Line error mode" help={t("help.lineError")}>
+										<select className="form-select" value={settings.worstCaseError ? "1" : ""}
+											onChange={e => useSettings.setState({ worstCaseError: Boolean(e.currentTarget.value) })}>
+											<option value="1">Worst-case error</option>
+											<option value="">Pythagorean error</option>
+										</select>
+									</SettingsRow>
 								<SettingsRow label="Good enough error" help={t("help.goodEnoughError")}>
 									<ExpInput value={settings.error} exp={settings.errorExp}
 										onInput={(v, exp) => useSettings.setState({ error: v, errorExp: exp })} />
