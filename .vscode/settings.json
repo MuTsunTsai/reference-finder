@@ -1,10 +1,13 @@
 {
-	"files.exclude": {
-		"obj/": true
-	},
-	"C_Cpp.autoAddFileAssociations": false,
-	"i18n-ally.localesPaths": [
-		"src/locale"
-	],
-	"i18n-ally.keystyle": "nested"
+    "C_Cpp.autoAddFileAssociations": false,
+    "cSpell.words": [
+        "Emscripten"
+    ],
+    "files.exclude": {
+        "obj/": true
+    },
+    "i18n-ally.keystyle": "nested",
+    "i18n-ally.localesPaths": [
+        "src/locale"
+    ]
 }
