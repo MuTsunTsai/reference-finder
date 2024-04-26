@@ -28,30 +28,19 @@ OPTI :=	-O3
 WASM := $(TARGET)/$(OUT).wasm
 
 ifeq ($(OS),Windows_NT)
-define MK
-	@if not exist "$(1)" mkdir "$(1)"
-endef
-define MV
-	@move $(TEMP)\$(OUT).* $(TARGET) >nul
-endef
+	MK = @if not exist "$(@D)" mkdir "$(@D)"
 else
-define MK
-	@mkdir -p "$(1)"
-endef
-define MV
-	@mv $(TEMP)/$(OUT).* $(TARGET)
-endef
+	MK = @mkdir -p "$(@D)"
 endif
 
 all: $(WASM)
 
 $(WASM): $(OBJ) $(PRE) makefile
-	$(call MK,$(TARGET))
-	$(CC) $(ESFLAGS) $(OPTI) --pre-js $(PRE) -o $(TEMP)/$(OUT).js $(OBJ)
-	$(call MV)
+	$(MK)
+	$(CC) $(ESFLAGS) $(OPTI) --pre-js $(PRE) -o $(TARGET)/$(OUT).js $(OBJ)
 
 $(TEMP)/%.o: $(SRCF)/%.cpp makefile
-	$(call MK,$(dir $@))
+	$(MK)
 	$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
 
 %.h: ;
