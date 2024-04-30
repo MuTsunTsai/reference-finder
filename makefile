@@ -1,4 +1,6 @@
 
+MAKEFLAGS += -j12
+
 CC := emcc
 
 SRCF := src/core
