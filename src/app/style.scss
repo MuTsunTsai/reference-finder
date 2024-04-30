@@ -3,6 +3,7 @@ $enable-gradients: true;
 $tooltip-max-width: min(400px, 90vw);
 
 @import "bootstrap/scss/bootstrap";
+@import "../lib/css/all.min.css";
 
 @font-face {
 	font-family: Flag;

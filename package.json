@@ -23,6 +23,8 @@
 		"@types/webpack": "^5.28.5",
 		"customize-cra": "^1.0.0",
 		"glob": "^10.3.12",
+		"gulp": "^5.0.0",
+		"gulp-fontawesome": "^1.0.4",
 		"local-web-server": "^5.3.3",
 		"purgecss-webpack-plugin": "^6.0.0",
 		"react-app-rewired": "^2.2.1",

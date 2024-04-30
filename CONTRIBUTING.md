@@ -25,6 +25,6 @@ All source codes are located in the `src` folder, in which you'll find:
 
 - `app`: User interface, written in [React](https://react.dev/) (I usually use Vue, but I decided to give it a try for this project).
 - `core`: The C++ part. See [change log](./CHANGELOG.md) for the changes made to the original source code of ReferenceFinder.
-- `lib`: This contains the compiled WebAssembly and some bridging scripts.
+- `lib`: This folder contains the compiled WebAssembly and some bridging scripts. It also contains the pre-built Font Awesome subset.
 - `locale`: All locale files, based on the previous work by [Robby Kraft](https://github.com/robbykraft/ReferenceFinder) etc.
 - `public`: The HTML file and other unbundled assets.
