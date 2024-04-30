@@ -56,6 +56,11 @@ module.exports = function(config, env) {
 						chunks: "initial",
 						name: "locale",
 					},
+					react: {
+						test: /react/,
+						chunks: "initial",
+						name: "react",
+					},
 					rabbitEar: {
 						test: /rabbit-ear/,
 						chunks: "initial",

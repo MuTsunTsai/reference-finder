@@ -57,13 +57,13 @@ export function Settings() {
 						<div className="modal-body">
 							<ul className="nav nav-tabs mb-3">
 								<li className="nav-item">
-									<a className={"nav-link " + (tab == 0 ? "active" : "")} onClick={() => setTab(0)}>{t("settings.basic._")}</a>
+									<span className={"nav-link " + (tab == 0 ? "active" : "")} onClick={() => setTab(0)}>{t("settings.basic._")}</span>
 								</li>
 								<li className="nav-item">
-									<a className={"nav-link " + (tab == 1 ? "active" : "")} onClick={() => setTab(1)}>{t("settings.advanced._")}</a>
+									<span className={"nav-link " + (tab == 1 ? "active" : "")} onClick={() => setTab(1)}>{t("settings.advanced._")}</span>
 								</li>
 								<li className="nav-item">
-									<a className={"nav-link " + (tab == 2 ? "active" : "")} onClick={() => setTab(2)}>{t("settings.display._")}</a>
+									<span className={"nav-link " + (tab == 2 ? "active" : "")} onClick={() => setTab(2)}>{t("settings.display._")}</span>
 								</li>
 							</ul>
 							<div className={(tab == 0 ? "" : "d-none")}>

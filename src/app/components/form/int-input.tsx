@@ -38,7 +38,8 @@ export function IntInput({ max, min, value, onInput }: IntInputProps) {
 	return (
 		<div className="position-relative">
 			<div className="exp-container">
-				<input type="number" className={"form-control exp-input " + (isValid() ? "" : "is-invalid")}
+				<input type="number" aria-label="Integer"
+					className={"form-control exp-input " + (isValid() ? "" : "is-invalid")}
 					value={temp} onInput={e => input(e.currentTarget.value)} onBlur={blur} />
 			</div>
 			{!isValid() && (

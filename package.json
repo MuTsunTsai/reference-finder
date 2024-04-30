@@ -19,6 +19,7 @@
 		"@types/bootstrap": "^5.2.10",
 		"@types/react": "^18.2.79",
 		"@types/react-dom": "^18.2.25",
+		"@types/ungap__structured-clone": "^1.2.0",
 		"@types/webpack": "^5.28.5",
 		"customize-cra": "^1.0.0",
 		"glob": "^10.3.12",
@@ -32,6 +33,7 @@
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^6.5.2",
+		"@ungap/structured-clone": "^1.2.0",
 		"bootstrap": "^5.3.3",
 		"i18next": "^23.11.2",
 		"i18next-browser-languagedetector": "^7.2.1",

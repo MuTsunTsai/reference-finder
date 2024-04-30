@@ -83,7 +83,8 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 	return (<>
 		<div className="position-relative">
 			<div className="exp-container">
-				<input ref={el} type="text" className={"form-control exp-input " + (isValid() ? "" : "is-invalid")}
+				<input ref={el} type="text" aria-label="Math expression"
+					className={"form-control exp-input " + (isValid() ? "" : "is-invalid")}
 					value={temp} onInput={e => input(e.currentTarget.value)} onBlur={blur} />
 				<div className="suffix-container d-none d-sm-block">
 					<span className="exp-suffix" ref={suffix}>
