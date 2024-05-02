@@ -3,9 +3,9 @@
 	"version": "4.0.2",
 	"description": "Find reference points and lines in crease patterns.",
 	"scripts": {
-		"start": "make && react-app-rewired start",
-		"build": "make && react-app-rewired build",
-		"serve": "ws -o -d docs -p 31214 --hostname localhost --rewrite \"/reference-finder/(.*) -> /$1\""
+		"start": "make && rsbuild dev -o",
+		"build": "make && rsbuild build",
+		"preview": "rsbuild preview --port 31214 --open http://localhost:31214/reference-finder"
 	},
 	"keywords": [
 		"origami"
@@ -16,20 +16,16 @@
 	],
 	"license": "GPL-2.0",
 	"devDependencies": {
+		"@fullhuman/postcss-purgecss": "^6.0.0",
+		"@rsbuild/core": "^0.6.8",
+		"@rsbuild/plugin-react": "^0.6.8",
 		"@types/bootstrap": "^5.2.10",
 		"@types/react": "^18.2.79",
 		"@types/react-dom": "^18.2.25",
 		"@types/ungap__structured-clone": "^1.2.0",
-		"@types/webpack": "^5.28.5",
-		"customize-cra": "^1.0.0",
-		"glob": "^10.3.12",
 		"gulp": "^5.0.0",
 		"gulp-fontawesome": "^1.0.4",
-		"local-web-server": "^5.3.3",
-		"purgecss-webpack-plugin": "^6.0.0",
-		"react-app-rewired": "^2.2.1",
-		"react-scripts": "^5.0.1",
-		"sass": "^1.75.0",
+		"postcss": "^8.4.38",
 		"typescript": "^5.4.5",
 		"workbox-webpack-plugin": "^7.0.0"
 	},

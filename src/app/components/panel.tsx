@@ -51,7 +51,7 @@ export function Panel({ onSubmit }: PanelProps) {
 				<Preview cp={cp} points={points} />
 			</div>
 			<form className="col mb-3" onSubmit={find} style={{ flex: "1 0 36rem" }}>
-				<div className="row mb-2">
+				<div className="row mb-2 pb-1">
 					<div className="col-auto">
 						<div className="form-check">
 							<input className="form-check-input" type="radio" name="mode" id="m1"
