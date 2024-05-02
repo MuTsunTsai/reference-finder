@@ -30,7 +30,7 @@
 
 		// Service worker registration
 		// workbox-webpack-plugin doesn't do that automatically for us; we need to do it here.
-		if('serviceWorker' in navigator) {
+		if('serviceWorker' in navigator && location.port != "31213") {
 			navigator.serviceWorker.register("<%= assetPrefix %>/service-worker.js", { scope: "<%= assetPrefix %>/" });
 		}
 	</script>

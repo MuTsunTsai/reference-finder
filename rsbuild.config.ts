@@ -55,7 +55,7 @@ export default defineConfig({
 		},
 		preload: {
 			type: "all-chunks",
-			include: [/fa-.+\.woff2$/, /\.js/],
+			include: [/fa-.+\.woff2$/],
 		}
 	},
 	output: {
