@@ -17,7 +17,7 @@ class RefLine_Original : public RefLine {
 
 	bool IsActionLine() const;
 	const char GetLabel() const;
-	bool PutName(std::ostream &os) const;
+	void PutName(char const *key, JsonObject &obj) const;
 	void DrawSelf(RefStyle rstyle, short ipass) const;
 
   protected:

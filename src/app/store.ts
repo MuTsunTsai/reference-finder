@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export interface Solution {
-	solution: string | IPoint;
+	solution: IPoint | [number, IPoint];
 	err: number;
 	rank: number;
 	steps: Step[];

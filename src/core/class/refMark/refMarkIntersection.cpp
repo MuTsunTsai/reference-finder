@@ -64,15 +64,13 @@ void RefMark_Intersection::SequencePushSelf() {
 /*****
 Put a description of how to construct this mark to the stream.
 *****/
-bool RefMark_Intersection::PutHowto(ostream &os) const {
-	os << "{\"axiom\": 0, \"l0\": \"";
-	rl1->PutName(os);
-	os << "\", \"l1\": \"";
-	rl2->PutName(os);
-	os << "\", \"x\": \"";
-	PutName(os);
-	os << "\"}";
-	return true;
+void RefMark_Intersection::PutHowto(JsonArray &steps) const {
+	JsonObject *step = new JsonObject();
+	step->add("axiom", 0);
+	rl1->PutName("l0", *step);
+	rl2->PutName("l1", *step);
+	PutName("x", *step);
+	steps.add(*step);
 }
 
 /*****

@@ -16,5 +16,5 @@ Stream I/O for a XYLine spits out the values of d and u as a
 parenthesis-enclosed, comma-delimited pair, e.g., "(0,(1,0))".
 *****/
 ostream &operator<<(ostream &os, const XYLine &l) {
-	return os << "(" << (l.d) << ", " << (l.u) << ")";
+	return os << "[" << (l.d) << "," << (l.u) << "]";
 }

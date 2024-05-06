@@ -74,25 +74,22 @@ void RefLine_P2P::SequencePushSelf() {
 /*****
 Put the construction of this line to a stream.
 *****/
-bool RefLine_P2P::PutHowto(ostream &os) const {
-	os << "{\"axiom\": 2, \"p0\": \"";
+void RefLine_P2P::PutHowto(JsonArray &steps) const {
+	JsonObject *step = new JsonObject();
+	step->add("axiom", 2);
 	switch (mWhoMoves) {
 	case WHOMOVES_P1:
-		rm1->PutName(os);
-		os << "\", \"p1\": \"";
-		rm2->PutName(os);
+		rm1->PutName("p0", *step);
+		rm2->PutName("p1", *step);
 		break;
 
 	case WHOMOVES_P2:
-		rm2->PutName(os);
-		os << "\", \"p1\": \"";
-		rm1->PutName(os);
+		rm2->PutName("p0", *step);
+		rm1->PutName("p1", *step);
 		break;
 	};
-	os << "\", \"x\": \"";
-	PutName(os);
-	os << "\"}";
-	return true;
+	PutName("x", *step);
+	steps.add(*step);
 }
 
 /*****

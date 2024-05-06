@@ -301,59 +301,40 @@ void RefLine_P2L_P2L::SequencePushSelf() {
 /*****
 Put the name of this line to a stream.
 *****/
-bool RefLine_P2L_P2L::PutHowto(ostream &os) const {
-	os << "{\"axiom\": 6, ";
-	os.precision(2);
-	os.setf(ios_base::fixed, ios_base::floatfield);
+void RefLine_P2L_P2L::PutHowto(JsonArray &steps) const {
+	JsonObject *step = new JsonObject();
+	step->add("axiom", 6);
 	switch (mWhoMoves) {
 	case WHOMOVES_P1P2:
-		os << "\"p0\": \"";
-		rm1->PutName(os);
-		os << "\", \"l0\": \"";
-		rl1->PutName(os);
-		os << "\", \"p1\": \"";
-		rm2->PutName(os);
-		os << "\", \"l1\": \"";
-		rl2->PutName(os);
+		rm1->PutName("p0", *step);
+		rl1->PutName("l0", *step);
+		rm2->PutName("p1", *step);
+		rl2->PutName("l1", *step);
 		break;
 
 	case WHOMOVES_L1L2:
-		os << "\"l0\": \"";
-		rl1->PutName(os);
-		os << "\", \"p0\": \"";
-		rm1->PutName(os);
-		os << "\", \"l1\": \"";
-		rl2->PutName(os);
-		os << "\", \"p1\": \"";
-		rm2->PutName(os);
+		rl1->PutName("l0", *step);
+		rm1->PutName("p0", *step);
+		rl2->PutName("l1", *step);
+		rm2->PutName("p1", *step);
 		break;
 
 	case WHOMOVES_P1L2:
-		os << "\"p0\": \"";
-		rm1->PutName(os);
-		os << "\", \"l0\": \"";
-		rl1->PutName(os);
-		os << "\", \"l1\": \"";
-		rl2->PutName(os);
-		os << "\", \"p1\": \"";
-		rm2->PutName(os);
+		rm1->PutName("p0", *step);
+		rl1->PutName("l0", *step);
+		rl2->PutName("l1", *step);
+		rm2->PutName("p1", *step);
 		break;
 
 	case WHOMOVES_P2L1:
-		os << "\"l0\": \"";
-		rl1->PutName(os);
-		os << "\", \"p0\": \"";
-		rm1->PutName(os);
-		os << "\", \"p1\": \"";
-		rm2->PutName(os);
-		os << "\", \"l1\": \"";
-		rl2->PutName(os);
+		rl1->PutName("l0", *step);
+		rm1->PutName("p0", *step);
+		rm2->PutName("p1", *step);
+		rl2->PutName("l1", *step);
 		break;
 	};
-	os << "\", \"x\": \"";
-	PutName(os);
-	os << "\"}";
-	return true;
+	PutName("x", *step);
+	steps.add(*step);
 }
 
 /*****

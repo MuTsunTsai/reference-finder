@@ -2,6 +2,7 @@
 #ifndef _REF_LINE_H_
 #define _REF_LINE_H_
 
+#include "../json/jsonObject.h"
 #include "../refBase.h"
 #include "../xyline.h"
 
@@ -26,8 +27,8 @@ class RefLine : public RefBase {
 	bool IsActionLine() const;
 
 	const char GetLabel() const;
-	bool PutName(std::ostream &os) const;
-	void PutDistanceAndRank(std::ostream &os, const XYLine &al) const;
+	void PutName(char const *key, JsonObject &obj) const;
+	void PutDistanceAndRank(JsonObject &solution, const XYLine &al) const;
 	void DrawSelf(RefStyle rstyle, short ipass) const;
 
   protected:

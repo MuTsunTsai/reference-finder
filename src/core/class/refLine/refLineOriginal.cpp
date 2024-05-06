@@ -39,9 +39,8 @@ Put the name to a stream. Override the default method to use the actual string
 name, rather than a letter. Return false since we didn't use a letter.
 *****/
 
-bool RefLine_Original::PutName(ostream &os) const {
-	os << mName;
-	return false;
+void RefLine_Original::PutName(char const *key, JsonObject &obj) const {
+	obj.add(key, mName);
 }
 
 /*****

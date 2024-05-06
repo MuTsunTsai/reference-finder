@@ -8,6 +8,7 @@
 #include "refLine/refLine.h"
 #include "refMark/refMark.h"
 #include "xypt.h"
+#include "json/jsonArray.h"
 
 using namespace std;
 
@@ -78,23 +79,19 @@ void RefBase::BuildAndNumberSequence() {
 
 /*****
 Put a statement about how to make this mark from its constituents to a stream.
-Overridden by most subclasses. Return true if we actually put something
-(original types will return false).
+Overridden by most subclasses. Default behavior is doing nothing.
 *****/
-bool RefBase::PutHowto(ostream & /* os */) const {
-	return false;
-}
+void RefBase::PutHowto(JsonArray &steps) const {}
 
 /*****
 Send the full how-to sequence to the given stream.
 *****/
-ostream &RefBase::PutHowtoSequence(ostream &os) {
+void RefBase::PutHowtoSequence(JsonObject &solution) {
+	JsonArray *steps = new JsonArray();
 	for (size_t i = 0; i < sSequence.size(); i++) {
-		if (sSequence[i]->PutHowto(os) && i < sSequence.size() - 1) {
-			os << ", ";
-		}
+		sSequence[i]->PutHowto(*steps);
 	}
-	return os;
+	solution.add("steps", *steps);
 }
 
 /*  Notes on diagrams.
@@ -182,18 +179,6 @@ void RefBase::DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm) {
 			rb->DrawSelf(style, ipass);
 		};
 		sSequence[aDgm.iact]->DrawSelf(REFSTYLE_ACTION, ipass);
-	}
-}
-
-/*****
-Put the caption to a particular diagram to a stream. The caption consists of
-how-to for those refs that are part of the action. The output is created as a
-single string containing possibly multiple sentences.
-*****/
-void RefBase::PutDiagramCaption(std::ostream &os, const DgmInfo &aDgm) {
-	for (size_t i = aDgm.idef; i <= aDgm.iact; i++) {
-		sSequence[i]->PutHowto(os);
-		os << ". ";
 	}
 }
 

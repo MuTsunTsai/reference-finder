@@ -18,7 +18,7 @@ class RefLine_C2P_C2P : public RefLine {
 
 	bool UsesImmediate(RefBase *rb) const;
 	void SequencePushSelf();
-	bool PutHowto(std::ostream &os) const;
+	void PutHowto(JsonArray &steps) const;
 	void DrawSelf(RefStyle rstyle, short ipass) const;
 	static void MakeAll(rank_t arank);
 };

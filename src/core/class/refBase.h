@@ -2,6 +2,8 @@
 #ifndef _REF_BASE_H_
 #define _REF_BASE_H_
 
+#include "json/jsonObject.h"
+#include "json/jsonArray.h"
 #include "global.h"
 
 #include <iostream>
@@ -51,15 +53,14 @@ class RefBase {
 
 	// routine for creating a text description of how to fold a ref
 	virtual const char GetLabel() const = 0;
-	virtual bool PutName(std::ostream &os) const = 0;
-	virtual bool PutHowto(std::ostream &os) const;
-	std::ostream &PutHowtoSequence(std::ostream &os);
+	virtual void PutName(char const *key, JsonObject &obj) const;
+	virtual void PutHowto(JsonArray &steps) const;
+	void PutHowtoSequence(JsonObject &solution);
 
 	// routines for drawing diagrams
 	void BuildDiagrams();
 	static void DrawPaper();
 	static void DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm);
-	static void PutDiagramCaption(std::ostream &os, const DgmInfo &aDgm);
 
   protected:
 	virtual bool UsesImmediate(RefBase *rb) const;

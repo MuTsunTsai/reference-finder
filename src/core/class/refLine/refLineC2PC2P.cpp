@@ -50,15 +50,13 @@ void RefLine_C2P_C2P::SequencePushSelf() {
 /*****
 Put the construction of this line to a stream.
 *****/
-bool RefLine_C2P_C2P::PutHowto(ostream &os) const {
-	os << "{\"axiom\": 1, \"p0\": \"";
-	rm1->PutName(os);
-	os << "\", \"p1\": \"";
-	rm2->PutName(os);
-	os << "\", \"x\": \"";
-	PutName(os);
-	os << "\"}";
-	return true;
+void RefLine_C2P_C2P::PutHowto(JsonArray &steps) const {
+	JsonObject *step = new JsonObject();
+	step->add("axiom", 1);
+	rm1->PutName("p0", *step);
+	rm2->PutName("p1", *step);
+	PutName("x", *step);
+	steps.add(*step);
 }
 
 /*****

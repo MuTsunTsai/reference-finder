@@ -48,6 +48,7 @@ export function resetWorker(db: DbSettings) {
 			if(!running || !ready) return;
 
 			// Organize steps
+			console.log(text);
 			const solution = JSON.parse(text) as Solution;
 			const steps = solution.steps;
 			solution.steps = [];

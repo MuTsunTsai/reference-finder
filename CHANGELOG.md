@@ -5,6 +5,7 @@
 
 - Fixed a bug that results in v4.0.1 overlooking some solutions related to axiom O5 (See also [PR#1](https://github.com/bugfolder/ReferenceFinder/pull/1)).
 - Cleaned up unused code.
+- Fully migrated to use `JsonObject` and `JsonArray` classes to generate output.
 
 ## v4.0.1
 

@@ -112,24 +112,21 @@ void RefLine_L2L::SequencePushSelf() {
 /*****
 Put the construction of this line to a stream.
 *****/
-bool RefLine_L2L::PutHowto(ostream &os) const {
-	os << "{\"axiom\": 3, \"l0\": \"";
+void RefLine_L2L::PutHowto(JsonArray &steps) const {
+	JsonObject *step = new JsonObject();
+	step->add("axiom", 3);
 	switch (mWhoMoves) {
 	case WHOMOVES_L1:
-		rl1->PutName(os);
-		os << "\", \"l1\": \"";
-		rl2->PutName(os);
+		rl1->PutName("l0", *step);
+		rl2->PutName("l1", *step);
 		break;
 
 	case WHOMOVES_L2:
-		rl2->PutName(os);
-		os << "\", \"l1\": \"";
-		rl1->PutName(os);
+		rl2->PutName("l0", *step);
+		rl1->PutName("l1", *step);
 		break;
 	};
-	os << "\", \"x\": \"";
-	PutName(os);
-	os << "\", \"p0\": \"";
+	PutName("x", *step);
 
 	// Now we need to specify which of the two bisectors this is, which we do
 	// by specifying a point where the bisector hits the edge of the square.
@@ -141,16 +138,13 @@ bool RefLine_L2L::PutHowto(ostream &os) const {
 
 	// Return the first point of intersection between the fold line and the edge of the
 	// paper that _isn't_ the intersection of the two bisectors.
-	os.precision(2);
-	os.setf(ios_base::fixed, ios_base::floatfield);
 	if (p == pa) {
-		os << pb.Chop();
+		step->add("p0", pb.Chop());
 	} else {
-		os << pa.Chop();
+		step->add("p0", pa.Chop());
 	}
 
-	os << "\"}";
-	return true;
+	steps.add(*step);
 }
 
 /*****

@@ -69,7 +69,7 @@ function App() {
 									className={"w-100 p-1 btn btn-ld col solution-preview " + (sol == i ? "active" : "")}>
 									<Diagram data={s.diagrams[s.diagrams.length - 1]} />
 									<div>{formatSolution(s)}</div>
-									<div>{t("phrase.error")} {s.err}</div>
+									<div>{t("phrase.error")} {s.err.toFixed(4)}</div>
 									<div>rank {s.rank}</div>
 								</button>
 							</div>

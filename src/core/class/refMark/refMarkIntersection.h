@@ -3,6 +3,7 @@
 #define _REF_MARK_INTERSECTION_H_
 
 #include "refMark.h"
+#include "../json/jsonArray.h"
 
 class RefLine; // forward declaration needed by RefMark_Intersection
 
@@ -19,7 +20,7 @@ class RefMark_Intersection : public RefMark {
 
 	bool UsesImmediate(RefBase *rb) const;
 	void SequencePushSelf();
-	bool PutHowto(std::ostream &os) const;
+	void PutHowto(JsonArray &steps) const;
 	static void MakeAll(rank_t arank);
 };
 

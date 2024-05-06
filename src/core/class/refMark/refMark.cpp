@@ -67,22 +67,17 @@ Put the name of this mark to a stream. Default behavior gives this mark a
 letter. Return true if we used a letter, false if something else (i.e., the
 name of a RefMark_Original).
 *****/
-bool RefMark::PutName(ostream &os) const {
-	os << GetLabel()
-#ifdef RF_PUT_KEY_IN_TEXT
-	   << "[" << mKey << "]"
-#endif // RF_PUT_KEY_IN_TEXT
-		;
-	return true;
+void RefMark::PutName(char const *key, JsonObject &obj) const {
+	obj.add(key, GetLabel());
 }
 
 /*****
 Put the distance from this mark to point ap to a stream.
 *****/
-void RefMark::PutDistanceAndRank(ostream &os, const XYPt &ap) const {
-	os.precision(4);
-	os.setf(ios_base::fixed, ios_base::floatfield);
-	os << "{\"solution\": " << p.Chop() << ", \"err\": " << DistanceTo(ap) << ", \"rank\": " << mRank << ", \"steps\": [";
+void RefMark::PutDistanceAndRank(JsonObject &solution, const XYPt &ap) const {
+	solution.add("solution", p.Chop());
+	solution.add("err", DistanceTo(ap));
+	solution.add("rank", mRank);
 }
 
 /*****

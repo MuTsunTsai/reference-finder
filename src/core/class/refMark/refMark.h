@@ -2,6 +2,7 @@
 #ifndef _REF_MARK_H_
 #define _REF_MARK_H_
 
+#include "../json/jsonObject.h"
 #include "../refBase.h"
 #include "../xypt.h"
 
@@ -27,8 +28,8 @@ class RefMark : public RefBase {
 	bool IsActionLine() const;
 
 	const char GetLabel() const;
-	bool PutName(std::ostream &os) const;
-	void PutDistanceAndRank(std::ostream &os, const XYPt &ap) const;
+	void PutName(char const *key, JsonObject &obj) const;
+	void PutDistanceAndRank(JsonObject &solution, const XYPt &ap) const;
 	void DrawSelf(RefStyle rstyle, short ipass) const;
 
   protected:

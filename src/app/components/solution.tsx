@@ -10,9 +10,17 @@ interface SolutionComponentProps {
 	onSelect: () => void;
 }
 
+function getDegree(p: IPoint): string {
+	let result = Math.atan2(-p[0], p[1]) / Math.PI * 180;
+	if(result <= -90) result += 180;
+	if(result > 90) result -= 180;
+	return result.toFixed(4) + "°";
+}
+
 export function formatSolution(data: Solution): string {
-	return typeof data.solution == "string" ? data.solution :
-		`(${data.solution[0].toFixed(4)}, ${data.solution[1].toFixed(4)})`;
+	const item = data.solution[1];
+	const text = typeof item == "number" ? item.toFixed(4) : getDegree(item);
+	return `(${data.solution[0].toFixed(4)}, ${text})`;
 }
 
 export function SolutionComponent({ data, show, onSelect }: SolutionComponentProps) {
@@ -24,14 +32,16 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 	}
 	const solution = formatSolution(data);
 
+	const err = data.err.toFixed(4);
+
 	return (
 		<div className={"card mt-3 " + (show ? "" : "d-sm-none")} style={{ overflow: "hidden" }}>
 			<div className="card-header d-none d-sm-block">
-				<span className="d-inline-block capitalize">{t("phrase.solution")} {solution},</span> <span className="d-inline-block">{t("phrase.error")} {data.err},</span> <span className="d-inline-block">rank {data.rank}</span>
+				<span className="d-inline-block capitalize">{t("phrase.solution")} {solution},</span> <span className="d-inline-block">{t("phrase.error")} {err},</span> <span className="d-inline-block">rank {data.rank}</span>
 			</div>
 			{show ? (
 				<div ref={ref} className="card-header d-sm-none text-bg-primary">
-					<span className="d-inline-block capitalize">{t("phrase.solution")} {solution},</span> <span className="d-inline-block">{t("phrase.error")} {data.err},</span> <span className="d-inline-block">rank {data.rank}</span>
+					<span className="d-inline-block capitalize">{t("phrase.solution")} {solution},</span> <span className="d-inline-block">{t("phrase.error")} {err},</span> <span className="d-inline-block">rank {data.rank}</span>
 				</div>
 			) : (
 				<div ref={ref} className="card-header d-sm-none" onClick={handleSelect} style={{ cursor: "pointer" }}>
@@ -40,8 +50,8 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 							<Diagram data={data.diagrams[data.diagrams.length - 1]} />
 						</div>
 						<div className="col mb-2 ps-3 mt-2" style={{ flex: "1 0 8rem" }}>
-							<div>{data.solution}</div>
-							<div>{t("phrase.error")} {data.err}</div>
+							<div>{solution}</div>
+							<div>{t("phrase.error")} {err}</div>
 							<div>rank {data.rank}</div>
 						</div>
 					</div>

@@ -31,10 +31,13 @@ WASM := $(TARGET)/$(OUT).wasm
 
 ifeq ($(OS),Windows_NT)
 	MK = @if not exist "$(@D)" mkdir "$(@D)"
+	RM = @rmdir /s /q $(TEMP)
 else
 	MK = @mkdir -p "$(@D)"
+	RM = @rm -f $(TEMP)
 endif
 
+.PHONY: all
 all: $(WASM)
 
 $(WASM): $(OBJ) $(PRE) makefile
@@ -50,4 +53,6 @@ $(TEMP)/%.o: $(SRCF)/%.cpp makefile
 
 -include $(DEP)
 
-.PHONY: all
+.PHONY: clean
+clean:
+	$(RM)

@@ -94,22 +94,17 @@ Put the name of this line to a stream. Default behavior gives this line a
 letter. Return true if we used a letter. (We'll return false if we use
 something else, i.e., a RefLine_Original).
 *****/
-bool RefLine::PutName(ostream &os) const {
-	os << GetLabel()
-#ifdef RF_PUT_KEY_IN_TEXT
-	   << "[" << mKey << "]"
-#endif // RF_PUT_KEY_IN_TEXT
-		;
-	return true;
+void RefLine::PutName(char const *key, JsonObject &obj) const {
+	obj.add(key, GetLabel());
 }
 
 /*****
 Put the distance between this line and line al to a stream along with the rank
 *****/
-void RefLine::PutDistanceAndRank(ostream &os, const XYLine &al) const {
-	os.precision(4);
-	os.setf(ios_base::fixed, ios_base::floatfield);
-	os << "{\"solution\": \"" << l << "\", \"err\": " << DistanceTo(al) << ", \"rank\": " << mRank << ", \"steps\": [";
+void RefLine::PutDistanceAndRank(JsonObject &solution, const XYLine &al) const {
+	solution.add("solution", l);
+	solution.add("err", DistanceTo(al));
+	solution.add("rank", mRank);
 }
 
 /*****

@@ -7,6 +7,8 @@
 #include "refMark/refMark.h"
 #include "xyline.h"
 #include "xyrect.h"
+#include "json/jsonArray.h"
+#include "json/jsonObject.h"
 
 /**********
 class JsonStreamDgmr is a variation of the original VerbalStreamDgmr.
@@ -20,6 +22,7 @@ class JsonStreamDgmr : public RefDgmr {
 
   private:
 	std::ostream *mStream;
+	JsonArray *mArray;
 	template <class R>
 	void PutRefList(const typename R::bare_t &ar, std::vector<R *> &vr);
 

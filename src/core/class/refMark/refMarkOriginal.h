@@ -18,7 +18,7 @@ class RefMark_Original : public RefMark {
 	RefMark_Original(const XYPt &ap, rank_t arank, std::string aName);
 
 	const char GetLabel() const;
-	bool PutName(std::ostream &os) const;
+	void PutName(char const *key, JsonObject &obj) const;
 	void DrawSelf(RefStyle rstyle, short ipass) const;
 
   protected:

@@ -28,9 +28,8 @@ Put the name of this mark to a stream. Override to put the string name (rather
 than a letter).
 *****/
 
-bool RefMark_Original::PutName(ostream &os) const {
-	os << mName; // return the string
-	return false;
+void RefMark_Original::PutName(char const *key, JsonObject &obj) const {
+	obj.add(key, mName);
 }
 
 /*****

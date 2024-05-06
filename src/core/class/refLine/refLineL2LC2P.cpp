@@ -57,15 +57,13 @@ void RefLine_L2L_C2P::SequencePushSelf() {
 /*****
 Put the construction of this line to a stream.
 *****/
-bool RefLine_L2L_C2P::PutHowto(ostream &os) const {
-	os << "{\"axiom\": 4, \"l0\": \"";
-	rl1->PutName(os);
-	os << "\", \"x\": \"";
-	PutName(os);
-	os << "\", \"p0\": \"";
-	rm1->PutName(os);
-	os << "\"}";
-	return true;
+void RefLine_L2L_C2P::PutHowto(JsonArray &steps) const {
+	JsonObject *step = new JsonObject();
+	step->add("axiom", 4);
+	rl1->PutName("l0", *step);
+	PutName("x", *step);
+	rm1->PutName("p0", *step);
+	steps.add(*step);
 }
 
 /*****
