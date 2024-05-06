@@ -8,9 +8,9 @@ import { Theme, defaultDB, defaultSettings, useDB, useSettings } from "../store"
 import { resetWorker } from "../worker";
 import { SettingsRow } from "./form/settings-row";
 import { Checkbox } from "./form/checkbox";
+import { InfoTooltip } from "./tooltip";
 
 import "./settings.scss";
-import { InfoTooltip } from "./tooltip";
 
 export function Settings() {
 	const { t } = useTranslation();
@@ -124,12 +124,12 @@ export function Settings() {
 								</SettingsRow>
 								<div className="mt-n2" style={{ gridColumn: "1/3" }}><hr /></div>
 								<SettingsRow label="Line error mode" help={t("help.lineError")}>
-										<select className="form-select" value={settings.worstCaseError ? "1" : ""}
-											onChange={e => useSettings.setState({ worstCaseError: Boolean(e.currentTarget.value) })}>
-											<option value="1">Worst-case error</option>
-											<option value="">Pythagorean error</option>
-										</select>
-									</SettingsRow>
+									<select className="form-select" value={settings.worstCaseError ? "1" : ""}
+										onChange={e => useSettings.setState({ worstCaseError: Boolean(e.currentTarget.value) })}>
+										<option value="1">Worst-case error</option>
+										<option value="">Pythagorean error</option>
+									</select>
+								</SettingsRow>
 								<SettingsRow label="Good enough error" help={t("help.goodEnoughError")}>
 									<ExpInput value={settings.error} exp={settings.errorExp}
 										onInput={(v, exp) => useSettings.setState({ error: v, errorExp: exp })} />
@@ -149,6 +149,10 @@ export function Settings() {
 											<option value={Theme.dark}>{t("settings.display.theme.dark")}</option>
 											<option value={Theme.rabbitEar}>RabbitEar</option>
 										</select>
+									</SettingsRow>
+									<SettingsRow label={t("settings.display.precision")}>
+										<IntInput min={1} max={6} value={settings.precision}
+											onInput={v => useSettings.setState({ precision: v })} />
 									</SettingsRow>
 								</div>
 								<div className="mt-3 mb-1">

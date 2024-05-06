@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse } from "../../parser";
+import { useSettings } from "../../store";
 
 import "./exp-input.scss";
 
@@ -27,13 +28,14 @@ function getTextWidth(input: HTMLInputElement, text: string): number {
 export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 	const { t } = useTranslation();
 	const el = useRef<HTMLInputElement>(null);
+	const settings = useSettings();
 	const suffix = useRef<HTMLSpanElement>(null);
 	const [temp, setTemp] = useState(exp ?? value.toString());
 	const [tempValue, setTempValue] = useState(value);
 	const [cache, setCache] = useState(exp ?? value.toString());
 
 	function format(v: number): string {
-		return v.toFixed(4).replace(/0+$/, "").replace(/\.$/, "").replace(/^$/, "0");
+		return v.toFixed(settings.precision).replace(/0+$/, "").replace(/\.$/, "").replace(/^$/, "0");
 	}
 
 	function isValid(v = tempValue): boolean {

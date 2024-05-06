@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Solution } from "../store";
+import { Solution, useSettings } from "../store";
 import { StepComponent } from "./step";
 import { Diagram } from "./svg/diagram";
 import { useRef } from "react";
@@ -10,29 +10,37 @@ interface SolutionComponentProps {
 	onSelect: () => void;
 }
 
-function getDegree(p: IPoint): string {
+/**
+ * Calculates the degree using the normal vector of a line.
+ */
+function getDegree(p: IPoint, precision: number): string {
 	let result = Math.atan2(-p[0], p[1]) / Math.PI * 180;
 	if(result <= -90) result += 180;
 	if(result > 90) result -= 180;
-	return result.toFixed(4) + "°";
+	return result.toFixed(precision) + "°";
 }
 
-export function formatSolution(data: Solution): string {
+/**
+ * Original ReferenceFinder represents a line as (distance to origin, normal unit vector),
+ * and I think using (distance to origin, degree of the line) is more intuitive.
+ */
+export function formatSolution(data: Solution, precision: number): string {
 	const item = data.solution[1];
-	const text = typeof item == "number" ? item.toFixed(4) : getDegree(item);
-	return `(${data.solution[0].toFixed(4)}, ${text})`;
+	const text = typeof item == "number" ? item.toFixed(precision) : getDegree(item, precision);
+	return `(${data.solution[0].toFixed(precision)}, ${text})`;
 }
 
 export function SolutionComponent({ data, show, onSelect }: SolutionComponentProps) {
 	const { t } = useTranslation();
+	const settings = useSettings();
 	const ref = useRef<HTMLDivElement>(null);
 	const handleSelect = () => {
 		onSelect();
 		setTimeout(() => ref.current?.scrollIntoView(), 0);
 	}
-	const solution = formatSolution(data);
+	const solution = formatSolution(data, settings.precision);
 
-	const err = data.err.toFixed(4);
+	const err = data.err.toFixed(settings.precision);
 
 	return (
 		<div className={"card mt-3 " + (show ? "" : "d-sm-none")} style={{ overflow: "hidden" }}>

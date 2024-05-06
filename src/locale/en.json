@@ -65,6 +65,7 @@
 			},
 			"showAxiom": "Show axiom number in description.",
 			"showInit": "Show initialization progress.",
+			"precision": "Precision",
 			"_": "Display"
 		}
 	},

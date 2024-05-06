@@ -39,6 +39,7 @@ export const defaultSettings = {
 	errorExp: "1/200",
 	worstCaseError: true,
 	count: 5,
+	precision: 4,
 };
 
 export interface InitInfo {

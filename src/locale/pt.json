@@ -59,7 +59,8 @@
 				"_": "Tema"
 			},
 			"_": "Mostrar",
-			"showInit": "Mostrar o progresso da inicialização."
+			"showInit": "Mostrar o progresso da inicialização.",
+			"precision": "Precisão"
 		},
 		"advanced": {
 			"_": "Avançado"
