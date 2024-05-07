@@ -4,6 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/src/**",
+				// Change the next line to your Emscripten location
 				"C:/Sdk/emsdk/upstream/emscripten/system/**"
             ],
             "defines": [

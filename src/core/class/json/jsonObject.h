@@ -18,6 +18,7 @@ class JsonObject {
 	void add(char const *key, const double value);
 	void add(char const *key, const XYPt &pt);
 	void add(char const *key, const XYLine &pt);
+	void add(char const *key, const JsonObject &obj);
 	void add(char const *key, const JsonArray &array);
 
   private:

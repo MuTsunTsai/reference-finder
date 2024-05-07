@@ -71,6 +71,7 @@ void RefMark_Intersection::PutHowto(JsonArray &steps) const {
 	rl2->PutName("l1", *step);
 	PutName("x", *step);
 	steps.add(*step);
+	delete step;
 }
 
 /*****

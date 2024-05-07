@@ -92,6 +92,7 @@ void RefBase::PutHowtoSequence(JsonObject &solution) {
 		sSequence[i]->PutHowto(*steps);
 	}
 	solution.add("steps", *steps);
+	delete steps;
 }
 
 /*  Notes on diagrams.

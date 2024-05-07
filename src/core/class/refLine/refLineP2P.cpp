@@ -90,6 +90,7 @@ void RefLine_P2P::PutHowto(JsonArray &steps) const {
 	};
 	PutName("x", *step);
 	steps.add(*step);
+	delete step;
 }
 
 /*****

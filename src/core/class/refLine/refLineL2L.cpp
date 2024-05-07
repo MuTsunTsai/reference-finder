@@ -145,6 +145,7 @@ void RefLine_L2L::PutHowto(JsonArray &steps) const {
 	}
 
 	steps.add(*step);
+	delete step;
 }
 
 /*****

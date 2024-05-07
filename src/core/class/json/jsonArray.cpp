@@ -4,7 +4,7 @@
 
 using namespace std;
 
-JsonArray::JsonArray() {}
+JsonArray::JsonArray() : mStarted(false) {}
 
 void JsonArray::add(const JsonObject &obj) {
 	if (mStarted) mStream << ",";
@@ -16,6 +16,12 @@ void JsonArray::add(const JsonArray &array) {
 	if (mStarted) mStream << ",";
 	mStarted = true;
 	mStream << array;
+}
+
+void JsonArray::add(const int value) {
+	if (mStarted) mStream << ",";
+	mStarted = true;
+	mStream << value;
 }
 
 ostream &operator<<(ostream &os, const JsonArray &j) {

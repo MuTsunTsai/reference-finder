@@ -4,7 +4,7 @@
 
 using namespace std;
 
-JsonObject::JsonObject() {}
+JsonObject::JsonObject() : mStarted(false) {}
 
 void JsonObject::add(char const *key, const std::string &value) {
 	addKey(key);
@@ -34,6 +34,11 @@ void JsonObject::add(char const *key, const XYPt &pt) {
 void JsonObject::add(char const *key, const XYLine &pt) {
 	addKey(key);
 	mStream << pt;
+}
+
+void JsonObject::add(char const *key, const JsonObject &obj) {
+	addKey(key);
+	mStream << obj;
 }
 
 void JsonObject::add(char const *key, const JsonArray &array) {

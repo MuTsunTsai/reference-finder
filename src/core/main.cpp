@@ -69,24 +69,23 @@ Callback routine for statistics function
 void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, bool &) {
 	switch (info.mStatus) {
 	case ReferenceFinder::STATISTICS_BEGIN: {
-		// Initialize reporting of each trial
-		cout.precision(4);
-		cout.setf(ios_base::fixed, ios_base::floatfield);
-		cout << "(test #) error" << endl;
+		// No need to do anything here
 		break;
 	}
 	case ReferenceFinder::STATISTICS_WORKING: {
-		// Print the trials, 5 to a line
-		cout << "(" << info.mIndex + 1 << "/" << ReferenceFinder::sNumTrials
-			 << ") " << info.mError << ", ";
-		if (fmod(double(info.mIndex) + 1, 5) == 0) cout << endl;
+		// Print progress
+		if (info.mIndex % 5 == 0) {
+			JsonObject *progress = new JsonObject();
+			progress->add("total", ReferenceFinder::sNumTrials);
+			progress->add("progress", (int)info.mIndex);
+			cout << *progress << endl;
+			delete progress;
+		}
 		break;
 	}
 	case ReferenceFinder::STATISTICS_DONE: {
 		// Report the results
-		cout << endl;
 		cout << ReferenceFinder::sStatistics << endl;
-		cout << endl;
 		break;
 	}
 	}

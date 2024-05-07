@@ -45,20 +45,24 @@ export function resetWorker(db: DbSettings) {
 				useStore.setState({ running: running && !ready, ready: true });
 				return;
 			}
-			if(!running || !ready) return;
+			if(!ready) return;
 
-			// Organize steps
-			console.log(text);
-			const solution = JSON.parse(text) as Solution;
-			const steps = solution.steps;
-			solution.steps = [];
-			for(const step of steps) {
-				if(step.axiom > 0 || step == steps[steps.length - 1]) solution.steps.push(step);
-				else solution.steps[solution.steps.length - 1].intersection = step;
+			// uncomment the next line to debug
+			// console.log(text);
+
+			if(running) {
+				// Organize steps
+				const solution = JSON.parse(text) as Solution;
+				const steps = solution.steps;
+				solution.steps = [];
+				for(const step of steps) {
+					if(step.axiom > 0 || step == steps[steps.length - 1]) solution.steps.push(step);
+					else solution.steps[solution.steps.length - 1].intersection = step;
+				}
+				solutions.push(solution);
+
+				useStore.setState({ solutions: solutions.concat() });
 			}
-			solutions.push(solution);
-
-			useStore.setState({ solutions: solutions.concat() });
 		}
 		if(msg.err) {
 			useStore.setState({ coreError: msg.err });

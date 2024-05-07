@@ -255,8 +255,7 @@ vector vm.
 *****/
 void ReferenceFinder::FindBestMarks(const XYPt &ap, vector<RefMark *> &vm, short numMarks) {
 	vm.resize(numMarks);
-	partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), vm.begin(), vm.end(),
-					  CompareRankAndError<RefMark>(ap));
+	partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), vm.begin(), vm.end(), CompareRankAndError<RefMark>(ap));
 }
 
 /*****
@@ -265,8 +264,7 @@ vector vl.
 *****/
 void ReferenceFinder::FindBestLines(const XYLine &al, vector<RefLine *> &vl, short numLines) {
 	vl.resize(numLines);
-	partial_sort_copy(sBasisLines.begin(), sBasisLines.end(), vl.begin(), vl.end(),
-					  CompareRankAndError<RefLine>(al));
+	partial_sort_copy(sBasisLines.begin(), sBasisLines.end(), vl.begin(), vl.end(), CompareRankAndError<RefLine>(al));
 }
 
 /*****
@@ -324,8 +322,7 @@ void ReferenceFinder::CalcStatistics() {
 					double(rand()) / (RAND_MAX * sPaper.mHeight));
 
 		// Find the mark closest to the test mark.
-		partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(),
-						  sortMarks.begin(), sortMarks.end(), CompareError<RefMark>(testPt));
+		partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), sortMarks.begin(), sortMarks.end(), CompareError<RefMark>(testPt));
 
 		// note how close we were
 		double error = (testPt - sortMarks[0]->p).Mag();
@@ -347,39 +344,43 @@ void ReferenceFinder::CalcStatistics() {
 	}
 
 	// Now compose a report of the results.
-	stringstream ss;
-	ss << fixed << showpoint << setprecision(1);
-	ss << "Distribution of errors for " << actNumTrials << " trials:" << endl;
-	int total = 0;
+	JsonObject *report = new JsonObject();
+	report->add("trials", actNumTrials);
+	report->add("bucketSize", sBucketSize);
+
 	// Report the number of errors for each error bucket
-	for (int i = 0; i < sNumBuckets - 1; i++) {
+	JsonArray *buckets = new JsonArray();
+	int total = 0;
+	for (int i = 0; i < sNumBuckets; i++) {
 		total += errBucket[i];
-		ss << "error < " << setprecision(3) << sBucketSize * (i + 1)
-		   << " = " << total << " (" << setprecision(1) << 100. * double(total) / actNumTrials << "%)" << endl;
+		buckets->add(total);
 	}
-	ss << "error > " << setprecision(3) << sBucketSize * (sNumBuckets - 1)
-	   << " = " << (actNumTrials - total)
-	   << " (" << setprecision(1) << 100. * double(actNumTrials - total) / actNumTrials << "%)" << endl;
+	report->add("bucketErrors", *buckets);
+	delete buckets;
 
 	// Sort the errors and write percentiles of the errors into output string
-	sort(errors.begin(), errors.end());
-	ss << setprecision(4);
-	ss << endl
-	   << "Distribution of errors:" << endl;
-	ss << "10th percentile :" << errors[int(.10 * errors.size())] << endl;
-	ss << "20th percentile :" << errors[int(.20 * errors.size())] << endl;
-	ss << "50th percentile :" << errors[int(.50 * errors.size())] << endl;
-	ss << "80th percentile :" << errors[int(.80 * errors.size())] << endl;
-	ss << "90th percentile :" << errors[int(.90 * errors.size())] << endl;
-	ss << "95th percentile :" << errors[int(.95 * errors.size())] << endl;
-	ss << "99th percentile :" << errors[int(.99 * errors.size())] << endl;
 
+	JsonObject *percentile = new JsonObject();
+	sort(errors.begin(), errors.end());
+	int errSize = errors.size();
+	percentile->add("10", errors[int(.10 * errSize)]);
+	percentile->add("20", errors[int(.20 * errSize)]);
+	percentile->add("50", errors[int(.50 * errSize)]);
+	percentile->add("80", errors[int(.80 * errSize)]);
+	percentile->add("90", errors[int(.90 * errSize)]);
+	percentile->add("95", errors[int(.95 * errSize)]);
+	percentile->add("99", errors[int(.99 * errSize)]);
+	report->add("percentiles", *percentile);
+	delete percentile;
+
+	stringstream ss;
+	ss << *report;
+	delete report;
 	sStatistics = ss.str();
 
 	// Call the callback for the final time, passing the string containing the
 	// results.
 	if (sStatisticsFn) {
-		sStatisticsFn(StatisticsInfo(STATISTICS_DONE),
-					  sStatisticsUserData, cancel);
+		sStatisticsFn(StatisticsInfo(STATISTICS_DONE), sStatisticsUserData, cancel);
 	}
 }

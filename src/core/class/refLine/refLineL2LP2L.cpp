@@ -121,6 +121,7 @@ void RefLine_L2L_P2L::PutHowto(JsonArray &steps) const {
 	};
 	PutName("x", *step);
 	steps.add(*step);
+	delete step;
 }
 
 /*****

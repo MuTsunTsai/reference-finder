@@ -35,10 +35,14 @@ void JsonStreamDgmr::PutRefList(const typename R::bare_t &ar, vector<R *> &vr) {
 			mArray = new JsonArray();
 			RefBase::DrawDiagram(*this, RefBase::sDgms[j]);
 			diagrams->add(*mArray);
+			delete mArray;
 		};
 		solution->add("diagrams", *diagrams);
 
 		(*mStream) << *solution << endl;
+
+		delete solution;
+		delete diagrams;
 	};
 }
 
@@ -65,6 +69,7 @@ void JsonStreamDgmr::DrawPt(const XYPt &aPt, PointStyle pstyle) {
 	j->add("pt", aPt);
 	j->add("style", pstyle);
 	mArray->add(*j);
+	delete j;
 }
 
 /*****
@@ -77,6 +82,7 @@ void JsonStreamDgmr::DrawLine(const XYPt &fromPt, const XYPt &toPt, LineStyle ls
 	j->add("to", toPt);
 	j->add("style", lstyle);
 	mArray->add(*j);
+	delete j;
 }
 
 /*****
@@ -92,6 +98,7 @@ void JsonStreamDgmr::DrawArc(const XYPt &ctr, double rad, double fromAngle, doub
 	j->add("ccw", ccw);
 	j->add("style", lstyle);
 	mArray->add(*j);
+	delete j;
 }
 
 /*****
@@ -104,6 +111,7 @@ void JsonStreamDgmr::DrawPoly(const vector<XYPt> &poly, PolyStyle pstyle) {
 	j->add("width", ReferenceFinder::sPaper.mWidth);
 	j->add("height", ReferenceFinder::sPaper.mHeight);
 	mArray->add(*j);
+	delete j;
 }
 
 /*****
@@ -116,4 +124,5 @@ void JsonStreamDgmr::DrawLabel(const XYPt &aPt, const string &aString, LabelStyl
 	j->add("text", aString);
 	j->add("style", lstyle);
 	mArray->add(*j);
+	delete j;
 }
