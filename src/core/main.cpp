@@ -75,11 +75,10 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, boo
 	case ReferenceFinder::STATISTICS_WORKING: {
 		// Print progress
 		if (info.mIndex % 5 == 0) {
-			JsonObject *progress = new JsonObject();
-			progress->add("total", ReferenceFinder::sNumTrials);
-			progress->add("progress", (int)info.mIndex);
-			cout << *progress << endl;
-			delete progress;
+			JsonObject progress;
+			progress.add("total", ReferenceFinder::sNumTrials);
+			progress.add("progress", (int)info.mIndex);
+			cout << progress << endl;
 		}
 		break;
 	}

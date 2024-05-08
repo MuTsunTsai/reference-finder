@@ -105,23 +105,22 @@ void RefLine_L2L_P2L::SequencePushSelf() {
 Put the name of this line to a stream.
 *****/
 void RefLine_L2L_P2L::PutHowto(JsonArray &steps) const {
-	JsonObject *step = new JsonObject();
-	step->add("axiom", 7);
-	rl2->PutName("l1", *step);
+	JsonObject step;
+	step.add("axiom", 7);
+	rl2->PutName("l1", step);
 	switch (mWhoMoves) {
 	case WHOMOVES_P1:
-		rm1->PutName("p0", *step);
-		rl1->PutName("l0", *step);
+		rm1->PutName("p0", step);
+		rl1->PutName("l0", step);
 		break;
 
 	case WHOMOVES_L1:
-		rl1->PutName("p0", *step);
-		rm1->PutName("l0", *step);
+		rl1->PutName("p0", step);
+		rm1->PutName("l0", step);
 		break;
 	};
-	PutName("x", *step);
-	steps.add(*step);
-	delete step;
+	PutName("x", step);
+	steps.add(step);
 }
 
 /*****

@@ -87,12 +87,11 @@ void RefBase::PutHowto(JsonArray &steps) const {}
 Send the full how-to sequence to the given stream.
 *****/
 void RefBase::PutHowtoSequence(JsonObject &solution) {
-	JsonArray *steps = new JsonArray();
+	JsonArray steps;
 	for (size_t i = 0; i < sSequence.size(); i++) {
-		sSequence[i]->PutHowto(*steps);
+		sSequence[i]->PutHowto(steps);
 	}
-	solution.add("steps", *steps);
-	delete steps;
+	solution.add("steps", steps);
 }
 
 /*  Notes on diagrams.

@@ -344,38 +344,35 @@ void ReferenceFinder::CalcStatistics() {
 	}
 
 	// Now compose a report of the results.
-	JsonObject *report = new JsonObject();
-	report->add("trials", actNumTrials);
-	report->add("bucketSize", sBucketSize);
+	JsonObject report;
+	report.add("trials", actNumTrials);
+	report.add("bucketSize", sBucketSize);
 
 	// Report the number of errors for each error bucket
-	JsonArray *buckets = new JsonArray();
+	JsonArray buckets;
 	int total = 0;
 	for (int i = 0; i < sNumBuckets; i++) {
 		total += errBucket[i];
-		buckets->add(total);
+		buckets.add(total);
 	}
-	report->add("bucketErrors", *buckets);
-	delete buckets;
+	report.add("bucketErrors", buckets);
 
 	// Sort the errors and write percentiles of the errors into output string
 
-	JsonObject *percentile = new JsonObject();
+	JsonObject percentile;
 	sort(errors.begin(), errors.end());
 	int errSize = errors.size();
-	percentile->add("10", errors[int(.10 * errSize)]);
-	percentile->add("20", errors[int(.20 * errSize)]);
-	percentile->add("50", errors[int(.50 * errSize)]);
-	percentile->add("80", errors[int(.80 * errSize)]);
-	percentile->add("90", errors[int(.90 * errSize)]);
-	percentile->add("95", errors[int(.95 * errSize)]);
-	percentile->add("99", errors[int(.99 * errSize)]);
-	report->add("percentiles", *percentile);
-	delete percentile;
+	percentile.add("10", errors[int(.10 * errSize)]);
+	percentile.add("20", errors[int(.20 * errSize)]);
+	percentile.add("50", errors[int(.50 * errSize)]);
+	percentile.add("80", errors[int(.80 * errSize)]);
+	percentile.add("90", errors[int(.90 * errSize)]);
+	percentile.add("95", errors[int(.95 * errSize)]);
+	percentile.add("99", errors[int(.99 * errSize)]);
+	report.add("percentiles", percentile);
 
 	stringstream ss;
-	ss << *report;
-	delete report;
+	ss << report;
 	sStatistics = ss.str();
 
 	// Call the callback for the final time, passing the string containing the

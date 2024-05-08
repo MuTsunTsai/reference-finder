@@ -113,20 +113,20 @@ void RefLine_L2L::SequencePushSelf() {
 Put the construction of this line to a stream.
 *****/
 void RefLine_L2L::PutHowto(JsonArray &steps) const {
-	JsonObject *step = new JsonObject();
-	step->add("axiom", 3);
+	JsonObject step;
+	step.add("axiom", 3);
 	switch (mWhoMoves) {
 	case WHOMOVES_L1:
-		rl1->PutName("l0", *step);
-		rl2->PutName("l1", *step);
+		rl1->PutName("l0", step);
+		rl2->PutName("l1", step);
 		break;
 
 	case WHOMOVES_L2:
-		rl2->PutName("l0", *step);
-		rl1->PutName("l1", *step);
+		rl2->PutName("l0", step);
+		rl1->PutName("l1", step);
 		break;
 	};
-	PutName("x", *step);
+	PutName("x", step);
 
 	// Now we need to specify which of the two bisectors this is, which we do
 	// by specifying a point where the bisector hits the edge of the square.
@@ -139,13 +139,12 @@ void RefLine_L2L::PutHowto(JsonArray &steps) const {
 	// Return the first point of intersection between the fold line and the edge of the
 	// paper that _isn't_ the intersection of the two bisectors.
 	if (p == pa) {
-		step->add("p0", pb.Chop());
+		step.add("p0", pb.Chop());
 	} else {
-		step->add("p0", pa.Chop());
+		step.add("p0", pa.Chop());
 	}
 
-	steps.add(*step);
-	delete step;
+	steps.add(step);
 }
 
 /*****

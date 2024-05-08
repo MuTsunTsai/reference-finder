@@ -22,7 +22,7 @@ class JsonStreamDgmr : public RefDgmr {
 
   private:
 	std::ostream *mStream;
-	JsonArray *mArray;
+	JsonArray mArray;
 	template <class R>
 	void PutRefList(const typename R::bare_t &ar, std::vector<R *> &vr);
 

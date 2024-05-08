@@ -6,7 +6,7 @@ using namespace std;
 
 JsonObject::JsonObject() : mStarted(false) {}
 
-void JsonObject::add(char const *key, const std::string &value) {
+void JsonObject::add(char const *key, const string &value) {
 	addKey(key);
 	mStream << "\"" << value << "\"";
 }

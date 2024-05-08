@@ -9,6 +9,7 @@ class JsonObject;
 class JsonArray {
   public:
 	JsonArray();
+	void reset();
 	void add(const JsonObject &obj);
 	void add(const JsonArray &array);
 	void add(const int value);

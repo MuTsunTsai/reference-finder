@@ -65,13 +65,12 @@ void RefMark_Intersection::SequencePushSelf() {
 Put a description of how to construct this mark to the stream.
 *****/
 void RefMark_Intersection::PutHowto(JsonArray &steps) const {
-	JsonObject *step = new JsonObject();
-	step->add("axiom", 0);
-	rl1->PutName("l0", *step);
-	rl2->PutName("l1", *step);
-	PutName("x", *step);
-	steps.add(*step);
-	delete step;
+	JsonObject step;
+	step.add("axiom", 0);
+	rl1->PutName("l0", step);
+	rl2->PutName("l1", step);
+	PutName("x", step);
+	steps.add(step);
 }
 
 /*****

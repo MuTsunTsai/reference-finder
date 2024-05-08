@@ -6,6 +6,11 @@ using namespace std;
 
 JsonArray::JsonArray() : mStarted(false) {}
 
+void JsonArray::reset() {
+	mStarted = false;
+	mStream.str(""); // clear the stream
+}
+
 void JsonArray::add(const JsonObject &obj) {
 	if (mStarted) mStream << ",";
 	mStarted = true;
