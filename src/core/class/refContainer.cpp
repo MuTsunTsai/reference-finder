@@ -46,7 +46,7 @@ per key. class R = RefMark or RefLine
 Constructor. Initialize arrays.
 *****/
 template <class R>
-RefContainer<R>::RefContainer() : rcsz(0), rcbz(0) {
+RefContainer<R>::RefContainer() {
 	// expand our map array to hold all the ranks that we will create
 	maps.resize(1 + ReferenceFinder::sMaxRank);
 }
@@ -73,8 +73,6 @@ Rebuild all arrays and related counters.
 *****/
 template <class R>
 void RefContainer<R>::Rebuild() {
-	rcsz = 0;
-	rcbz = 0;
 	this->resize(0);
 	maps.resize(0);
 	maps.resize(1 + ReferenceFinder::sMaxRank);
@@ -108,7 +106,6 @@ template <class R>
 void RefContainer<R>::Add(R *ar) {
 	// Add it to the buffer and increment the buffer size.
 	buffer.insert(typename map_t::value_type(ar->mKey, ar));
-	rcbz++;
 }
 
 /*****
@@ -117,20 +114,15 @@ Put the contents of the buffer into the main container.
 template <class R>
 void RefContainer<R>::FlushBuffer() {
 	// Make room for the buffer in the sortable list.
-	this->reserve(this->size() + rcbz);
+	this->reserve(this->size() + buffer.size());
 
 	// Go through the buffer and add each element to the appropriate rank in the main container.
-
-	rank_iterator bi = buffer.begin();
-	while (bi != buffer.end()) {
+	for (rank_iterator bi = buffer.begin(); bi != buffer.end(); bi++) {
 		R *&rr = bi->second;		 // get pointer to each new element
 		maps[rr->mRank].insert(*bi); // add to the map of the appropriate rank
 		this->push_back(rr);		 // also add to our sortable list
-		rcsz++;						 // increment our size counter
-		bi++;						 // increment the buffer iterator
-	};
+	}
 	buffer.clear(); // clear the buffer
-	rcbz = 0;
 }
 
 /*****

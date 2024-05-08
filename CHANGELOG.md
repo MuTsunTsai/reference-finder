@@ -1,6 +1,10 @@
 
 # Change log
 
+## v4.0.3
+
+- Improve initialization performance by using `std::unordered_map` instead of `std::map`.
+
 ## v4.0.2
 
 - Fixed a bug that results in v4.0.1 overlooking some solutions related to axiom O5 (See also [PR#1](https://github.com/bugfolder/ReferenceFinder/pull/1)).
