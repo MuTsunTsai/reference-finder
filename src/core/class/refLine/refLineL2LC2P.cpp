@@ -102,7 +102,7 @@ void RefLine_L2L_C2P::MakeAll(rank_t arank) {
 				ReferenceFinder::sBasisMarks.maps[jrank].begin();
 			while (mj != ReferenceFinder::sBasisMarks.maps[jrank].end()) {
 				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-				RefLine_L2L_C2P rls1(li->second, mj->second);
+				RefLine_L2L_C2P rls1(*li, *mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls1);
 				mj++;
 			};

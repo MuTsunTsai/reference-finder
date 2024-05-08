@@ -167,11 +167,11 @@ void RefLine_P2L_C2P::MakeAll(rank_t arank) {
 						if ((irank != krank) || (mi != mk)) { // only cmpr iterators if same container
 							if (ReferenceFinder::GetNumLines() >=
 								ReferenceFinder::sMaxLines) return;
-							RefLine_P2L_C2P rlh1(mi->second, lj->second, mk->second, 0);
+							RefLine_P2L_C2P rlh1(*mi, *lj, *mk, 0);
 							ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh1);
 							if (ReferenceFinder::GetNumLines() >=
 								ReferenceFinder::sMaxLines) return;
-							RefLine_P2L_C2P rlh2(mi->second, lj->second, mk->second, 1);
+							RefLine_P2L_C2P rlh2(*mi, *lj, *mk, 1);
 							ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh2);
 						};
 						mk++;

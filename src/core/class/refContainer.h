@@ -15,10 +15,12 @@ class RefContainer : public std::vector<R *> {
   public:
 	// For our use case, using std::unordered_map can improve performance by about 12% comparing to std::map
 	typedef std::unordered_map<key_t, R *> map_t; // typedef for map holding R*
-	std::vector<map_t> maps;					  // Holds maps of objects, one for each rank
-	map_t buffer;								  // used to accumulate new objects
+	typedef std::vector<R *> vec_t;				  // typedef for vector holding R*
+	map_t map;									  // A centralized map for checking duplication
+	std::vector<vec_t> maps;					  // Holds vectors of objects, one for each rank
+	vec_t buffer;								  // used to accumulate new objects (to avoid corrupting the main iterator)
 
-	typedef typename map_t::iterator rank_iterator; // for iterating through individual ranks
+	typedef typename vec_t::iterator rank_iterator; // for iterating through individual ranks
 
   public:
 	std::size_t GetTotalSize() const {

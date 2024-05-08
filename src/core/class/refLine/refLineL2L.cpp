@@ -204,10 +204,10 @@ void RefLine_L2L::MakeAll(rank_t arank) {
 				ReferenceFinder::sBasisLines.maps[jrank].begin();
 			while (lj != (sameRank ? li : ReferenceFinder::sBasisLines.maps[jrank].end())) {
 				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-				RefLine_L2L rls1(li->second, lj->second, 0);
+				RefLine_L2L rls1(*li, *lj, 0);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls1);
 				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-				RefLine_L2L rls2(li->second, lj->second, 1);
+				RefLine_L2L rls2(*li, *lj, 1);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls2);
 				lj++;
 			};

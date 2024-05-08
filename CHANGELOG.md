@@ -3,7 +3,10 @@
 
 ## v4.0.3
 
-- Improve initialization performance by using `std::unordered_map` instead of `std::map`.
+Version 4.0.3 made some significant initialization performance improvements (about 40% faster) by means of the following:
+
+- Using `std::unordered_map` instead of `std::map`.
+- Used only one map (instead of per rank) to check for duplications, and then use vectors for the per rank map and the buffer.
 
 ## v4.0.2
 

@@ -74,26 +74,17 @@ Rebuild all arrays and related counters.
 template <class R>
 void RefContainer<R>::Rebuild() {
 	this->resize(0);
+	map.clear();
 	maps.resize(0);
 	maps.resize(1 + ReferenceFinder::sMaxRank);
 }
 
 /*****
-Return true if the container (or the buffer) contain an equivalent object.
+Return true if the container (including the buffer) contain an equivalent object.
 *****/
 template <class R>
 bool RefContainer<R>::Contains(const R *ar) const {
-	// go through each rank and look for an object with the same key. If we find one,
-	// return true.
-	for (size_t ir = 0; ir < maps.size(); ir++) {
-		if (maps[ir].count(ar->mKey)) return true;
-	}
-
-	// Also check the buffer.
-	if (buffer.count(ar->mKey)) return true;
-
-	// Still here? then we didn't find it.
-	return false;
+	return map.count(ar->mKey);
 }
 
 /*****
@@ -104,8 +95,8 @@ FlushBuffer().
 *****/
 template <class R>
 void RefContainer<R>::Add(R *ar) {
-	// Add it to the buffer and increment the buffer size.
-	buffer.insert(typename map_t::value_type(ar->mKey, ar));
+	buffer.push_back(ar);								  // Add it to the buffer.
+	map.insert(typename map_t::value_type(ar->mKey, ar)); // Also add it to the map immediately.
 }
 
 /*****
@@ -118,9 +109,8 @@ void RefContainer<R>::FlushBuffer() {
 
 	// Go through the buffer and add each element to the appropriate rank in the main container.
 	for (rank_iterator bi = buffer.begin(); bi != buffer.end(); bi++) {
-		R *&rr = bi->second;		 // get pointer to each new element
-		maps[rr->mRank].insert(*bi); // add to the map of the appropriate rank
-		this->push_back(rr);		 // also add to our sortable list
+		maps[(*bi)->mRank].push_back(*bi); // add to the map of the appropriate rank
+		this->push_back(*bi);			   // also add to our sortable list
 	}
 	buffer.clear(); // clear the buffer
 }
@@ -130,5 +120,6 @@ Clear the map arrays. Called when they're no longer needed.
 *****/
 template <class R>
 void RefContainer<R>::ClearMaps() {
+	map.clear();
 	for (size_t ir = 0; ir < maps.size(); ir++) maps[ir].clear();
 }

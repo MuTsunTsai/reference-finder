@@ -118,7 +118,7 @@ void RefLine_C2P_C2P::MakeAll(rank_t arank) {
 				ReferenceFinder::sBasisMarks.maps[jrank].begin();
 			while (mj != (sameRank ? mi : ReferenceFinder::sBasisMarks.maps[jrank].end())) {
 				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-				RefLine_C2P_C2P rlc(mi->second, mj->second);
+				RefLine_C2P_C2P rlc(*mi, *mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlc);
 				mj++;
 			};

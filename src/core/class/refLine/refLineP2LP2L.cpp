@@ -410,13 +410,13 @@ void RefLine_P2L_P2L::MakeAll(rank_t arank) {
 									while (ll != ReferenceFinder::sBasisLines.maps[lrank].end()) {
 										if ((krank != lrank) || (lk != ll)) { // cmpr iterators only if same container
 											if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-											RefLine_P2L_P2L rlp0(mi->second, lk->second, mj->second, ll->second, 0);
+											RefLine_P2L_P2L rlp0(*mi, *lk, *mj, *ll, 0);
 											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp0);
 											if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-											RefLine_P2L_P2L rlp1(mi->second, lk->second, mj->second, ll->second, 1);
+											RefLine_P2L_P2L rlp1(*mi, *lk, *mj, *ll, 1);
 											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp1);
 											if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-											RefLine_P2L_P2L rlp2(mi->second, lk->second, mj->second, ll->second, 2);
+											RefLine_P2L_P2L rlp2(*mi, *lk, *mj, *ll, 2);
 											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp2);
 										};
 										ll++;

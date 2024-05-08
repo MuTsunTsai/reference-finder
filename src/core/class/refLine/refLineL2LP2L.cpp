@@ -178,7 +178,7 @@ void RefLine_L2L_P2L::MakeAll(rank_t arank) {
 						if ((irank != krank) || (li != lk)) {
 							if (ReferenceFinder::GetNumLines() >=
 								ReferenceFinder::sMaxLines) return;
-							RefLine_L2L_P2L rlh1(li->second, mj->second, lk->second);
+							RefLine_L2L_P2L rlh1(*li, *mj, *lk);
 							ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh1);
 						};
 						lk++;

@@ -130,7 +130,7 @@ void RefLine_P2P::MakeAll(rank_t arank) {
 				ReferenceFinder::sBasisMarks.maps[jrank].begin();
 			while (mj != (sameRank ? mi : ReferenceFinder::sBasisMarks.maps[jrank].end())) {
 				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-				RefLine_P2P rlb(mi->second, mj->second);
+				RefLine_P2P rlb(*mi, *mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlb);
 				mj++;
 			};

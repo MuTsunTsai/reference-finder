@@ -89,7 +89,7 @@ void RefMark_Intersection::MakeAll(rank_t arank) {
 				ReferenceFinder::sBasisLines.maps[jrank].begin();
 			while (lj != (sameRank ? li : ReferenceFinder::sBasisLines.maps[jrank].end())) {
 				if (ReferenceFinder::GetNumMarks() >= ReferenceFinder::sMaxMarks) return;
-				RefMark_Intersection rmi(li->second, lj->second);
+				RefMark_Intersection rmi(*li, *lj);
 				ReferenceFinder::sBasisMarks.AddCopyIfValidAndUnique(rmi);
 				lj++;
 			};
