@@ -12,8 +12,8 @@ Copyright:    ©2006-2007 Robert J. Lang. All Rights Reserved.
 #define _RFVERSION_H_
 
 /*****
-Define version macros as symbols and strings. Nothing below these 5 lines
-needs to be changed.
+Define version macros as symbols and strings.
+NOTE: Do not edit these directly, as these values now sync with package.json automatically.
 *****/
 
 #define APP_FAMILY ReferenceFinder

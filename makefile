@@ -42,16 +42,20 @@ all: $(WASM)
 
 $(WASM): $(OBJ) $(PRE) makefile
 	$(MK)
-	$(CC) $(ESFLAGS) $(OPTI) --pre-js $(PRE) -o $(TARGET)/$(OUT).js $(OBJ)
+	@echo Compiling [33m$(WASM)[0m
+	@$(CC) $(ESFLAGS) $(OPTI) --pre-js $(PRE) -o $(TARGET)/$(OUT).js $(OBJ)
+	@echo [33mWebAssembly compile complete![0m
 
 $(TEMP)/%.o: $(SRCF)/%.cpp makefile
 	$(MK)
-	$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
+	@echo Compiling [32m$<[0m
+	@$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
 
 $(TEMP)/main.o: $(SRCF)/main.cpp makefile package.json
-	@gulp syncVer
+	@gulp syncVer -S
 	$(MK)
-	$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
+	@echo Compiling [32m$<[0m
+	@$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
 
 %.h: ;
 %.d: ;
