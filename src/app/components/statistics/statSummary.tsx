@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useSettings } from "../../store";
 import { StatData, getMinMax } from "./chart";
 
-import "./statSummary.scss";
-
 function getAverage(data: number[]): number {
 	const total = data.reduce((v, x) => v + x, 0);
 	return total / data.length;

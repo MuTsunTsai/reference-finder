@@ -39,19 +39,9 @@ export default defineConfig({
 						name: "rabbit-ear",
 						chunks: "initial",
 					},
-					locale: {
-						test: /i18n|locale/,
-						name: "locale",
-						chunks: "initial",
-					},
 					react: {
 						test: /react/,
 						name: "react",
-						chunks: "initial",
-					},
-					chart: {
-						test: /chart/,
-						name: "chart",
 						chunks: "initial",
 					},
 					vendor: {

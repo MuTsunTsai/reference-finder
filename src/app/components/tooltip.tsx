@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { Tooltip } from "bootstrap";
 
 import "./tooltip.scss";
 
@@ -11,7 +10,8 @@ export function InfoTooltip({ title: help }: TooltipProps) {
 	const tooltip = useRef<HTMLElement>(null);
 
 	useEffect(() => {
-		if(tooltip.current) Tooltip.getOrCreateInstance(tooltip.current);
+		const el = tooltip.current;
+		if(el) import("bootstrap").then(bs => bs.Tooltip.getOrCreateInstance(el));
 	});
 
 	return (

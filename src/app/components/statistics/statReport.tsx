@@ -6,7 +6,15 @@ import { useState } from "react";
 import type { StatData } from "./chart";
 import { StatSummary } from "./statSummary";
 
-export function StatReport(data: StatData) {
+interface StatReportProps {
+	data: StatData | null;
+}
+
+console.log("Stat loaded");
+
+export default function StatReport({ data }: StatReportProps) {
+	if(data == null) return <></>;
+
 	const { t } = useTranslation();
 	const [tab, setTab] = useState(0);
 

@@ -1,14 +1,18 @@
-import { useRef, useState } from "react";
-import { Modal } from "bootstrap";
+import { Suspense, lazy, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { startStatistics, useWorker } from "../../worker";
 import { SettingsRow } from "../form/settings-row";
 import { useSettings, useStore } from "../../store";
 import { IntInput } from "../form/int-input";
-import { StatReport } from "./statReport";
-import { StatData } from "./chart";
 import { InfoTooltip } from "../tooltip";
+
+import "./statistics.scss";
+
+import type { Modal } from "bootstrap";
+import type { StatData } from "./chart";
+
+const StatReport = lazy(() => import("./statReport"));
 
 let startTime: number;
 let modal: Modal;
@@ -16,6 +20,7 @@ const tempData: number[] = [];
 
 export function Statistics() {
 	const { t } = useTranslation();
+	const [open, setOpen] = useState(false);
 	const [data, setData] = useState<StatData | null>(null);
 	const [progress, setProgress] = useState(0);
 	const [canceling, setCanceling] = useState(false);
@@ -23,8 +28,10 @@ export function Statistics() {
 	const settings = useSettings();
 	const ref = useRef(null);
 
-	const handleShow = () => {
-		modal = Modal.getOrCreateInstance(ref.current!, { backdrop: "static" });
+	const handleShow = async () => {
+		setOpen(true);
+		const bs = await import("bootstrap");
+		modal = bs.Modal.getOrCreateInstance(ref.current!, { backdrop: "static" });
 		modal.show();
 	};
 
@@ -115,8 +122,10 @@ export function Statistics() {
 									</div>
 								</SettingsRow>
 							</div>
-							{data && (
-								<StatReport {...data} />
+							{open && (
+								<Suspense>
+									<StatReport data={data} />
+								</Suspense>
 							)}
 						</div>
 						<div className="modal-footer">

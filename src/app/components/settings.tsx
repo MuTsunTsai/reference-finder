@@ -20,11 +20,12 @@ export function Settings() {
 	const [tempDb, setTempDb] = useState(structuredClone(db));
 	const [tab, setTab] = useState(0);
 	const ref = useRef(null);
-	const handleShow = () => {
+	const handleShow = async () => {
 		gtag("event", "ref_show_settings");
 		cacheTempSettings(structuredClone(settings));
 		setTempDb(structuredClone(db));
-		Modal.getOrCreateInstance(ref.current!, { backdrop: "static" }).show();
+		const bs = await import("bootstrap");
+		bs.Modal.getOrCreateInstance(ref.current!, { backdrop: "static" }).show();
 	};
 	const handleSave = () => {
 		if(hasChanged(db, tempDb)) {

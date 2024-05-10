@@ -37,7 +37,7 @@
 		"bootstrap": "^5.3.3",
 		"chart.js": "^4.4.2",
 		"chartjs-plugin-datalabels": "^2.2.0",
-		"i18next": "^23.11.3",
+		"i18next": "^23.11.4",
 		"i18next-browser-languagedetector": "^7.2.1",
 		"math-expression-evaluator": "^2.0.5",
 		"rabbit-ear": "^0.9.32",

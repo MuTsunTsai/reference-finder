@@ -1,7 +1,7 @@
 
 import { Bar } from "react-chartjs-2";
 import { color } from "chart.js/helpers";
-import { Theme, useSettings, useStore } from "../../store";
+import { Theme, useSettings } from "../../store";
 import { getMinMax, usePrimary, useTheme } from "./chart";
 import { BUCKET_COUNT } from "./chart";
 
@@ -34,7 +34,6 @@ function getAggregates(counts: number[]): number[] {
 
 export function StatDist({ data }: StatData) {
 	const settings = useSettings();
-	const store = useStore();
 	const theme = useTheme();
 
 	const [min, max] = getMinMax(data);
@@ -116,7 +115,7 @@ export function StatDist({ data }: StatData) {
 
 	return (
 		<div style={{ height: "25rem" }}>
-			<Bar style={{ height: "100%" }} data={chart} options={options} key={store.computedTheme} />
+			<Bar style={{ height: "100%" }} data={chart} options={options} key={theme} />
 		</div>
 	);
 }
