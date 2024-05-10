@@ -6,14 +6,14 @@ import en from "../locale/en.json";
 import es from "../locale/es.json";
 import pt from "../locale/pt.json";
 import ru from "../locale/ru.json";
-import jp from "../locale/jp.json";
+import ja from "../locale/ja.json";
 import cn from "../locale/zh-CN.json";
 import tw from "../locale/zh-TW.json";
 
 const resources = {
 	en: { translation: en },
 	es: { translation: es },
-	jp: { translation: jp },
+	ja: { translation: ja },
 	pt: { translation: pt },
 	ru: { translation: ru },
 	"zh-CN": { translation: cn },

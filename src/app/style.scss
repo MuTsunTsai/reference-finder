@@ -85,6 +85,11 @@ span.capitalize {
 	--bs-light: #145686;
 	--bs-form-invalid-border-color: red;
 	--bs-danger: red;
+	--bs-emphasis-color: white;
+
+	.table {
+		--bs-table-striped-bg: rgba(0, 0, 0, 0.2);
+	}
 
 	--boundary: black;
 	--highlight: var(--bs-warning);

@@ -9,10 +9,11 @@ class JsonObject;
 class JsonArray {
   public:
 	JsonArray();
-	void reset();
+	void clear();
 	void add(const JsonObject &obj);
 	void add(const JsonArray &array);
 	void add(const int value);
+	void add(const double value);
 
   private:
 	std::stringstream mStream;

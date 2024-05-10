@@ -19,5 +19,8 @@
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx",
+		"types": [
+			"gtag.js"
+		]
 	}
 }

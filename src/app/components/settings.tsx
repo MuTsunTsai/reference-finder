@@ -21,6 +21,7 @@ export function Settings() {
 	const [tab, setTab] = useState(0);
 	const ref = useRef(null);
 	const handleShow = () => {
+		gtag("event", "ref_show_settings");
 		cacheTempSettings(structuredClone(settings));
 		setTempDb(structuredClone(db));
 		Modal.getOrCreateInstance(ref.current!, { backdrop: "static" }).show();
@@ -49,7 +50,8 @@ export function Settings() {
 	return (
 		<>
 			<button type="button" className="btn btn-secondary" onClick={handleShow}>
-				<i className="fa-solid fa-gear"></i>&nbsp;<span className="capitalize">{t("phrase.settings")}</span>
+				<i className="fa-solid fa-gear"></i>
+				<span className="capitalize d-none d-sm-inline-block">&nbsp;{t("phrase.settings")}</span>
 			</button>
 			<div className="modal fade" ref={ref}>
 				<div className="modal-dialog modal-dialog-centered">
@@ -147,7 +149,7 @@ export function Settings() {
 											<option value={Theme.system}>{t("settings.display.theme.system")}</option>
 											<option value={Theme.light}>{t("settings.display.theme.light")}</option>
 											<option value={Theme.dark}>{t("settings.display.theme.dark")}</option>
-											<option value={Theme.rabbitEar}>RabbitEar</option>
+											<option value={Theme.rabbit}>RabbitEar</option>
 										</select>
 									</SettingsRow>
 									<SettingsRow label={t("settings.display.precision")}>
@@ -171,8 +173,10 @@ export function Settings() {
 								<button type="button" className="btn btn-secondary" onClick={reset}>{t("settings.reset")}</button>
 							</div>
 							<div>
-								<button type="button" className="btn btn-secondary me-2 capitalize" data-bs-dismiss="modal" onClick={handleCancel}>{t("settings.cancel")}</button>
-								<button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSave}>{t("settings.ok")}</button>
+								<button type="button" className="btn btn-secondary me-2 capitalize"
+									data-bs-dismiss="modal" onClick={handleCancel}>{t("keyword.cancel")}</button>
+								<button type="button" className="btn btn-primary"
+									data-bs-dismiss="modal" onClick={handleSave}>{t("keyword.ok")}</button>
 							</div>
 						</div>
 					</div>

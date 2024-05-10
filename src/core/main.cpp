@@ -18,19 +18,22 @@ Copyright:    ©1999-2006 Robert J. Lang. All Rights Reserved.
 
 using namespace std;
 
+static int intervalReport;
+static int intervalCheckStop;
+static long startTime;
+static JsonArray progress;
+
 /*****
 Get a number from the user via standard input cin.
 *****/
-static bool ReadNumber(double &n, bool assumeDefault = true) {
-	emscripten_utils_get_double(n);
-	return true;
+static double ReadNumber() {
+	return emscripten_utils_get_double();
 }
 
 /*****
 Callback routine to show progress by reporting information to the console.
 *****/
-void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *,
-							 bool &) {
+void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &) {
 	switch (info.mStatus) {
 	case ReferenceFinder::DATABASE_INITIALIZING:
 		// Called at beginning of initialization
@@ -66,25 +69,51 @@ void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *,
 /*****
 Callback routine for statistics function
 *****/
-void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, bool &) {
+void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, bool &cancel) {
 	switch (info.mStatus) {
 	case ReferenceFinder::STATISTICS_BEGIN: {
-		// No need to do anything here
+		// record start time
+		startTime = emscripten_utils_get_now();
 		break;
 	}
 	case ReferenceFinder::STATISTICS_WORKING: {
+		progress.add(info.mError);
+
+		// Use the execution time of the first trial to estimate intervals
+		int index = (int)info.mIndex + 1;
+		if (index == 1) {
+			long lap = emscripten_utils_get_now() - startTime;
+			intervalReport = 250 / lap;
+			intervalCheckStop = 1000 / lap;
+
+			// Just in case one lap is VERY slow
+			if (intervalReport == 0) intervalReport = 1;
+			if (intervalCheckStop == 0) intervalCheckStop = 1;
+		}
+
 		// Print progress
-		if (info.mIndex % 5 == 0) {
-			JsonObject progress;
-			progress.add("total", ReferenceFinder::sNumTrials);
-			progress.add("progress", (int)info.mIndex);
-			cout << progress << endl;
+		if (index % intervalReport == 0) {
+			JsonObject json;
+			json.add("total", ReferenceFinder::sNumTrials);
+			json.add("progress", progress);
+			progress.clear();
+			cout << json << endl;
+		}
+
+		// Check if the user requested stopping
+		if (index % intervalCheckStop == 0) {
+			cancel = emscripten_utils_check_cancel();
 		}
 		break;
 	}
 	case ReferenceFinder::STATISTICS_DONE: {
-		// Report the results
-		cout << ReferenceFinder::sStatistics << endl;
+		// Print last progress
+		JsonObject json;
+		json.add("total", ReferenceFinder::sNumTrials);
+		json.add("progress", progress);
+		json.add("done", "yes");
+		progress.clear();
+		cout << json << endl;
 		break;
 	}
 	}
@@ -94,45 +123,36 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, boo
 Read settings related to database generating
 ******************************/
 void readDbSettings() {
-	double width, height, rank, lines, marks, o[7], num[7];
-	ReadNumber(width);
-	ReadNumber(height);
+	double width = ReadNumber();
+	double height = ReadNumber();
 	ReferenceFinder::sPaper = Paper(width, height);
-	ReadNumber(rank);
-	ReadNumber(lines);
-	ReadNumber(marks);
-	for (int i = 0; i < 7; i++) ReadNumber(o[i]);
-	ReferenceFinder::sMaxRank = rank;
-	ReferenceFinder::sMaxLines = lines;
-	ReferenceFinder::sMaxMarks = marks;
-	ReferenceFinder::sUseRefLine_C2P_C2P = o[0];
-	ReferenceFinder::sUseRefLine_P2P = o[1];
-	ReferenceFinder::sUseRefLine_L2L = o[2];
-	ReferenceFinder::sUseRefLine_L2L_C2P = o[3];
-	ReferenceFinder::sUseRefLine_P2L_C2P = o[4];
-	ReferenceFinder::sUseRefLine_P2L_P2L = o[5];
-	ReferenceFinder::sUseRefLine_L2L_P2L = o[6];
-	for (int i = 0; i < 7; i++) ReadNumber(num[i]);
-	ReferenceFinder::sNumX = num[0];
-	ReferenceFinder::sNumY = num[1];
-	ReferenceFinder::sNumA = num[2];
-	ReferenceFinder::sNumD = num[3];
-	ReferenceFinder::sMinAspectRatio = num[4];
-	ReferenceFinder::sMinAngleSine = num[5];
-	ReferenceFinder::sVisibilityMatters = num[6];
+	ReferenceFinder::sMaxRank = ReadNumber();
+	ReferenceFinder::sMaxLines = ReadNumber();
+	ReferenceFinder::sMaxMarks = ReadNumber();
+	ReferenceFinder::sUseRefLine_C2P_C2P = ReadNumber();
+	ReferenceFinder::sUseRefLine_P2P = ReadNumber();
+	ReferenceFinder::sUseRefLine_L2L = ReadNumber();
+	ReferenceFinder::sUseRefLine_L2L_C2P = ReadNumber();
+	ReferenceFinder::sUseRefLine_P2L_C2P = ReadNumber();
+	ReferenceFinder::sUseRefLine_P2L_P2L = ReadNumber();
+	ReferenceFinder::sUseRefLine_L2L_P2L = ReadNumber();
+	ReferenceFinder::sNumX = ReadNumber();
+	ReferenceFinder::sNumY = ReadNumber();
+	ReferenceFinder::sNumA = ReadNumber();
+	ReferenceFinder::sNumD = ReadNumber();
+	ReferenceFinder::sMinAspectRatio = ReadNumber();
+	ReferenceFinder::sMinAngleSine = ReadNumber();
+	ReferenceFinder::sVisibilityMatters = ReadNumber();
 }
 
 /******************************
 Read settings related to search only
 ******************************/
 int readSearchSettings() {
-	double error, count, worstCase;
-	ReadNumber(error);
-	ReadNumber(count);
-	ReadNumber(worstCase);
-	ReferenceFinder::sGoodEnoughError = error;
-	ReferenceFinder::sLineWorstCaseError = worstCase;
-	return (int)count;
+	ReferenceFinder::sGoodEnoughError = ReadNumber();
+	int count = ReadNumber();
+	ReferenceFinder::sLineWorstCaseError = ReadNumber();
+	return count;
 }
 
 /******************************
@@ -155,23 +175,19 @@ int main() {
 	while (true) {
 		emscripten_utils_clear();
 
-		// cout << "0 = exit, 1 = find mark, 2 = find line : " << endl;
 		cout << "Ready" << endl;
-		double ns;
-		if (!ReadNumber(ns, false)) continue;
+		int ns = ReadNumber();
 
-		switch (int(ns)) {
+		switch (ns) {
 		case 0: {
 			exit(1);
 			break;
 		}
 		case 1: {
 			int count = readSearchSettings();
-			XYPt pp(0, 0);
-			// cout << "Enter x coordinate: " << endl;
-			if (!ReadNumber(pp.x)) continue;
-			// cout << "Enter y coordinate: " << endl;
-			if (!ReadNumber(pp.y)) continue;
+			XYPt pp;
+			pp.x = ReadNumber();
+			pp.y = ReadNumber();
 			string err;
 			if (ReferenceFinder::ValidateMark(pp, err)) {
 				vector<RefMark *> marks;
@@ -186,14 +202,10 @@ int main() {
 		case 2: {
 			int count = readSearchSettings();
 			XYPt p1, p2;
-			// cout << "Enter p1 x coordinate: " << endl;
-			if (!ReadNumber(p1.x)) continue;
-			// cout << "Enter p1 y coordinate: " << endl;
-			if (!ReadNumber(p1.y)) continue;
-			// cout << "Enter p2 x coordinate: " << endl;
-			if (!ReadNumber(p2.x)) continue;
-			// cout << "Enter p2 y coordinate: " << endl;
-			if (!ReadNumber(p2.y)) continue;
+			p1.x = ReadNumber();
+			p1.y = ReadNumber();
+			p2.x = ReadNumber();
+			p2.y = ReadNumber();
 			string err;
 			if (ReferenceFinder::ValidateLine(p1, p2, err)) {
 				XYLine ll(p1, p2);
@@ -207,6 +219,7 @@ int main() {
 			break;
 		}
 		case 99: {
+			ReferenceFinder::sNumTrials = ReadNumber();
 			// hidden command to calculate statistics on marks & report results
 			ReferenceFinder::CalcStatistics();
 			break;

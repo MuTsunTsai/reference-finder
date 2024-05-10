@@ -20,7 +20,7 @@ ESFLAGS :=\
 	-sALLOW_MEMORY_GROWTH\
 	-sMALLOC=dlmalloc\
 	-sASYNCIFY=1\
-	-sASYNCIFY_IMPORTS=['emscripten_utils_get_double_impl']\
+	-sASYNCIFY_IMPORTS=['emscripten_utils_get_double_impl','emscripten_utils_check_cancel_impl']\
 	-sEXPORTED_RUNTIME_METHODS=['setValue']\
 	-sFILESYSTEM=0\
 	-sMODULARIZE=1\

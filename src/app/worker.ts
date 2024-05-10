@@ -3,9 +3,15 @@ import { useDB, useStore } from "./store";
 import type { DbSettings, Solution } from "./store";
 
 let worker: Worker;
+let statisticsCallback: (text: string | Error) => void;
 
 export function useWorker() {
 	return worker;
+}
+
+export function startStatistics(trials: number, callback: typeof statisticsCallback) {
+	statisticsCallback = callback;
+	worker.postMessage([99, trials]);
 }
 
 export function resetWorker(db: DbSettings) {
@@ -14,6 +20,7 @@ export function resetWorker(db: DbSettings) {
 		useStore.setState({ running: false, ready: false, progress: null });
 		console.log("Reset worker");
 	}
+	const startTime = performance.now();
 	worker = new Worker(
 		/* webpackChunkName: "ref" */ new URL("../lib/worker.js", import.meta.url)
 	);
@@ -34,12 +41,17 @@ export function resetWorker(db: DbSettings) {
 	]);
 	worker.onmessage = e => {
 		const msg = e.data;
+		const { running, ready, solutions, statisticsRunning } = useStore.getState();
 		if(msg.text) {
 			const text = msg.text;
-			const { running, ready, solutions } = useStore.getState();
 			if(!ready) {
-				if(text.startsWith("{")) useStore.setState({ progress: JSON.parse(text) });
-				else console.log(text);
+				if(text.startsWith("{")) {
+					useStore.setState({ progress: JSON.parse(text) });
+				} else if(text == "Ready") {
+					console.log(`Ready in ${Math.floor(performance.now() - startTime)}ms.`);
+				} else {
+					console.log(text);
+				}
 			}
 			if(text == "Ready") {
 				useStore.setState({ running: running && !ready, ready: true });
@@ -62,11 +74,15 @@ export function resetWorker(db: DbSettings) {
 				solutions.push(solution);
 
 				useStore.setState({ solutions: solutions.concat() });
+			} else if(statisticsRunning) {
+				statisticsCallback(text);
 			}
 		}
 		if(msg.err) {
 			useStore.setState({ coreError: msg.err });
-			console.error(new Error(msg.err));
+			const err = new Error(msg.err)
+			console.error(err);
+			if(statisticsRunning) statisticsCallback(err);
 		}
 	};
 }

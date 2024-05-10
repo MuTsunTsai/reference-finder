@@ -32,7 +32,7 @@ void JsonStreamDgmr::PutRefList(const typename R::bare_t &ar, vector<R *> &vr) {
 		JsonArray diagrams;
 		vr[i]->BuildDiagrams();
 		for (size_t j = 0; j < RefBase::sDgms.size(); j++) {
-			mArray.reset();
+			mArray.clear();
 			RefBase::DrawDiagram(*this, RefBase::sDgms[j]);
 			diagrams.add(mArray);
 		};

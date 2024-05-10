@@ -44,6 +44,11 @@ export default defineConfig({
 						name: "react",
 						chunks: "initial",
 					},
+					chart: {
+						test: /chart/,
+						name: "chart",
+						chunks: "initial",
+					},
 					vendor: {
 						test: /node_modules/,
 						name: "vendor",

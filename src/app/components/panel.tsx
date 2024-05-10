@@ -7,6 +7,7 @@ import { PointInput } from "./form/point-input";
 import { useDB, useSettings, useStore } from "../store";
 import { useWorker } from "../worker";
 import { Settings } from "./settings";
+import { Statistics } from "./statistics/statistics";
 import { useTranslation } from "react-i18next";
 
 enum Mode {
@@ -38,6 +39,7 @@ export function Panel({ onSubmit }: PanelProps) {
 
 	function find(e: FormEvent) {
 		e.preventDefault();
+		gtag("event", mode == Mode.point ? "ref_find_point" : "ref_find_line");
 		const query = [mode, settings.error, settings.count, settings.worstCaseError, p1.x, p1.y];
 		if(mode == Mode.line) query.push(p2.x, p2.y);
 		useStore.setState({ running: true, solutions: [], coreError: null });
@@ -75,16 +77,16 @@ export function Panel({ onSubmit }: PanelProps) {
 				{mode == Mode.line && (
 					<PointInput label=" 2" value={p2} onInput={p => setP2(p)} />
 				)}
-				<div className="row mt-2">
+				<div className="row mt-2 gx-2">
 					<div className="col">
-						<Settings />
+						<Settings /> <Statistics />
 					</div>
 					<div className="col-auto text-end">
 						<button type="submit" className="btn btn-primary" disabled={store.running}>
 							{store.running && !store.ready ? (
 								<span className="capitalize">{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
 							) : (
-								<span><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></span>
+								<><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></>
 							)}
 						</button>
 					</div>

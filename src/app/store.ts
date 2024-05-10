@@ -28,7 +28,7 @@ export enum Theme {
 	system,
 	light,
 	dark,
-	rabbitEar,
+	rabbit,
 };
 
 export const defaultSettings = {
@@ -40,6 +40,7 @@ export const defaultSettings = {
 	worstCaseError: true,
 	count: 5,
 	precision: 4,
+	trials: 1000,
 };
 
 export interface InitInfo {
@@ -54,6 +55,8 @@ const defaultStore = {
 	running: false,
 	coreError: null as string | null,
 	solutions: [] as Solution[],
+	statisticsRunning: false,
+	computedTheme: Theme.light,
 };
 
 export const defaultDB = {

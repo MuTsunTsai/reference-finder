@@ -4,7 +4,8 @@ Module.print = text => {
 }
 Module.printErr = err => postMessage({ err });
 
-let init = false;
+let initialized = false;
+let cancelResolve = () => { };
 let readyResolve;
 const ready = new Promise(resolve => readyResolve = resolve);
 
@@ -33,10 +34,21 @@ function createQueue() {
 }
 
 Module.queue = createQueue();
+Module.checkCancel = () => new Promise(function(resolve) {
+	cancelResolve = resolve;
+
+	// if any message comes in when the tread is blocked,
+	// it will be executed before setTimeout
+	setTimeout(() => resolve(false), 0);
+});
 
 addEventListener('message', async e => {
 	if(!e.data) return;
-	if(init) await ready;
-	else init = true;
-	for(const item of e.data) Module.queue.put(item);
+	if(initialized) await ready;
+	else initialized = true;
+	if(e.data == "cancel") {
+		cancelResolve(true);
+	} else {
+		for(const item of e.data) Module.queue.put(item);
+	}
 });

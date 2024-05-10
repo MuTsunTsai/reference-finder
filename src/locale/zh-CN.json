@@ -47,8 +47,6 @@
 		"coreVer": "核心版本"
 	},
 	"settings": {
-		"cancel": "取消",
-		"ok": "确定",
 		"reset": "重设为默认值",
 		"display": {
 			"showAxiom": "在描述中显示公理编号。",
@@ -82,5 +80,13 @@
 		"title": "提示：",
 		"exp": "您可以使用数学表达式如 {{exp}}（三角函数使用度数）。",
 		"origin": "坐标原点位于左下角。"
+	},
+	"statistics": {
+		"_": "统计",
+		"trials": "试验"
+	},
+	"keyword": {
+		"cancel": "取消",
+		"ok": "确定"
 	}
 }

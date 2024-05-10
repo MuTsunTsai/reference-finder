@@ -21,11 +21,12 @@ function App() {
 	useEffect(toggleDark);
 
 	useEffect(() => {
-		let theme = "light";
-		if(settings.theme == Theme.dark || settings.theme == Theme.system && systemDark) theme = "dark";
-		if(settings.theme == Theme.rabbitEar) theme = "rabbit";
-		document.documentElement.dataset.bsTheme = theme;
-	});
+		let theme = Theme.light;
+		if(settings.theme == Theme.dark || settings.theme == Theme.system && systemDark) theme = Theme.dark;
+		if(settings.theme == Theme.rabbit) theme = Theme.rabbit;
+		useStore.setState({ computedTheme: theme });
+		document.documentElement.dataset.bsTheme = Theme[theme];
+	}, [settings.theme, systemDark]);
 
 	return (<>
 		<div className="container px-4">

@@ -100,10 +100,7 @@ bool ReferenceFinder::sLineWorstCaseError = true;
 int ReferenceFinder::sDatabaseStatusSkip = 400000;
 
 // Variables used when we calculate statistics on the database
-int ReferenceFinder::sNumBuckets = 11;		 // how many error buckets to use
-double ReferenceFinder::sBucketSize = 0.001; // size of each bucket
-int ReferenceFinder::sNumTrials = 1000;		 // number of test cases total
-string ReferenceFinder::sStatistics;		 // holds results of analysis
+int ReferenceFinder::sNumTrials = 1000; // number of test cases total
 
 // Letters that are used for labels for marks and lines.
 char RefLine::sLabels[] = "ABCDEFGHIJ";
@@ -310,23 +307,19 @@ void ReferenceFinder::CalcStatistics() {
 		sStatisticsFn(StatisticsInfo(STATISTICS_BEGIN), sStatisticsUserData, cancel);
 	}
 
-	vector<int> errBucket; // number of errors in each bucket
-	errBucket.assign(sNumBuckets, 0);
-	vector<double> errors;			// list of all errors
 	vector<RefMark *> sortMarks(1); // a vector to do our sorting into
 
 	// Run a bunch of test cases on random points.
 	int actNumTrials = sNumTrials;
 	for (size_t i = 0; i < size_t(sNumTrials); i++) {
-		XYPt testPt((double(rand()) / (RAND_MAX * sPaper.mWidth)),
-					double(rand()) / (RAND_MAX * sPaper.mHeight));
+		XYPt testPt((double(rand()) / (RAND_MAX * sPaper.mWidth)), double(rand()) / (RAND_MAX * sPaper.mHeight));
 
 		// Find the mark closest to the test mark.
 		partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), sortMarks.begin(), sortMarks.end(), CompareError<RefMark>(testPt));
 
 		// note how close we were
 		double error = (testPt - sortMarks[0]->p).Mag();
-		errors.push_back(error);
+
 		// Report progress, and check for early termination from user
 		if (sStatisticsFn) {
 			sStatisticsFn(StatisticsInfo(STATISTICS_WORKING, i, error), sStatisticsUserData, cancel);
@@ -335,45 +328,7 @@ void ReferenceFinder::CalcStatistics() {
 				break;
 			}
 		}
-
-		// Compute a bucket index for this error. Over the top goes into last
-		// bucket. Then record the error in the appropriate bucket.
-		int errindex = int(error / sBucketSize);
-		if (errindex >= sNumBuckets) errindex = sNumBuckets - 1;
-		errBucket[errindex] += 1;
 	}
-
-	// Now compose a report of the results.
-	JsonObject report;
-	report.add("trials", actNumTrials);
-	report.add("bucketSize", sBucketSize);
-
-	// Report the number of errors for each error bucket
-	JsonArray buckets;
-	int total = 0;
-	for (int i = 0; i < sNumBuckets; i++) {
-		total += errBucket[i];
-		buckets.add(total);
-	}
-	report.add("bucketErrors", buckets);
-
-	// Sort the errors and write percentiles of the errors into output string
-
-	JsonObject percentile;
-	sort(errors.begin(), errors.end());
-	int errSize = errors.size();
-	percentile.add("10", errors[int(.10 * errSize)]);
-	percentile.add("20", errors[int(.20 * errSize)]);
-	percentile.add("50", errors[int(.50 * errSize)]);
-	percentile.add("80", errors[int(.80 * errSize)]);
-	percentile.add("90", errors[int(.90 * errSize)]);
-	percentile.add("95", errors[int(.95 * errSize)]);
-	percentile.add("99", errors[int(.99 * errSize)]);
-	report.add("percentiles", percentile);
-
-	stringstream ss;
-	ss << report;
-	sStatistics = ss.str();
 
 	// Call the callback for the final time, passing the string containing the
 	// results.

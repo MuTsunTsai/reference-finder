@@ -47,8 +47,6 @@
 		"coreVer": "Versão principal"
 	},
 	"settings": {
-		"cancel": "cancelar",
-		"ok": "OK",
 		"reset": "Redefinir para os padrões",
 		"display": {
 			"showAxiom": "Mostre o número do axioma na descrição.",
@@ -82,5 +80,13 @@
 		"title": "Dica:",
 		"exp": "Você pode usar expressões matemáticas como {{exp}} (funções trigonométricas usam graus).",
 		"origin": "A origem das coordenadas está no canto inferior esquerdo."
+	},
+	"statistics": {
+		"_": "Estatisticas",
+		"trials": "Ensaios"
+	},
+	"keyword": {
+		"cancel": "cancelar",
+		"ok": "OK"
 	}
 }

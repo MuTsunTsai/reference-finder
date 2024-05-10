@@ -63,10 +63,7 @@ class ReferenceFinder {
 	static bool sLineWorstCaseError; // true = use worst-case error vs Pythagorean
 	static int sDatabaseStatusSkip;	 // frequency that sDatabaseFn gets called
 
-	static int sNumBuckets;			// how many error buckets to use
-	static double sBucketSize;		// size of each bucket
 	static int sNumTrials;			// number of test cases total
-	static std::string sStatistics; // Results of statistical analysis
 
 	// Getters
 	static std::size_t GetNumLines() {
