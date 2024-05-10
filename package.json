@@ -1,6 +1,6 @@
 {
 	"name": "reference-finder",
-	"version": "4.0.2",
+	"version": "4.0.3",
 	"description": "Find reference points and lines in crease patterns.",
 	"scripts": {
 		"start": "make && rsbuild dev -o",
@@ -26,6 +26,7 @@
 		"@types/ungap__structured-clone": "^1.2.0",
 		"gulp": "^5.0.0",
 		"gulp-fontawesome": "^1.0.4",
+		"gulp-through2": "^1.0.2",
 		"postcss": "^8.4.38",
 		"typescript": "^5.4.5",
 		"workbox-webpack-plugin": "^7.1.0"

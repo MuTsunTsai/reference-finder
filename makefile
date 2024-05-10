@@ -48,6 +48,11 @@ $(TEMP)/%.o: $(SRCF)/%.cpp makefile
 	$(MK)
 	$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
 
+$(TEMP)/main.o: $(SRCF)/main.cpp makefile package.json
+	@gulp syncVer
+	$(MK)
+	$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
+
 %.h: ;
 %.d: ;
 

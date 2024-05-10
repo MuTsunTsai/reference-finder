@@ -3,6 +3,8 @@ import { pluginReact } from "@rsbuild/plugin-react";
 import { GenerateSW } from "workbox-webpack-plugin";
 import purgeCss from "@fullhuman/postcss-purgecss";
 
+import * as pkg from "./package.json";
+
 const isProduction = process.env.NODE_ENV === "production";
 
 export default defineConfig({
@@ -10,6 +12,9 @@ export default defineConfig({
 		progressBar: true,
 	},
 	source: {
+		define: {
+			__VERSION__: `"${pkg.version}"`,
+		},
 		entry: {
 			index: "./src/app/index.tsx",
 		}
