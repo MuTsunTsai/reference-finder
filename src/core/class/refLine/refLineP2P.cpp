@@ -122,19 +122,14 @@ void RefLine_P2P::MakeAll(rank_t arank) {
 	for (rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
 		rank_t jrank = arank - irank - 1;
 		bool sameRank = (irank == jrank);
-		RefContainer<RefMark>::rank_iterator mi =
-			ReferenceFinder::sBasisMarks.maps[irank].begin();
-		if (sameRank) mi++;
-		while (mi != ReferenceFinder::sBasisMarks.maps[irank].end()) {
-			RefContainer<RefMark>::rank_iterator mj =
-				ReferenceFinder::sBasisMarks.maps[jrank].begin();
-			while (mj != (sameRank ? mi : ReferenceFinder::sBasisMarks.maps[jrank].end())) {
+		auto &imap = ReferenceFinder::sBasisMarks.maps[irank];
+		for (auto mi = imap.begin() + (sameRank ? 1 : 0); mi != imap.end(); mi++) {
+			auto &jmap = ReferenceFinder::sBasisMarks.maps[jrank];
+			for (auto mj = jmap.begin(); mj != (sameRank ? mi : jmap.end()); mj++) {
 				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
 				RefLine_P2P rlb(*mi, *mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlb);
-				mj++;
 			};
-			mi++;
 		}
 	}
 }

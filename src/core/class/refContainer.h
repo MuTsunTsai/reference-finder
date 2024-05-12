@@ -20,8 +20,6 @@ class RefContainer : public std::vector<R *> {
 	std::vector<vec_t> maps;					  // Holds vectors of objects, one for each rank
 	vec_t buffer;								  // used to accumulate new objects (to avoid corrupting the main iterator)
 
-	typedef typename vec_t::iterator rank_iterator; // for iterating through individual ranks
-
   public:
 	std::size_t GetTotalSize() const {
 		// Total number of elements, all ranks

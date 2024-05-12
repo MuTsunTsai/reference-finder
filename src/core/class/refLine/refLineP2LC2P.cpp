@@ -155,30 +155,19 @@ void RefLine_P2L_C2P::MakeAll(rank_t arank) {
 	for (rank_t irank = 0; irank <= (arank - 1); irank++)
 		for (rank_t jrank = 0; jrank <= (arank - 1 - irank); jrank++) {
 			rank_t krank = arank - irank - jrank - 1;
-			RefContainer<RefMark>::rank_iterator mi =
-				ReferenceFinder::sBasisMarks.maps[irank].begin();
-			while (mi != ReferenceFinder::sBasisMarks.maps[irank].end()) {
-				RefContainer<RefLine>::rank_iterator lj =
-					ReferenceFinder::sBasisLines.maps[jrank].begin();
-				while (lj != ReferenceFinder::sBasisLines.maps[jrank].end()) {
-					RefContainer<RefMark>::rank_iterator mk =
-						ReferenceFinder::sBasisMarks.maps[krank].begin();
-					while (mk != ReferenceFinder::sBasisMarks.maps[krank].end()) {
+			for (auto mi : ReferenceFinder::sBasisMarks.maps[irank]) {
+				for (auto lj : ReferenceFinder::sBasisLines.maps[jrank]) {
+					for (auto mk : ReferenceFinder::sBasisMarks.maps[krank]) {
 						if ((irank != krank) || (mi != mk)) { // only cmpr iterators if same container
-							if (ReferenceFinder::GetNumLines() >=
-								ReferenceFinder::sMaxLines) return;
-							RefLine_P2L_C2P rlh1(*mi, *lj, *mk, 0);
+							if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+							RefLine_P2L_C2P rlh1(mi, lj, mk, 0);
 							ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh1);
-							if (ReferenceFinder::GetNumLines() >=
-								ReferenceFinder::sMaxLines) return;
-							RefLine_P2L_C2P rlh2(*mi, *lj, *mk, 1);
+							if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+							RefLine_P2L_C2P rlh2(mi, lj, mk, 1);
 							ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh2);
 						};
-						mk++;
-					};
-					lj++;
-				};
-				mi++;
+					}
+				}
 			}
 		}
 }

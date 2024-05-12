@@ -196,22 +196,17 @@ void RefLine_L2L::MakeAll(rank_t arank) {
 	for (rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
 		rank_t jrank = arank - irank - 1;
 		bool sameRank = (irank == jrank);
-		RefContainer<RefLine>::rank_iterator li =
-			ReferenceFinder::sBasisLines.maps[irank].begin();
-		if (sameRank) li++;
-		while (li != ReferenceFinder::sBasisLines.maps[irank].end()) {
-			RefContainer<RefLine>::rank_iterator lj =
-				ReferenceFinder::sBasisLines.maps[jrank].begin();
-			while (lj != (sameRank ? li : ReferenceFinder::sBasisLines.maps[jrank].end())) {
+		auto &imap = ReferenceFinder::sBasisLines.maps[irank];
+		for (auto li = imap.begin() + (sameRank ? 1 : 0); li != imap.end(); li++) {
+			auto &jmap = ReferenceFinder::sBasisLines.maps[jrank];
+			for (auto lj = jmap.begin(); lj != (sameRank ? li : jmap.end()); lj++) {
 				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
 				RefLine_L2L rls1(*li, *lj, 0);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls1);
 				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
 				RefLine_L2L rls2(*li, *lj, 1);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls2);
-				lj++;
 			};
-			li++;
 		}
 	}
 }

@@ -108,9 +108,9 @@ void RefContainer<R>::FlushBuffer() {
 	this->reserve(this->size() + buffer.size());
 
 	// Go through the buffer and add each element to the appropriate rank in the main container.
-	for (rank_iterator bi = buffer.begin(); bi != buffer.end(); bi++) {
-		maps[(*bi)->mRank].push_back(*bi); // add to the map of the appropriate rank
-		this->push_back(*bi);			   // also add to our sortable list
+	for (auto bi : buffer) {
+		maps[bi->mRank].push_back(bi); // add to the map of the appropriate rank
+		this->push_back(bi);		   // also add to our sortable list
 	}
 	buffer.clear(); // clear the buffer
 }

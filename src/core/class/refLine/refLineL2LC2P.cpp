@@ -95,18 +95,12 @@ to arank up to a cumulative total of sMaxLines.
 void RefLine_L2L_C2P::MakeAll(rank_t arank) {
 	for (rank_t irank = 0; irank <= (arank - 1); irank++) {
 		rank_t jrank = arank - irank - 1;
-		RefContainer<RefLine>::rank_iterator li =
-			ReferenceFinder::sBasisLines.maps[irank].begin();
-		while (li != ReferenceFinder::sBasisLines.maps[irank].end()) {
-			RefContainer<RefMark>::rank_iterator mj =
-				ReferenceFinder::sBasisMarks.maps[jrank].begin();
-			while (mj != ReferenceFinder::sBasisMarks.maps[jrank].end()) {
+		for (auto li : ReferenceFinder::sBasisLines.maps[irank]) {
+			for (auto mj : ReferenceFinder::sBasisMarks.maps[jrank]) {
 				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-				RefLine_L2L_C2P rls1(*li, *mj);
+				RefLine_L2L_C2P rls1(li, mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls1);
-				mj++;
-			};
-			li++;
+			}
 		}
 	}
 }

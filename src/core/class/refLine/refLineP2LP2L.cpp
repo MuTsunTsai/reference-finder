@@ -395,37 +395,26 @@ void RefLine_P2L_P2L::MakeAll(rank_t arank) {
 					for (rank_t lrank = 0; lrank <= lsrank - krank; lrank++) {
 
 						// iterate over all combinations of points & lines with given rank
-						RefContainer<RefMark>::rank_iterator mi =
-							ReferenceFinder::sBasisMarks.maps[irank].begin();
-						if (psameRank) mi++;
-						while (mi != ReferenceFinder::sBasisMarks.maps[irank].end()) {
-							RefContainer<RefMark>::rank_iterator mj =
-								ReferenceFinder::sBasisMarks.maps[jrank].begin();
-							while (mj != (psameRank ? mi : ReferenceFinder::sBasisMarks.maps[jrank].end())) {
-								RefContainer<RefLine>::rank_iterator lk =
-									ReferenceFinder::sBasisLines.maps[krank].begin();
-								while (lk != ReferenceFinder::sBasisLines.maps[krank].end()) {
-									RefContainer<RefLine>::rank_iterator ll =
-										ReferenceFinder::sBasisLines.maps[lrank].begin();
-									while (ll != ReferenceFinder::sBasisLines.maps[lrank].end()) {
+						auto &imap = ReferenceFinder::sBasisMarks.maps[irank];
+						for (auto mi = imap.begin() + (psameRank ? 1 : 0); mi != imap.end(); mi++) {
+							auto &jmap = ReferenceFinder::sBasisMarks.maps[jrank];
+							for (auto mj = jmap.begin(); mj != (psameRank ? mi : jmap.end()); mj++) {
+								for (auto lk : ReferenceFinder::sBasisLines.maps[krank]) {
+									for (auto ll : ReferenceFinder::sBasisLines.maps[lrank]) {
 										if ((krank != lrank) || (lk != ll)) { // cmpr iterators only if same container
 											if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-											RefLine_P2L_P2L rlp0(*mi, *lk, *mj, *ll, 0);
+											RefLine_P2L_P2L rlp0(*mi, lk, *mj, ll, 0);
 											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp0);
 											if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-											RefLine_P2L_P2L rlp1(*mi, *lk, *mj, *ll, 1);
+											RefLine_P2L_P2L rlp1(*mi, lk, *mj, ll, 1);
 											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp1);
 											if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
-											RefLine_P2L_P2L rlp2(*mi, *lk, *mj, *ll, 2);
+											RefLine_P2L_P2L rlp2(*mi, lk, *mj, ll, 2);
 											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp2);
 										};
-										ll++;
-									};
-									lk++;
-								};
-								mj++;
+									}
+								}
 							};
-							mi++;
 						}
 					}
 			}

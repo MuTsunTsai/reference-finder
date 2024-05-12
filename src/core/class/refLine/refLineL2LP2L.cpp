@@ -166,26 +166,16 @@ void RefLine_L2L_P2L::MakeAll(rank_t arank) {
 	for (rank_t irank = 0; irank <= (arank - 1); irank++)
 		for (rank_t jrank = 0; jrank <= (arank - 1 - irank); jrank++) {
 			rank_t krank = arank - irank - jrank - 1;
-			RefContainer<RefLine>::rank_iterator li =
-				ReferenceFinder::sBasisLines.maps[irank].begin();
-			while (li != ReferenceFinder::sBasisLines.maps[irank].end()) {
-				RefContainer<RefMark>::rank_iterator mj =
-					ReferenceFinder::sBasisMarks.maps[jrank].begin();
-				while (mj != ReferenceFinder::sBasisMarks.maps[jrank].end()) {
-					RefContainer<RefLine>::rank_iterator lk =
-						ReferenceFinder::sBasisLines.maps[krank].begin();
-					while (lk != ReferenceFinder::sBasisLines.maps[krank].end()) {
+			for (auto li : ReferenceFinder::sBasisLines.maps[irank]) {
+				for (auto mj : ReferenceFinder::sBasisMarks.maps[jrank]) {
+					for (auto lk : ReferenceFinder::sBasisLines.maps[krank]) {
 						if ((irank != krank) || (li != lk)) {
-							if (ReferenceFinder::GetNumLines() >=
-								ReferenceFinder::sMaxLines) return;
-							RefLine_L2L_P2L rlh1(*li, *mj, *lk);
+							if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+							RefLine_L2L_P2L rlh1(li, mj, lk);
 							ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh1);
 						};
-						lk++;
-					};
-					mj++;
-				};
-				li++;
+					}
+				}
 			}
 		}
 }
