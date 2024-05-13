@@ -14,13 +14,16 @@ Copyright:    ©1999-2006 Robert J. Lang. All Rights Reserved.
 #include "class/paper.h"
 #include "utils.h"
 
+#include <chrono>
 #include <sstream>
 
 using namespace std;
+using namespace std::chrono;
 
+static int lapToTime;
 static int intervalReport;
 static int intervalCheckStop;
-static long startTime;
+static system_clock::time_point startTime;
 static JsonArray progress;
 
 /*****
@@ -48,9 +51,6 @@ void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &)
 		cout << " vis=";
 		if (ReferenceFinder::sVisibilityMatters) cout << "true";
 		else cout << "false";
-		cout << " wce=";
-		if (ReferenceFinder::sLineWorstCaseError) cout << "true";
-		else cout << "false";
 		cout << endl;
 		break;
 
@@ -66,6 +66,17 @@ void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &)
 	}
 }
 
+void updateInterval(double laps) {
+	auto duration = system_clock::now() - startTime;
+	double lap = duration_cast<milliseconds>(duration).count() / laps;
+	intervalReport = 250 / lap;
+	intervalCheckStop = 1000 / lap;
+
+	// Just in case one lap is VERY slow
+	if (intervalReport == 0) intervalReport = 1;
+	if (intervalCheckStop == 0) intervalCheckStop = 1;
+}
+
 /*****
 Callback routine for statistics function
 *****/
@@ -73,22 +84,18 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, boo
 	switch (info.mStatus) {
 	case ReferenceFinder::STATISTICS_BEGIN: {
 		// record start time
-		startTime = emscripten_utils_get_now();
+		lapToTime = 1;
+		startTime = system_clock::now();
 		break;
 	}
 	case ReferenceFinder::STATISTICS_WORKING: {
 		progress.add(info.mError);
-
-		// Use the execution time of the first trial to estimate intervals
 		int index = (int)info.mIndex + 1;
-		if (index == 1) {
-			long lap = emscripten_utils_get_now() - startTime;
-			intervalReport = 250 / lap;
-			intervalCheckStop = 1000 / lap;
 
-			// Just in case one lap is VERY slow
-			if (intervalReport == 0) intervalReport = 1;
-			if (intervalCheckStop == 0) intervalCheckStop = 1;
+		// Use the execution time of the first trial to estimate intervals.
+		if (index == lapToTime) {
+			updateInterval(index);
+			lapToTime *= 10; // Just to be sure, we re-estimate again on lap 10, 100, and so on.
 		}
 
 		// Print progress

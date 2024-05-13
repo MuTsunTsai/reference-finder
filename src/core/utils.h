@@ -10,12 +10,6 @@
 #endif
 
 // clang-format off
-EM_JS(const long *, emscripten_utils_get_now_impl, (), {
-	const ptr = _malloc(4);
-	setValue(ptr, performance.now(), "i32");
-	return ptr;
-});
-
 EM_JS(const double *, emscripten_utils_get_double_impl, (), {
 	return Asyncify.handleAsync(async() => {
 		const command = await Module["queue"].get();
@@ -41,13 +35,6 @@ EM_JS(void, emscripten_utils_clear_impl, (), {
 
 void emscripten_utils_clear() {
 	emscripten_utils_clear_impl();
-}
-
-long emscripten_utils_get_now() {
-	const long *ptr = emscripten_utils_get_now_impl();
-	long n = *ptr;
-	std::free((void *)ptr);
-	return n;
 }
 
 double emscripten_utils_get_double() {
