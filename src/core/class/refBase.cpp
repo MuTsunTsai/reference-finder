@@ -77,6 +77,8 @@ void RefBase::BuildAndNumberSequence() {
 	for (size_t i = 0; i < sSequence.size(); i++) sSequence[i]->SetIndex();
 }
 
+void RefBase::PutName(char const *key, JsonObject &obj) const {}
+
 /*****
 Put a statement about how to make this mark from its constituents to a stream.
 Overridden by most subclasses. Default behavior is doing nothing.

@@ -5,7 +5,7 @@ const through2 = require("gulp-through2");
 gulp.task("default", () =>
 	gulp.src("src/app/**/*.tsx")
 		.pipe(fontAwesome())
-		.pipe(gulp.dest("src/lib"))
+		.pipe(gulp.dest("src/icon"))
 );
 
 function pad(n) {

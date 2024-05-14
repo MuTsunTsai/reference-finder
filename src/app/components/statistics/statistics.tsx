@@ -1,7 +1,7 @@
 import { Suspense, lazy, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { startStatistics, useWorker } from "../../worker";
+import { startStatistics, useWorker } from "../../bridge";
 import { SettingsRow } from "../form/settings-row";
 import { useSettings, useStore } from "../../store";
 import { IntInput } from "../form/int-input";

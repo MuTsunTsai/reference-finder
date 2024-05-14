@@ -92,19 +92,17 @@ export default defineConfig({
 				]
 			}
 		},
-		rspack: {
-			plugins: [
-				new GenerateSW({
-					clientsClaim: true,
-					skipWaiting: true,
-					include: [
-						() => {
-							debugger;
-							return true;
-						}
-					]
-				})
-			]
+		rspack: (_, { appendPlugins }) => {
+			appendPlugins(new GenerateSW({
+				clientsClaim: true,
+				skipWaiting: true,
+				include: [
+					() => {
+						debugger;
+						return true;
+					}
+				]
+			}));
 		}
 	},
 });

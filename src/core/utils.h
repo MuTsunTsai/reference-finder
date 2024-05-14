@@ -12,7 +12,7 @@
 // clang-format off
 EM_JS(const double *, emscripten_utils_get_double_impl, (), {
 	return Asyncify.handleAsync(async() => {
-		const command = await Module["queue"].get();
+		const command = await Module.get();
 		const ptr = _malloc(8);
 		setValue(ptr, command, "double");
 		return ptr;
@@ -29,7 +29,7 @@ EM_JS(const bool *, emscripten_utils_check_cancel_impl, (), {
 });
 
 EM_JS(void, emscripten_utils_clear_impl, (), {
-	Module["queue"].clear();
+	Module.clear();
 });
 // clang-format on
 

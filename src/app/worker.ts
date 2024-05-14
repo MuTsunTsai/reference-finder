@@ -1,90 +1,72 @@
-import { useDB, useStore } from "./store";
+///<reference lib="webworker" />
 
-import type { DbSettings, Solution } from "./store";
+import ref from "../lib/ref";
 
-let worker: Worker;
-let statisticsCallback: (text: string | Error) => void;
+type Action = (...args: unknown[]) => void;
 
-export function useWorker() {
-	return worker;
-}
+const wasmURL = new URL("../lib/ref.wasm", import.meta.url);
 
-export function startStatistics(trials: number, callback: typeof statisticsCallback) {
-	statisticsCallback = callback;
-	worker.postMessage([99, trials]);
-}
+let initialized = false;
+let cancelResolve = (value: boolean) => { };
+let readyResolve: Action;
+let valueResolve: Action | null = null;
+const ready = new Promise(resolve => readyResolve = resolve);
 
-export function resetWorker(db: DbSettings) {
-	if(worker) {
-		worker.terminate();
-		useStore.setState({ running: false, ready: false, progress: null });
-		console.log("Reset worker");
+const queue: number[] = [];
+
+function put(data: number) {
+	if(valueResolve) {
+		valueResolve(data);
+		valueResolve = null;
+	} else {
+		queue.push(data);
 	}
-	const startTime = performance.now();
-	worker = new Worker(
-		/* webpackChunkName: "ref" */ new URL("../lib/worker.js", import.meta.url)
-	);
-	worker.postMessage([
-		db.width,
-		db.height,
-		db.maxRank,
-		db.maxLinesV1,
-		db.maxMarksV1,
-		...db.axioms.map(Number),
-		db.numX,
-		db.numY,
-		db.numA,
-		db.numD,
-		db.minAspectRatio,
-		db.minAngleSine,
-		db.visibility,
-	]);
-	worker.onmessage = e => {
-		const msg = e.data;
-		const { running, ready, solutions, statisticsRunning } = useStore.getState();
-		if(msg.text) {
-			const text = msg.text;
-			if(!ready) {
-				if(text.startsWith("{")) {
-					useStore.setState({ progress: JSON.parse(text) });
-				} else if(text == "Ready") {
-					console.log(`Ready in ${Math.floor(performance.now() - startTime)}ms.`);
-				} else {
-					console.log(text);
-				}
-			}
-			if(text == "Ready") {
-				useStore.setState({ running: running && !ready, ready: true });
-				return;
-			}
-			if(!ready) return;
-
-			// uncomment the next line to debug
-			// console.log(text);
-
-			if(running) {
-				// Organize steps
-				const solution = JSON.parse(text) as Solution;
-				const steps = solution.steps;
-				solution.steps = [];
-				for(const step of steps) {
-					if(step.axiom > 0 || step == steps[steps.length - 1]) solution.steps.push(step);
-					else solution.steps[solution.steps.length - 1].intersection = step;
-				}
-				solutions.push(solution);
-
-				useStore.setState({ solutions: solutions.concat() });
-			} else if(statisticsRunning) {
-				statisticsCallback(text);
-			}
-		}
-		if(msg.err) {
-			useStore.setState({ coreError: msg.err });
-			const err = new Error(msg.err)
-			console.error(err);
-			if(statisticsRunning) statisticsCallback(err);
-		}
-	};
 }
 
-resetWorker(useDB.getState());
+addEventListener('message', async e => {
+	if(!e.data) return;
+	if(initialized) await ready;
+	else initialized = true;
+	if(e.data == "cancel") {
+		cancelResolve(true);
+	} else {
+		for(const item of e.data) put(item);
+	}
+});
+
+ref({
+	/**
+	 * We use this to hook up with rsbuild (formerly webpack)
+	 * See https://gist.github.com/surma/b2705b6cca29357ebea1c9e6e15684cc
+	 */
+	locateFile(path: string) {
+		if(path.endsWith(".wasm")) return wasmURL.pathname;
+		return path;
+	},
+	print: (text: string) => {
+		if(text == "Ready") readyResolve();
+		postMessage({ text });
+	},
+	printErr: (err: string) => postMessage({ err }),
+
+	/////////////////////////////////////////////////////////////////////////
+
+	checkCancel: () => new Promise(function(resolve) {
+		cancelResolve = resolve;
+
+		// if any message comes in when the tread is blocked,
+		// it will be executed before setTimeout
+		setTimeout(() => resolve(false), 0);
+	}),
+	async get() {
+		if(queue.length > 0) {
+			return queue.shift();
+		}
+		return await new Promise(resolve => {
+			return valueResolve = resolve;
+		});
+	},
+	clear() {
+		queue.length = 0;
+	},
+});

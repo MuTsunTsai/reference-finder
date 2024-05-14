@@ -11,7 +11,6 @@ SRC := $(wildcard $(SRCF)/*.cpp) $(wildcard $(SRCF)/*/*.cpp) $(wildcard $(SRCF)/
 OBJ := $(patsubst $(SRCF)/%.cpp,$(TEMP)/%.o,$(SRC))
 DEP := $(patsubst $(SRCF)/%.cpp,$(TEMP)/%.d,$(SRC))
 
-PRE := $(SRCF)/pre.js
 OUT := ref
 
 STD := -std=c++17
@@ -40,18 +39,18 @@ endif
 .PHONY: all
 all: $(WASM)
 
-$(WASM): $(OBJ) $(PRE) makefile
+$(WASM): $(OBJ)
 	$(MK)
 	@echo Compiling [33m$(WASM)[0m
-	@$(CC) $(ESFLAGS) $(OPTI) --pre-js $(PRE) -o $(TARGET)/$(OUT).js $(OBJ)
+	@$(CC) $(ESFLAGS) $(OPTI) -o $(TARGET)/$(OUT).js $(OBJ)
 	@echo [33mWebAssembly compile complete![0m
 
-$(TEMP)/%.o: $(SRCF)/%.cpp makefile
+$(TEMP)/%.o: $(SRCF)/%.cpp
 	$(MK)
 	@echo Compiling [32m$<[0m
 	@$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
 
-$(TEMP)/main.o: $(SRCF)/main.cpp makefile package.json
+$(TEMP)/main.o: $(SRCF)/main.cpp package.json
 	@gulp syncVer -S
 	$(MK)
 	@echo Compiling [32m$<[0m

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { ExpInput } from "./form/exp-input";
 import { IntInput } from "./form/int-input";
 import { Theme, defaultDB, defaultSettings, useDB, useSettings } from "../store";
-import { resetWorker } from "../worker";
+import { resetWorker } from "../bridge";
 import { SettingsRow } from "./form/settings-row";
 import { Checkbox } from "./form/checkbox";
 import { InfoTooltip } from "./tooltip";

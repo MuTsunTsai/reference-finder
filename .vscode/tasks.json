@@ -1,0 +1,57 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Server",
+			"type": "shell",
+			"command": "pnpm rsbuild dev",
+			"isBackground": true,
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"problemMatcher": {
+				"pattern": {
+					"regexp": ".",
+					"file": 1,
+					"line": 1,
+					"column": 1,
+					"message": 1
+				},
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "Rsbuild",
+					"endsPattern": "Client compiled"
+				}
+			}
+		},
+		{
+			"label": "Make",
+			"type": "shell",
+			"command": "make",
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"revealProblems": "onProblem",
+				"focus": false,
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "PreLaunch",
+			"dependsOn": [
+				"Server",
+				"Make"
+			]
+		}
+	]
+}
