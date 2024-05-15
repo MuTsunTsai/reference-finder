@@ -9,7 +9,8 @@
 			"preLaunchTask": "PreLaunch",
 			"internalConsoleOptions": "neverOpen",
 			"url": "http://localhost:31213",
-			"sourceMaps": true
+			"sourceMaps": true,
+			"webRoot": "${workspaceFolder}"
 		}
 	]
 }
