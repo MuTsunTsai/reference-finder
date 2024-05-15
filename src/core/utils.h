@@ -10,22 +10,18 @@
 #endif
 
 // clang-format off
-EM_JS(const double *, emscripten_utils_get_double_impl, (), {
-	return Asyncify.handleAsync(async() => {
-		const command = await Module.get();
-		const ptr = _malloc(8);
-		setValue(ptr, command, "double");
-		return ptr;
-	});
+EM_ASYNC_JS(const double *, emscripten_utils_get_double_impl, (), {
+	const command = await Module.get();
+	const ptr = _malloc(8);
+	setValue(ptr, command, "double");
+	return ptr;
 });
 
-EM_JS(const bool *, emscripten_utils_check_cancel_impl, (), {
-	return Asyncify.handleAsync(async() => {
-		const command = await Module.checkCancel();
-		const ptr = _malloc(1);
-		setValue(ptr, command, "i8");
-		return ptr;
-	});
+EM_ASYNC_JS(const bool *, emscripten_utils_check_cancel_impl, (), {
+	const command = await Module.checkCancel();
+	const ptr = _malloc(1);
+	setValue(ptr, command, "i8");
+	return ptr;
 });
 
 EM_JS(void, emscripten_utils_clear_impl, (), {

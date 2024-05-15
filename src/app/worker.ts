@@ -1,13 +1,12 @@
 ///<reference lib="webworker" />
+///<reference types="emscripten" />
 
 import ref from "../lib/ref";
 
 type Action = (...args: unknown[]) => void;
 
-const wasmURL = new URL("../lib/ref.wasm", import.meta.url);
-
 let initialized = false;
-let cancelResolve = (value: boolean) => { };
+let cancelResolve = (_: boolean) => { };
 let readyResolve: Action;
 let valueResolve: Action | null = null;
 const ready = new Promise(resolve => readyResolve = resolve);
@@ -35,14 +34,6 @@ addEventListener('message', async e => {
 });
 
 ref({
-	/**
-	 * We use this to hook up with rsbuild (formerly webpack)
-	 * See https://gist.github.com/surma/b2705b6cca29357ebea1c9e6e15684cc
-	 */
-	locateFile(path: string) {
-		if(path.endsWith(".wasm")) return wasmURL.pathname;
-		return path;
-	},
 	print: (text: string) => {
 		if(text == "Ready") readyResolve();
 		postMessage({ text });
@@ -69,4 +60,4 @@ ref({
 	clear() {
 		queue.length = 0;
 	},
-});
+} as Partial<EmscriptenModule>);
