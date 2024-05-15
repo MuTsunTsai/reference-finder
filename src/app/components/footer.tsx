@@ -12,7 +12,7 @@ export function Footer() {
 					© 1999-2007 <a href="https://langorigami.com/article/referencefinder/" target="_blank">Robert J. Lang</a>
 				</div>
 				<div className="col-12 col-md-auto">
-					© 2018-2022 <a href="https://github.com/robbykraft/ReferenceFinder" target="_blank">Robby Kraft</a>
+					© 2018-2022 <a href="https://github.com/mayakraft/ReferenceFinder" target="_blank">Maya Kraft</a>
 				</div>
 				<div className="col-12 col-md-auto">
 					© 2024 <a href="https://github.com/mutsuntsai/reference-finder" target="_blank">Mu-Tsun Tsai</a>

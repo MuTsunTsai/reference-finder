@@ -55,11 +55,11 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0(postcss@8.4.38)
       '@rsbuild/core':
-        specifier: ^0.6.14
-        version: 0.6.14
+        specifier: ^0.6.15
+        version: 0.6.15
       '@rsbuild/plugin-react':
-        specifier: ^0.6.14
-        version: 0.6.14(@rsbuild/core@0.6.14)(@swc/helpers@0.5.3)
+        specifier: ^0.6.15
+        version: 0.6.15(@rsbuild/core@0.6.15)(@swc/helpers@0.5.3)
       '@types/bootstrap':
         specifier: ^5.2.10
         version: 5.2.10
@@ -795,18 +795,18 @@ packages:
       rollup:
         optional: true
 
-  '@rsbuild/core@0.6.14':
-    resolution: {integrity: sha512-Omnhia4iVHsZ5A+F7yKuRtda6WgAi10tGoOO2aQdn+X8nijLjjW/2TX2asp+7RU2EBnXalV16SjYuA5QSWoDPQ==}
+  '@rsbuild/core@0.6.15':
+    resolution: {integrity: sha512-wT9gyfRHyXJamR6fvlWzOpWGmI+2w+LMNIvAItY6AjCIT1zgfK0OOkChR4KGTTOWj68b/t0BnuBy1b2PV3DLyw==}
     engines: {node: '>=16.0.0'}
     hasBin: true
 
-  '@rsbuild/plugin-react@0.6.14':
-    resolution: {integrity: sha512-qtTB5ccG1oOAsOqfIV5yi0hNgpjUjBY9f6GhJJs2tim6KCg2lmwbdHJyTVfh4gzJ6wgyYH4P6iuXJhFuiWYeRw==}
+  '@rsbuild/plugin-react@0.6.15':
+    resolution: {integrity: sha512-ZLFF5qYgQPKbJ5IL85XayadryxnHoaLUUjd2ewf/d/TRUh2NiWyZGaNzRytbmhaxI0WW8RUkZdy5aX3xyiZbTA==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.14
+      '@rsbuild/core': ^0.6.15
 
-  '@rsbuild/shared@0.6.14':
-    resolution: {integrity: sha512-2bbU4/myax29NLCqioQ0degMuXWF4HeAC9y2KEPJqTBmbc64cFFLF3kyMT8QW5ZVksl1dvcPoNIJXvxSi1tx6w==}
+  '@rsbuild/shared@0.6.15':
+    resolution: {integrity: sha512-siBYUQL3qVINLDkIBaxx4caNb+zZ+Jb8WtN2RgRT5buLW+PU5fXUs5vGwjFz6B6wCxO/vLr78X/FjaCmxMv8HA==}
 
   '@rspack/binding-darwin-arm64@0.6.5':
     resolution: {integrity: sha512-5Zbs3buzF80MZoWnnpm/ZqQ2ZLKWjmmy94gDMeJhG39lKcpK2J2NyDXVis2ZSg7uUvKyJ662BEgIE1AnTWjnYg==}
@@ -915,8 +915,8 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/node@20.12.11':
-    resolution: {integrity: sha512-vDg9PZ/zi+Nqp6boSOT7plNuthRugEKixDv5sFTIpkE89MmNtEArAShI4mxuX2+UrLEe9pxC1vm2cjm9YlWbJw==}
+  '@types/node@20.12.12':
+    resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==}
 
   '@types/prop-types@15.7.12':
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
@@ -1153,8 +1153,8 @@ packages:
     resolution: {integrity: sha512-GHTSNSYICQ7scH7sZ+M2rFopRoLh8t2bLSW6BbgrtLsahOIB5iyAVJf9GjWK3cYTDaMj4XdBpM1cA6pIS0Kv2w==}
     engines: {node: '>= 0.4'}
 
-  caniuse-lite@1.0.30001617:
-    resolution: {integrity: sha512-mLyjzNI9I+Pix8zwcrpxEbGlfqOkF9kM3ptzmKNw5tizSyYwMe+nGLTqMK9cO+0E+Bh6TsBxNAaHWEM8xwSsmA==}
+  caniuse-lite@1.0.30001618:
+    resolution: {integrity: sha512-p407+D1tIkDvsEAPS22lJxLQQaG8OTBEqo0KhzfABGk0TU4juBNDSfH0hyAp/HRyx+M8L17z/ltyhxh27FTfQg==}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -1236,8 +1236,8 @@ packages:
     resolution: {integrity: sha512-bVWtw1wQLzzKiYROtvNlbJgxgBYt2bMJpkCbKmXM3xyijvcjjWXEk5nyrrT3bgJ7ODb19ZohE2T0Y3FgNPyoTw==}
     engines: {node: '>= 10.13.0'}
 
-  core-js-compat@3.37.0:
-    resolution: {integrity: sha512-vYq4L+T8aS5UuFg4UwDhc7YNRWVeVZwltad9C/jV3R2LgVOpS9BDr7l/WL6BN0dbV3k1XejPTHqqEzJgsa0frA==}
+  core-js-compat@3.37.1:
+    resolution: {integrity: sha512-9TNiImhKvQqSUkOvk/mMRZzOANTiEVC7WaBNhHcKM7x+/5E1l5NvsysR19zuDQScE8k+kfQXWRN3AtS/eOSHpg==}
 
   core-js@3.36.1:
     resolution: {integrity: sha512-BTvUrwxVBezj5SZ3f10ImnX2oRByMxql3EimVqMysepbC9EeMUOpLwdy6Eoili2x6E4kf+ZUB5k/+Jv55alPfA==}
@@ -1310,8 +1310,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.4.763:
-    resolution: {integrity: sha512-k4J8NrtJ9QrvHLRo8Q18OncqBCB7tIUyqxRcJnlonQ0ioHKYB988GcDFF3ZePmnb8eHEopDs/wPHR/iGAFgoUQ==}
+  electron-to-chromium@1.4.768:
+    resolution: {integrity: sha512-z2U3QcvNuxdkk33YV7R1bVMNq7fL23vq3WfO5BHcqrm4TnDGReouBfYKLEFh5umoK1XACjEwp8mmnhXk2EJigw==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -2034,8 +2034,8 @@ packages:
     resolution: {integrity: sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==}
     engines: {node: '>=16 || 14 >=14.18'}
 
-  picocolors@1.0.0:
-    resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
+  picocolors@1.0.1:
+    resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
 
   picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
@@ -2490,8 +2490,8 @@ packages:
     resolution: {integrity: sha512-aZwGpamFO61g3OlfT7OQCHqhGnW43ieH9WZeP7QxN/G/jS4jfqUkZxoryvJgVPEcrl5NL/ggHsSmLMHuH64Lhg==}
     engines: {node: '>=4'}
 
-  update-browserslist-db@1.0.15:
-    resolution: {integrity: sha512-K9HWH62x3/EalU1U6sjSZiylm9C8tgq2mSvshZpqc7QE69RaA2qjhkW2HlNA0tFpEbtyFz7HTqbSdN4MSwUodA==}
+  update-browserslist-db@1.0.16:
+    resolution: {integrity: sha512-KVbTxlBYlckhF5wgfyZXTWnMn7MMZjMu9XG8bPlliUOP9ThaF4QnhP8qrjrH7DRzHfSk0oQv1wToW+iA5GajEQ==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
@@ -2711,7 +2711,7 @@ snapshots:
   '@babel/code-frame@7.24.2':
     dependencies:
       '@babel/highlight': 7.24.5
-      picocolors: 1.0.0
+      picocolors: 1.0.1
 
   '@babel/compat-data@7.24.4': {}
 
@@ -2874,7 +2874,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.5
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.0.0
+      picocolors: 1.0.1
 
   '@babel/parser@7.24.5':
     dependencies:
@@ -3372,7 +3372,7 @@ snapshots:
       babel-plugin-polyfill-corejs2: 0.4.11(@babel/core@7.24.5)
       babel-plugin-polyfill-corejs3: 0.10.4(@babel/core@7.24.5)
       babel-plugin-polyfill-regenerator: 0.6.2(@babel/core@7.24.5)
-      core-js-compat: 3.37.0
+      core-js-compat: 3.37.1
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
@@ -3533,28 +3533,28 @@ snapshots:
     optionalDependencies:
       rollup: 2.79.1
 
-  '@rsbuild/core@0.6.14':
+  '@rsbuild/core@0.6.15':
     dependencies:
-      '@rsbuild/shared': 0.6.14(@swc/helpers@0.5.3)
+      '@rsbuild/shared': 0.6.15(@swc/helpers@0.5.3)
       '@rspack/core': 0.6.5(@swc/helpers@0.5.3)
       '@swc/helpers': 0.5.3
       core-js: 3.36.1
       html-webpack-plugin: html-rspack-plugin@5.7.2(@rspack/core@0.6.5(@swc/helpers@0.5.3))
       postcss: 8.4.38
 
-  '@rsbuild/plugin-react@0.6.14(@rsbuild/core@0.6.14)(@swc/helpers@0.5.3)':
+  '@rsbuild/plugin-react@0.6.15(@rsbuild/core@0.6.15)(@swc/helpers@0.5.3)':
     dependencies:
-      '@rsbuild/core': 0.6.14
-      '@rsbuild/shared': 0.6.14(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.15
+      '@rsbuild/shared': 0.6.15(@swc/helpers@0.5.3)
       '@rspack/plugin-react-refresh': 0.6.5(react-refresh@0.14.2)
       react-refresh: 0.14.2
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  '@rsbuild/shared@0.6.14(@swc/helpers@0.5.3)':
+  '@rsbuild/shared@0.6.15(@swc/helpers@0.5.3)':
     dependencies:
       '@rspack/core': 0.6.5(@swc/helpers@0.5.3)
-      caniuse-lite: 1.0.30001617
+      caniuse-lite: 1.0.30001618
       postcss: 8.4.38
     optionalDependencies:
       fsevents: 2.3.3
@@ -3604,7 +3604,7 @@ snapshots:
     dependencies:
       '@module-federation/runtime-tools': 0.1.6
       '@rspack/binding': 0.6.5
-      caniuse-lite: 1.0.30001617
+      caniuse-lite: 1.0.30001618
       enhanced-resolve: 5.12.0
       tapable: 2.2.1
       webpack-sources: 3.2.3
@@ -3675,7 +3675,7 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/node@20.12.11':
+  '@types/node@20.12.12':
     dependencies:
       undici-types: 5.26.5
 
@@ -3699,7 +3699,7 @@ snapshots:
   '@types/vinyl@2.0.12':
     dependencies:
       '@types/expect': 1.20.4
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
 
   '@ungap/structured-clone@1.2.0': {}
 
@@ -3885,7 +3885,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.24.5
       '@babel/helper-define-polyfill-provider': 0.6.2(@babel/core@7.24.5)
-      core-js-compat: 3.37.0
+      core-js-compat: 3.37.1
     transitivePeerDependencies:
       - supports-color
 
@@ -3936,10 +3936,10 @@ snapshots:
 
   browserslist@4.23.0:
     dependencies:
-      caniuse-lite: 1.0.30001617
-      electron-to-chromium: 1.4.763
+      caniuse-lite: 1.0.30001618
+      electron-to-chromium: 1.4.768
       node-releases: 2.0.14
-      update-browserslist-db: 1.0.15(browserslist@4.23.0)
+      update-browserslist-db: 1.0.16(browserslist@4.23.0)
 
   buffer-from@1.1.2: {}
 
@@ -3958,7 +3958,7 @@ snapshots:
       get-intrinsic: 1.2.4
       set-function-length: 1.2.2
 
-  caniuse-lite@1.0.30001617: {}
+  caniuse-lite@1.0.30001618: {}
 
   chalk@2.4.2:
     dependencies:
@@ -4040,7 +4040,7 @@ snapshots:
       each-props: 3.0.0
       is-plain-object: 5.0.0
 
-  core-js-compat@3.37.0:
+  core-js-compat@3.37.1:
     dependencies:
       browserslist: 4.23.0
 
@@ -4109,7 +4109,7 @@ snapshots:
     dependencies:
       jake: 10.9.1
 
-  electron-to-chromium@1.4.763: {}
+  electron-to-chromium@1.4.768: {}
 
   emoji-regex@8.0.0: {}
 
@@ -4675,7 +4675,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 20.12.11
+      '@types/node': 20.12.12
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -4847,7 +4847,7 @@ snapshots:
       lru-cache: 10.2.2
       minipass: 7.1.1
 
-  picocolors@1.0.0: {}
+  picocolors@1.0.1: {}
 
   picomatch@2.3.1: {}
 
@@ -4865,7 +4865,7 @@ snapshots:
   postcss@8.4.38:
     dependencies:
       nanoid: 3.3.7
-      picocolors: 1.0.0
+      picocolors: 1.0.1
       source-map-js: 1.2.0
 
   pretty-bytes@5.6.0: {}
@@ -5332,11 +5332,11 @@ snapshots:
 
   upath@1.2.0: {}
 
-  update-browserslist-db@1.0.15(browserslist@4.23.0):
+  update-browserslist-db@1.0.16(browserslist@4.23.0):
     dependencies:
       browserslist: 4.23.0
       escalade: 3.1.2
-      picocolors: 1.0.0
+      picocolors: 1.0.1
 
   uri-js@4.4.1:
     dependencies:

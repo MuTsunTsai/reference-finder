@@ -28,5 +28,5 @@ All source codes are located in the `src` folder, in which you'll find:
 - `core`: The C++ part. See [change log](./CHANGELOG.md) for the changes made to the original source code of ReferenceFinder.
 - `icon`: This folder contains the pre-built Font Awesome subset.
 - `lib`: Compiled WebAssembly of ReferenceFinder.
-- `locale`: All locale files, based on the previous work by [Robby Kraft](https://github.com/robbykraft/ReferenceFinder) etc.
+- `locale`: All locale files, based on the previous work by [Maya Kraft](https://github.com/mayakraft/ReferenceFinder) etc.
 - `public`: The HTML file and other unbundled assets.
