@@ -19,5 +19,5 @@ export function Checkbox({ value, className, children, onInput }: CheckboxProps)
 				{children}
 			</label>
 		</div>
-	)
+	);
 }

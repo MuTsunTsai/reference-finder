@@ -18,7 +18,7 @@ export default function StatReport({ data }: StatReportProps) {
 
 	if(data == null) return <></>;
 
-	return (<>
+	return <>
 		<ul className="nav nav-tabs mt-3">
 			<li className="nav-item">
 				<span className={"nav-link " + (tab == 0 ? "active" : "")} onClick={() => setTab(0)}>{t("statistics.summary._")}</span>
@@ -33,5 +33,5 @@ export default function StatReport({ data }: StatReportProps) {
 		<div className={"mt-2 " + (tab == 1 ? "" : "d-none")}>
 			<StatDist {...data} />
 		</div>
-	</>);
+	</>;
 }

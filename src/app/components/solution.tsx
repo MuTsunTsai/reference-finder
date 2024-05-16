@@ -37,7 +37,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 	const handleSelect = () => {
 		onSelect();
 		setTimeout(() => ref.current?.scrollIntoView(), 0);
-	}
+	};
 	const solution = formatSolution(data, settings.precision);
 
 	const err = data.err.toFixed(settings.precision);
@@ -47,11 +47,10 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 			<div className="card-header d-none d-sm-block">
 				<span className="d-inline-block capitalize">{t("phrase.solution")} {solution},</span> <span className="d-inline-block">{t("phrase.error")} {err},</span> <span className="d-inline-block">rank {data.rank}</span>
 			</div>
-			{show ? (
+			{show ?
 				<div ref={ref} className="card-header d-sm-none text-bg-primary">
 					<span className="d-inline-block capitalize">{t("phrase.solution")} {solution},</span> <span className="d-inline-block">{t("phrase.error")} {err},</span> <span className="d-inline-block">rank {data.rank}</span>
-				</div>
-			) : (
+				</div> :
 				<div ref={ref} className="card-header d-sm-none" onClick={handleSelect} style={{ cursor: "pointer" }}>
 					<div className="row gx-0 justify-content-center align-items-top">
 						<div className="col solution-preview" style={{ flex: "0 1 9rem" }}>
@@ -64,18 +63,18 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 						</div>
 					</div>
 				</div>
-			)}
+			}
 
 			<div className={"card-body " + (show ? "" : "d-none")}>
-				{data.steps.length == 0 && (
+				{data.steps.length == 0 &&
 					<div className="row justify-content-center">
 						<div className="col" style={{ flex: "0 1 12rem" }}>
 							<Diagram data={data.diagrams[0]} last={true} />
 						</div>
 						<div className="col p-2" style={{ flex: "1 1 12rem" }}></div>
 					</div>
-				)}
-				{data.steps.map((step, i) => (
+				}
+				{data.steps.map((step, i) =>
 					<div className="row justify-content-center" key={i}>
 						<div className="col" style={{ flex: "0 1 12rem" }}>
 							<Diagram data={data.diagrams[i]} last={i == data.steps.length - 1} />
@@ -86,7 +85,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 							</ol>
 						</div>
 					</div>
-				))}
+				)}
 			</div>
 		</div>
 	);

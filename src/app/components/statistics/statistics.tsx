@@ -90,7 +90,7 @@ export function Statistics() {
 							<div className="grid">
 								<SettingsRow label={store.statisticsRunning ? `${progress} / ${settings.trials}` : t("statistics.trials")}>
 									<div className="row gx-3 align-items-center">
-										{store.statisticsRunning ? (<>
+										{store.statisticsRunning ? <>
 											<div className="col">
 												<div className="progress">
 													<div className="progress-bar progress-bar-striped progress-bar-animated"
@@ -100,33 +100,36 @@ export function Statistics() {
 												</div>
 											</div>
 											<div className="col col-auto">
-												<button className="btn btn-secondary capitalize" type="button" onClick={cancel} disabled={canceling}>
+												<button className="btn btn-secondary capitalize" type="button"
+													onClick={cancel} disabled={canceling}>
 													{t("keyword.cancel")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
 												</button>
 											</div>
-										</>) : (<>
+										</> : <>
 											<div className="col">
-												<IntInput value={settings.trials} min={1} onInput={v => useSettings.setState({ trials: v })} />
+												<IntInput value={settings.trials} min={1}
+													onInput={v => useSettings.setState({ trials: v })} />
 											</div>
 											<div className="col col-auto">
 												<button className="btn btn-primary" type="button" onClick={run}
 													disabled={!store.ready || store.statisticsRunning}>
-													{!store.ready ? (
-														<span className="capitalize">{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
-													) : (
+													{!store.ready ?
+														<span className="capitalize">
+															{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
+														</span> :
 														<><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></>
-													)}
+													}
 												</button>
 											</div>
-										</>)}
+										</>}
 									</div>
 								</SettingsRow>
 							</div>
-							{open && (
+							{open &&
 								<Suspense>
 									<StatReport data={data} />
 								</Suspense>
-							)}
+							}
 						</div>
 						<div className="modal-footer">
 							<button type="button" className="btn btn-secondary" data-bs-dismiss="modal" disabled={store.statisticsRunning}>{t("keyword.ok")}</button>

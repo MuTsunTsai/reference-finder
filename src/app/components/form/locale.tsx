@@ -13,9 +13,9 @@ export function Locale() {
 		<select className="form-select flag d-inline-block" style={{ width: "max-content" }}
 			aria-label="Language"
 			value={i18n.language} onChange={e => i18n.changeLanguage(e.currentTarget.value)}>
-			{supportedLngs.map(l => (
+			{supportedLngs.map(l =>
 				<option key={l} value={l}>{t("flag", { lng: l })} {t("name", { lng: l })}</option>
-			))}
+			)}
 		</select>
 	);
 }

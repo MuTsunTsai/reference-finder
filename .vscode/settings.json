@@ -3,6 +3,9 @@
     "cSpell.words": [
         "Emscripten"
     ],
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
     "files.exclude": {
         "obj/": true
     },

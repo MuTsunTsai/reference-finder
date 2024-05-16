@@ -11,16 +11,16 @@
 
 // clang-format off
 EM_ASYNC_JS(const double *, emscripten_utils_get_double_impl, (), {
-	const command = await Module.get();
+	const value = await Module.get();
 	const ptr = _malloc(8);
-	setValue(ptr, command, "double");
+	setValue(ptr, value, "double");
 	return ptr;
 });
 
 EM_ASYNC_JS(const bool *, emscripten_utils_check_cancel_impl, (), {
-	const command = await Module.checkCancel();
+	const result = await Module.checkCancel();
 	const ptr = _malloc(1);
-	setValue(ptr, command, "i8");
+	setValue(ptr, result, "i8");
 	return ptr;
 });
 

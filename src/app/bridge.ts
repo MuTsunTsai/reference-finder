@@ -80,7 +80,7 @@ export function resetWorker(db: DbSettings) {
 		}
 		if(msg.err) {
 			useStore.setState({ coreError: msg.err });
-			const err = new Error(msg.err)
+			const err = new Error(msg.err);
 			console.error(err);
 			if(statisticsRunning) statisticsCallback(err);
 		}

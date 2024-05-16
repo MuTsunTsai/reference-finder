@@ -21,7 +21,7 @@ const canvas: HTMLCanvasElement = document.createElement("canvas");
 function getTextWidth(input: HTMLInputElement, text: string): number {
 	const context = canvas.getContext("2d")!;
 	context.font = getComputedStyle(input).font;
-	var metrics = context.measureText(text);
+	const metrics = context.measureText(text);
 	return metrics.width;
 }
 
@@ -82,7 +82,7 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 		suffix.current!.style.left = getTextWidth(el.current!, temp) + "px";
 	});
 
-	return (<>
+	return <>
 		<div className="position-relative">
 			<div className="exp-container">
 				<input ref={el} type="text" aria-label="Math expression"
@@ -98,10 +98,10 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 				<span>{shouldShowSuffix() ? `= ${format(tempValue)}` : ""}</span>
 			</div>
 		</div>
-		{!isValid() && (
+		{!isValid() &&
 			<div className="text-danger small mt-1">
 				{max !== undefined ? t("invalid.expMax", { max }) : t("invalid.exp")}
 			</div>
-		)}
-	</>);
+		}
+	</>;
 }

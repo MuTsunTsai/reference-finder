@@ -3,7 +3,7 @@ import { Step, StepBase, useSettings } from "../store";
 
 interface StepComponentProps {
 	data: Step;
-	last: boolean
+	last: boolean;
 }
 
 const CJK = /([\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF]) ([\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF])/g;
@@ -42,25 +42,25 @@ export function StepComponent({ data, last }: StepComponentProps) {
 
 	return (
 		<li>
-			{step.axiom == 0 ? purge(t(`intersection_solution`, { ...step })) : (
+			{step.axiom == 0 ? purge(t(`intersection_solution`, { ...step })) :
 				<>
 					<div>
-						{settings.showAxiom && (<span>[O{step.axiom}] </span>)}
+						{settings.showAxiom && <span>[O{step.axiom}] </span>}
 						{purge(last && !step.intersection ?
 							t(`axiom_solution.${step.axiom - 1}`, { ...step }) :
 							t(`axiom.${step.axiom - 1}`, { ...step }))
 						}
 					</div>
-					{step.intersection && (
+					{step.intersection &&
 						<div>
 							{purge(last ?
 								t(`intersection_solution`, { ...step.intersection }) :
 								t(`intersection`, { ...step.intersection })
 							)}
 						</div>
-					)}
+					}
 				</>
-			)}
+			}
 		</li>
 	);
 }

@@ -31,7 +31,7 @@ export function Panel({ onSubmit }: PanelProps) {
 	const cp = useMemo(() => ear.cp.rectangle(db.width, db.height), [db.width, db.height]);
 	const points = useMemo(() => {
 		const results: IPoint[] = [
-			[p1.x, p1.y]
+			[p1.x, p1.y],
 		];
 		if(mode == Mode.line) results.push([p2.x, p2.y]);
 		return results;
@@ -74,20 +74,21 @@ export function Panel({ onSubmit }: PanelProps) {
 					</div>
 				</div>
 				<PointInput label={mode == Mode.line ? " 1" : ""} value={p1} onInput={p => setP1(p)} />
-				{mode == Mode.line && (
+				{mode == Mode.line &&
 					<PointInput label=" 2" value={p2} onInput={p => setP2(p)} />
-				)}
+				}
 				<div className="row mt-2 gx-2">
 					<div className="col">
 						<Settings /> <Statistics />
 					</div>
 					<div className="col-auto text-end">
 						<button type="submit" className="btn btn-primary" disabled={store.running}>
-							{store.running && !store.ready ? (
-								<span className="capitalize">{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
-							) : (
+							{store.running && !store.ready ?
+								<span className="capitalize">
+									{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
+								</span> :
 								<><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></>
-							)}
+							}
 						</button>
 					</div>
 				</div>

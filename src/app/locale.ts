@@ -48,7 +48,7 @@ i18n
 		detection: {
 			order: ["querystring", "localStorage", "navigator"],
 			caches: ["localStorage"],
-		}
+		},
 	});
 
 export { i18n };

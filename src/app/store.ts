@@ -117,7 +117,7 @@ export enum LineStyle {
 	highlight,
 	valley,
 	mountain,
-	arrow
+	arrow,
 };
 
 export interface ArcElement {

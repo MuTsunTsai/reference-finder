@@ -43,5 +43,5 @@ export function Svg({ render, width, height }: SvgProps) {
 		render(svg);
 	});
 
-	return <div ref={ref}></div>
+	return <div ref={ref}></div>;
 }

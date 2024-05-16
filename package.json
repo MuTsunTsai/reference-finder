@@ -5,7 +5,8 @@
 	"scripts": {
 		"start": "make && rsbuild dev -o",
 		"build": "make && rsbuild build",
-		"preview": "rsbuild preview --port 31214 --open http://localhost:31214/reference-finder"
+		"preview": "rsbuild preview --port 31214 --open http://localhost:31214/reference-finder",
+		"lint": "eslint"
 	},
 	"keywords": [
 		"origami"
@@ -16,20 +17,25 @@
 	],
 	"license": "GPL-2.0",
 	"devDependencies": {
+		"@eslint/js": "^9.2.0",
 		"@fullhuman/postcss-purgecss": "^6.0.0",
 		"@rsbuild/core": "^0.6.15",
 		"@rsbuild/plugin-react": "^0.6.15",
+		"@stylistic/eslint-plugin": "^2.1.0",
 		"@types/bootstrap": "^5.2.10",
 		"@types/emscripten": "^1.39.12",
 		"@types/gtag.js": "^0.0.19",
 		"@types/react": "^18.3.2",
 		"@types/react-dom": "^18.3.0",
 		"@types/ungap__structured-clone": "^1.2.0",
+		"eslint": "^9.2.0",
+		"globals": "^15.2.0",
 		"gulp": "^5.0.0",
 		"gulp-fontawesome": "^1.0.4",
 		"gulp-through2": "^1.0.2",
 		"postcss": "^8.4.38",
 		"typescript": "^5.4.5",
+		"typescript-eslint": "^7.9.0",
 		"workbox-webpack-plugin": "^7.1.0"
 	},
 	"dependencies": {

@@ -42,11 +42,11 @@ export function IntInput({ max, min, value, onInput }: IntInputProps) {
 					className={"form-control exp-input " + (isValid() ? "" : "is-invalid")}
 					value={temp} onInput={e => input(e.currentTarget.value)} onBlur={blur} />
 			</div>
-			{!isValid() && (
+			{!isValid() &&
 				<div className="text-danger small">
 					{max !== undefined ? t("invalid.intMax", { min, max }) : t("invalid.int", { min })}
 				</div>
-			)}
+			}
 		</div>
 	);
 }

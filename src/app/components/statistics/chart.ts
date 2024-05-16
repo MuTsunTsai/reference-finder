@@ -27,7 +27,7 @@ Chart.defaults.borderColor = () => bodyColor() + "66";
 export function getMinMax(data: number[]): [number, number] {
 	let min = Number.POSITIVE_INFINITY;
 	let max = Number.NEGATIVE_INFINITY;
-	for(let x of data) {
+	for(const x of data) {
 		if(x < min) min = x;
 		if(x > max) max = x;
 	}

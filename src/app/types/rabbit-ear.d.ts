@@ -6,15 +6,15 @@ declare module "rabbit-ear" {
 		(): Fold;
 		rectangle: (width?: number, height?: number) => Fold;
 		square: () => Fold;
-	}
+	};
 
 	export const axiom: {
 		axiom1(p1: IPoint, p2: IPoint): RayLine;
-	}
+	};
 
 	export const line: {
 		fromPoints(p1: IPoint, p2: IPoint): RayLine;
-	}
+	};
 
 	export function rect(x: number, y: number, width: number, height: number): Rect;
 
@@ -43,7 +43,8 @@ declare module "rabbit-ear" {
 
 		circle(origin: IPoint | number, radius: number): RabbitEarSVG;
 		line(p1: IPoint, p2: IPoint): RabbitEarSVG;
-		arc(x: number, y: number, radius: number, fromAngle: number, toAngle: number, includeCenter?: boolean): RabbitEarSVG;
+		arc(x: number, y: number, radius: number, fromAngle: number,
+			toAngle: number, includeCenter?: boolean): RabbitEarSVG;
 		text(text: string, p: IPoint): RabbitEarSVG;
 
 		// Auto methods

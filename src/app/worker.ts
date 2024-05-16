@@ -22,7 +22,7 @@ function put(data: number) {
 	}
 }
 
-addEventListener('message', async e => {
+addEventListener("message", async e => {
 	if(!e.data) return;
 	if(initialized) await ready;
 	else initialized = true;

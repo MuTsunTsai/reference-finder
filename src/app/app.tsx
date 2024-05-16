@@ -28,11 +28,11 @@ function App() {
 		document.documentElement.dataset.bsTheme = Theme[theme];
 	}, [settings.theme, systemDark]);
 
-	return (<>
+	return <>
 		<div className="container px-4">
 			<div className="row gx-0 py-2">
 				<div className="col small text-muted">
-					{store.progress && settings.showInit && (<>
+					{store.progress && settings.showInit && <>
 						<span className="d-none d-sm-block">
 							{store.ready ? "" : "Initializing"} {store.progress.lines} lines and {store.progress.marks} marks of rank ≤ {store.progress.rank}{store.ready ? " ready." : "..."}
 						</span>
@@ -40,7 +40,7 @@ function App() {
 							{store.progress.lines} lines<br />
 							{store.progress.marks} marks{store.ready ? "" : "..."}
 						</div>
-					</>)}
+					</>}
 				</div>
 				<div className="col-auto">
 					<Locale />
@@ -48,9 +48,9 @@ function App() {
 			</div>
 			<h1>{t("phrase.referenceFinder")}</h1>
 			<Panel onSubmit={() => setSol(0)} />
-			{store.coreError && (
-				<div className="text-danger mb-3">Error: {store.coreError}</div>
-			) || store.solutions.length == 0 && (!store.ready || !store.running) && (
+			{store.coreError &&
+				<div className="text-danger mb-3">Error: {store.coreError}</div> ||
+			 store.solutions.length == 0 && (!store.ready || !store.running) &&
 				<div className="mb-3">
 					<div>{t("tip.title")}</div>
 					<ol>
@@ -58,13 +58,13 @@ function App() {
 						<li>{t("tip.exp", { exp: "1/sqrt(2)+sin(10)", interpolation: { escapeValue: false } })}</li>
 					</ol>
 				</div>
-			)}
+			}
 		</div>
 		<section className="solutions d-none d-sm-flex">
-			{store.solutions.length > 0 && (
+			{store.solutions.length > 0 &&
 				<div className="container px-4">
 					<div className="row gx-2">
-						{store.solutions.map((s, i) => (
+						{store.solutions.map((s, i) =>
 							<div className="col mb-2" key={i} style={{ flex: "0 1 12rem" }}>
 								<button type="button" onClick={() => setSol(i)}
 									className={"w-100 p-1 btn btn-ld col solution-preview " + (sol == i ? "active" : "")}>
@@ -74,10 +74,10 @@ function App() {
 									<div>rank {s.rank}</div>
 								</button>
 							</div>
-						))}
+						)}
 					</div>
 				</div>
-			)}
+			}
 		</section>
 		<div className="container px-4 flex-grow-1">
 			{store.solutions.map((s, i) =>
@@ -85,7 +85,7 @@ function App() {
 			)}
 		</div>
 		<Footer />
-	</>);
+	</>;
 }
 
 export default App;

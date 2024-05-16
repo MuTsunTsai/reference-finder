@@ -11,7 +11,7 @@ export function SettingsRow({ label, children, help }: SettingsRowProps) {
 	return (
 		<>
 			<label className="col-form-label">
-				{label}{help && (<InfoTooltip title={help} />)}
+				{label}{help && <InfoTooltip title={help} />}
 			</label>
 			<div>
 				{children}

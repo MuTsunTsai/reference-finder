@@ -28,7 +28,7 @@ export function StatSummary(props: StatData) {
 	const average = getAverage(props.data);
 	const stdDev = getStandardDeviation(props.data, average);
 
-	return (<>
+	return <>
 		<table className="table table-striped">
 			<tbody>
 				<tr>
@@ -37,7 +37,7 @@ export function StatSummary(props: StatData) {
 				</tr>
 				<tr>
 					<td>{t("statistics.summary.runTime")}</td>
-					<td>{(props.time / 1000).toFixed(1)}s ({(props.time/props.data.length).toFixed(1)}ms/trial)</td>
+					<td>{(props.time / 1000).toFixed(1)}s ({(props.time / props.data.length).toFixed(1)}ms/trial)</td>
 				</tr>
 				<tr>
 					<td>Min / max errors</td>
@@ -51,13 +51,13 @@ export function StatSummary(props: StatData) {
 					<td>{t("statistics.summary.stdDev")}</td>
 					<td>{toFixed(stdDev, 2)}</td>
 				</tr>
-				{PERCENTILES.map((v, i) => (
+				{PERCENTILES.map((v, i) =>
 					<tr key={i}>
 						<td>{v}th percentile</td>
 						<td>{toFixed(props.data[Math.floor(v / 100 * props.data.length)])}</td>
 					</tr>
-				))}
+				)}
 			</tbody>
 		</table>
-	</>);
+	</>;
 }

@@ -49,7 +49,7 @@ export function StatDist({ data }: StatData) {
 
 	function modify(c: string): string {
 		if(theme == Theme.light) return color(c).darken(0.1).rgbString();
-		return color(c).lighten(0.3).rgbString()
+		return color(c).lighten(0.3).rgbString();
 	}
 
 	const chart = {
@@ -68,8 +68,8 @@ export function StatDist({ data }: StatData) {
 				backgroundColor: primary,
 				borderColor: modify(primary),
 				borderWidth: 3,
-			}
-		]
+			},
+		],
 	} as ChartData<"bar">;
 
 	const options = {
@@ -88,7 +88,7 @@ export function StatDist({ data }: StatData) {
 		},
 		plugins: {
 			legend: {
-				position: "top"
+				position: "top",
 			},
 			datalabels: {
 				anchor: "end",
@@ -109,8 +109,8 @@ export function StatDist({ data }: StatData) {
 					}
 					return result;
 				},
-			}
-		}
+			},
+		},
 	} as ChartOptions<"bar">;
 
 	return (

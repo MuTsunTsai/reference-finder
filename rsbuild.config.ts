@@ -17,7 +17,7 @@ export default defineConfig({
 		},
 		entry: {
 			index: "./src/app/index.tsx",
-		}
+		},
 	},
 	html: {
 		template: "./src/public/index.html",
@@ -27,7 +27,7 @@ export default defineConfig({
 		publicDir: {
 			name: "src/public",
 			copyOnBuild: true,
-		}
+		},
 	},
 	performance: {
 		chunkSplit: {
@@ -49,14 +49,14 @@ export default defineConfig({
 						name: "vendor",
 						chunks: "initial",
 						priority: -1,
-					}
-				}
-			}
+					},
+				},
+			},
 		},
 		preload: {
 			type: "all-chunks",
 			include: [/fa-.+\.woff2$/],
-		}
+		},
 	},
 	output: {
 		cleanDistPath: isProduction,
@@ -85,24 +85,18 @@ export default defineConfig({
 							greedy: [
 								/tooltip/,
 								/creasePattern|boundary/,
-								/(point|line|arc|label|target)-/
-							]
+								/(point|line|arc|label|target)-/,
+							],
 						},
-					})
-				]
-			}
+					}),
+				],
+			},
 		},
 		rspack: (_, { appendPlugins }) => {
 			appendPlugins(new GenerateSW({
 				clientsClaim: true,
 				skipWaiting: true,
-				include: [
-					() => {
-						debugger;
-						return true;
-					}
-				]
 			}));
-		}
+		},
 	},
 });
