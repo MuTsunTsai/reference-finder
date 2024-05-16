@@ -60,6 +60,9 @@ importers:
       '@rsbuild/core':
         specifier: ^0.6.15
         version: 0.6.15
+      '@rsbuild/plugin-check-syntax':
+        specifier: ^0.6.15
+        version: 0.6.15(@rsbuild/core@0.6.15)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-react':
         specifier: ^0.6.15
         version: 0.6.15(@rsbuild/core@0.6.15)(@swc/helpers@0.5.3)
@@ -863,6 +866,11 @@ packages:
     engines: {node: '>=16.0.0'}
     hasBin: true
 
+  '@rsbuild/plugin-check-syntax@0.6.15':
+    resolution: {integrity: sha512-bjT9pqFhPURE0ycI2nevr3YnkIHgvkXr+ogJRNNklapWT4E1U3GVm0E2tlMnnzmAKJHmFX5yjdtBfOWTSF3feQ==}
+    peerDependencies:
+      '@rsbuild/core': ^0.6.15
+
   '@rsbuild/plugin-react@0.6.15':
     resolution: {integrity: sha512-ZLFF5qYgQPKbJ5IL85XayadryxnHoaLUUjd2ewf/d/TRUh2NiWyZGaNzRytbmhaxI0WW8RUkZdy5aX3xyiZbTA==}
     peerDependencies:
@@ -1471,6 +1479,19 @@ packages:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
 
+  dom-serializer@2.0.0:
+    resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
+
+  domelementtype@2.3.0:
+    resolution: {integrity: sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==}
+
+  domhandler@5.0.3:
+    resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
+    engines: {node: '>= 4'}
+
+  domutils@3.1.0:
+    resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
+
   each-props@3.0.0:
     resolution: {integrity: sha512-IYf1hpuWrdzse/s/YJOrFmU15lyhSzxelNVAHTEG3DtP4QsLTWZUzcUL3HMXmKQxXpa4EIrBPpwRgj0aehdvAw==}
     engines: {node: '>= 10.13.0'}
@@ -1502,6 +1523,10 @@ packages:
   enhanced-resolve@5.16.1:
     resolution: {integrity: sha512-4U5pNsuDl0EhuZpq46M5xPslstkviJuhrdobaRDBk2Jy2KO37FDAJl4lb2KlNabxT0m4MTK2UHNrsAcphE8nyw==}
     engines: {node: '>=10.13.0'}
+
+  entities@4.5.0:
+    resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
+    engines: {node: '>=0.12'}
 
   es-abstract@1.23.3:
     resolution: {integrity: sha512-e+HfNH61Bj1X9/jLc5v1owaLYuHdeHHSQlkhCBiTK8rBvKaULl/beGMxwrMXjpYrv4pz22BlY570vVePA2ho4A==}
@@ -1879,6 +1904,9 @@ packages:
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
+
+  htmlparser2@9.1.0:
+    resolution: {integrity: sha512-5zfg6mHUoaer/97TxnGpxmbR7zJtPwIYFMZ/H5ucTlPZhKvtum05yiPK3Mgai3a0DyVxv7qYqoweaEd2nrYQzQ==}
 
   i18next-browser-languagedetector@8.0.0:
     resolution: {integrity: sha512-zhXdJXTTCoG39QsrOCiOabnWj2jecouOqbchu3EfhtSHxIB5Uugnm9JaizenOy39h7ne3+fLikIjeW88+rgszw==}
@@ -2609,6 +2637,10 @@ packages:
   source-map@0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
+
+  source-map@0.7.4:
+    resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
+    engines: {node: '>= 8'}
 
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
@@ -3955,6 +3987,16 @@ snapshots:
       html-webpack-plugin: html-rspack-plugin@5.7.2(@rspack/core@0.6.5(@swc/helpers@0.5.3))
       postcss: 8.4.38
 
+  '@rsbuild/plugin-check-syntax@0.6.15(@rsbuild/core@0.6.15)(@swc/helpers@0.5.3)':
+    dependencies:
+      '@rsbuild/core': 0.6.15
+      '@rsbuild/shared': 0.6.15(@swc/helpers@0.5.3)
+      acorn: 8.11.3
+      htmlparser2: 9.1.0
+      source-map: 0.7.4
+    transitivePeerDependencies:
+      - '@swc/helpers'
+
   '@rsbuild/plugin-react@0.6.15(@rsbuild/core@0.6.15)(@swc/helpers@0.5.3)':
     dependencies:
       '@rsbuild/core': 0.6.15
@@ -4655,6 +4697,24 @@ snapshots:
     dependencies:
       path-type: 4.0.0
 
+  dom-serializer@2.0.0:
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      entities: 4.5.0
+
+  domelementtype@2.3.0: {}
+
+  domhandler@5.0.3:
+    dependencies:
+      domelementtype: 2.3.0
+
+  domutils@3.1.0:
+    dependencies:
+      dom-serializer: 2.0.0
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+
   each-props@3.0.0:
     dependencies:
       is-plain-object: 5.0.0
@@ -4685,6 +4745,8 @@ snapshots:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.2.1
+
+  entities@4.5.0: {}
 
   es-abstract@1.23.3:
     dependencies:
@@ -5167,6 +5229,13 @@ snapshots:
   html-rspack-plugin@5.7.2(@rspack/core@0.6.5(@swc/helpers@0.5.3)):
     optionalDependencies:
       '@rspack/core': 0.6.5(@swc/helpers@0.5.3)
+
+  htmlparser2@9.1.0:
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+      entities: 4.5.0
 
   i18next-browser-languagedetector@8.0.0:
     dependencies:
@@ -5826,6 +5895,8 @@ snapshots:
       source-map: 0.6.1
 
   source-map@0.6.1: {}
+
+  source-map@0.7.4: {}
 
   source-map@0.8.0-beta.0:
     dependencies:

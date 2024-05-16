@@ -16,7 +16,12 @@ function App() {
 
 	const [systemDark, setSystemDark] = useState(true);
 	const match = matchMedia("(prefers-color-scheme: dark)");
-	match.addEventListener("change", toggleDark);
+	try {
+		match.addEventListener("change", toggleDark);
+	} catch {
+		// Safari < 14
+		match.addListener(toggleDark);
+	}
 	function toggleDark() { setSystemDark(match.matches); }
 	useEffect(toggleDark);
 
@@ -50,7 +55,7 @@ function App() {
 			<Panel onSubmit={() => setSol(0)} />
 			{store.coreError &&
 				<div className="text-danger mb-3">Error: {store.coreError}</div> ||
-			 store.solutions.length == 0 && (!store.ready || !store.running) &&
+				store.solutions.length == 0 && (!store.ready || !store.running) &&
 				<div className="mb-3">
 					<div>{t("tip.title")}</div>
 					<ol>

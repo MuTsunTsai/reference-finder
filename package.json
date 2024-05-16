@@ -20,6 +20,7 @@
 		"@eslint/js": "^9.2.0",
 		"@fullhuman/postcss-purgecss": "^6.0.0",
 		"@rsbuild/core": "^0.6.15",
+		"@rsbuild/plugin-check-syntax": "^0.6.15",
 		"@rsbuild/plugin-react": "^0.6.15",
 		"@stylistic/eslint-plugin": "^2.1.0",
 		"@types/bootstrap": "^5.2.10",

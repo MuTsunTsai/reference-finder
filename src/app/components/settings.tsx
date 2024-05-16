@@ -51,7 +51,9 @@ export function Settings() {
 		<>
 			<button type="button" className="btn btn-secondary" onClick={handleShow}>
 				<i className="fa-solid fa-gear"></i>
-				<span className="capitalize d-none d-sm-inline-block">&nbsp;{t("phrase.settings")}</span>
+				<span className="d-none d-sm-inline-block">
+					&nbsp;<span className="capitalize">{t("phrase.settings")}</span>
+				</span>
 			</button>
 			<div className="modal fade" ref={ref}>
 				<div className="modal-dialog modal-dialog-centered">

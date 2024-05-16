@@ -1,5 +1,6 @@
 import { defineConfig } from "@rsbuild/core";
 import { pluginReact } from "@rsbuild/plugin-react";
+import { pluginCheckSyntax } from '@rsbuild/plugin-check-syntax';
 import { GenerateSW } from "workbox-webpack-plugin";
 import purgeCss from "@fullhuman/postcss-purgecss";
 
@@ -12,6 +13,11 @@ export default defineConfig({
 		progressBar: true,
 	},
 	source: {
+		include: [
+			// add matcher for packages that needs to be transpiled
+			/i18nextBrowserLanguageDetector/,
+			/chart.js/,
+		],
 		define: {
 			__VERSION__: `"${pkg.version}"`,
 		},
@@ -68,7 +74,12 @@ export default defineConfig({
 			root: "docs",
 		},
 	},
-	plugins: [pluginReact()],
+	plugins: [
+		pluginReact(),
+		pluginCheckSyntax({
+			ecmaVersion: 2019,
+		}),
+	],
 	tools: !isProduction ? undefined : {
 		postcss: {
 			postcssOptions: {
