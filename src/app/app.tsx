@@ -16,14 +16,7 @@ function App() {
 
 	const [systemDark, setSystemDark] = useState(true);
 	const match = matchMedia("(prefers-color-scheme: dark)");
-	try {
-		match.addEventListener("change", toggleDark);
-	} catch {
-		// Safari < 14
-		match.addListener(toggleDark);
-	}
-	function toggleDark() { setSystemDark(match.matches); }
-	useEffect(toggleDark);
+	useEffect(match.onchange = () => setSystemDark(match.matches));
 
 	useEffect(() => {
 		let theme = Theme.light;

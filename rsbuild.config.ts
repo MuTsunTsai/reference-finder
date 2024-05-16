@@ -16,7 +16,7 @@ export default defineConfig({
 		include: [
 			// add matcher for packages that needs to be transpiled
 			/i18nextBrowserLanguageDetector/,
-			/chart.js/,
+			/chart\.js/,
 		],
 		define: {
 			__VERSION__: `"${pkg.version}"`,
@@ -24,6 +24,7 @@ export default defineConfig({
 		entry: {
 			index: "./src/app/index.tsx",
 		},
+		tsconfigPath: "./src/app/tsconfig.json"
 	},
 	html: {
 		template: "./src/public/index.html",
@@ -77,7 +78,7 @@ export default defineConfig({
 	plugins: [
 		pluginReact(),
 		pluginCheckSyntax({
-			ecmaVersion: 2019,
+			ecmaVersion: 2018,
 		}),
 	],
 	tools: !isProduction ? undefined : {
