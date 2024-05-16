@@ -32,6 +32,9 @@ importers:
       math-expression-evaluator:
         specifier: ^2.0.5
         version: 2.0.5
+      probably-china:
+        specifier: ^1.0.0
+        version: 1.0.0
       rabbit-ear:
         specifier: ^0.9.32
         version: 0.9.32
@@ -2402,6 +2405,9 @@ packages:
   pretty-bytes@5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
     engines: {node: '>=6'}
+
+  probably-china@1.0.0:
+    resolution: {integrity: sha512-IdD9Y1msnSyN7wXpA7HSljIs80GwZXUSLUcYm700c8k7T/3dt3fid4i8D/ALLQvmeUOouJDiKXydu6faJkKhRg==}
 
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -5659,6 +5665,8 @@ snapshots:
   prelude-ls@1.2.1: {}
 
   pretty-bytes@5.6.0: {}
+
+  probably-china@1.0.0: {}
 
   process-nextick-args@2.0.1: {}
 

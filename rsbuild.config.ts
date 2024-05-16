@@ -1,6 +1,6 @@
 import { defineConfig } from "@rsbuild/core";
 import { pluginReact } from "@rsbuild/plugin-react";
-import { pluginCheckSyntax } from '@rsbuild/plugin-check-syntax';
+import { pluginCheckSyntax } from "@rsbuild/plugin-check-syntax";
 import { GenerateSW } from "workbox-webpack-plugin";
 import purgeCss from "@fullhuman/postcss-purgecss";
 
@@ -15,7 +15,7 @@ export default defineConfig({
 	source: {
 		include: [
 			// add matcher for packages that needs to be transpiled
-			/i18nextBrowserLanguageDetector/,
+			/i18next-browser-languagedetector/,
 			/chart\.js/,
 		],
 		define: {
@@ -24,7 +24,7 @@ export default defineConfig({
 		entry: {
 			index: "./src/app/index.tsx",
 		},
-		tsconfigPath: "./src/app/tsconfig.json"
+		tsconfigPath: "./src/app/tsconfig.json",
 	},
 	html: {
 		template: "./src/public/index.html",

@@ -48,6 +48,7 @@
 		"i18next": "^23.11.4",
 		"i18next-browser-languagedetector": "^8.0.0",
 		"math-expression-evaluator": "^2.0.5",
+		"probably-china": "^1.0.0",
 		"rabbit-ear": "^0.9.32",
 		"react": "^18.3.1",
 		"react-chartjs-2": "^5.2.0",
