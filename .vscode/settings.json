@@ -1,16 +1,17 @@
 {
-    "C_Cpp.autoAddFileAssociations": false,
-    "cSpell.words": [
-        "Emscripten"
-    ],
+	"C_Cpp.autoAddFileAssociations": false,
+	"cSpell.words": [
+		"Emscripten"
+	],
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit"
 	},
-    "files.exclude": {
-        "obj/": true
-    },
-    "i18n-ally.keystyle": "nested",
-    "i18n-ally.localesPaths": [
-        "src/locale"
-    ]
+	"eslint.experimental.useFlatConfig": true,
+	"files.exclude": {
+		"obj/": true
+	},
+	"i18n-ally.keystyle": "nested",
+	"i18n-ally.localesPaths": [
+		"src/locale"
+	]
 }

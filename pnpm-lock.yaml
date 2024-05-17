@@ -57,9 +57,6 @@ importers:
       '@eslint/js':
         specifier: ^9.2.0
         version: 9.2.0
-      '@fullhuman/postcss-purgecss':
-        specifier: ^6.0.0
-        version: 6.0.0(postcss@8.4.38)
       '@rsbuild/core':
         specifier: ^0.6.15
         version: 0.6.15
@@ -93,6 +90,9 @@ importers:
       eslint:
         specifier: ^9.2.0
         version: 9.2.0
+      glob:
+        specifier: ^10.3.15
+        version: 10.3.15
       globals:
         specifier: ^15.2.0
         version: 15.2.0
@@ -108,6 +108,9 @@ importers:
       postcss:
         specifier: ^8.4.38
         version: 8.4.38
+      purgecss-webpack-plugin:
+        specifier: ^6.0.0
+        version: 6.0.0(webpack@5.91.0)
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -727,11 +730,6 @@ packages:
   '@fortawesome/fontawesome-free@6.5.2':
     resolution: {integrity: sha512-hRILoInAx8GNT5IMkrtIt9blOdrqHOnPBH+k70aWUAqPZPgopb9G5EQJFpaBx/S8zp2fC+mPW349Bziuk1o28Q==}
     engines: {node: '>=6'}
-
-  '@fullhuman/postcss-purgecss@6.0.0':
-    resolution: {integrity: sha512-sUvk5PV7O5xvTJcxDYrQ00xlKtSxivvJdZrwgxE8F1GmNMs7w9U+dSbr83N/qEs9b+f+6QsZKXDs0k8nMjBIqA==}
-    peerDependencies:
-      postcss: ^8.0.0
 
   '@gulpjs/messages@1.1.0':
     resolution: {integrity: sha512-Ys9sazDatyTgZVb4xPlDufLweJ/Os2uHWOv+Caxvy2O85JcnT4M3vc73bi8pdLWlv3fdWQz3pdI9tVwo8rQQSg==}
@@ -2416,6 +2414,11 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
+  purgecss-webpack-plugin@6.0.0:
+    resolution: {integrity: sha512-Y96Tt3w0LhNUbd/xVbSQAMqdz9RtwOJ3A+OeVnqJzzkab7qzqSh537ym36JOtr7WVNev9LXHbXZUxCGJROrKgw==}
+    peerDependencies:
+      webpack: '>=5.0.0'
+
   purgecss@5.0.0:
     resolution: {integrity: sha512-RAnuxrGuVyLLTr8uMbKaxDRGWMgK5CCYDfRyUNNcaz5P3kGgD2b7ymQGYEyo2ST7Tl/ScwFgf5l3slKMxHSbrw==}
     hasBin: true
@@ -3843,11 +3846,6 @@ snapshots:
   '@eslint/js@9.2.0': {}
 
   '@fortawesome/fontawesome-free@6.5.2': {}
-
-  '@fullhuman/postcss-purgecss@6.0.0(postcss@8.4.38)':
-    dependencies:
-      postcss: 8.4.38
-      purgecss: 6.0.0
 
   '@gulpjs/messages@1.1.0': {}
 
@@ -5671,6 +5669,11 @@ snapshots:
   process-nextick-args@2.0.1: {}
 
   punycode@2.3.1: {}
+
+  purgecss-webpack-plugin@6.0.0(webpack@5.91.0):
+    dependencies:
+      purgecss: 6.0.0
+      webpack: 5.91.0
 
   purgecss@5.0.0:
     dependencies:
