@@ -35,6 +35,7 @@ function getTextOffset(text: LabelElement, data: DiagramElement[]): IPoint {
 	const avgX = pts.map(p => p[0]).reduce((x, v) => x + v, 0) / pts.length;
 	const avgY = pts.map(p => p[1]).reduce((x, v) => x + v, 0) / pts.length;
 	const norm = Math.sqrt(avgX * avgX + avgY * avgY);
+	if(norm == 0) return [0, 0];
 	return [OFFSET_SIZE * avgX / norm, OFFSET_SIZE * avgY / norm];
 }
 
