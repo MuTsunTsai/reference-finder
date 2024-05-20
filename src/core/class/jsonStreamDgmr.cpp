@@ -27,10 +27,10 @@ void JsonStreamDgmr::PutRefList(const typename R::bare_t &ar, vector<R *> &vr) {
 		JsonObject solution;
 		vr[i]->PutDistanceAndRank(solution, ar);
 		vr[i]->BuildAndNumberSequence();
+		vr[i]->BuildDiagrams();
 		vr[i]->PutHowtoSequence(solution);
 
 		JsonArray diagrams;
-		vr[i]->BuildDiagrams();
 		for (size_t j = 0; j < RefBase::sDgms.size(); j++) {
 			mArray.clear();
 			RefBase::DrawDiagram(*this, RefBase::sDgms[j]);

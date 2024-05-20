@@ -4,6 +4,7 @@
 #include "../global.h"
 #include "../paper.h"
 #include "../refDgmr.h"
+#include "../refMark/refMark.h"
 #include "refLine.h"
 
 using namespace std;
@@ -75,6 +76,10 @@ bool RefLine::IsOnEdge() const {
 			(ReferenceFinder::sPaper.mBottomEdge == l));
 }
 
+bool RefLine::IsLine() const {
+	return true;
+}
+
 /*****
 Return true, since MOST Reflines are actions
 *****/
@@ -111,8 +116,17 @@ void RefLine::PutDistanceAndRank(JsonObject &solution, const XYLine &al) const {
 Draw a line in the given style.
 *****/
 void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
-	XYPt p1, p2;
-	ReferenceFinder::sPaper.ClipLine(l, p1, p2);
+	XYPt op1, op2;
+	ReferenceFinder::sPaper.ClipLine(l, op1, op2);
+	XYPt p1(op1), p2(op2);
+	double pinchLength = 0;
+
+	if (mForMark != NULL) {
+		pinchLength = std::min(ReferenceFinder::sPaper.mWidth, ReferenceFinder::sPaper.mHeight) / 10.0;
+		RefMark *mark = (RefMark *)mForMark;
+		moveCloser(p1, mark->p, pinchLength);
+		moveCloser(p2, mark->p, pinchLength);
+	}
 
 	switch (ipass) {
 	case PASS_LINES: {
@@ -132,7 +146,11 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 			sDgmr->DrawLine(p1, p2, RefDgmr::LINESTYLE_HILITE);
 			break;
 		case REFSTYLE_ACTION:
-			sDgmr->DrawLine(p1, p2, RefDgmr::LINESTYLE_VALLEY);
+			if (mForMark != NULL) {
+				sDgmr->DrawLine(op1, p1, RefDgmr::LINESTYLE_DOTTED);
+				sDgmr->DrawLine(op2, p2, RefDgmr::LINESTYLE_DOTTED);
+			}
+			sDgmr->DrawLine(p1, p2, mForMark == NULL ? RefDgmr::LINESTYLE_VALLEY : RefDgmr::LINESTYLE_PINCH);
 			break;
 		default:; // keep compiler happy
 		}
@@ -140,13 +158,17 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 		break;
 
 	case PASS_LABELS: {
-		XYPt mp = MidPoint(p1, p2); // label goes at the midpoint of the line
+		XYPt mp = MidPoint(op1, op2); // label goes at the midpoint of the line
 		string sl(1, GetLabel());
 		switch (rstyle) {
 		case REFSTYLE_NORMAL:
 			// normal lines don't get labels
 			break;
 		case REFSTYLE_HILITE:
+			if (mForMark != NULL) {
+				RefMark *mark = (RefMark *)mForMark;
+				moveCloser(mp, mark->p, pinchLength * 1.2);
+			}
 			sDgmr->DrawLabel(mp, sl, RefDgmr::LABELSTYLE_HILITE);
 			break;
 		case REFSTYLE_ACTION:
@@ -159,6 +181,14 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 	default:; // keep compiler happy
 	}
 	// Subclasses will add arrows for REFSTYLE_ACTION
+}
+
+void RefLine::moveCloser(XYPt &from, const XYPt &to, double dist) {
+	XYPt diff(from.x - to.x, from.y - to.y);
+	if (diff.Mag() < dist) return;
+	diff.NormalizeSelf();
+	from.x = to.x + diff.x * dist;
+	from.y = to.y + diff.y * dist;
 }
 
 /*****

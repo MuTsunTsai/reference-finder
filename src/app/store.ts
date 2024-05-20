@@ -22,6 +22,7 @@ export interface StepBase {
 
 export interface Step extends StepBase {
 	intersection?: StepBase;
+	pinch?: boolean;
 }
 
 export enum Theme {
@@ -118,6 +119,8 @@ export enum LineStyle {
 	valley,
 	mountain,
 	arrow,
+	dotted,
+	pinch,
 };
 
 export interface ArcElement {

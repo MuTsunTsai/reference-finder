@@ -144,6 +144,7 @@ void RefLine_L2L::PutHowto(JsonArray &steps) const {
 		step.add("p0", pa.Chop());
 	}
 
+	if (mForMark != NULL) step.add("pinch", 1);
 	steps.add(step);
 }
 

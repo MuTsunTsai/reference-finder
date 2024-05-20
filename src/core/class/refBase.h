@@ -2,9 +2,9 @@
 #ifndef _REF_BASE_H_
 #define _REF_BASE_H_
 
-#include "json/jsonObject.h"
-#include "json/jsonArray.h"
 #include "global.h"
+#include "json/jsonArray.h"
+#include "json/jsonObject.h"
 
 #include <iostream>
 #include <vector>
@@ -19,6 +19,9 @@ class RefBase {
 	rank_t mRank; // rank of this mark or line
 	key_t mKey;	  // key used for maps within RefContainers
 
+	/* A none-null value indicating that this ref (line in fact) is used only for creating an intersection. */
+	RefBase *mForMark;
+
 	static std::vector<RefBase *> sSequence; // a sequence of refs that fully define a ref
 
 	struct DgmInfo {	  // information that encodes a diagram description
@@ -32,7 +35,7 @@ class RefBase {
 	typedef short index_t; // type for indices
 	index_t mIndex;		   // used to label this ref in a folding sequence
 
-	static RefDgmr *sDgmr;				   // object that draws diagrams
+	static RefDgmr *sDgmr; // object that draws diagrams
 	enum {
 		// Drawing happens in multiple passes to get the stacking order correct
 		PASS_LINES,
@@ -44,7 +47,7 @@ class RefBase {
 	}; // drawing order
 
   public:
-	RefBase(rank_t arank = 0) : mRank(arank), mKey(0), mIndex(0) {}
+	RefBase(rank_t arank = 0) : mRank(arank), mKey(0), mIndex(0), mForMark(NULL) {}
 	virtual ~RefBase() {}
 
 	// routines for building a sequence of refs
@@ -64,6 +67,7 @@ class RefBase {
 
   protected:
 	virtual bool UsesImmediate(RefBase *rb) const;
+	virtual bool IsLine() const = 0;
 	virtual bool IsActionLine() const = 0;
 	virtual bool IsDerived() const;
 	virtual void SetIndex() = 0;

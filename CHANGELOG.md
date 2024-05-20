@@ -1,6 +1,10 @@
 
 # Change log
 
+## v4.1.0
+
+If a line is later only used to make one intersection, we render it as a pinch instead of a whole line.
+
 ## v4.0.3
 
 Version 4.0.3 made some significant initialization performance improvements (about 40% faster) by means of the following:

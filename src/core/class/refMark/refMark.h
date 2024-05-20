@@ -25,6 +25,7 @@ class RefMark : public RefBase {
 
 	double DistanceTo(const XYPt &ap) const;
 	bool IsOnEdge() const;
+	bool IsLine() const;
 	bool IsActionLine() const;
 
 	const char GetLabel() const;

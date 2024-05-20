@@ -63,6 +63,8 @@ void RefLine_L2L_C2P::PutHowto(JsonArray &steps) const {
 	rl1->PutName("l0", step);
 	PutName("x", step);
 	rm1->PutName("p0", step);
+
+	if (mForMark != NULL) step.add("pinch", 1);
 	steps.add(step);
 }
 

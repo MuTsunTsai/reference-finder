@@ -48,6 +48,10 @@ bool RefMark::IsOnEdge() const {
 			ReferenceFinder::sPaper.mBottomEdge.Intersects(p));
 }
 
+bool RefMark::IsLine() const {
+	return false;
+}
+
 /*****
 Return false, since marks can never be actions
 *****/

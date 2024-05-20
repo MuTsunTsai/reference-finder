@@ -19,6 +19,7 @@
 		"The solution is made by bringing {{p0}} to {{l0}} and {{p1}} to {{l1}}.",
 		"The solution is made by bringing {{l1}} onto itself and bringing {{p0}} to {{l0}}."
 	],
+	"pinch": "Pinch only at the intersection.",
 	"intersection": "Point {{x}} is at the intersection of {{l0}} and {{l1}}.",
 	"intersection_solution": "The solution is at the intersection of {{l0}} and {{l1}}.",
 	"paper": {

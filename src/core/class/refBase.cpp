@@ -7,6 +7,7 @@
 #include "refDgmr.h"
 #include "refLine/refLine.h"
 #include "refMark/refMark.h"
+#include "refMark/refMarkIntersection.h"
 #include "xypt.h"
 #include "json/jsonArray.h"
 
@@ -123,7 +124,29 @@ void RefBase::BuildDiagrams() {
 	// there will be a diagram for each one of these.
 	size_t ss = sSequence.size();
 	for (size_t i = 0; i < ss; i++) {
-		if (sSequence[i]->IsActionLine()) sDgms.push_back(DgmInfo(i, i));
+		if (sSequence[i]->IsActionLine()) {
+			sDgms.push_back(DgmInfo(i, i));
+
+			// For each line, check if it is only used to create one intersection and nothing more.
+			// If so, it suffices to pinch only near the corresponding mark, and not the entire line.
+			RefBase *mark = NULL;
+			for (size_t j = 0; j < ss; j++) {
+				if (sSequence[j]->UsesImmediate(sSequence[i])) {
+					if (sSequence[j]->IsLine() || mark != NULL) {
+						mark = NULL;
+						break;
+					} else {
+						mark = sSequence[j];
+					}
+				}
+			}
+			sSequence[i]->mForMark = mark;
+		}
+		if (!sSequence[i]->IsLine() && sSequence[i]->IsDerived()) {
+			auto *mark = (RefMark_Intersection *)sSequence[i];
+			// It won't make sense to have both lines as pinches.
+			if (mark->rl2->mForMark != NULL) mark->rl1->mForMark = NULL;
+		}
 	}
 
 	// We should always have at least one diagram, even if there was only one ref
@@ -161,12 +184,13 @@ Draw the given diagram using the RefDgmr aDgmr.
 void RefBase::DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm) {
 	// Set the current RefDgmr to be aDgmr.
 	sDgmr = &aDgmr;
+	const int act = aDgm.iact;
 
 	// always draw the paper
 	DrawPaper();
 
 	// Make a note of the action line ref
-	RefBase *ral = sSequence[aDgm.iact];
+	RefBase *ral = sSequence[act];
 
 	// draw all refs specified by the DgmInfo. Most get drawn in normal style.
 	// The ref that is the action line (and all subsequent refs) get drawn in
@@ -174,13 +198,21 @@ void RefBase::DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm) {
 	// drawn in hilite style. Drawing for each diagram is done in multiple passes
 	// so that, for examples, labels end up on top of everything else.
 	for (short ipass = 0; ipass < NUM_PASSES; ipass++) {
-		for (size_t i = 0; i < aDgm.iact; i++) {
+		for (size_t i = 0; i < act; i++) {
 			RefBase *rb = sSequence[i];
 			bool shouldHighlight = (i >= aDgm.idef && rb->IsDerived()) || ral->UsesImmediate(rb);
 			RefStyle style = shouldHighlight ? REFSTYLE_HILITE : REFSTYLE_NORMAL;
 			rb->DrawSelf(style, ipass);
 		};
-		sSequence[aDgm.iact]->DrawSelf(REFSTYLE_ACTION, ipass);
+		sSequence[act]->DrawSelf(REFSTYLE_ACTION, ipass);
+
+		// When the next thing in the sequence is a mark, we also include it in the current diagram.
+		if (
+			act < sSequence.size() - 2 && // unless it's the very last one, which will be a standalone diagram.
+			!sSequence[act + 1]->IsLine() // the next one is a mark
+		) {
+			sSequence[act + 1]->DrawSelf(REFSTYLE_ACTION, ipass);
+		}
 	}
 }
 

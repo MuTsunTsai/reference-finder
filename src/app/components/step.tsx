@@ -6,7 +6,7 @@ interface StepComponentProps {
 	last: boolean;
 }
 
-const CJK = /([\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF]) ([\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF])/g;
+const CJK = /([\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF。]) ([\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF])/g;
 
 export function StepComponent({ data, last }: StepComponentProps) {
 	const { t } = useTranslation();
@@ -46,16 +46,18 @@ export function StepComponent({ data, last }: StepComponentProps) {
 				<>
 					<div>
 						{settings.showAxiom && <span>[O{step.axiom}] </span>}
-						{purge(last && !step.intersection ?
+						{purge((last && !step.intersection ?
 							t(`axiom_solution.${step.axiom - 1}`, { ...step }) :
-							t(`axiom.${step.axiom - 1}`, { ...step }))
-						}
+							t(`axiom.${step.axiom - 1}`, { ...step })) +
+							(!step.intersection && step.pinch ? " " + t("pinch") : "")
+						)}
 					</div>
 					{step.intersection &&
 						<div>
-							{purge(last ?
+							{purge((last ?
 								t(`intersection_solution`, { ...step.intersection }) :
-								t(`intersection`, { ...step.intersection })
+								t(`intersection`, { ...step.intersection })) +
+								(step.pinch ? " " + t("pinch") : "")
 							)}
 						</div>
 					}

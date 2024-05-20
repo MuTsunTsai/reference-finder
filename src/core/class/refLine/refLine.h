@@ -17,6 +17,8 @@ class RefLine : public RefBase {
 	static index_t sCount; // class index, used for numbering sequences of lines
 	static char sLabels[]; // labels for lines, indexed by sCount
 
+	static void moveCloser(XYPt &from, const XYPt &to, double dist);
+
   public:
 	RefLine(rank_t arank) : RefBase(arank) {}
 	RefLine(const XYLine &al, rank_t arank) : RefBase(arank), l(al) {}
@@ -24,6 +26,7 @@ class RefLine : public RefBase {
 	void FinishConstructor();
 	double DistanceTo(const XYLine &al) const;
 	bool IsOnEdge() const;
+	bool IsLine() const;
 	bool IsActionLine() const;
 
 	const char GetLabel() const;

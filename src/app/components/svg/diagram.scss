@@ -23,8 +23,11 @@
 }
 
 .line-valley {
-	stroke: var(--valley);
 	stroke-dasharray: 0.05 0.025;
+}
+
+.line-pinch, .line-valley {
+	stroke: var(--valley);
 	stroke-width: 0.02;
 }
 
@@ -42,6 +45,11 @@
 
 .line-crease {
 	stroke: var(--crease-line);
+}
+
+.line-dotted {
+	stroke: var(--crease-line);
+	stroke-dasharray: 0.01 0.04;
 }
 
 .arc-arrow {

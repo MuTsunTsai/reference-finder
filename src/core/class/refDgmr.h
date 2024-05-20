@@ -30,7 +30,9 @@ class RefDgmr {
 		LINESTYLE_HILITE,
 		LINESTYLE_VALLEY,
 		LINESTYLE_MOUNTAIN,
-		LINESTYLE_ARROW
+		LINESTYLE_ARROW,
+		LINESTYLE_DOTTED,
+		LINESTYLE_PINCH,
 	};
 	virtual void DrawLine(const XYPt &fromPt, const XYPt &toPt, LineStyle lstyle);
 	virtual void DrawArc(const XYPt &ctr, double rad, double fromAngle,

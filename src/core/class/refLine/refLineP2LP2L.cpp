@@ -334,6 +334,8 @@ void RefLine_P2L_P2L::PutHowto(JsonArray &steps) const {
 		break;
 	};
 	PutName("x", step);
+
+	if (mForMark != NULL) step.add("pinch", 1);
 	steps.add(step);
 }
 

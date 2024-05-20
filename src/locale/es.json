@@ -88,5 +88,6 @@
 	"keyword": {
 		"cancel": "Cancelar",
 		"ok": "DE ACUERDO"
-	}
+	},
+	"pinch": "Pellizque solo en la intersección."
 }
