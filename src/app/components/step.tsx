@@ -51,6 +51,7 @@ export function StepComponent({ data, last }: StepComponentProps) {
 							t(`axiom.${step.axiom - 1}`, { ...step })) +
 							(!step.intersection && step.pinch ? " " + t("pinch") : "")
 						)}
+						<span> </span>
 					</div>
 					{step.intersection &&
 						<div>

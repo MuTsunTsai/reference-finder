@@ -74,18 +74,22 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 						<div className="col p-2" style={{ flex: "1 1 12rem" }}></div>
 					</div>
 				}
-				{data.steps.map((step, i) =>
-					<div className="row justify-content-center" key={i}>
-						<div className="col" style={{ flex: "0 1 12rem" }}>
-							<Diagram data={data.diagrams[i]} last={i == data.steps.length - 1} />
+				<div className="row">
+					{data.steps.map((step, i) =>
+						<div className="col-12 col-md-4 mb-sm-3" key={i}>
+							<div className="row justify-content-center">
+								<div className="col" style={{ flex: "0 1 12rem" }}>
+									<Diagram data={data.diagrams[i]} last={i == data.steps.length - 1} />
+								</div>
+								<div className="col p-2" style={{ flex: "1 1 12rem" }}>
+									<ol start={i + 1}>
+										<StepComponent data={step} last={i == data.steps.length - 1} />
+									</ol>
+								</div>
+							</div>
 						</div>
-						<div className="col p-2" style={{ flex: "1 1 12rem" }}>
-							<ol start={i + 1}>
-								<StepComponent data={step} last={i == data.steps.length - 1} />
-							</ol>
-						</div>
-					</div>
-				)}
+					)}
+				</div>
 			</div>
 		</div>
 	);
