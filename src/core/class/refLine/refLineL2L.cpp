@@ -163,7 +163,7 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		XYLine &l1 = rl1->l;
 		XYLine &l2 = rl2->l;
 		XYPt p;
-		l1.Intersects(l2, p); // intersection
+		bool isParallel = !l1.Intersects(l2, p); // intersection
 		XYPt p1a, p1b;
 		ReferenceFinder::sPaper.ClipLine(l1, p1a, p1b); // endpoints of l1
 		XYPt p2a, p2b;
@@ -187,14 +187,15 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 			p1c = du1 + offset * up1;
 			p2c = l.Fold(p1c);
 			weight++;
-		} while ((p1c - p2c).Mag() < 0.3 && weight < 5);
+		} while (!isParallel && (p1c - p2c).Mag() < 0.3 && weight < 5);
 
+		XYPt *around = isParallel ? NULL : &p; // Specify arrow orientation for L2L
 		switch (mWhoMoves) {
 		case WHOMOVES_L1:
-			sDgmr->DrawArrow(p1c, p2c, &p); // Specify arrow orientation for L2L
+			sDgmr->DrawArrow(p1c, p2c, around);
 			break;
 		case WHOMOVES_L2:
-			sDgmr->DrawArrow(p1c, p2c, &p); // Specify arrow orientation for L2L
+			sDgmr->DrawArrow(p1c, p2c, around);
 			break;
 		}
 	}

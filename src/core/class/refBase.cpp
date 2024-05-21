@@ -191,6 +191,7 @@ void RefBase::DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm) {
 
 	// Make a note of the action line ref
 	RefBase *ral = sSequence[act];
+	int ss = sSequence.size();
 
 	// draw all refs specified by the DgmInfo. Most get drawn in normal style.
 	// The ref that is the action line (and all subsequent refs) get drawn in
@@ -204,14 +205,16 @@ void RefBase::DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm) {
 			RefStyle style = shouldHighlight ? REFSTYLE_HILITE : REFSTYLE_NORMAL;
 			rb->DrawSelf(style, ipass);
 		};
-		sSequence[act]->DrawSelf(REFSTYLE_ACTION, ipass);
+		if (act < ss) {
+			sSequence[act]->DrawSelf(REFSTYLE_ACTION, ipass);
 
-		// When the next thing in the sequence is a mark, we also include it in the current diagram.
-		if (
-			act < sSequence.size() - 2 && // unless it's the very last one, which will be a standalone diagram.
-			!sSequence[act + 1]->IsLine() // the next one is a mark
-		) {
-			sSequence[act + 1]->DrawSelf(REFSTYLE_ACTION, ipass);
+			// When the next thing in the sequence is a mark, we also include it in the current diagram.
+			if (
+				act < ss - 2 &&				  // unless it's the very last one, which will be a standalone diagram.
+				!sSequence[act + 1]->IsLine() // the next one is a mark
+			) {
+				sSequence[act + 1]->DrawSelf(REFSTYLE_ACTION, ipass);
+			}
 		}
 	}
 }
