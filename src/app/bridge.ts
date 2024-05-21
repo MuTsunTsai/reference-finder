@@ -14,6 +14,17 @@ export function startStatistics(trials: number, callback: typeof statisticsCallb
 	worker.postMessage([99, trials]);
 }
 
+function parseSolution(text: string) {
+	const solution = JSON.parse(text) as Solution;
+	const steps = solution.steps;
+	solution.steps = [];
+	for(const step of steps) {
+		if(step.axiom > 0 || step == steps[steps.length - 1]) solution.steps.push(step);
+		else solution.steps[solution.steps.length - 1].intersection = step;
+	}
+	return solution;
+}
+
 export function resetWorker(db: DbSettings) {
 	if(worker) {
 		worker.terminate();
@@ -63,16 +74,7 @@ export function resetWorker(db: DbSettings) {
 			// console.log(text);
 
 			if(running) {
-				// Organize steps
-				const solution = JSON.parse(text) as Solution;
-				const steps = solution.steps;
-				solution.steps = [];
-				for(const step of steps) {
-					if(step.axiom > 0 || step == steps[steps.length - 1]) solution.steps.push(step);
-					else solution.steps[solution.steps.length - 1].intersection = step;
-				}
-				solutions.push(solution);
-
+				solutions.push(parseSolution(text));
 				useStore.setState({ solutions: solutions.concat() });
 			} else if(statisticsRunning) {
 				statisticsCallback(text);

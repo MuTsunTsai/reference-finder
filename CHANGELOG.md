@@ -1,6 +1,10 @@
 
 # Change log
 
+## v4.1.1
+
+Fix bug in label rendering.
+
 ## v4.1.0
 
 If a line is later only used to make one intersection, we render it as a pinch instead of a whole line.

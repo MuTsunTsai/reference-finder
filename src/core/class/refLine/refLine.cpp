@@ -159,6 +159,13 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 
 	case PASS_LABELS: {
 		XYPt mp = MidPoint(op1, op2); // label goes at the midpoint of the line
+
+		// We add a tiny offset along the direction of the line,
+		// to prevent the label from coinciding with other labels,
+		// causing rendering error.
+		mp.x += (op1.x - op2.x) * 1e-10;
+		mp.y += (op1.y - op2.y) * 1e-10;
+
 		string sl(1, GetLabel());
 		switch (rstyle) {
 		case REFSTYLE_NORMAL:
@@ -167,7 +174,7 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 		case REFSTYLE_HILITE:
 			if (mForMark != NULL) {
 				RefMark *mark = (RefMark *)mForMark;
-				moveCloser(mp, mark->p, pinchLength * 1.2);
+				moveCloser(mp, mark->p, pinchLength * 0.75);
 			}
 			sDgmr->DrawLabel(mp, sl, RefDgmr::LABELSTYLE_HILITE);
 			break;

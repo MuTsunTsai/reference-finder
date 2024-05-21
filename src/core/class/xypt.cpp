@@ -1,6 +1,8 @@
 
 #include "xypt.h"
 
+#include <iomanip>
+
 using namespace std;
 
 /**********
