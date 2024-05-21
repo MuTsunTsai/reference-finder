@@ -355,23 +355,23 @@ void RefLine_P2L_P2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		XYPt p2b = l.Fold(p2a);
 		switch (mWhoMoves) {
 		case WHOMOVES_P1P2:
-			sDgmr->DrawFoldAndUnfoldArrow(p1a, p1b);
-			sDgmr->DrawFoldAndUnfoldArrow(p2a, p2b);
+			sDgmr->DrawArrow(p1a, p1b);
+			sDgmr->DrawArrow(p2a, p2b);
 			break;
 
 		case WHOMOVES_L1L2:
-			sDgmr->DrawFoldAndUnfoldArrow(p1b, p1a);
-			sDgmr->DrawFoldAndUnfoldArrow(p2b, p2a);
+			sDgmr->DrawArrow(p1b, p1a);
+			sDgmr->DrawArrow(p2b, p2a);
 			break;
 
 		case WHOMOVES_P1L2:
-			sDgmr->DrawFoldAndUnfoldArrow(p1a, p1b);
-			sDgmr->DrawFoldAndUnfoldArrow(p2b, p2a);
+			sDgmr->DrawArrow(p1a, p1b);
+			sDgmr->DrawArrow(p2b, p2a);
 			break;
 
 		case WHOMOVES_P2L1:
-			sDgmr->DrawFoldAndUnfoldArrow(p1b, p1a);
-			sDgmr->DrawFoldAndUnfoldArrow(p2a, p2b);
+			sDgmr->DrawArrow(p1b, p1a);
+			sDgmr->DrawArrow(p2a, p2b);
 			break;
 		}
 	}

@@ -140,10 +140,10 @@ void RefLine_P2L_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 		XYPt p1f = l.Fold(p1);
 		switch (mWhoMoves) {
 		case WHOMOVES_P1:
-			sDgmr->DrawFoldAndUnfoldArrow(p1, p1f);
+			sDgmr->DrawArrow(p1, p1f);
 			break;
 		case WHOMOVES_L1:
-			sDgmr->DrawFoldAndUnfoldArrow(p1f, p1);
+			sDgmr->DrawArrow(p1f, p1);
 			break;
 		}
 	}

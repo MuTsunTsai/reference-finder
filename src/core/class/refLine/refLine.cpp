@@ -163,8 +163,7 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 		// We add a tiny offset along the direction of the line,
 		// to prevent the label from coinciding with other labels,
 		// causing rendering error.
-		mp.x += (op1.x - op2.x) * 1e-10;
-		mp.y += (op1.y - op2.y) * 1e-10;
+		mp += (op1 - op2) * 1e-10;
 
 		string sl(1, GetLabel());
 		switch (rstyle) {
@@ -191,11 +190,10 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 }
 
 void RefLine::moveCloser(XYPt &from, const XYPt &to, double dist) {
-	XYPt diff(from.x - to.x, from.y - to.y);
+	XYPt diff(from - to);
 	if (diff.Mag() < dist) return;
 	diff.NormalizeSelf();
-	from.x = to.x + diff.x * dist;
-	from.y = to.y + diff.y * dist;
+	from = to + diff * dist;
 }
 
 /*****

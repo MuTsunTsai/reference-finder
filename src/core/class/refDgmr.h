@@ -29,7 +29,7 @@ class RefDgmr {
 		LINESTYLE_EDGE,
 		LINESTYLE_HILITE,
 		LINESTYLE_VALLEY,
-		LINESTYLE_MOUNTAIN,
+		LINESTYLE_MOUNTAIN, // not in use
 		LINESTYLE_ARROW,
 		LINESTYLE_DOTTED,
 		LINESTYLE_PINCH,
@@ -53,20 +53,13 @@ class RefDgmr {
 	virtual void DrawLabel(const XYPt &aPt, const std::string &aString,
 						   LabelStyle lstyle);
 
-	// Subclasses may use or override these methods
-	virtual void CalcArrow(const XYPt &fromPt, const XYPt &toPt,
-						   XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw,
-						   double &ahSize, XYPt &fromDir, XYPt &toDir);
-	virtual void DrawValleyArrowhead(const XYPt &loc, const XYPt &dir,
-									 double len);
-	virtual void DrawMountainArrowhead(const XYPt &loc, const XYPt &dir,
-									   double len);
-	virtual void DrawUnfoldArrowhead(const XYPt &loc, const XYPt &dir,
-									 double len);
-	virtual void DrawValleyArrow(const XYPt &fromPt, const XYPt &toPt);
-	virtual void DrawMountainArrow(const XYPt &fromPt, const XYPt &toPt);
-	virtual void DrawUnfoldArrow(const XYPt &fromPt, const XYPt &toPt);
-	virtual void DrawFoldAndUnfoldArrow(const XYPt &fromPt, const XYPt &toPt);
+	void DrawArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around);
+	void DrawArrow(const XYPt &fromPt, const XYPt &toPt);
+
+  private:
+	void CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around,
+				   XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw,
+				   double &ahSize, XYPt &fromDir, XYPt &toDir);
 };
 
 #endif

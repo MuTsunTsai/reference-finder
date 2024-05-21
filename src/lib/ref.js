@@ -1062,8 +1062,8 @@ var _asyncify_start_unwind = a0 => (_asyncify_start_unwind = wasmExports["y"])(a
 var _asyncify_stop_unwind = () => (_asyncify_stop_unwind = wasmExports["z"])();
 var _asyncify_start_rewind = a0 => (_asyncify_start_rewind = wasmExports["A"])(a0);
 var _asyncify_stop_rewind = () => (_asyncify_stop_rewind = wasmExports["B"])();
-var ___start_em_js = Module["___start_em_js"] = 27740;
-var ___stop_em_js = Module["___stop_em_js"] = 28088;
+var ___start_em_js = Module["___start_em_js"] = 27708;
+var ___stop_em_js = Module["___stop_em_js"] = 28056;
 Module["setValue"] = setValue;
 var calledRun;
 dependenciesFulfilled = function runCaller() {

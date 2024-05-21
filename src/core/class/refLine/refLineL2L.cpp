@@ -162,6 +162,8 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 
 		XYLine &l1 = rl1->l;
 		XYLine &l2 = rl2->l;
+		XYPt p;
+		l1.Intersects(l2, p); // intersection
 		XYPt p1a, p1b;
 		ReferenceFinder::sPaper.ClipLine(l1, p1a, p1b); // endpoints of l1
 		XYPt p2a, p2b;
@@ -176,14 +178,23 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		tvals.push_back((p2a - du1).Dot(up1)); // parameterize p2a along l1
 		tvals.push_back((p2b - du1).Dot(up1)); // parameterize p2b along l1
 		sort(tvals.begin(), tvals.end());	   // sort them in order; we want the middle 2
-		XYPt p1c = du1 + 0.5 * (tvals[1] + tvals[2]) * up1;
-		XYPt p2c = l.Fold(p1c);
+
+		// Place the arrow closer to tvals[2] if the resulting arrow is too small
+		XYPt p1c, p2c;
+		int weight = 1;
+		do {
+			double offset = (tvals[1] + weight * tvals[2]) / (1 + weight);
+			p1c = du1 + offset * up1;
+			p2c = l.Fold(p1c);
+			weight++;
+		} while ((p1c - p2c).Mag() < 0.3 && weight < 5);
+
 		switch (mWhoMoves) {
 		case WHOMOVES_L1:
-			sDgmr->DrawFoldAndUnfoldArrow(p1c, p2c);
+			sDgmr->DrawArrow(p1c, p2c, &p); // Specify arrow orientation for L2L
 			break;
 		case WHOMOVES_L2:
-			sDgmr->DrawFoldAndUnfoldArrow(p1c, p2c);
+			sDgmr->DrawArrow(p1c, p2c, &p); // Specify arrow orientation for L2L
 			break;
 		}
 	}

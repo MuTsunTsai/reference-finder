@@ -1,13 +1,13 @@
 
 # Change log
 
-## v4.1.1
-
-Fix bug in label rendering.
-
-## v4.1.0
+## v4.1
 
 If a line is later only used to make one intersection, we render it as a pinch instead of a whole line.
+
+Patches:
+- v4.1.1: Fix bug in label rendering.
+- v4.1.2: Reduce the likelihood of drawing very small arrows.
 
 ## v4.0.3
 

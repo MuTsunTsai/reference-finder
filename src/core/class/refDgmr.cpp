@@ -57,51 +57,10 @@ void RefDgmr::DrawLabel(const XYPt & /* aPt */, const string & /* aString */,
 						LabelStyle /* lstyle */) {
 }
 
-/*
-Class RefDgmr provides a set of routines for drawing arrows that are built on
-top of the primitive routines above. These can be overridden if you want to
-implement a different style of arrow.
-*/
-
 /*****
-Draw a valley-fold arrowhead with tip at location loc, direction dir, and size
-len.
+Calculate all the parameters necessary to draw arrow.
 *****/
-void RefDgmr::DrawValleyArrowhead(const XYPt &loc, const XYPt &dir, double len) {
-	DrawLine(loc, loc - len * dir.RotateCCW(.523), LINESTYLE_ARROW);
-	DrawLine(loc, loc - len * dir.RotateCCW(-.523), LINESTYLE_ARROW);
-}
-
-/*****
-Draw a mountain arrowhead with tip at location loc, direction dir, and size len.
-*****/
-void RefDgmr::DrawMountainArrowhead(const XYPt &loc, const XYPt &dir, double len) {
-	XYPt ldir = len * dir;
-	vector<XYPt> poly;
-	poly.push_back(loc);
-	poly.push_back(loc - ldir.RotateCCW(.523));
-	poly.push_back(loc - .8 * ldir);
-	DrawPoly(poly, POLYSTYLE_ARROW);
-}
-
-/*****
-Draw an unfold arrowhead with tip at location loc, direction dir, and size len.
-*****/
-void RefDgmr::DrawUnfoldArrowhead(const XYPt &loc, const XYPt &dir, double len) {
-	XYPt ldir = len * dir;
-	vector<XYPt> poly;
-	poly.push_back(loc);
-	poly.push_back(loc - ldir.RotateCCW(.523));
-	poly.push_back(loc - .8 * ldir);
-	poly.push_back(loc - ldir.RotateCCW(-.523));
-	DrawPoly(poly, POLYSTYLE_ARROW);
-}
-
-/*****
-Calculate all the parameters necessary to draw any type of arrow (valley,
-mountain, unfold, fold-and-unfold).
-*****/
-void RefDgmr::CalcArrow(const XYPt &fromPt, const XYPt &toPt,
+void RefDgmr::CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around,
 						XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw,
 						double &ahSize, XYPt &fromDir, XYPt &toDir) {
 	const double RADIANS = 57.29577951;
@@ -117,13 +76,12 @@ void RefDgmr::CalcArrow(const XYPt &fromPt, const XYPt &toPt,
 
 	// Compute the center of rotation. There are two possible choices.
 	// We'll want the bulge of the arc to always be toward the inside of the square,
-	// i.e., closer to the middle of the square, so we pick the value of the center
-	// that's farther away.
-	XYPt sqmp = MidPoint(ReferenceFinder::sPaper.mBotLeft,
-						 ReferenceFinder::sPaper.mTopRight);
+	// i.e., closer to the middle of the square (or away from the point around, if specified),
+	// so we pick the value of the center that's farther away.
+	XYPt target = around == NULL ? MidPoint(ReferenceFinder::sPaper.mBotLeft, ReferenceFinder::sPaper.mTopRight) : mp * 2 - *around;
 	XYPt ctr1 = mp + mup;
 	XYPt ctr2 = mp - mup;
-	ctr = (ctr1 - sqmp).Mag() > (ctr2 - sqmp).Mag() ? ctr1 : ctr2;
+	ctr = (ctr1 - target).Mag() > (ctr2 - target).Mag() ? ctr1 : ctr2;
 
 	// radius of the arc.
 	rad = (toPt - ctr).Mag();
@@ -157,9 +115,9 @@ void RefDgmr::CalcArrow(const XYPt &fromPt, const XYPt &toPt,
 }
 
 /*****
-Draw a valley-fold arrow. fromPt is the moving point, toPt is the destination.
+Draw a arrow. fromPt is the moving point, toPt is the destination.
 *****/
-void RefDgmr::DrawValleyArrow(const XYPt &fromPt, const XYPt &toPt) {
+void RefDgmr::DrawArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around) {
 	XYPt ctr;
 	double rad;
 	double fromAngle;
@@ -168,65 +126,10 @@ void RefDgmr::DrawValleyArrow(const XYPt &fromPt, const XYPt &toPt) {
 	double ahSize;
 	XYPt fromDir;
 	XYPt toDir;
-	CalcArrow(fromPt, toPt, ctr, rad, fromAngle, toAngle, ccw, ahSize, fromDir,
-			  toDir);
+	CalcArrow(fromPt, toPt, around, ctr, rad, fromAngle, toAngle, ccw, ahSize, fromDir, toDir);
 	DrawArc(ctr, rad, fromAngle, toAngle, ccw, LINESTYLE_ARROW);
-	DrawValleyArrowhead(toPt, toDir, ahSize);
 }
 
-/*****
-Draw a mountain-fold arrow. fromPt is the moving point, toPt is the
-destination.
-*****/
-void RefDgmr::DrawMountainArrow(const XYPt &fromPt, const XYPt &toPt) {
-	XYPt ctr;
-	double rad;
-	double fromAngle;
-	double toAngle;
-	bool ccw;
-	double ahSize;
-	XYPt fromDir;
-	XYPt toDir;
-	CalcArrow(fromPt, toPt, ctr, rad, fromAngle, toAngle, ccw, ahSize, fromDir,
-			  toDir);
-	DrawArc(ctr, rad, fromAngle, toAngle, ccw, LINESTYLE_ARROW);
-	DrawMountainArrowhead(toPt, toDir, ahSize);
-}
-
-/*****
-Draw an unfold arrow. fromPt is the moving point, toPt is the destination.
-*****/
-void RefDgmr::DrawUnfoldArrow(const XYPt &fromPt, const XYPt &toPt) {
-	XYPt ctr;
-	double rad;
-	double fromAngle;
-	double toAngle;
-	bool ccw;
-	double ahSize;
-	XYPt fromDir;
-	XYPt toDir;
-	CalcArrow(fromPt, toPt, ctr, rad, fromAngle, toAngle, ccw, ahSize, fromDir,
-			  toDir);
-	DrawArc(ctr, rad, fromAngle, toAngle, ccw, LINESTYLE_ARROW);
-	DrawUnfoldArrowhead(toPt, toDir, ahSize);
-}
-
-/*****
-Draw a fold-and-unfold arrow. fromPt is the moving point, toPt is the
-destination.
-*****/
-void RefDgmr::DrawFoldAndUnfoldArrow(const XYPt &fromPt, const XYPt &toPt) {
-	XYPt ctr;
-	double rad;
-	double fromAngle;
-	double toAngle;
-	bool ccw;
-	double ahSize;
-	XYPt fromDir;
-	XYPt toDir;
-	CalcArrow(fromPt, toPt, ctr, rad, fromAngle, toAngle, ccw, ahSize, fromDir,
-			  toDir);
-	DrawArc(ctr, rad, fromAngle, toAngle, ccw, LINESTYLE_ARROW);
-	DrawValleyArrowhead(toPt, toDir, ahSize);
-	DrawUnfoldArrowhead(fromPt, fromDir, ahSize);
+void RefDgmr::DrawArrow(const XYPt &fromPt, const XYPt &toPt) {
+	DrawArrow(fromPt, toPt, NULL);
 }

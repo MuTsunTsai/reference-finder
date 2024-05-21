@@ -107,10 +107,10 @@ void RefLine_P2P::DrawSelf(RefStyle rstyle, short ipass) const {
 		XYPt &p2 = rm2->p;
 		switch (mWhoMoves) {
 		case WHOMOVES_P1:
-			sDgmr->DrawFoldAndUnfoldArrow(p1, p2);
+			sDgmr->DrawArrow(p1, p2);
 			break;
 		case WHOMOVES_P2:
-			sDgmr->DrawFoldAndUnfoldArrow(p2, p1);
+			sDgmr->DrawArrow(p2, p1);
 			break;
 		}
 	}

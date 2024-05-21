@@ -86,7 +86,7 @@ void RefLine_L2L_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 		double t1 = abs((p1 - pi).Dot(u1p));
 		double t2 = abs((p2 - pi).Dot(u1p));
 		double tmin = t1 < t2 ? t1 : t2;
-		sDgmr->DrawFoldAndUnfoldArrow(pi + tmin * u1p, pi - tmin * u1p);
+		sDgmr->DrawArrow(pi + tmin * u1p, pi - tmin * u1p);
 	}
 }
 

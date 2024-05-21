@@ -144,17 +144,17 @@ void RefLine_L2L_P2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		double t1 = abs((p1 - pi).Dot(u1p));
 		double t2 = abs((p2 - pi).Dot(u1p));
 		double tmin = t1 < t2 ? t1 : t2;
-		sDgmr->DrawFoldAndUnfoldArrow(pi + tmin * u1p, pi - tmin * u1p);
+		sDgmr->DrawArrow(pi + tmin * u1p, pi - tmin * u1p);
 
 		// Draw point-to-line arrow
 		XYPt &p3 = rm1->p;
 		XYPt p3p = l.Fold(p3);
 		switch (mWhoMoves) {
 		case WHOMOVES_P1:
-			sDgmr->DrawFoldAndUnfoldArrow(p3, p3p);
+			sDgmr->DrawArrow(p3, p3p);
 			break;
 		case WHOMOVES_L1:
-			sDgmr->DrawFoldAndUnfoldArrow(p3p, p3);
+			sDgmr->DrawArrow(p3p, p3);
 			break;
 		}
 	}

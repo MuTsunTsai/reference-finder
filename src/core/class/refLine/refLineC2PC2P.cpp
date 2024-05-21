@@ -100,7 +100,7 @@ void RefLine_C2P_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 		p4 = mp - dp;
 
 		// Draw an arrow that connects these two points.
-		sDgmr->DrawFoldAndUnfoldArrow(p3, p4);
+		sDgmr->DrawArrow(p3, p4);
 	}
 }
 
