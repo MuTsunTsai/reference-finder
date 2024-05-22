@@ -2,9 +2,9 @@
 #include "../../ReferenceFinder.h"
 
 #include "../global.h"
-#include "../paper.h"
+#include "../math/xyline.h"
+#include "../math/paper.h"
 #include "../refLine/refLine.h"
-#include "../xyline.h"
 #include "refMarkIntersection.h"
 
 using namespace std;
@@ -35,12 +35,12 @@ RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2) : RefMa
 
 	// If the intersection point falls outside the square, it's not valid.
 
-	if (!ReferenceFinder::sPaper.Encloses(p)) return;
+	if (!Shared::sPaper.Encloses(p)) return;
 
 	// If the lines intersect at less than a 30 degree angle, we won't keep this
 	// point because such intersections are imprecise to use as reference points.
 
-	if (abs(u1.Dot(u2.Rotate90())) < ReferenceFinder::sMinAngleSine) return;
+	if (abs(u1.Dot(u2.Rotate90())) < Shared::sMinAngleSine) return;
 
 	FinishConstructor();
 }
@@ -85,7 +85,7 @@ void RefMark_Intersection::MakeAll(rank_t arank) {
 		for (auto li = imap.begin() + (sameRank ? 1 : 0); li != imap.end(); li++) {
 			auto &jmap = ReferenceFinder::sBasisLines.maps[jrank];
 			for (auto lj = jmap.begin(); lj != (sameRank ? li : jmap.end()); lj++) {
-				if (ReferenceFinder::GetNumMarks() >= ReferenceFinder::sMaxMarks) return;
+				if (ReferenceFinder::GetNumMarks() >= Shared::sMaxMarks) return;
 				RefMark_Intersection rmi(*li, *lj);
 				ReferenceFinder::sBasisMarks.AddCopyIfValidAndUnique(rmi);
 			}

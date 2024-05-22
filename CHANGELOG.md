@@ -9,6 +9,7 @@ Patches:
 - v4.1.1: Fix bug in label rendering.
 - v4.1.2: Reduce the likelihood of drawing very small arrows.
 - v4.1.3: Fix several minor bugs.
+- v4.1.4: Refactoring and improve initialization performance.
 
 ## v4.0.3
 

@@ -2,7 +2,7 @@
 #include "../../ReferenceFinder.h"
 
 #include "../global.h"
-#include "../paper.h"
+#include "../math/paper.h"
 #include "../refDgmr.h"
 #include "../refMark/refMark.h"
 #include "refLine.h"
@@ -32,26 +32,26 @@ void RefLine::FinishConstructor() {
 	};
 
 	double fa = (1. + atan2(l.u.y, l.u.x) / (3.14159265358979323)) / 2.0; // fa is between 0 & 1
-	const double dmax = sqrt(pow(ReferenceFinder::sPaper.mWidth, 2) +
-							 pow(ReferenceFinder::sPaper.mHeight, 2));
+	const double dmax = sqrt(pow(Shared::sPaper.mWidth, 2) +
+							 pow(Shared::sPaper.mHeight, 2));
 	const double fd = l.d / dmax; // fd is between 0 and 1
 
-	key_t nd = static_cast<key_t>(floor(0.5 + fd * ReferenceFinder::sNumD));
+	key_t nd = static_cast<key_t>(floor(0.5 + fd * Shared::sNumD));
 	if (nd == 0) fa = fmod(2 * fa, 1); // for d=0, we map alpha and pi+alpha to the same key
-	key_t na = static_cast<key_t>(floor(0.5 + fa * ReferenceFinder::sNumA));
-	mKey = 1 + na * ReferenceFinder::sNumD + nd;
+	key_t na = static_cast<key_t>(floor(0.5 + fa * Shared::sNumA));
+	mKey = 1 + na * Shared::sNumD + nd;
 }
 
 /*****
 Return the "distance" between two lines.
 *****/
 double RefLine::DistanceTo(const XYLine &al) const {
-	if (ReferenceFinder::sLineWorstCaseError) {
+	if (Shared::sLineWorstCaseError) {
 		// Use the worst-case separation between the endpoints of the two lines
 		// where they leave the paper.
 		XYPt p1a, p1b, p2a, p2b;
-		if (ReferenceFinder::sPaper.ClipLine(l, p1a, p1b) &&
-			ReferenceFinder::sPaper.ClipLine(al, p2a, p2b)) {
+		if (Shared::sPaper.ClipLine(l, p1a, p1b) &&
+			Shared::sPaper.ClipLine(al, p2a, p2b)) {
 			double err1 = max_val((p1a - p2a).Mag(), (p1b - p2b).Mag());
 			double err2 = max_val((p1a - p2b).Mag(), (p1b - p2a).Mag());
 			return min_val(err1, err2);
@@ -70,10 +70,10 @@ double RefLine::DistanceTo(const XYLine &al) const {
 Return true if this RefLine is on the edge of the paper
 *****/
 bool RefLine::IsOnEdge() const {
-	return ((ReferenceFinder::sPaper.mLeftEdge == l) ||
-			(ReferenceFinder::sPaper.mTopEdge == l) ||
-			(ReferenceFinder::sPaper.mRightEdge == l) ||
-			(ReferenceFinder::sPaper.mBottomEdge == l));
+	return ((Shared::sPaper.mLeftEdge == l) ||
+			(Shared::sPaper.mTopEdge == l) ||
+			(Shared::sPaper.mRightEdge == l) ||
+			(Shared::sPaper.mBottomEdge == l));
 }
 
 bool RefLine::IsLine() const {
@@ -117,12 +117,12 @@ Draw a line in the given style.
 *****/
 void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 	XYPt op1, op2;
-	ReferenceFinder::sPaper.ClipLine(l, op1, op2);
+	Shared::sPaper.ClipLine(l, op1, op2);
 	XYPt p1(op1), p2(op2);
 	double pinchLength = 0;
 
 	if (mForMark != NULL) {
-		pinchLength = std::min(ReferenceFinder::sPaper.mWidth, ReferenceFinder::sPaper.mHeight) / 10.0;
+		pinchLength = std::min(Shared::sPaper.mWidth, Shared::sPaper.mHeight) / 10.0;
 		RefMark *mark = (RefMark *)mForMark;
 		moveCloser(p1, mark->p, pinchLength);
 		moveCloser(p2, mark->p, pinchLength);

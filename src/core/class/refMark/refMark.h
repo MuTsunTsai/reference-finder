@@ -4,7 +4,7 @@
 
 #include "../json/jsonObject.h"
 #include "../refBase.h"
-#include "../xypt.h"
+#include "../math/xypt.h"
 
 /**********
 class RefMark - base class for a mark on the paper.

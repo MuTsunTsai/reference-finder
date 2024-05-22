@@ -2,8 +2,8 @@
 #ifndef _JSON_OBJECT_H_
 #define _JSON_OBJECT_H_
 
-#include "../xypt.h"
-#include "../xyline.h"
+#include "../math/xypt.h"
+#include "../math/xyline.h"
 
 #include <sstream>
 

@@ -1,6 +1,6 @@
 
 #include "../../ReferenceFinder.h"
-#include "../paper.h"
+#include "../math/paper.h"
 #include "../refDgmr.h"
 
 #include "refLineL2LC2P.h"
@@ -28,11 +28,11 @@ RefLine_L2L_C2P::RefLine_L2L_C2P(RefLine *arl1, RefMark *arm1) : RefLine(CalcLin
 	// The intersection of the fold line with line l1 must be enclosed in the paper.
 	// That point is the projection of p1 onto line l1.
 	XYPt p1p = p1 + (d1 - (p1.Dot(u1))) * u1;
-	if (!ReferenceFinder::sPaper.Encloses(p1p)) return;
+	if (!Shared::sPaper.Encloses(p1p)) return;
 
 	// Don't need to check visibility, this kind is always visible.
 	// If this line creates a skinny flap, we won't use it.
-	if (ReferenceFinder::sPaper.MakesSkinnyFlap(l)) return;
+	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// Set the key.
 	FinishConstructor();
@@ -80,7 +80,7 @@ void RefLine_L2L_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 
 		XYPt p1, p2;
 		XYLine &l1 = rl1->l;
-		ReferenceFinder::sPaper.ClipLine(l1, p1, p2); // get endpts of the reference line
+		Shared::sPaper.ClipLine(l1, p1, p2); // get endpts of the reference line
 		XYPt pi = Intersection(l, l1);				  // intersection w/ fold line
 		XYPt u1p = l1.u.Rotate90();					  // tangent to reference line
 		double t1 = abs((p1 - pi).Dot(u1p));
@@ -99,7 +99,7 @@ void RefLine_L2L_C2P::MakeAll(rank_t arank) {
 		rank_t jrank = arank - irank - 1;
 		for (auto li : ReferenceFinder::sBasisLines.maps[irank]) {
 			for (auto mj : ReferenceFinder::sBasisMarks.maps[jrank]) {
-				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_L2L_C2P rls1(li, mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls1);
 			}

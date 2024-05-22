@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "xypt.h"
+#include "math/xypt.h"
 
 /**********
 class RefDgmr - object that draws folding diagrams of references. Subclasses

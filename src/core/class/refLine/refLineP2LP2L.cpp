@@ -1,6 +1,6 @@
 
 #include "../../ReferenceFinder.h"
-#include "../paper.h"
+#include "../math/paper.h"
 #include "../refDgmr.h"
 
 #include "refLineP2LP2L.h"
@@ -206,8 +206,8 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2,
 	XYPt p2p = p2 + 2 * (l.d - p2.Dot(l.u)) * l.u; // image of p2 in fold line
 
 	// Validate; the images of p1 and p2 must lie within the square.
-	if (!ReferenceFinder::sPaper.Encloses(p1p) ||
-		!ReferenceFinder::sPaper.Encloses(p2p)) return;
+	if (!Shared::sPaper.Encloses(p1p) ||
+		!Shared::sPaper.Encloses(p2p)) return;
 
 	// Validate visibility; we require that the alignment be visible even with
 	// opaque paper. Meaning that the moving parts must be edge points or edge
@@ -227,7 +227,7 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2,
 
 	// Now, check the visibility of this alignment and use it to specify which
 	// parts move
-	if (ReferenceFinder::sVisibilityMatters) {
+	if (Shared::sVisibilityMatters) {
 		if (sameSide)
 			if (p1edge && p2edge)
 				mWhoMoves = WHOMOVES_P1P2;
@@ -249,7 +249,7 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2,
 	};
 
 	// If this line creates a skinny flap, we won't use it.
-	if (ReferenceFinder::sPaper.MakesSkinnyFlap(l)) return;
+	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// Set the key.
 	FinishConstructor();
@@ -404,13 +404,13 @@ void RefLine_P2L_P2L::MakeAll(rank_t arank) {
 								for (auto lk : ReferenceFinder::sBasisLines.maps[krank]) {
 									for (auto ll : ReferenceFinder::sBasisLines.maps[lrank]) {
 										if ((krank != lrank) || (lk != ll)) { // cmpr iterators only if same container
-											if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+											if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 											RefLine_P2L_P2L rlp0(*mi, lk, *mj, ll, 0);
 											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp0);
-											if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+											if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 											RefLine_P2L_P2L rlp1(*mi, lk, *mj, ll, 1);
 											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp1);
-											if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+											if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 											RefLine_P2L_P2L rlp2(*mi, lk, *mj, ll, 2);
 											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp2);
 										};

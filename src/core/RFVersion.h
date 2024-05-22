@@ -19,8 +19,8 @@ NOTE: Do not edit these directly, as these values now sync with package.json aut
 #define APP_FAMILY ReferenceFinder
 #define VERSION_MAJOR 4
 #define VERSION_MINOR 1
-#define VERSION_BUGFIX 3
-#define VERSION_BUILD 20240521
+#define VERSION_BUGFIX 4
+#define VERSION_BUILD 20240522
 
 /******************************************************************************/
 
@@ -37,17 +37,5 @@ NOTE: Do not edit these directly, as these values now sync with package.json aut
 
 /* Build code as string (used in About box) */
 #define BUILD_CODE_STR MACRO_MAKE_STR(VERSION_BUILD)
-
-/* Symbols needed for Info.plist; ugly multistage construction because
-  they need to be symbols, not strings, no quotes, no whitespace */
-#define MACRO_PASTE_5(a, b, c, d, e) a##b##c##d##e
-#define MACRO_PASTE_5A(a, b, c, d, e) MACRO_PASTE_5(a, b, c, d, e)
-#define MAC_CFBUNDLE_SHORT_VERSION_STRING \
-	MACRO_PASTE_5A(VERSION_MAJOR, ., VERSION_MINOR, ., VERSION_BUGFIX)
-#define MACRO_PASTE_7(a, b, c, d, e, f, g) a##b##c##d##e##f##g
-#define MACRO_PASTE_7A(a, b, c, d, e, f, g) MACRO_PASTE_7(a, b, c, d, e, f, g)
-#define MAC_CFBUNDLE_VERSION                                           \
-	MACRO_PASTE_7A(VERSION_MAJOR, ., VERSION_MINOR, ., VERSION_BUGFIX, \
-				   ., VERSION_BUILD)
 
 #endif // _RFVERSION_H_

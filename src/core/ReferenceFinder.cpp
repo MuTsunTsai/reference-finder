@@ -14,11 +14,11 @@ Copyright:    ©1999-2007 Robert J. Lang. All Rights Reserved.
 #include <iomanip>
 #include <sstream>
 
-#include "class/xyline.h"
-#include "class/xypt.h"
-#include "class/xyrect.h"
+#include "class/math/xyline.h"
+#include "class/math/xypt.h"
+#include "class/math/xyrect.h"
 
-#include "class/paper.h"
+#include "class/math/paper.h"
 #include "class/refLine/refLineOriginal.h"
 #include "class/refMark/refMarkIntersection.h"
 #include "class/refMark/refMarkOriginal.h"
@@ -39,68 +39,6 @@ and lines and can search through the collection for marks and lines close to a
 target mark or line. This class is the primary interface to the ReferenceFinder
 database.
 **********/
-
-/*****
-Accessible static member initialization -- variables that you might want to
-change (because they alter the behavior of the program) are given default
-values here. Less-accessible static member variables are defined lower down.
-*****/
-
-// Use unit square paper
-Paper ReferenceFinder::sPaper(1.0, 1.0);
-
-// These are switches by which we can turn on and off the use of different
-// types of alignments. Default is to use all possible.
-bool ReferenceFinder::sUseRefLine_C2P_C2P = true;
-bool ReferenceFinder::sUseRefLine_P2P = true;
-bool ReferenceFinder::sUseRefLine_L2L = true;
-bool ReferenceFinder::sUseRefLine_L2L_C2P = true;
-bool ReferenceFinder::sUseRefLine_P2L_C2P = true;
-bool ReferenceFinder::sUseRefLine_P2L_P2L = true;
-bool ReferenceFinder::sUseRefLine_L2L_P2L = true;
-
-// Maximum rank and number of marks and lines to collect. These can be tweaked
-// up or down to trade off accuracy versus memory and initialization time.
-rank_t ReferenceFinder::sMaxRank = 6;
-size_t ReferenceFinder::sMaxLines = 500000;
-size_t ReferenceFinder::sMaxMarks = 500000;
-
-// constants that quantify the discretization of marks and lines in forming
-// keys. The maximum key has the value (sNumX * sNumY) for marks, (sNumA * sNumD)
-// for lines. These numbers set a limit on the accuracy, since we won't create
-// more than one object for a given key.
-int ReferenceFinder::sNumX = 5000;
-int ReferenceFinder::sNumY = 5000;
-int ReferenceFinder::sNumA = 5000;
-int ReferenceFinder::sNumD = 5000;
-
-// Defines "good enough" for a mark. For marks with errors better than this, we
-// give priority to lower-rank marks.
-double ReferenceFinder::sGoodEnoughError = .005;
-
-// Minimum allowable aspect ratio for a flap. Too skinny of a flap can't be
-// folded accurately.
-double ReferenceFinder::sMinAspectRatio = 0.100;
-
-// Sine of minimum intersection angle between creases that define a new mark.
-// If the lines are close to parallel, the mark is imprecise.
-double ReferenceFinder::sMinAngleSine = 0.342; // = sin(20 degrees)
-
-// If sVisibilityMatters == true, we don't construct alignments that can't be
-// made with opaque paper. Otherwise, we allow alignments that can be done with
-// translucent paper.
-bool ReferenceFinder::sVisibilityMatters = true;
-
-// If sLineWorstCaseError == true, we use worst-case error to sort lines rather
-// than Pythagorean error. The former is more accurate, but slows searches.
-bool ReferenceFinder::sLineWorstCaseError = true;
-
-// We make a call to our show progress callback routine every sDatabaseStatusSkip
-// attempts.
-int ReferenceFinder::sDatabaseStatusSkip = 400000;
-
-// Variables used when we calculate statistics on the database
-int ReferenceFinder::sNumTrials = 1000; // number of test cases total
 
 // Letters that are used for labels for marks and lines.
 char RefLine::sLabels[] = "ABCDEFGHIJ";
@@ -127,7 +65,7 @@ sDatabaseStatusSkip. If the client DatabaseFn sets the value of haltFlag to
 true, we immediately terminate construction of references.
 *****/
 void ReferenceFinder::CheckDatabaseStatus() {
-	if (sStatusCount < sDatabaseStatusSkip)
+	if (sStatusCount < Shared::sDatabaseStatusSkip)
 		sStatusCount++;
 	else {
 		bool haltFlag = false;
@@ -152,17 +90,17 @@ void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank) {
 
 	// We give first preference to lines that don't involve making creases
 	// through points, because these are the hardest to do accurately in practice.
-	if (sUseRefLine_L2L) RefLine_L2L::MakeAll(arank);
-	if (sUseRefLine_P2P) RefLine_P2P::MakeAll(arank);
-	if (sUseRefLine_L2L_P2L) RefLine_L2L_P2L::MakeAll(arank);
-	if (sUseRefLine_P2L_P2L) RefLine_P2L_P2L::MakeAll(arank);
+	if (Shared::sUseRefLine_L2L) RefLine_L2L::MakeAll(arank);
+	if (Shared::sUseRefLine_P2P) RefLine_P2P::MakeAll(arank);
+	if (Shared::sUseRefLine_L2L_P2L) RefLine_L2L_P2L::MakeAll(arank);
+	if (Shared::sUseRefLine_P2L_P2L) RefLine_P2L_P2L::MakeAll(arank);
 
 	// Next, we'll make lines that put a crease through a single point.
-	if (sUseRefLine_P2L_C2P) RefLine_P2L_C2P::MakeAll(arank);
-	if (sUseRefLine_L2L_C2P) RefLine_L2L_C2P::MakeAll(arank);
+	if (Shared::sUseRefLine_P2L_C2P) RefLine_P2L_C2P::MakeAll(arank);
+	if (Shared::sUseRefLine_L2L_C2P) RefLine_L2L_C2P::MakeAll(arank);
 
 	// Finally, we'll do lines that put a crease through both points.
-	if (sUseRefLine_C2P_C2P) RefLine_C2P_C2P::MakeAll(arank);
+	if (Shared::sUseRefLine_C2P_C2P) RefLine_C2P_C2P::MakeAll(arank);
 
 	// Having constructed all lines in the buffer, add them to the main collection.
 	sBasisLines.FlushBuffer();
@@ -184,6 +122,9 @@ Create all marks and lines sequentially. you should have previously verified
 that LineKeySizeOK() and MarkKeySizeOK() return true.
 *****/
 void ReferenceFinder::MakeAllMarksAndLines() {
+
+	Shared::CheckDatabaseStatus = &CheckDatabaseStatus;
+
 	// Start by clearing out any old marks or lines; this is so we can restart if
 	// we want.
 	sBasisLines.Rebuild();
@@ -198,6 +139,8 @@ void ReferenceFinder::MakeAllMarksAndLines() {
 	// Build a bunch of marks of successively higher rank. Note that building
 	// lines up to rank 4 and marks up to rank 8 with no limits would result in
 	// 4185 lines and 1,090,203 marks, which would take about 60 MB of memory.
+
+	Paper &sPaper = Shared::sPaper;
 
 	// Rank 0: Construct the four edges of the square.
 	sBasisLines.Add(new RefLine_Original(sPaper.mBottomEdge, 0, string("s")));
@@ -227,7 +170,7 @@ void ReferenceFinder::MakeAllMarksAndLines() {
 	// Now build the rest, one rank at a time, starting with rank 1. This can
 	// be terminated by a EXC_HALT if the user cancelled during the callback.
 	try {
-		for (rank_t irank = 1; irank <= sMaxRank; irank++) {
+		for (rank_t irank = 1; irank <= Shared::sMaxRank; irank++) {
 			MakeAllMarksAndLinesOfRank(irank);
 		}
 	} catch (EXC_HALT) {
@@ -268,6 +211,7 @@ void ReferenceFinder::FindBestLines(const XYLine &al, vector<RefLine *> &vl, sho
 Return true if ap is a valid mark. Return an error message if it isn't.
 *****/
 bool ReferenceFinder::ValidateMark(const XYPt &ap, string &err) {
+	Paper &sPaper = Shared::sPaper;
 	if (ap.x < 0 || ap.x > sPaper.mWidth) {
 		stringstream ss;
 		ss << "x coordinate should lie between 0 and " << sPaper.mWidth;
@@ -309,9 +253,11 @@ void ReferenceFinder::CalcStatistics() {
 
 	vector<RefMark *> sortMarks(1); // a vector to do our sorting into
 
+	Paper &sPaper = Shared::sPaper;
+
 	// Run a bunch of test cases on random points.
-	int actNumTrials = sNumTrials;
-	for (size_t i = 0; i < size_t(sNumTrials); i++) {
+	int actNumTrials = Shared::sNumTrials;
+	for (size_t i = 0; i < size_t(Shared::sNumTrials); i++) {
 		XYPt testPt((double(rand()) / (RAND_MAX * sPaper.mWidth)), double(rand()) / (RAND_MAX * sPaper.mHeight));
 
 		// Find the mark closest to the test mark.

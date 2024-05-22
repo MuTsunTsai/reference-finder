@@ -2,7 +2,7 @@
 #include "../../ReferenceFinder.h"
 
 #include "../global.h"
-#include "../paper.h"
+#include "../math/paper.h"
 #include "../refDgmr.h"
 #include "refMark.h"
 
@@ -22,12 +22,12 @@ Calculate the key value used for distinguishing RefMarks. This should be called
 at the end of every constructor if the mark is valid (and not if it isn't).
 *****/
 void RefMark::FinishConstructor() {
-	const double fx = p.x / ReferenceFinder::sPaper.mWidth;	 // fx is between 0 and 1
-	const double fy = p.y / ReferenceFinder::sPaper.mHeight; // fy is between 0 and 1
+	const double fx = p.x / Shared::sPaper.mWidth;	 // fx is between 0 and 1
+	const double fy = p.y / Shared::sPaper.mHeight; // fy is between 0 and 1
 
-	key_t nx = static_cast<key_t>(floor(0.5 + fx * ReferenceFinder::sNumX));
-	key_t ny = static_cast<key_t>(floor(0.5 + fy * ReferenceFinder::sNumY));
-	mKey = 1 + nx * ReferenceFinder::sNumY + ny;
+	key_t nx = static_cast<key_t>(floor(0.5 + fx * Shared::sNumX));
+	key_t ny = static_cast<key_t>(floor(0.5 + fy * Shared::sNumY));
+	mKey = 1 + nx * Shared::sNumY + ny;
 }
 
 /*****
@@ -42,10 +42,10 @@ double RefMark::DistanceTo(const XYPt &ap) const {
 Return true if this mark is on the edge of the paper
 *****/
 bool RefMark::IsOnEdge() const {
-	return (ReferenceFinder::sPaper.mLeftEdge.Intersects(p) ||
-			ReferenceFinder::sPaper.mRightEdge.Intersects(p) ||
-			ReferenceFinder::sPaper.mTopEdge.Intersects(p) ||
-			ReferenceFinder::sPaper.mBottomEdge.Intersects(p));
+	return (Shared::sPaper.mLeftEdge.Intersects(p) ||
+			Shared::sPaper.mRightEdge.Intersects(p) ||
+			Shared::sPaper.mTopEdge.Intersects(p) ||
+			Shared::sPaper.mBottomEdge.Intersects(p));
 }
 
 bool RefMark::IsLine() const {

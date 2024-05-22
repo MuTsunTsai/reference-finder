@@ -1,6 +1,6 @@
 {
 	"name": "reference-finder",
-	"version": "4.1.3",
+	"version": "4.1.4",
 	"description": "Find reference points and lines in crease patterns.",
 	"scripts": {
 		"start": "make && rsbuild dev -o",
@@ -29,7 +29,7 @@
 		"@types/react-dom": "^18.3.0",
 		"@types/ungap__structured-clone": "^1.2.0",
 		"eslint": "^9.3.0",
-		"glob": "^10.3.15",
+		"glob": "^10.3.16",
 		"globals": "^15.3.0",
 		"gulp": "^5.0.0",
 		"gulp-fontawesome": "^1.0.4",
@@ -56,5 +56,12 @@
 		"react-dom": "^18.3.1",
 		"react-i18next": "^14.1.1",
 		"zustand": "^4.5.2"
+	},
+	"pnpm": {
+		"peerDependencyRules": {
+			"allowAny": [
+				"eslint"
+			]
+		}
 	}
 }

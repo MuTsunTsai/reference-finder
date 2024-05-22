@@ -1,6 +1,6 @@
 
 #include "../../ReferenceFinder.h"
-#include "../paper.h"
+#include "../math/paper.h"
 #include "../refDgmr.h"
 
 #include "refLineL2LP2L.h"
@@ -34,11 +34,11 @@ RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2) : 
 
 	// Make sure point of intersection of fold with l2 lies within the paper.
 	XYPt pt = Intersection(l, l2);
-	if (!ReferenceFinder::sPaper.Encloses(pt)) return;
+	if (!Shared::sPaper.Encloses(pt)) return;
 
 	// Make sure point of incidence of p1 on l1 lies within the paper.
 	XYPt p1p = l.Fold(p1);
-	if (!ReferenceFinder::sPaper.Encloses(p1p)) return;
+	if (!Shared::sPaper.Encloses(p1p)) return;
 
 	// Make sure p1 isn't already on l1 (in which case the alignment is ill-defined).
 	if (l1.Intersects(p1)) return;
@@ -47,9 +47,9 @@ RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2) : 
 	bool p1edge = arm1->IsOnEdge();
 	bool l1edge = arl1->IsOnEdge();
 
-	if (ReferenceFinder::sVisibilityMatters) {
+	if (Shared::sVisibilityMatters) {
 		XYPt lp1, lp2;
-		ReferenceFinder::sPaper.ClipLine(l, lp1, lp2);
+		Shared::sPaper.ClipLine(l, lp1, lp2);
 		double t1 = (lp1 - pt).Dot(l.u);
 		double t2 = (lp2 - pt).Dot(l.u);
 		double tp = (p1 - pt).Dot(l.u);
@@ -69,7 +69,7 @@ RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2) : 
 	};
 
 	// If this line creates a skinny flap, we won't use it.
-	if (ReferenceFinder::sPaper.MakesSkinnyFlap(l)) return;
+	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// Set the key.
 	FinishConstructor();
@@ -138,7 +138,7 @@ void RefLine_L2L_P2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		// Draw line-to-itself arrow
 		XYPt p1, p2;
 		XYLine &l2 = rl2->l;
-		ReferenceFinder::sPaper.ClipLine(l2, p1, p2); // get endpts of the reference line
+		Shared::sPaper.ClipLine(l2, p1, p2); // get endpts of the reference line
 		XYPt pi = Intersection(l, l2);				  // intersection w/ fold line
 		XYPt u1p = l2.u.Rotate90();					  // tangent to reference line
 		double t1 = abs((p1 - pi).Dot(u1p));
@@ -172,7 +172,7 @@ void RefLine_L2L_P2L::MakeAll(rank_t arank) {
 				for (auto mj : ReferenceFinder::sBasisMarks.maps[jrank]) {
 					for (auto lk : ReferenceFinder::sBasisLines.maps[krank]) {
 						if ((irank != krank) || (li != lk)) {
-							if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+							if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 							RefLine_L2L_P2L rlh1(li, mj, lk);
 							ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh1);
 						};

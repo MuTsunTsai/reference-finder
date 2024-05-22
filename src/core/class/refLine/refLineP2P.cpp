@@ -1,6 +1,6 @@
 
 #include "../../ReferenceFinder.h"
-#include "../paper.h"
+#include "../math/paper.h"
 #include "../refDgmr.h"
 
 #include "refLineP2P.h"
@@ -28,7 +28,7 @@ RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2) : RefLine(CalcLineRank(ar
 	bool p1edge = arm1->IsOnEdge();
 	bool p2edge = arm2->IsOnEdge();
 
-	if (ReferenceFinder::sVisibilityMatters) {
+	if (Shared::sVisibilityMatters) {
 		if (p1edge)
 			mWhoMoves = WHOMOVES_P1;
 		else if (p2edge)
@@ -40,7 +40,7 @@ RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2) : RefLine(CalcLineRank(ar
 	};
 
 	// If this line creates a skinny flap, we won't use it.
-	if (ReferenceFinder::sPaper.MakesSkinnyFlap(l)) return;
+	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// Set the key.
 	FinishConstructor();
@@ -128,7 +128,7 @@ void RefLine_P2P::MakeAll(rank_t arank) {
 		for (auto mi = imap.begin() + (sameRank ? 1 : 0); mi != imap.end(); mi++) {
 			auto &jmap = ReferenceFinder::sBasisMarks.maps[jrank];
 			for (auto mj = jmap.begin(); mj != (sameRank ? mi : jmap.end()); mj++) {
-				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_P2P rlb(*mi, *mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlb);
 			};

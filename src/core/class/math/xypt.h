@@ -5,7 +5,7 @@
 #include <cmath>
 #include <iostream>
 
-#include "global.h"
+#include "../global.h"
 
 /**********
 class XYPt - a 2-vector that represents a point or a direction.

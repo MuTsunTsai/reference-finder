@@ -1,6 +1,6 @@
 
 #include "../../ReferenceFinder.h"
-#include "../paper.h"
+#include "../math/paper.h"
 #include "../refDgmr.h"
 
 #include "refLineOriginal.h"
@@ -50,7 +50,7 @@ void RefLine_Original::DrawSelf(RefStyle rstyle, short ipass) const {
 	// RefLine_Originals don't get labels, and they are REFSTYLE_ACTION, we
 	// still draw them highlighted.
 	XYPt p1, p2;
-	ReferenceFinder::sPaper.ClipLine(l, p1, p2);
+	Shared::sPaper.ClipLine(l, p1, p2);
 	switch (ipass) {
 	case PASS_LINES:
 		switch (rstyle) {

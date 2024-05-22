@@ -11,7 +11,7 @@ Copyright:    ©1999-2006 Robert J. Lang. All Rights Reserved.
 #include "RFVersion.h"
 #include "ReferenceFinder.h"
 #include "class/jsonStreamDgmr.h"
-#include "class/paper.h"
+#include "class/math/paper.h"
 #include "utils.h"
 
 #include <chrono>
@@ -41,15 +41,15 @@ void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &)
 	case ReferenceFinder::DATABASE_INITIALIZING:
 		// Called at beginning of initialization
 		cout << "Initializing using";
-		if (ReferenceFinder::sUseRefLine_C2P_C2P) cout << " O1,";
-		if (ReferenceFinder::sUseRefLine_P2P) cout << " O2,";
-		if (ReferenceFinder::sUseRefLine_L2L) cout << " O3,";
-		if (ReferenceFinder::sUseRefLine_L2L_C2P) cout << " O4,";
-		if (ReferenceFinder::sUseRefLine_P2L_C2P) cout << " O5,";
-		if (ReferenceFinder::sUseRefLine_P2L_P2L) cout << " O6,";
-		if (ReferenceFinder::sUseRefLine_L2L_P2L) cout << " O7,";
+		if (Shared::sUseRefLine_C2P_C2P) cout << " O1,";
+		if (Shared::sUseRefLine_P2P) cout << " O2,";
+		if (Shared::sUseRefLine_L2L) cout << " O3,";
+		if (Shared::sUseRefLine_L2L_C2P) cout << " O4,";
+		if (Shared::sUseRefLine_P2L_C2P) cout << " O5,";
+		if (Shared::sUseRefLine_P2L_P2L) cout << " O6,";
+		if (Shared::sUseRefLine_L2L_P2L) cout << " O7,";
 		cout << " vis=";
-		if (ReferenceFinder::sVisibilityMatters) cout << "true";
+		if (Shared::sVisibilityMatters) cout << "true";
 		else cout << "false";
 		cout << endl;
 		break;
@@ -101,7 +101,7 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, boo
 		// Print progress
 		if (index % intervalReport == 0) {
 			JsonObject json;
-			json.add("total", ReferenceFinder::sNumTrials);
+			json.add("total", Shared::sNumTrials);
 			json.add("progress", progress);
 			progress.clear();
 			cout << json << endl;
@@ -116,7 +116,7 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, boo
 	case ReferenceFinder::STATISTICS_DONE: {
 		// Print last progress
 		JsonObject json;
-		json.add("total", ReferenceFinder::sNumTrials);
+		json.add("total", Shared::sNumTrials);
 		json.add("progress", progress);
 		json.add("done", "yes");
 		progress.clear();
@@ -132,33 +132,33 @@ Read settings related to database generating
 void readDbSettings() {
 	double width = ReadNumber();
 	double height = ReadNumber();
-	ReferenceFinder::sPaper = Paper(width, height);
-	ReferenceFinder::sMaxRank = ReadNumber();
-	ReferenceFinder::sMaxLines = ReadNumber();
-	ReferenceFinder::sMaxMarks = ReadNumber();
-	ReferenceFinder::sUseRefLine_C2P_C2P = ReadNumber();
-	ReferenceFinder::sUseRefLine_P2P = ReadNumber();
-	ReferenceFinder::sUseRefLine_L2L = ReadNumber();
-	ReferenceFinder::sUseRefLine_L2L_C2P = ReadNumber();
-	ReferenceFinder::sUseRefLine_P2L_C2P = ReadNumber();
-	ReferenceFinder::sUseRefLine_P2L_P2L = ReadNumber();
-	ReferenceFinder::sUseRefLine_L2L_P2L = ReadNumber();
-	ReferenceFinder::sNumX = ReadNumber();
-	ReferenceFinder::sNumY = ReadNumber();
-	ReferenceFinder::sNumA = ReadNumber();
-	ReferenceFinder::sNumD = ReadNumber();
-	ReferenceFinder::sMinAspectRatio = ReadNumber();
-	ReferenceFinder::sMinAngleSine = ReadNumber();
-	ReferenceFinder::sVisibilityMatters = ReadNumber();
+	Shared::sPaper = Paper(width, height);
+	Shared::sMaxRank = ReadNumber();
+	Shared::sMaxLines = ReadNumber();
+	Shared::sMaxMarks = ReadNumber();
+	Shared::sUseRefLine_C2P_C2P = ReadNumber();
+	Shared::sUseRefLine_P2P = ReadNumber();
+	Shared::sUseRefLine_L2L = ReadNumber();
+	Shared::sUseRefLine_L2L_C2P = ReadNumber();
+	Shared::sUseRefLine_P2L_C2P = ReadNumber();
+	Shared::sUseRefLine_P2L_P2L = ReadNumber();
+	Shared::sUseRefLine_L2L_P2L = ReadNumber();
+	Shared::sNumX = ReadNumber();
+	Shared::sNumY = ReadNumber();
+	Shared::sNumA = ReadNumber();
+	Shared::sNumD = ReadNumber();
+	Shared::sMinAspectRatio = ReadNumber();
+	Shared::sMinAngleSine = ReadNumber();
+	Shared::sVisibilityMatters = ReadNumber();
 }
 
 /******************************
 Read settings related to search only
 ******************************/
 int readSearchSettings() {
-	ReferenceFinder::sGoodEnoughError = ReadNumber();
+	Shared::sGoodEnoughError = ReadNumber();
 	int count = ReadNumber();
-	ReferenceFinder::sLineWorstCaseError = ReadNumber();
+	Shared::sLineWorstCaseError = ReadNumber();
 	return count;
 }
 
@@ -226,7 +226,7 @@ int main() {
 			break;
 		}
 		case 99: {
-			ReferenceFinder::sNumTrials = ReadNumber();
+			Shared::sNumTrials = ReadNumber();
 			// hidden command to calculate statistics on marks & report results
 			ReferenceFinder::CalcStatistics();
 			break;

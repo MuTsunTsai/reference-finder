@@ -2,7 +2,7 @@
 #include "../ReferenceFinder.h"
 
 #include "jsonStreamDgmr.h"
-#include "paper.h"
+#include "math/paper.h"
 
 using namespace std;
 
@@ -101,8 +101,8 @@ void JsonStreamDgmr::DrawPoly(const vector<XYPt> &poly, PolyStyle pstyle) {
 	// In practice, the method is called only for drawing sheet boundary.
 	JsonObject j;
 	j.add("type", 3);
-	j.add("width", ReferenceFinder::sPaper.mWidth);
-	j.add("height", ReferenceFinder::sPaper.mHeight);
+	j.add("width", Shared::sPaper.mWidth);
+	j.add("height", Shared::sPaper.mHeight);
 	mArray.add(j);
 }
 

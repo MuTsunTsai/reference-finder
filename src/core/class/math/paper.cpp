@@ -1,5 +1,5 @@
 
-#include "../ReferenceFinder.h"
+#include "../../ReferenceFinder.h"
 
 #include "paper.h"
 
@@ -120,9 +120,9 @@ bool Paper::MakesSkinnyFlap(const XYLine &al) const {
 	// fold line. If this bounding box is below the minimum aspect ratio, then it contains
 	// a flap that falls below the minimum aspect ratio, so we return true.
 
-	if (abs(GetBoundingBox(p1, p2, bp1).GetAspectRatio()) < ReferenceFinder::sMinAspectRatio)
+	if (abs(GetBoundingBox(p1, p2, bp1).GetAspectRatio()) < Shared::sMinAspectRatio)
 		return true;
-	if (abs(GetBoundingBox(p1, p2, bp2).GetAspectRatio()) < ReferenceFinder::sMinAspectRatio)
+	if (abs(GetBoundingBox(p1, p2, bp2).GetAspectRatio()) < Shared::sMinAspectRatio)
 		return true;
 
 	// If we're still here, we didn't create any skinny flaps, so we're cool.

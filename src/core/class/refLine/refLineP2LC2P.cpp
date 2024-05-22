@@ -1,6 +1,6 @@
 
 #include "../../ReferenceFinder.h"
-#include "../paper.h"
+#include "../math/paper.h"
 #include "../refDgmr.h"
 
 #include "refLineP2LC2P.h"
@@ -45,7 +45,7 @@ RefLine_P2L_C2P::RefLine_P2L_C2P(RefMark *arm1, RefLine *arl1, RefMark *arm2, sh
 		p1p -= b * u1p;
 
 	// Validate; the point of incidence must lie within the square.
-	if (!ReferenceFinder::sPaper.Encloses(p1p)) return;
+	if (!Shared::sPaper.Encloses(p1p)) return;
 
 	// Construct member data.
 	l.u = (p1p - p1).Normalize();
@@ -55,7 +55,7 @@ RefLine_P2L_C2P::RefLine_P2L_C2P(RefMark *arm1, RefLine *arl1, RefMark *arm2, sh
 	bool p1edge = arm1->IsOnEdge();
 	bool l1edge = arl1->IsOnEdge();
 
-	if (ReferenceFinder::sVisibilityMatters) {
+	if (Shared::sVisibilityMatters) {
 		if (p1edge)
 			mWhoMoves = WHOMOVES_P1;
 		else if (l1edge)
@@ -67,7 +67,7 @@ RefLine_P2L_C2P::RefLine_P2L_C2P(RefMark *arm1, RefLine *arl1, RefMark *arm2, sh
 	};
 
 	// If this line creates a skinny flap, we won't use it.
-	if (ReferenceFinder::sPaper.MakesSkinnyFlap(l)) return;
+	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// Set the key.
 	FinishConstructor();
@@ -161,10 +161,10 @@ void RefLine_P2L_C2P::MakeAll(rank_t arank) {
 				for (auto lj : ReferenceFinder::sBasisLines.maps[jrank]) {
 					for (auto mk : ReferenceFinder::sBasisMarks.maps[krank]) {
 						if ((irank != krank) || (mi != mk)) { // only cmpr iterators if same container
-							if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+							if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 							RefLine_P2L_C2P rlh1(mi, lj, mk, 0);
 							ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh1);
-							if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+							if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 							RefLine_P2L_C2P rlh2(mi, lj, mk, 1);
 							ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh2);
 						};

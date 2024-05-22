@@ -1,6 +1,6 @@
 
 #include "../../ReferenceFinder.h"
-#include "../paper.h"
+#include "../math/paper.h"
 #include "../refDgmr.h"
 
 #include "refLineC2PC2P.h"
@@ -25,7 +25,7 @@ RefLine_C2P_C2P::RefLine_C2P_C2P(RefMark *arm1, RefMark *arm2) : RefLine(CalcLin
 
 	// Don't need to check visibility because this type is always visible.
 	// If this line creates a skinny flap, we won't use it.
-	if (ReferenceFinder::sPaper.MakesSkinnyFlap(l)) return;
+	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// This type is always valid.
 	FinishConstructor();
@@ -83,7 +83,7 @@ void RefLine_C2P_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 
 		// Get the points where the bisector crosses the paper
 		XYPt p3, p4;
-		ReferenceFinder::sPaper.ClipLine(lb, p3, p4);
+		Shared::sPaper.ClipLine(lb, p3, p4);
 
 		// Parameterize these points along the bisector. Don't care about sign.
 		double t3 = abs((p3 - mp).Dot(l.u));
@@ -116,7 +116,7 @@ void RefLine_C2P_C2P::MakeAll(rank_t arank) {
 		for (auto mi = imap.begin() + (sameRank ? 1 : 0); mi != imap.end(); mi++) {
 			auto &jmap = ReferenceFinder::sBasisMarks.maps[jrank];
 			for (auto mj = jmap.begin(); mj != (sameRank ? mi : jmap.end()); mj++) {
-				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_C2P_C2P rlc(*mi, *mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlc);
 			};

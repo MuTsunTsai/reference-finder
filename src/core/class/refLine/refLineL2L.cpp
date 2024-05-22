@@ -1,6 +1,6 @@
 
 #include "../../ReferenceFinder.h"
-#include "../paper.h"
+#include "../math/paper.h"
 #include "../refDgmr.h"
 
 #include "refLineL2L.h"
@@ -47,27 +47,27 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, short iroot) : RefLine(Ca
 	};
 
 	// If the paper doesn't overlap the fold line, we're not valid.
-	if (!ReferenceFinder::sPaper.InteriorOverlaps(l)) return;
+	if (!Shared::sPaper.InteriorOverlaps(l)) return;
 
 	// Check visibility
 	bool l1edge = arl1->IsOnEdge();
 	bool l2edge = arl2->IsOnEdge();
 
-	if (ReferenceFinder::sVisibilityMatters) {
+	if (Shared::sVisibilityMatters) {
 		if (l1edge)
 			mWhoMoves = WHOMOVES_L1;
 		else if (l2edge)
 			mWhoMoves = WHOMOVES_L2;
 		else {
 			XYPt lp1, lp2;
-			ReferenceFinder::sPaper.ClipLine(l1, lp1, lp2);
-			if (ReferenceFinder::sPaper.Encloses(l.Fold(lp1)) &&
-				ReferenceFinder::sPaper.Encloses(l.Fold(lp2)))
+			Shared::sPaper.ClipLine(l1, lp1, lp2);
+			if (Shared::sPaper.Encloses(l.Fold(lp1)) &&
+				Shared::sPaper.Encloses(l.Fold(lp2)))
 				mWhoMoves = WHOMOVES_L1;
 			else {
-				ReferenceFinder::sPaper.ClipLine(l2, lp1, lp2);
-				if (ReferenceFinder::sPaper.Encloses(l.Fold(lp1)) &&
-					ReferenceFinder::sPaper.Encloses(l.Fold(lp2)))
+				Shared::sPaper.ClipLine(l2, lp1, lp2);
+				if (Shared::sPaper.Encloses(l.Fold(lp1)) &&
+					Shared::sPaper.Encloses(l.Fold(lp2)))
 					mWhoMoves = WHOMOVES_L2;
 				else
 					return;
@@ -78,7 +78,7 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, short iroot) : RefLine(Ca
 	};
 
 	// If this line creates a skinny flap, we won't use it.
-	if (ReferenceFinder::sPaper.MakesSkinnyFlap(l)) return;
+	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// Set the key.
 	FinishConstructor();
@@ -134,7 +134,7 @@ void RefLine_L2L::PutHowto(JsonArray &steps) const {
 	rl1->l.Intersects(rl2->l, p); // get the intersection of the two bisectors
 
 	XYPt pa, pb;
-	ReferenceFinder::sPaper.ClipLine(l, pa, pb); // find where our fold line hits the paper.
+	Shared::sPaper.ClipLine(l, pa, pb); // find where our fold line hits the paper.
 
 	// Return the first point of intersection between the fold line and the edge of the
 	// paper that _isn't_ the intersection of the two bisectors.
@@ -165,9 +165,9 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		XYPt p;
 		bool isParallel = !l1.Intersects(l2, p); // intersection
 		XYPt p1a, p1b;
-		ReferenceFinder::sPaper.ClipLine(l1, p1a, p1b); // endpoints of l1
+		Shared::sPaper.ClipLine(l1, p1a, p1b); // endpoints of l1
 		XYPt p2a, p2b;
-		ReferenceFinder::sPaper.ClipLine(l2, p2a, p2b); // endpoints of l2
+		Shared::sPaper.ClipLine(l2, p2a, p2b); // endpoints of l2
 		p2a = l.Fold(p2a);								// flop l2 points onto l1
 		p2b = l.Fold(p2b);
 		XYPt du1 = l1.d * l1.u;				   // a point on l1
@@ -213,10 +213,10 @@ void RefLine_L2L::MakeAll(rank_t arank) {
 		for (auto li = imap.begin() + (sameRank ? 1 : 0); li != imap.end(); li++) {
 			auto &jmap = ReferenceFinder::sBasisLines.maps[jrank];
 			for (auto lj = jmap.begin(); lj != (sameRank ? li : jmap.end()); lj++) {
-				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_L2L rls1(*li, *lj, 0);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls1);
-				if (ReferenceFinder::GetNumLines() >= ReferenceFinder::sMaxLines) return;
+				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_L2L rls2(*li, *lj, 1);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls2);
 			};

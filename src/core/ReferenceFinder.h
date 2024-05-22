@@ -35,35 +35,6 @@ target mark or line.
 **********/
 class ReferenceFinder {
   public:
-	// Publicly accessible settings. Users can set these directly before calling
-	// MakeAllMarksAndLines().
-	static Paper sPaper; // dimensions of the paper
-
-	static bool sUseRefLine_C2P_C2P;
-	static bool sUseRefLine_P2P;
-	static bool sUseRefLine_L2L;
-	static bool sUseRefLine_L2L_C2P;
-	static bool sUseRefLine_P2L_C2P;
-	static bool sUseRefLine_P2L_P2L;
-	static bool sUseRefLine_L2L_P2L;
-
-	static rank_t sMaxRank;		  // maximum rank to create
-	static std::size_t sMaxLines; // maximum number of lines to create
-	static std::size_t sMaxMarks; // maximum number of marks to create
-
-	static key_t sNumX;
-	static key_t sNumY;
-	static key_t sNumA;
-	static key_t sNumD;
-
-	static double sGoodEnoughError;	 // tolerable error in a mark or line
-	static double sMinAspectRatio;	 // minimum aspect ratio for a triangular flap
-	static double sMinAngleSine;	 // minimum line intersection for defining a mark
-	static bool sVisibilityMatters;	 // restrict to what can be made w/ opaque paper
-	static bool sLineWorstCaseError; // true = use worst-case error vs Pythagorean
-	static int sDatabaseStatusSkip;	 // frequency that sDatabaseFn gets called
-
-	static int sNumTrials;			// number of test cases total
 
 	// Getters
 	static std::size_t GetNumLines() {
@@ -71,14 +42,6 @@ class ReferenceFinder {
 	};
 	static std::size_t GetNumMarks() {
 		return sBasisMarks.GetTotalSize();
-	};
-
-	// Check key sizes against type size
-	static bool LineKeySizeOK() {
-		return sNumA < std::numeric_limits<key_t>::max() / sNumD;
-	};
-	static bool MarkKeySizeOK() {
-		return sNumX < std::numeric_limits<key_t>::max() / sNumY;
 	};
 
 	// Support for a callback function to show progress during initialization
@@ -184,7 +147,6 @@ class ReferenceFinder {
 	friend class RefLine_P2L_P2L;
 	friend class RefLine_L2L_P2L;
 
-	//  friend class PSStreamDgmr;  // TBD, does this need to be a friend?
 	friend class RefContainer<RefLine>;
 	friend class RefContainer<RefMark>;
 };
@@ -223,8 +185,8 @@ class CompareRankAndError {
 		// than or equal to sGoodEnoughError, compare the refs by their rank.
 		double d1 = r1->DistanceTo(mTarget);
 		double d2 = r2->DistanceTo(mTarget);
-		if ((d1 > ReferenceFinder::sGoodEnoughError) ||
-			(d2 > ReferenceFinder::sGoodEnoughError)) {
+		if ((d1 > Shared::sGoodEnoughError) ||
+			(d2 > Shared::sGoodEnoughError)) {
 			if (d1 == d2) return r1->mRank < r2->mRank;
 			else return d1 < d2;
 		} else {

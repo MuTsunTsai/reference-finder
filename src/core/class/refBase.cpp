@@ -2,13 +2,13 @@
 #include "../ReferenceFinder.h"
 
 #include "global.h"
-#include "paper.h"
+#include "math/paper.h"
 #include "refBase.h"
 #include "refDgmr.h"
 #include "refLine/refLine.h"
 #include "refMark/refMark.h"
 #include "refMark/refMarkIntersection.h"
-#include "xypt.h"
+#include "math/xypt.h"
 #include "json/jsonArray.h"
 
 using namespace std;
@@ -171,10 +171,10 @@ Draw the paper
 *****/
 void RefBase::DrawPaper() {
 	vector<XYPt> corners;
-	corners.push_back(ReferenceFinder::sPaper.mBotLeft);
-	corners.push_back(ReferenceFinder::sPaper.mBotRight);
-	corners.push_back(ReferenceFinder::sPaper.mTopRight);
-	corners.push_back(ReferenceFinder::sPaper.mTopLeft);
+	corners.push_back(Shared::sPaper.mBotLeft);
+	corners.push_back(Shared::sPaper.mBotRight);
+	corners.push_back(Shared::sPaper.mTopRight);
+	corners.push_back(Shared::sPaper.mTopLeft);
 	sDgmr->DrawPoly(corners, RefDgmr::POLYSTYLE_WHITE);
 }
 

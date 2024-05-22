@@ -3,8 +3,8 @@
 #define _REF_LINE_H_
 
 #include "../json/jsonObject.h"
+#include "../math/xyline.h"
 #include "../refBase.h"
-#include "../xyline.h"
 
 /**********
 class RefLine - base class for a reference line.

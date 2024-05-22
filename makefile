@@ -29,11 +29,10 @@ OPTI :=	-O3
 WASM := $(TARGET)/$(OUT).wasm
 
 ifeq ($(OS),Windows_NT)
-	MK = @if not exist "$(@D)" mkdir "$(@D)"
-	RM = @rmdir /s /q $(TEMP)
+# Error is still possible in parallel running, so we add extra protection
+	MK = -@if not exist "$(@D)" mkdir "$(@D)" 2> NUL
 else
 	MK = @mkdir -p "$(@D)"
-	RM = @rm -f $(TEMP)
 endif
 
 .PHONY: all
@@ -51,11 +50,12 @@ $(TEMP)/%.o: $(SRCF)/%.cpp
 	@$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
 
 $(TEMP)/main.o: $(SRCF)/main.cpp package.json
-	@gulp syncVer -S
+	@pnpm gulp syncVer -S
 	$(MK)
 	@echo Compiling [32m$<[0m
 	@$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
 
+# Ignoring old dependencies that were removed
 %.h: ;
 %.d: ;
 
@@ -63,4 +63,8 @@ $(TEMP)/main.o: $(SRCF)/main.cpp package.json
 
 .PHONY: clean
 clean:
-	$(RM)
+ifeq ($(OS),Windows_NT)
+	@rmdir /s /q $(TEMP)
+else
+	@rm -f $(TEMP)
+endif

@@ -2,13 +2,13 @@
 #ifndef _VERBAL_STREAM_DGMR_H_
 #define _VERBAL_STREAM_DGMR_H_
 
+#include "json/jsonArray.h"
+#include "json/jsonObject.h"
+#include "math/xyline.h"
+#include "math/xyrect.h"
 #include "refDgmr.h"
 #include "refLine/refLine.h"
 #include "refMark/refMark.h"
-#include "xyline.h"
-#include "xyrect.h"
-#include "json/jsonArray.h"
-#include "json/jsonObject.h"
 
 /**********
 class JsonStreamDgmr is a variation of the original VerbalStreamDgmr.

@@ -2,7 +2,7 @@
 #include "../ReferenceFinder.h"
 
 #include "global.h"
-#include "paper.h"
+#include "math/paper.h"
 #include "refDgmr.h"
 
 using namespace std;
@@ -78,7 +78,7 @@ void RefDgmr::CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around
 	// We'll want the bulge of the arc to always be toward the inside of the square,
 	// i.e., closer to the middle of the square (or away from the point around, if specified),
 	// so we pick the value of the center that's farther away.
-	XYPt target = around == NULL ? MidPoint(ReferenceFinder::sPaper.mBotLeft, ReferenceFinder::sPaper.mTopRight) : mp * 2 - *around;
+	XYPt target = around == NULL ? MidPoint(Shared::sPaper.mBotLeft, Shared::sPaper.mTopRight) : mp * 2 - *around;
 	XYPt ctr1 = mp + mup;
 	XYPt ctr2 = mp - mup;
 	ctr = (ctr1 - target).Mag() > (ctr2 - target).Mag() ? ctr1 : ctr2;
@@ -99,9 +99,9 @@ void RefDgmr::CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around
 	ccw = (ra < PI); // true == arc goes in ccw direction
 
 	// Compute the size of the arrowheads
-	ahSize = ReferenceFinder::sPaper.mWidth;
-	if (ahSize > ReferenceFinder::sPaper.mHeight) {
-		ahSize = ReferenceFinder::sPaper.mHeight;
+	ahSize = Shared::sPaper.mWidth;
+	if (ahSize > Shared::sPaper.mHeight) {
+		ahSize = Shared::sPaper.mHeight;
 	}
 	ahSize *= 0.15;
 	double ah1 = 0.4 * (toPt - fromPt).Mag();
