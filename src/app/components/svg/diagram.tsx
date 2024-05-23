@@ -18,6 +18,7 @@ function createText(root: RabbitEarOrigami, el: LabelElement, offset: IPoint): R
 }
 
 const OFFSET_SIZE = 0.09;
+const MAX_ANGLE_OFFSET = Math.PI / 24; // 7.5 degree
 
 /**
  * Spread out the labels from each other.
@@ -61,9 +62,8 @@ export function Diagram({ data, last }: DiagramProps) {
 				if(!el.ccw) [from, to] = [to, from];
 
 				// Apply a slight offset to the arrow to make it look better
-				const max = Math.abs(to - from) / 8;
-				from += Math.min(0.075 / radius, max);
-				to -= Math.min(0.075 / radius, max);
+				from += Math.min(0.075 / radius, MAX_ANGLE_OFFSET);
+				to -= Math.min(0.075 / radius, MAX_ANGLE_OFFSET);
 
 				const arc = root.edges.arc(center[0], center[1], radius, from, to);
 				arc.classList.add("arc-" + LineStyle[el.style]);

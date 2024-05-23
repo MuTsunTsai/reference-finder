@@ -1,6 +1,6 @@
 {
 	"name": "reference-finder",
-	"version": "4.1.4",
+	"version": "4.1.5",
 	"description": "Find reference points and lines in crease patterns.",
 	"scripts": {
 		"start": "make && rsbuild dev -o",
@@ -54,10 +54,14 @@
 		"react": "^18.3.1",
 		"react-chartjs-2": "^5.2.0",
 		"react-dom": "^18.3.1",
-		"react-i18next": "^14.1.1",
+		"react-i18next": "^14.1.2",
 		"zustand": "^4.5.2"
 	},
 	"pnpm": {
+		"overrides": {
+			"glob": "^10.0.0",
+			"magic-string": "^0.30.0"
+		},
 		"peerDependencyRules": {
 			"allowAny": [
 				"eslint"

@@ -3,13 +3,15 @@
 
 #include "global.h"
 #include "math/paper.h"
+#include "math/xypt.h"
 #include "refBase.h"
 #include "refDgmr.h"
 #include "refLine/refLine.h"
 #include "refMark/refMark.h"
 #include "refMark/refMarkIntersection.h"
-#include "math/xypt.h"
 #include "json/jsonArray.h"
+
+#include <algorithm>
 
 using namespace std;
 
@@ -73,6 +75,14 @@ RefMarks and RefLines are sequentially numbered.
 void RefBase::BuildAndNumberSequence() {
 	sSequence.clear();
 	SequencePushSelf();
+
+	// Making sure that all original references are at the head of the sequence,
+	// as it is possible that some original references are pushed in the middle
+	// (especially the diagonal).
+	stable_partition(sSequence.begin(), sSequence.end(), [](RefBase *r) {
+		return !r->IsDerived();
+	});
+
 	RefMark::ResetCount();
 	RefLine::ResetCount();
 	for (size_t i = 0; i < sSequence.size(); i++) sSequence[i]->SetIndex();

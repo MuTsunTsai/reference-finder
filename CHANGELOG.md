@@ -10,6 +10,7 @@ Patches:
 - v4.1.2: Reduce the likelihood of drawing very small arrows.
 - v4.1.3: Fix several minor bugs.
 - v4.1.4: Refactoring and improve initialization performance.
+- v4.1.5: Making sure that original references are place at the beginning of the sequence.
 
 ## v4.0.3
 
