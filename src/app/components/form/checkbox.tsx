@@ -1,7 +1,5 @@
 import { ReactNode, useId } from "react";
 
-import "./checkbox.scss";
-
 interface CheckboxProps {
 	value: boolean;
 	className?: string;

@@ -6,7 +6,7 @@ import { FormEvent, useMemo, useState } from "react";
 import { PointInput } from "./form/point-input";
 import { useDB, useSettings, useStore } from "../store";
 import { useWorker } from "../bridge";
-import { Settings } from "./settings";
+import { Settings } from "./settings/settings";
 import { Statistics } from "./statistics/statistics";
 import { useTranslation } from "react-i18next";
 

@@ -78,6 +78,7 @@ export const defaultDB = {
 	minAngleSineExp: "sin(20)",
 	visibility: true,
 	axioms: [true, true, true, true, true, true, true],
+	axiomPriority: [2, 3, 7, 6, 5, 4, 1], // The default priority
 };
 export type DbSettings = typeof defaultDB;
 

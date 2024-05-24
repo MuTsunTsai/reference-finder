@@ -29,13 +29,7 @@ class Shared {
 	// MakeAllMarksAndLines().
 	static Paper sPaper; // dimensions of the paper
 
-	static bool sUseRefLine_C2P_C2P;
-	static bool sUseRefLine_P2P;
-	static bool sUseRefLine_L2L;
-	static bool sUseRefLine_L2L_C2P;
-	static bool sUseRefLine_P2L_C2P;
-	static bool sUseRefLine_P2L_P2L;
-	static bool sUseRefLine_L2L_P2L;
+	static int sAxioms[7];
 
 	static rank_t sMaxRank;		  // maximum rank to create
 	static std::size_t sMaxLines; // maximum number of lines to create

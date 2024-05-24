@@ -88,19 +88,43 @@ void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank) {
 	// get built, since the first object with a given key to be constructed gets
 	// the key slot.
 
-	// We give first preference to lines that don't involve making creases
-	// through points, because these are the hardest to do accurately in practice.
-	if (Shared::sUseRefLine_L2L) RefLine_L2L::MakeAll(arank);
-	if (Shared::sUseRefLine_P2P) RefLine_P2P::MakeAll(arank);
-	if (Shared::sUseRefLine_L2L_P2L) RefLine_L2L_P2L::MakeAll(arank);
-	if (Shared::sUseRefLine_P2L_P2L) RefLine_P2L_P2L::MakeAll(arank);
-
+	// The original priority given by Lang is 3276541, in which we give first preference to lines that don't
+	// involve making creases through points, because these are the hardest to do accurately in practice.
 	// Next, we'll make lines that put a crease through a single point.
-	if (Shared::sUseRefLine_P2L_C2P) RefLine_P2L_C2P::MakeAll(arank);
-	if (Shared::sUseRefLine_L2L_C2P) RefLine_L2L_C2P::MakeAll(arank);
-
 	// Finally, we'll do lines that put a crease through both points.
-	if (Shared::sUseRefLine_C2P_C2P) RefLine_C2P_C2P::MakeAll(arank);
+
+	// Priority can be customized since v4.2, and the default priority is changed to 2376541 instead.
+	// Switching the priority of 2 and 3 has two benefits:
+	// (1) It will more likely to give pinch marks rather than a whole line.
+	// (2) It is more likely to come up with traditionally known folding sequences.
+
+	for (int i = 0; i < 7; i++) {
+		switch (Shared::sAxioms[i]) {
+		case 1:
+			RefLine_C2P_C2P::MakeAll(arank);
+			break;
+		case 2:
+			RefLine_P2P::MakeAll(arank);
+			break;
+		case 3:
+			RefLine_L2L::MakeAll(arank);
+			break;
+		case 4:
+			RefLine_L2L_C2P::MakeAll(arank);
+			break;
+		case 5:
+			RefLine_P2L_C2P::MakeAll(arank);
+			break;
+		case 6:
+			RefLine_P2L_P2L::MakeAll(arank);
+			break;
+		case 7:
+			RefLine_L2L_P2L::MakeAll(arank);
+			break;
+		default:
+			break;
+		}
+	}
 
 	// Having constructed all lines in the buffer, add them to the main collection.
 	sBasisLines.FlushBuffer();

@@ -1,6 +1,10 @@
 
 # Change log
 
+## v4.2
+
+Allowing customizing the priorities of the 7 axioms.
+
 ## v4.1
 
 If a line is later only used to make one intersection, we render it as a pinch instead of a whole line.

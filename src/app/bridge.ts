@@ -41,7 +41,7 @@ export function resetWorker(db: DbSettings) {
 		db.maxRank,
 		db.maxLinesV1,
 		db.maxMarksV1,
-		...db.axioms.map(Number),
+		...db.axiomPriority.map(a => db.axioms[a - 1] ? a : 0),
 		db.numX,
 		db.numY,
 		db.numA,

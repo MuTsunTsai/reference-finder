@@ -12,15 +12,8 @@ Shared::CheckDatabaseStatusFn Shared::CheckDatabaseStatus = 0;
 // Use unit square paper
 Paper Shared::sPaper(1.0, 1.0);
 
-// These are switches by which we can turn on and off the use of different
-// types of alignments. Default is to use all possible.
-bool Shared::sUseRefLine_C2P_C2P = true;
-bool Shared::sUseRefLine_P2P = true;
-bool Shared::sUseRefLine_L2L = true;
-bool Shared::sUseRefLine_L2L_C2P = true;
-bool Shared::sUseRefLine_P2L_C2P = true;
-bool Shared::sUseRefLine_P2L_P2L = true;
-bool Shared::sUseRefLine_L2L_P2L = true;
+// The axioms to use, in the order of priority. A value of 0 means skipping.
+int Shared::sAxioms[7] = {2, 3, 7, 6, 5, 4, 1};
 
 // Maximum rank and number of marks and lines to collect. These can be tweaked
 // up or down to trade off accuracy versus memory and initialization time.

@@ -41,13 +41,9 @@ void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &)
 	case ReferenceFinder::DATABASE_INITIALIZING:
 		// Called at beginning of initialization
 		cout << "Initializing using";
-		if (Shared::sUseRefLine_C2P_C2P) cout << " O1,";
-		if (Shared::sUseRefLine_P2P) cout << " O2,";
-		if (Shared::sUseRefLine_L2L) cout << " O3,";
-		if (Shared::sUseRefLine_L2L_C2P) cout << " O4,";
-		if (Shared::sUseRefLine_P2L_C2P) cout << " O5,";
-		if (Shared::sUseRefLine_P2L_P2L) cout << " O6,";
-		if (Shared::sUseRefLine_L2L_P2L) cout << " O7,";
+		for (int i = 0; i < 7; i++) {
+			if (Shared::sAxioms[i] > 0) cout << " O" << Shared::sAxioms[i] << ",";
+		}
 		cout << " vis=";
 		if (Shared::sVisibilityMatters) cout << "true";
 		else cout << "false";
@@ -136,13 +132,9 @@ void readDbSettings() {
 	Shared::sMaxRank = ReadNumber();
 	Shared::sMaxLines = ReadNumber();
 	Shared::sMaxMarks = ReadNumber();
-	Shared::sUseRefLine_C2P_C2P = ReadNumber();
-	Shared::sUseRefLine_P2P = ReadNumber();
-	Shared::sUseRefLine_L2L = ReadNumber();
-	Shared::sUseRefLine_L2L_C2P = ReadNumber();
-	Shared::sUseRefLine_P2L_C2P = ReadNumber();
-	Shared::sUseRefLine_P2L_P2L = ReadNumber();
-	Shared::sUseRefLine_L2L_P2L = ReadNumber();
+	for (int i = 0; i < 7; i++) {
+		Shared::sAxioms[i] = ReadNumber();
+	}
 	Shared::sNumX = ReadNumber();
 	Shared::sNumY = ReadNumber();
 	Shared::sNumA = ReadNumber();
