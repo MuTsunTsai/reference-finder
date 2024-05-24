@@ -1,8 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useContext } from "react";
 import { DndContext, DragEndEvent, useSensor, useSensors, MouseSensor, TouchSensor } from "@dnd-kit/core";
-import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
+import { SortableContext, arrayMove, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import { InfoTooltip } from "../tooltip";
@@ -22,14 +21,13 @@ const legacyBrowser = typeof Intl.PluralRules == "undefined";
 const Item = ({ axiom, onInput }: ItemProps) => {
 	const { t } = useTranslation();
 	const { tempDb } = useContext(SettingsContext);
-	const { setNodeRef, transform, transition, attributes, listeners } =
-		useSortable({ id: axiom });
+	const { setNodeRef, transform, transition, attributes, listeners } = useSortable({ id: axiom });
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition,
 	};
 
-	return <div ref={setNodeRef} style={style} className="d-flex align-items-baseline">
+	return <div ref={setNodeRef} style={style} className="d-flex align-items-base">
 		<div className="me-3 handle" {...attributes} {...listeners}>
 			<i className="fa-solid fa-grip-lines"></i>
 		</div>
@@ -99,9 +97,8 @@ export function Axioms() {
 					)}
 				</div> :
 				<div>
-					<DndContext onDragEnd={handleDragEnd} sensors={sensors}
-						modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
-						<SortableContext items={tempDb.axiomPriority} strategy={verticalListSortingStrategy}>
+					<DndContext onDragEnd={handleDragEnd} sensors={sensors}>
+						<SortableContext items={tempDb.axiomPriority}>
 							{tempDb.axiomPriority.map((a, i) =>
 								<Item key={a} axiom={a} onInput={v => setAxiom(a - 1, v)} />
 							)}
