@@ -74,7 +74,10 @@ export function Settings() {
 							<button type="button" className="btn btn-secondary" onClick={reset}>{t("settings.reset")}</button>
 						</div>
 						<div>
-							{hasChanged(db, tempDb) && <InfoTooltip className="fa-solid fa-triangle-exclamation text-warning me-3" title={t("settings.reInit")} />}
+							{hasChanged(db, tempDb) &&
+								<InfoTooltip title={t("settings.reInit")}
+									className="fa-solid fa-triangle-exclamation text-warning me-3" />
+							}
 							<button type="button" className="btn btn-secondary me-2 capitalize"
 								data-bs-dismiss="modal" onClick={handleCancel}>{t("keyword.cancel")}</button>
 							<button type="button" className="btn btn-primary"

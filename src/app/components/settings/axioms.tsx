@@ -14,7 +14,6 @@ import { SettingsContext } from "./context";
 
 interface AxiomProps {
 	axiom: number;
-	onInput: (v: boolean) => void;
 }
 
 // DndKit is pretty cool, but it doesn't support Safari 12.
@@ -22,11 +21,17 @@ interface AxiomProps {
 // We use this signature to detect legacy browsers.
 const legacyBrowser = typeof Intl.PluralRules == "undefined";
 
-const Axiom = ({ axiom, onInput }: AxiomProps) => {
+const Axiom = ({ axiom }: AxiomProps) => {
 	const { t } = useTranslation();
-	const { tempDb } = useContext(SettingsContext);
+	const { tempDb, setTempDb } = useContext(SettingsContext);
 
-	return <Checkbox value={tempDb.axioms[axiom - 1]} onInput={onInput}>
+	const setAxiom = (v: boolean) => {
+		const axioms = tempDb.axioms.concat();
+		axioms[axiom - 1] = v;
+		setTempDb({ ...tempDb, axioms });
+	};
+
+	return <Checkbox value={tempDb.axioms[axiom - 1]} onInput={setAxiom}>
 		O{axiom} - {t(`settings.basic.axioms.O${axiom}`)}
 	</Checkbox>;
 };
@@ -77,12 +82,6 @@ export function Axioms() {
 		setTempDb({ ...tempDb, axiomPriority: arrayMove(tempDb.axiomPriority, oldIndex, newIndex) });
 	}
 
-	const setAxiom = (index: number, v: boolean) => {
-		const axioms = tempDb.axioms.concat();
-		axioms[index] = v;
-		setTempDb({ ...tempDb, axioms });
-	};
-
 	return (
 		<div className="mb-1">
 			<h6>{t("settings.basic.axioms._")}<InfoTooltip title={t("help.axioms")} /></h6>
@@ -100,7 +99,7 @@ export function Axioms() {
 									<i className="fa-solid fa-caret-down"></i>
 								</button>
 							</div>
-							<Axiom axiom={a} onInput={v => setAxiom(a - 1, v)} />
+							<Axiom axiom={a} />
 						</div>
 					)}
 				</div> :
@@ -108,7 +107,7 @@ export function Axioms() {
 					<DndContext onDragEnd={handleDragEnd} sensors={sensors} collisionDetection={closestCenter}>
 						<SortableContext items={tempDb.axiomPriority} >
 							{tempDb.axiomPriority.map((a, i) =>
-								<Item key={a} axiom={a} onInput={v => setAxiom(a - 1, v)} />
+								<Item key={a} axiom={a} />
 							)}
 						</SortableContext>
 					</DndContext>
