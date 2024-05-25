@@ -4,9 +4,10 @@ import "./tooltip.scss";
 
 interface TooltipProps {
 	title: string;
+	className?: string;
 }
 
-export function InfoTooltip({ title: help }: TooltipProps) {
+export function InfoTooltip({ title, className }: TooltipProps) {
 	const tooltip = useRef<HTMLElement>(null);
 
 	useEffect(() => {
@@ -15,6 +16,7 @@ export function InfoTooltip({ title: help }: TooltipProps) {
 	});
 
 	return (
-		<i className="fa-solid fa-circle-info text-info ms-2" data-bs-toggle="tooltip" data-bs-title={help} ref={tooltip}></i>
+		<i className={className || "fa-solid fa-circle-info text-info ms-2"}
+			data-bs-toggle="tooltip" data-bs-title={title} ref={tooltip}></i>
 	);
 }

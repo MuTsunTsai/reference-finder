@@ -12,7 +12,7 @@ import { InfoTooltip } from "../tooltip";
 import { Checkbox } from "../form/checkbox";
 import { SettingsContext } from "./context";
 
-interface ItemProps {
+interface AxiomProps {
 	axiom: number;
 	onInput: (v: boolean) => void;
 }
@@ -22,11 +22,18 @@ interface ItemProps {
 // We use this signature to detect legacy browsers.
 const legacyBrowser = typeof Intl.PluralRules == "undefined";
 
-const Item = ({ axiom, onInput }: ItemProps) => {
+const Axiom = ({ axiom, onInput }: AxiomProps) => {
 	const { t } = useTranslation();
 	const { tempDb } = useContext(SettingsContext);
+
+	return <Checkbox value={tempDb.axioms[axiom - 1]} onInput={onInput}>
+		O{axiom} - {t(`settings.basic.axioms.O${axiom}`)}
+	</Checkbox>;
+};
+
+const Item = (props: AxiomProps) => {
 	const { setNodeRef, transform, transition, attributes, listeners } =
-		useSortable({ id: axiom });
+		useSortable({ id: props.axiom });
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition,
@@ -36,9 +43,7 @@ const Item = ({ axiom, onInput }: ItemProps) => {
 		<div className="me-3 handle" {...attributes} {...listeners}>
 			<i className="fa-solid fa-grip-lines"></i>
 		</div>
-		<Checkbox value={tempDb.axioms[axiom - 1]} onInput={onInput}>
-			O{axiom} - {t(`settings.basic.axioms.O${axiom}`)}
-		</Checkbox>
+		<Axiom {...props} />
 	</div>;
 };
 
@@ -95,9 +100,7 @@ export function Axioms() {
 									<i className="fa-solid fa-caret-down"></i>
 								</button>
 							</div>
-							<Checkbox value={tempDb.axioms[a - 1]} onInput={v => setAxiom(a - 1, v)}>
-								O{a} - {t(`settings.basic.axioms.O${a}`)}
-							</Checkbox>
+							<Axiom axiom={a} onInput={v => setAxiom(a - 1, v)} />
 						</div>
 					)}
 				</div> :

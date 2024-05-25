@@ -3,11 +3,12 @@ import { useTranslation } from "react-i18next";
 
 import { defaultDB, defaultSettings, useDB, useSettings } from "../../store";
 import { resetWorker } from "../../bridge";
+import { SettingsContext } from "./context";
 
 import "./settings.scss";
 import "./axioms.scss";
 import "../form/checkbox.scss";
-import { SettingsContext } from "./context";
+import { InfoTooltip } from "../tooltip";
 
 const SettingsBody = lazy(() => import("./settingsBody"));
 
@@ -64,7 +65,7 @@ export function Settings() {
 					{open &&
 						<SettingsContext.Provider value={{ tempDb, setTempDb }}>
 							<Suspense fallback={<Loading />}>
-								<SettingsBody hasChanged={hasChanged(db, tempDb)} />
+								<SettingsBody />
 							</Suspense>
 						</SettingsContext.Provider>
 					}
@@ -73,6 +74,7 @@ export function Settings() {
 							<button type="button" className="btn btn-secondary" onClick={reset}>{t("settings.reset")}</button>
 						</div>
 						<div>
+							{hasChanged(db, tempDb) && <InfoTooltip className="fa-solid fa-triangle-exclamation text-warning me-3" title={t("settings.reInit")} />}
 							<button type="button" className="btn btn-secondary me-2 capitalize"
 								data-bs-dismiss="modal" onClick={handleCancel}>{t("keyword.cancel")}</button>
 							<button type="button" className="btn btn-primary"

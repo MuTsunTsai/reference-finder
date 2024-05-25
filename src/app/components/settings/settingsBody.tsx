@@ -8,11 +8,7 @@ import { SettingsRow } from "../form/settings-row";
 import { Checkbox } from "../form/checkbox";
 import { Axioms } from "./axioms";
 
-interface SettingsBodyProps {
-	hasChanged: boolean;
-}
-
-export default function SettingsBody({ hasChanged }: SettingsBodyProps) {
+export default function SettingsBody() {
 	const { t } = useTranslation();
 	const db = useDB();
 	const settings = useSettings();
@@ -135,9 +131,6 @@ export default function SettingsBody({ hasChanged }: SettingsBodyProps) {
 						onInput={v => useSettings.setState({ showAxiom: v })}>{t("settings.display.showAxiom")}</Checkbox>
 				</div>
 			</div>
-			{hasChanged &&
-				<div className="text-warning mt-2">* {t("settings.reInit")}</div>
-			}
 		</div>
 	);
 }
