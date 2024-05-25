@@ -53,7 +53,7 @@ bool Shared::sLineWorstCaseError = true;
 
 // We make a call to our show progress callback routine every sDatabaseStatusSkip
 // attempts.
-int Shared::sDatabaseStatusSkip = 100000;
+int Shared::sDatabaseStatusSkip = 800000;
 
 // Variables used when we calculate statistics on the database
 int Shared::sNumTrials = 1000; // number of test cases total

@@ -20,7 +20,7 @@ NOTE: Do not edit these directly, as these values now sync with package.json aut
 #define VERSION_MAJOR 4
 #define VERSION_MINOR 2
 #define VERSION_BUGFIX 0
-#define VERSION_BUILD 20240524
+#define VERSION_BUILD 20240525
 
 /******************************************************************************/
 

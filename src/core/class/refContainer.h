@@ -78,7 +78,6 @@ template <class R>
 void RefContainer<R>::Add(R *ar) {
 	buffer.push_back(ar);								  // Add it to the buffer.
 	map.insert(typename map_t::value_type(ar->mKey, ar)); // Also add it to the map immediately.
-	Shared::CheckDatabaseStatus();						  // report progress if appropriate
 }
 
 /*****
@@ -95,6 +94,7 @@ void RefContainer<R>::AddCopyIfValidAndUnique(const Rs &ars) {
 	// It's unique if the container doesn't already have one with the same key in
 	// one of the rank maps.
 	if (ars.mKey != 0 && !Contains(&ars)) Add(new Rs(ars));
+	Shared::CheckDatabaseStatus(); // report progress if appropriate
 }
 
 /*****
