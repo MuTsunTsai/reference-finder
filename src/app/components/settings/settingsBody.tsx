@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ExpInput } from "../form/exp-input";
 import { IntInput } from "../form/int-input";
-import { Theme, useDB, useSettings } from "../../store";
+import { Theme, useSettings } from "../../store";
 import { SettingsRow } from "../form/settings-row";
 import { Checkbox } from "../form/checkbox";
 import { Axioms } from "./axioms";
+import { SettingsContext } from "./context";
 
 export default function SettingsBody() {
 	const { t } = useTranslation();
-	const db = useDB();
 	const settings = useSettings();
-	const [tempDb, setTempDb] = useState(structuredClone(db));
+	const { tempDb, setTempDb } = useContext(SettingsContext);
 	const [tab, setTab] = useState(0);
 
 	return (
