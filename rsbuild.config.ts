@@ -4,6 +4,7 @@ import { pluginReact } from "@rsbuild/plugin-react";
 import { pluginCheckSyntax } from "@rsbuild/plugin-check-syntax";
 import { GenerateSW } from "workbox-webpack-plugin";
 import { PurgeCSSPlugin } from "purgecss-webpack-plugin";
+import { pluginAssetsRetry } from "@rsbuild/plugin-assets-retry";
 
 import * as pkg from "./package.json";
 
@@ -88,6 +89,9 @@ export default defineConfig({
 		pluginReact(),
 		pluginCheckSyntax({
 			ecmaVersion: 2018,
+		}),
+		pluginAssetsRetry({
+			addQuery: true,
 		}),
 	],
 	tools: {

@@ -49,8 +49,7 @@ $(TEMP)/%.o: $(SRCF)/%.cpp
 	@echo Compiling [32m$<[0m
 	@$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
 
-$(TEMP)/main.o: $(SRCF)/main.cpp package.json
-	@pnpm gulp syncVer -S
+$(TEMP)/main.o: $(SRCF)/main.cpp
 	$(MK)
 	@echo Compiling [32m$<[0m
 	@$(CC) $(STD) $(OPTI) -MMD -c $< -o $@
@@ -58,6 +57,9 @@ $(TEMP)/main.o: $(SRCF)/main.cpp package.json
 # Ignoring old dependencies that were removed
 %.h: ;
 %.d: ;
+
+$(SRCF)/RFVersion.h: package.json
+	@pnpm gulp syncVer -S
 
 -include $(DEP)
 

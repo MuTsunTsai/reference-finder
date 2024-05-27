@@ -73,6 +73,9 @@ importers:
       '@rsbuild/core':
         specifier: ^0.6.15
         version: 0.6.15
+      '@rsbuild/plugin-assets-retry':
+        specifier: ^0.6.15
+        version: 0.6.15(@rsbuild/core@0.6.15)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-check-syntax':
         specifier: ^0.6.15
         version: 0.6.15(@rsbuild/core@0.6.15)(@swc/helpers@0.5.3)
@@ -104,7 +107,7 @@ importers:
         specifier: ^9.3.0
         version: 9.3.0
       glob:
-        specifier: ^10.4.1
+        specifier: ^10.0.0
         version: 10.4.1
       globals:
         specifier: ^15.3.0
@@ -901,6 +904,11 @@ packages:
     resolution: {integrity: sha512-wT9gyfRHyXJamR6fvlWzOpWGmI+2w+LMNIvAItY6AjCIT1zgfK0OOkChR4KGTTOWj68b/t0BnuBy1b2PV3DLyw==}
     engines: {node: '>=16.0.0'}
     hasBin: true
+
+  '@rsbuild/plugin-assets-retry@0.6.15':
+    resolution: {integrity: sha512-upA30S5jOO8l3vW0HH+Zm4CdodutwheL92SzNYlmYTrCvL0ItQ024KZFydVui79tALRQfjaqj5hBgPjaMM964Q==}
+    peerDependencies:
+      '@rsbuild/core': ^0.6.15
 
   '@rsbuild/plugin-check-syntax@0.6.15':
     resolution: {integrity: sha512-bjT9pqFhPURE0ycI2nevr3YnkIHgvkXr+ogJRNNklapWT4E1U3GVm0E2tlMnnzmAKJHmFX5yjdtBfOWTSF3feQ==}
@@ -4026,6 +4034,14 @@ snapshots:
       core-js: 3.36.1
       html-webpack-plugin: html-rspack-plugin@5.7.2(@rspack/core@0.6.5(@swc/helpers@0.5.3))
       postcss: 8.4.38
+
+  '@rsbuild/plugin-assets-retry@0.6.15(@rsbuild/core@0.6.15)(@swc/helpers@0.5.3)':
+    dependencies:
+      '@rsbuild/core': 0.6.15
+      '@rsbuild/shared': 0.6.15(@swc/helpers@0.5.3)
+      serialize-javascript: 6.0.2
+    transitivePeerDependencies:
+      - '@swc/helpers'
 
   '@rsbuild/plugin-check-syntax@0.6.15(@rsbuild/core@0.6.15)(@swc/helpers@0.5.3)':
     dependencies:
