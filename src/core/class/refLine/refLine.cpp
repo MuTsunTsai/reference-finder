@@ -36,9 +36,9 @@ void RefLine::FinishConstructor() {
 							 pow(Shared::sPaper.mHeight, 2));
 	const double fd = l.d / dmax; // fd is between 0 and 1
 
-	key_t nd = static_cast<key_t>(floor(0.5 + fd * Shared::sNumD));
+	key_t nd = static_cast<key_t>(floor(0.5 + fd * (Shared::sNumD - 1)));
 	if (nd == 0) fa = fmod(2 * fa, 1); // for d=0, we map alpha and pi+alpha to the same key
-	key_t na = static_cast<key_t>(floor(0.5 + fa * Shared::sNumA));
+	key_t na = static_cast<key_t>(floor(0.5 + fa * (Shared::sNumA - 1)));
 	mKey = 1 + na * Shared::sNumD + nd;
 }
 
@@ -91,6 +91,7 @@ bool RefLine::IsActionLine() const {
 Return the label for this line.
 *****/
 const char RefLine::GetLabel() const {
+	if (mIndex == 0) return ' ';
 	return sLabels[mIndex - 1];
 }
 

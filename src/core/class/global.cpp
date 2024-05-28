@@ -15,6 +15,9 @@ Paper Shared::sPaper(1.0, 1.0);
 // The axioms to use, in the order of priority. A value of 0 means skipping.
 int Shared::sAxioms[7] = {2, 3, 7, 6, 5, 4, 1};
 
+// The score weight for each axiom
+int Shared::sAxiomWeights[7] = {0, 0, 0, 0, 0, 0, 0};
+
 // Maximum rank and number of marks and lines to collect. These can be tweaked
 // up or down to trade off accuracy versus memory and initialization time.
 rank_t Shared::sMaxRank = 6;

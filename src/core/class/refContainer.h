@@ -17,8 +17,8 @@ class RefContainer : public std::vector<R *> {
 	typedef std::unordered_map<key_t, R *> map_t; // typedef for map holding R*
 	typedef std::vector<R *> vec_t;				  // typedef for vector holding R*
 	map_t map;									  // A centralized map for checking duplication
-	std::vector<vec_t> maps;					  // Holds vectors of objects, one for each rank
-	vec_t buffer;								  // used to accumulate new objects (to avoid corrupting the main iterator)
+	std::vector<vec_t> ranks;					  // Holds vectors of objects, one for each rank
+	map_t buffer;								  // used to accumulate new objects (to avoid corrupting the main iterator)
 
   public:
 	std::size_t GetTotalSize() const {
@@ -34,11 +34,10 @@ class RefContainer : public std::vector<R *> {
 
 	RefContainer(); // Constructor
 
-	void Rebuild();					  // Re-initialize with new values
-	bool Contains(const R *ar) const; // True if an equivalent element already exists
-	void Add(R *ar);				  // Add an element to the array
-	void FlushBuffer();				  // Add the contents of the buffer to the container
-	void ClearMaps();				  // Clear the map arrays when no longer needed
+	void Rebuild();		// Re-initialize with new values
+	void Add(R *ar);	// Add an element to the array
+	void FlushBuffer(); // Add the contents of the buffer to the container
+	void ClearMaps();	// Clear the map arrays when no longer needed
 };
 
 /**********
@@ -54,7 +53,7 @@ Constructor. Initialize arrays.
 template <class R>
 RefContainer<R>::RefContainer() {
 	// expand our map array to hold all the ranks that we will create
-	maps.resize(1 + Shared::sMaxRank);
+	ranks.resize(1 + Shared::sMaxRank);
 }
 
 /*****
@@ -64,8 +63,8 @@ template <class R>
 void RefContainer<R>::Rebuild() {
 	this->resize(0);
 	map.clear();
-	maps.resize(0);
-	maps.resize(1 + Shared::sMaxRank);
+	ranks.resize(0);
+	ranks.resize(1 + Shared::sMaxRank);
 }
 
 /*****
@@ -76,8 +75,7 @@ FlushBuffer().
 *****/
 template <class R>
 void RefContainer<R>::Add(R *ar) {
-	buffer.push_back(ar);								  // Add it to the buffer.
-	map.insert(typename map_t::value_type(ar->mKey, ar)); // Also add it to the map immediately.
+	buffer.insert(typename map_t::value_type(ar->mKey, ar)); // Add it to the buffer.
 }
 
 /*****
@@ -90,19 +88,20 @@ blind-copied, and/or strings (which know how to copy themselves).
 template <class R>
 template <class Rs>
 void RefContainer<R>::AddCopyIfValidAndUnique(const Rs &ars) {
-	// The ref is valid (fully constructed) if its key is something other than 0.
-	// It's unique if the container doesn't already have one with the same key in
-	// one of the rank maps.
-	if (ars.mKey != 0 && !Contains(&ars)) Add(new Rs(ars));
+	if (
+		ars.mKey != 0 &&	 // The ref is valid (fully constructed) if its key is something other than 0.
+		!map.count(ars.mKey) // If the main map already has one with the same key,
+							 // it must be of a lower rank and we can safely ignore the current one.
+	) {
+		auto iter = buffer.find(ars.mKey);
+		if (iter == buffer.end()) {						// if the buffer also doesn't have the same key
+			Add(new Rs(ars));							// add the ref directly
+		} else if (ars.mScore < iter->second->mScore) { // otherwise, see if the current one has a lower score
+			delete iter->second;						// don't forget to release memory
+			buffer[ars.mKey] = new Rs(ars);				// replace the item in the buffer
+		}
+	}
 	Shared::CheckDatabaseStatus(); // report progress if appropriate
-}
-
-/*****
-Return true if the container (including the buffer) contain an equivalent object.
-*****/
-template <class R>
-bool RefContainer<R>::Contains(const R *ar) const {
-	return map.count(ar->mKey);
 }
 
 /*****
@@ -115,8 +114,10 @@ void RefContainer<R>::FlushBuffer() {
 
 	// Go through the buffer and add each element to the appropriate rank in the main container.
 	for (auto bi : buffer) {
-		maps[bi->mRank].push_back(bi); // add to the map of the appropriate rank
-		this->push_back(bi);		   // also add to our sortable list
+		R *ar = bi.second;
+		map.insert(typename map_t::value_type(ar->mKey, ar)); // add to the main map
+		ranks[ar->mRank].push_back(ar);						  // add to appropriate rank
+		this->push_back(ar);								  // also add to our sortable list
 	}
 	buffer.clear(); // clear the buffer
 }
@@ -127,7 +128,7 @@ Clear the map arrays. Called when they're no longer needed.
 template <class R>
 void RefContainer<R>::ClearMaps() {
 	map.clear();
-	for (size_t ir = 0; ir < maps.size(); ir++) maps[ir].clear();
+	for (size_t ir = 0; ir < ranks.size(); ir++) ranks[ir].clear();
 }
 
 #endif

@@ -16,6 +16,9 @@ Make a crease through two points p1 and p2.
 Constructor. Initialize with the two marks that this line connects.
 *****/
 RefLine_C2P_C2P::RefLine_C2P_C2P(RefMark *arm1, RefMark *arm2) : RefLine(CalcLineRank(arm1, arm2)), rm1(arm1), rm2(arm2) {
+
+	mScore = rm1->mScore + rm2->mScore + Shared::sAxiomWeights[0];
+
 	const XYPt &p1 = rm1->p;
 	const XYPt &p2 = rm2->p;
 
@@ -48,9 +51,9 @@ void RefLine_C2P_C2P::SequencePushSelf() {
 }
 
 /*****
-Put the construction of this line to a stream.
+Export the construction of this line.
 *****/
-void RefLine_C2P_C2P::PutHowto(JsonArray &steps) const {
+JsonObject RefLine_C2P_C2P::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 1);
 	rm1->PutName("p0", step);
@@ -58,7 +61,11 @@ void RefLine_C2P_C2P::PutHowto(JsonArray &steps) const {
 	PutName("x", step);
 
 	if (mForMark != NULL) step.add("pinch", 1);
-	steps.add(step);
+
+#ifdef _DEBUG_DB_
+	PutDebug(step);
+#endif
+	return step;
 }
 
 /*****
@@ -112,9 +119,9 @@ void RefLine_C2P_C2P::MakeAll(rank_t arank) {
 	for (rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
 		rank_t jrank = arank - irank - 1;
 		bool sameRank = (irank == jrank);
-		auto &imap = ReferenceFinder::sBasisMarks.maps[irank];
+		auto &imap = ReferenceFinder::sBasisMarks.ranks[irank];
 		for (auto mi = imap.begin() + (sameRank ? 1 : 0); mi != imap.end(); mi++) {
-			auto &jmap = ReferenceFinder::sBasisMarks.maps[jrank];
+			auto &jmap = ReferenceFinder::sBasisMarks.ranks[jrank];
 			for (auto mj = jmap.begin(); mj != (sameRank ? mi : jmap.end()); mj++) {
 				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_C2P_C2P rlc(*mi, *mj);

@@ -2,8 +2,8 @@
 #ifndef _REF_LINE_P2L_C2P_H_
 #define _REF_LINE_P2L_C2P_H_
 
-#include "../refMark/refMark.h"
 #include "../json/jsonArray.h"
+#include "../refMark/refMark.h"
 #include "refLine.h"
 
 /**********
@@ -28,7 +28,7 @@ class RefLine_P2L_C2P : public RefLine {
 
 	bool UsesImmediate(RefBase *rb) const;
 	void SequencePushSelf();
-	void PutHowto(JsonArray &steps) const;
+	JsonObject Serialize() const;
 	void DrawSelf(RefStyle rstyle, short ipass) const;
 	static void MakeAll(rank_t arank);
 };

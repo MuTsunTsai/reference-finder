@@ -16,6 +16,9 @@ Bring line l1 onto itself so that point p1 falls on line l2.
 Constructor. iroot can be 0 or 1.
 *****/
 RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2) : RefLine(CalcLineRank(arl1, arm1, arl2)), rl1(arl1), rm1(arm1), rl2(arl2) {
+
+	mScore = rl1->mScore + rm1->mScore + rl2->mScore + Shared::sAxiomWeights[6];
+
 	// Get references
 	XYLine &l1 = rl1->l;
 	XYPt &u1 = l1.u;
@@ -102,9 +105,9 @@ void RefLine_L2L_P2L::SequencePushSelf() {
 }
 
 /*****
-Put the name of this line to a stream.
+Export the construction of this line.
 *****/
-void RefLine_L2L_P2L::PutHowto(JsonArray &steps) const {
+JsonObject RefLine_L2L_P2L::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 7);
 	rl2->PutName("l1", step);
@@ -122,7 +125,10 @@ void RefLine_L2L_P2L::PutHowto(JsonArray &steps) const {
 	PutName("x", step);
 
 	if (mForMark != NULL) step.add("pinch", 1);
-	steps.add(step);
+#ifdef _DEBUG_DB_
+	PutDebug(step);
+#endif
+	return step;
 }
 
 /*****
@@ -139,8 +145,8 @@ void RefLine_L2L_P2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		XYPt p1, p2;
 		XYLine &l2 = rl2->l;
 		Shared::sPaper.ClipLine(l2, p1, p2); // get endpts of the reference line
-		XYPt pi = Intersection(l, l2);				  // intersection w/ fold line
-		XYPt u1p = l2.u.Rotate90();					  // tangent to reference line
+		XYPt pi = Intersection(l, l2);		 // intersection w/ fold line
+		XYPt u1p = l2.u.Rotate90();			 // tangent to reference line
 		double t1 = abs((p1 - pi).Dot(u1p));
 		double t2 = abs((p2 - pi).Dot(u1p));
 		double tmin = t1 < t2 ? t1 : t2;
@@ -168,9 +174,9 @@ void RefLine_L2L_P2L::MakeAll(rank_t arank) {
 	for (rank_t irank = 0; irank <= (arank - 1); irank++)
 		for (rank_t jrank = 0; jrank <= (arank - 1 - irank); jrank++) {
 			rank_t krank = arank - irank - jrank - 1;
-			for (auto li : ReferenceFinder::sBasisLines.maps[irank]) {
-				for (auto mj : ReferenceFinder::sBasisMarks.maps[jrank]) {
-					for (auto lk : ReferenceFinder::sBasisLines.maps[krank]) {
+			for (auto li : ReferenceFinder::sBasisLines.ranks[irank]) {
+				for (auto mj : ReferenceFinder::sBasisMarks.ranks[jrank]) {
+					for (auto lk : ReferenceFinder::sBasisLines.ranks[krank]) {
 						if ((irank != krank) || (li != lk)) {
 							if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 							RefLine_L2L_P2L rlh1(li, mj, lk);

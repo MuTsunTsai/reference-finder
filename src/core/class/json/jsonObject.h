@@ -27,6 +27,8 @@ class JsonObject {
 
 	void addKey(char const *key);
 
+	friend JsonArray;
+
 	friend std::ostream &operator<<(std::ostream &os, const JsonObject &j);
 };
 

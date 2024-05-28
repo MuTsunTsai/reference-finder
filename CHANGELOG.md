@@ -1,15 +1,20 @@
 
 # Change log
 
+## v4.3
+
+- Fixed a bug in the original ReferenceFinder that could result in overlooked solutions for points on the boundary of the sheet.
+- Introducing the scoring system that replaces references that were already found with better equivalences found later. This will make the initialization slightly slower, but will generate much better folding sequences that honors the priority settings.
+
 ## v4.2
 
-Allowing customizing the priorities of the 7 axioms.
+- Allowing customizing the priorities of the 7 axioms.
 
 ## v4.1
 
-If a line is later only used to make one intersection, we render it as a pinch instead of a whole line.
+- If a line is later only used to make one intersection, we render it as a pinch instead of a whole line.
 
-Patches:
+#### Patches
 - v4.1.1: Fix bug in label rendering.
 - v4.1.2: Reduce the likelihood of drawing very small arrows.
 - v4.1.3: Fix several minor bugs.

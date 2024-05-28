@@ -16,6 +16,9 @@ Bring line l1 to itself so that the crease goes through point p1
 Constructor.
 *****/
 RefLine_L2L_C2P::RefLine_L2L_C2P(RefLine *arl1, RefMark *arm1) : RefLine(CalcLineRank(arl1, arm1)), rl1(arl1), rm1(arm1) {
+
+	mScore = rl1->mScore + rm1->mScore + Shared::sAxiomWeights[3];
+
 	// Get references to line and mark
 	XYPt &u1 = rl1->l.u;
 	double &d1 = rl1->l.d;
@@ -55,9 +58,9 @@ void RefLine_L2L_C2P::SequencePushSelf() {
 }
 
 /*****
-Put the construction of this line to a stream.
+Export the construction of this line.
 *****/
-void RefLine_L2L_C2P::PutHowto(JsonArray &steps) const {
+JsonObject RefLine_L2L_C2P::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 4);
 	rl1->PutName("l0", step);
@@ -65,7 +68,10 @@ void RefLine_L2L_C2P::PutHowto(JsonArray &steps) const {
 	rm1->PutName("p0", step);
 
 	if (mForMark != NULL) step.add("pinch", 1);
-	steps.add(step);
+#ifdef _DEBUG_DB_
+	PutDebug(step);
+#endif
+	return step;
 }
 
 /*****
@@ -81,8 +87,8 @@ void RefLine_L2L_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 		XYPt p1, p2;
 		XYLine &l1 = rl1->l;
 		Shared::sPaper.ClipLine(l1, p1, p2); // get endpts of the reference line
-		XYPt pi = Intersection(l, l1);				  // intersection w/ fold line
-		XYPt u1p = l1.u.Rotate90();					  // tangent to reference line
+		XYPt pi = Intersection(l, l1);		 // intersection w/ fold line
+		XYPt u1p = l1.u.Rotate90();			 // tangent to reference line
 		double t1 = abs((p1 - pi).Dot(u1p));
 		double t2 = abs((p2 - pi).Dot(u1p));
 		double tmin = t1 < t2 ? t1 : t2;
@@ -97,8 +103,8 @@ to arank up to a cumulative total of sMaxLines.
 void RefLine_L2L_C2P::MakeAll(rank_t arank) {
 	for (rank_t irank = 0; irank <= (arank - 1); irank++) {
 		rank_t jrank = arank - irank - 1;
-		for (auto li : ReferenceFinder::sBasisLines.maps[irank]) {
-			for (auto mj : ReferenceFinder::sBasisMarks.maps[jrank]) {
+		for (auto li : ReferenceFinder::sBasisLines.ranks[irank]) {
+			for (auto mj : ReferenceFinder::sBasisMarks.ranks[jrank]) {
 				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_L2L_C2P rls1(li, mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls1);

@@ -22,11 +22,11 @@ Calculate the key value used for distinguishing RefMarks. This should be called
 at the end of every constructor if the mark is valid (and not if it isn't).
 *****/
 void RefMark::FinishConstructor() {
-	const double fx = p.x / Shared::sPaper.mWidth;	 // fx is between 0 and 1
+	const double fx = p.x / Shared::sPaper.mWidth;	// fx is between 0 and 1
 	const double fy = p.y / Shared::sPaper.mHeight; // fy is between 0 and 1
 
-	key_t nx = static_cast<key_t>(floor(0.5 + fx * Shared::sNumX));
-	key_t ny = static_cast<key_t>(floor(0.5 + fy * Shared::sNumY));
+	key_t nx = static_cast<key_t>(floor(0.5 + fx * (Shared::sNumX - 1)));
+	key_t ny = static_cast<key_t>(floor(0.5 + fy * (Shared::sNumY - 1)));
 	mKey = 1 + nx * Shared::sNumY + ny;
 }
 
@@ -63,6 +63,7 @@ bool RefMark::IsActionLine() const {
 Return the label for this mark.
 *****/
 const char RefMark::GetLabel() const {
+	if (mIndex == 0) return ' ';
 	return sLabels[mIndex - 1];
 }
 

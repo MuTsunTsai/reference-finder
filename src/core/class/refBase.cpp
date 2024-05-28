@@ -91,10 +91,13 @@ void RefBase::BuildAndNumberSequence() {
 void RefBase::PutName(char const *key, JsonObject &obj) const {}
 
 /*****
-Put a statement about how to make this mark from its constituents to a stream.
-Overridden by most subclasses. Default behavior is doing nothing.
+Create a JSON object about how to make this mark from its constituents.
+Overridden by most subclasses. Default behavior is returning an empty object.
 *****/
-void RefBase::PutHowto(JsonArray &steps) const {}
+JsonObject RefBase::Serialize() const {
+	JsonObject step;
+	return step;
+}
 
 /*****
 Send the full how-to sequence to the given stream.
@@ -102,7 +105,7 @@ Send the full how-to sequence to the given stream.
 void RefBase::PutHowtoSequence(JsonObject &solution) {
 	JsonArray steps;
 	for (size_t i = 0; i < sSequence.size(); i++) {
-		sSequence[i]->PutHowto(steps);
+		steps.add(sSequence[i]->Serialize());
 	}
 	solution.add("steps", steps);
 }
@@ -257,3 +260,11 @@ void RefBase::SequencePushUnique(RefBase *rb) {
 	if (find(sSequence.begin(), sSequence.end(), rb) == sSequence.end())
 		sSequence.push_back(rb);
 }
+
+#ifdef _DEBUG_DB_
+void RefBase::PutDebug(JsonObject &step) const {
+	step.add("key", mKey);
+	step.add("score", mScore);
+	step.add("rank", mRank);
+}
+#endif

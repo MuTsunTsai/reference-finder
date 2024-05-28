@@ -12,6 +12,7 @@ void JsonArray::clear() {
 }
 
 void JsonArray::add(const JsonObject &obj) {
+	if (!obj.mStarted) return; // ignore empty object
 	if (mStarted) mStream << ",";
 	mStarted = true;
 	mStream << obj;

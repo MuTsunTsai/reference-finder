@@ -132,9 +132,13 @@ void readDbSettings() {
 	Shared::sMaxRank = ReadNumber();
 	Shared::sMaxLines = ReadNumber();
 	Shared::sMaxMarks = ReadNumber();
-	for (int i = 0; i < 7; i++) {
-		Shared::sAxioms[i] = ReadNumber();
+
+	for (int i = 0, j = 0; i < 7; i++) {
+		int a = ReadNumber();
+		Shared::sAxioms[i] = a;
+		if (a > 0) Shared::sAxiomWeights[a - 1] = 1 << (j++);
 	}
+
 	Shared::sNumX = ReadNumber();
 	Shared::sNumY = ReadNumber();
 	Shared::sNumA = ReadNumber();

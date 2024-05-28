@@ -45,6 +45,9 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2,
 															   rl1(arl1),
 															   rm2(arm2),
 															   rl2(arl2) {
+
+	mScore = rm1->mScore + rl1->mScore + rm2->mScore + rl2->mScore + Shared::sAxiomWeights[5];
+
 	// Get references to the points and lines involved in the construction
 	XYPt &p1 = rm1->p;
 	XYLine &l1 = rl1->l;
@@ -299,9 +302,9 @@ void RefLine_P2L_P2L::SequencePushSelf() {
 }
 
 /*****
-Put the name of this line to a stream.
+Export the construction of this line.
 *****/
-void RefLine_P2L_P2L::PutHowto(JsonArray &steps) const {
+JsonObject RefLine_P2L_P2L::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 6);
 	switch (mWhoMoves) {
@@ -336,7 +339,10 @@ void RefLine_P2L_P2L::PutHowto(JsonArray &steps) const {
 	PutName("x", step);
 
 	if (mForMark != NULL) step.add("pinch", 1);
-	steps.add(step);
+#ifdef _DEBUG_DB_
+	PutDebug(step);
+#endif
+	return step;
 }
 
 /*****
@@ -384,40 +390,49 @@ arank up to a cumulative total of sMaxLines.
 void RefLine_P2L_P2L::MakeAll(rank_t arank) {
 	// psrank == sum of ranks of the two points
 	// lsrank == sum of ranks of the two lines
-	for (rank_t psrank = 0; psrank <= (arank - 1); psrank++)
-		for (rank_t lsrank = 0; lsrank <= (arank - 1) - psrank; lsrank++)
+	for (rank_t psrank = 0; psrank <= (arank - 1); psrank++) {
+		for (rank_t lsrank = 0; lsrank <= (arank - 1) - psrank; lsrank++) {
 
 			// point order doesn't matter, so rank(pt[i]) will always be <= rank(pt[j])
 			for (rank_t irank = 0; irank <= psrank / 2; irank++) {
 				rank_t jrank = psrank - irank;
-				bool psameRank = (irank == jrank);
 
 				// line order does matter, so both lines vary over all ranks
-				for (rank_t krank = 0; krank <= lsrank; krank++)
+				for (rank_t krank = 0; krank <= lsrank; krank++) {
 					for (rank_t lrank = 0; lrank <= lsrank - krank; lrank++) {
-
-						// iterate over all combinations of points & lines with given rank
-						auto &imap = ReferenceFinder::sBasisMarks.maps[irank];
-						for (auto mi = imap.begin() + (psameRank ? 1 : 0); mi != imap.end(); mi++) {
-							auto &jmap = ReferenceFinder::sBasisMarks.maps[jrank];
-							for (auto mj = jmap.begin(); mj != (psameRank ? mi : jmap.end()); mj++) {
-								for (auto lk : ReferenceFinder::sBasisLines.maps[krank]) {
-									for (auto ll : ReferenceFinder::sBasisLines.maps[lrank]) {
-										if ((krank != lrank) || (lk != ll)) { // cmpr iterators only if same container
-											if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
-											RefLine_P2L_P2L rlp0(*mi, lk, *mj, ll, 0);
-											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp0);
-											if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
-											RefLine_P2L_P2L rlp1(*mi, lk, *mj, ll, 1);
-											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp1);
-											if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
-											RefLine_P2L_P2L rlp2(*mi, lk, *mj, ll, 2);
-											ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlp2);
-										};
-									}
-								}
-							};
-						}
+						MakeAllCore(irank, jrank, krank, lrank);
 					}
+				}
 			}
+		}
+	}
+}
+
+void RefLine_P2L_P2L::MakeAllCore(rank_t irank, rank_t jrank, rank_t krank, rank_t lrank) {
+	auto &lines = ReferenceFinder::sBasisLines;
+	auto &marks = ReferenceFinder::sBasisMarks;
+	bool psameRank = (irank == jrank);
+
+	// iterate over all combinations of points & lines with given rank
+	auto &imap = marks.ranks[irank];
+	for (auto mi = imap.begin() + (psameRank ? 1 : 0); mi != imap.end(); mi++) {
+		auto &jmap = marks.ranks[jrank];
+		for (auto mj = jmap.begin(); mj != (psameRank ? mi : jmap.end()); mj++) {
+			for (auto lk : lines.ranks[krank]) {
+				for (auto ll : lines.ranks[lrank]) {
+					if ((krank != lrank) || (lk != ll)) { // cmpr iterators only if same container
+						if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+						RefLine_P2L_P2L rlp0(*mi, lk, *mj, ll, 0);
+						lines.AddCopyIfValidAndUnique(rlp0);
+						if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+						RefLine_P2L_P2L rlp1(*mi, lk, *mj, ll, 1);
+						lines.AddCopyIfValidAndUnique(rlp1);
+						if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+						RefLine_P2L_P2L rlp2(*mi, lk, *mj, ll, 2);
+						lines.AddCopyIfValidAndUnique(rlp2);
+					}
+				}
+			}
+		}
+	}
 }

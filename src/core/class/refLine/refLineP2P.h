@@ -27,7 +27,7 @@ class RefLine_P2P : public RefLine {
 
 	bool UsesImmediate(RefBase *rb) const;
 	void SequencePushSelf();
-	void PutHowto(JsonArray &steps) const;
+	JsonObject Serialize() const;
 	void DrawSelf(RefStyle rstyle, short ipass) const;
 	static void MakeAll(rank_t arank);
 };

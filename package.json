@@ -1,6 +1,6 @@
 {
 	"name": "reference-finder",
-	"version": "4.2.0",
+	"version": "4.3.0",
 	"description": "Find reference points and lines in crease patterns.",
 	"scripts": {
 		"start": "make && rsbuild dev -o",
@@ -18,10 +18,11 @@
 	"license": "GPL-2.0",
 	"devDependencies": {
 		"@eslint/js": "^9.3.0",
-		"@rsbuild/core": "^0.6.15",
-		"@rsbuild/plugin-assets-retry": "^0.6.15",
-		"@rsbuild/plugin-check-syntax": "^0.6.15",
-		"@rsbuild/plugin-react": "^0.6.15",
+		"@rsbuild/core": "^0.7.0",
+		"@rsbuild/plugin-assets-retry": "^0.7.0",
+		"@rsbuild/plugin-check-syntax": "^0.7.0",
+		"@rsbuild/plugin-react": "^0.7.0",
+		"@rsbuild/plugin-sass": "^0.7.0",
 		"@stylistic/eslint-plugin": "^2.1.0",
 		"@types/bootstrap": "^5.2.10",
 		"@types/emscripten": "^1.39.12",
@@ -38,7 +39,7 @@
 		"postcss": "^8.4.38",
 		"purgecss-webpack-plugin": "^6.0.0",
 		"typescript": "^5.4.5",
-		"typescript-eslint": "^7.10.0",
+		"typescript-eslint": "^7.11.0",
 		"workbox-webpack-plugin": "^7.1.0"
 	},
 	"dependencies": {

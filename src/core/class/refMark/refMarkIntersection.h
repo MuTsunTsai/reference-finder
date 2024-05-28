@@ -20,7 +20,7 @@ class RefMark_Intersection : public RefMark {
 
 	bool UsesImmediate(RefBase *rb) const;
 	void SequencePushSelf();
-	void PutHowto(JsonArray &steps) const;
+	JsonObject Serialize() const;
 	static void MakeAll(rank_t arank);
 };
 

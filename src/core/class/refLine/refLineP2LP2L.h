@@ -42,9 +42,12 @@ class RefLine_P2L_P2L : public RefLine {
 
 	bool UsesImmediate(RefBase *rb) const;
 	void SequencePushSelf();
-	void PutHowto(JsonArray &steps) const;
+	JsonObject Serialize() const;
 	void DrawSelf(RefStyle rstyle, short ipass) const;
 	static void MakeAll(rank_t arank);
+
+  private:
+    static void MakeAllCore(rank_t irank, rank_t jrank, rank_t krank, rank_t lrank);
 };
 
 #endif

@@ -4,6 +4,9 @@
 
 #include <limits>
 
+// Uncomment the next line to include debug info in the JSON data.
+// #define _DEBUG_DB_
+
 /**********
 Globals
 **********/
@@ -30,6 +33,7 @@ class Shared {
 	static Paper sPaper; // dimensions of the paper
 
 	static int sAxioms[7];
+	static int sAxiomWeights[7];
 
 	static rank_t sMaxRank;		  // maximum rank to create
 	static std::size_t sMaxLines; // maximum number of lines to create

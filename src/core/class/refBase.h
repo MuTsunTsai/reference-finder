@@ -16,8 +16,9 @@ class RefBase - base class for a mark or line.
 **********/
 class RefBase {
   public:
-	rank_t mRank; // rank of this mark or line
-	key_t mKey;	  // key used for maps within RefContainers
+	rank_t mRank; // Rank of this mark or line
+	key_t mKey;	  // Key used for maps within RefContainers
+	int mScore;	  // Used to decide whether to override existing refs
 
 	/* A none-null value indicating that this ref (line in fact) is used only for creating an intersection. */
 	RefBase *mForMark;
@@ -47,7 +48,7 @@ class RefBase {
 	}; // drawing order
 
   public:
-	RefBase(rank_t arank = 0) : mRank(arank), mKey(0), mIndex(0), mForMark(NULL) {}
+	RefBase(rank_t arank = 0) : mRank(arank), mKey(0), mIndex(0), mScore(0), mForMark(NULL) {}
 	virtual ~RefBase() {}
 
 	// routines for building a sequence of refs
@@ -57,7 +58,7 @@ class RefBase {
 	// routine for creating a text description of how to fold a ref
 	virtual const char GetLabel() const = 0;
 	virtual void PutName(char const *key, JsonObject &obj) const;
-	virtual void PutHowto(JsonArray &steps) const;
+	virtual JsonObject Serialize() const;
 	void PutHowtoSequence(JsonObject &solution);
 
 	// routines for drawing diagrams
@@ -78,6 +79,10 @@ class RefBase {
 		REFSTYLE_ACTION
 	};
 	virtual void DrawSelf(RefStyle rstyle, short ipass) const = 0;
+
+#ifdef _DEBUG_DB_
+	void PutDebug(JsonObject &step) const;
+#endif
 };
 
 #endif

@@ -19,6 +19,9 @@ Constructor. iroot = 0 or 1.
 *****/
 
 RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, short iroot) : RefLine(CalcLineRank(arl1, arl2)), rl1(arl1), rl2(arl2) {
+
+	mScore = rl1->mScore + rl2->mScore + Shared::sAxiomWeights[2];
+
 	// Get references to lines
 	XYLine &l1 = rl1->l;
 	XYPt &u1 = l1.u;
@@ -110,9 +113,9 @@ void RefLine_L2L::SequencePushSelf() {
 }
 
 /*****
-Put the construction of this line to a stream.
+Export the construction of this line.
 *****/
-void RefLine_L2L::PutHowto(JsonArray &steps) const {
+JsonObject RefLine_L2L::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 3);
 	switch (mWhoMoves) {
@@ -145,7 +148,10 @@ void RefLine_L2L::PutHowto(JsonArray &steps) const {
 	}
 
 	if (mForMark != NULL) step.add("pinch", 1);
-	steps.add(step);
+#ifdef _DEBUG_DB_
+	PutDebug(step);
+#endif
+	return step;
 }
 
 /*****
@@ -168,7 +174,7 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		Shared::sPaper.ClipLine(l1, p1a, p1b); // endpoints of l1
 		XYPt p2a, p2b;
 		Shared::sPaper.ClipLine(l2, p2a, p2b); // endpoints of l2
-		p2a = l.Fold(p2a);								// flop l2 points onto l1
+		p2a = l.Fold(p2a);					   // flop l2 points onto l1
 		p2b = l.Fold(p2b);
 		XYPt du1 = l1.d * l1.u;				   // a point on l1
 		XYPt up1 = l1.u.Rotate90();			   // a tangent to l1
@@ -209,9 +215,9 @@ void RefLine_L2L::MakeAll(rank_t arank) {
 	for (rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
 		rank_t jrank = arank - irank - 1;
 		bool sameRank = (irank == jrank);
-		auto &imap = ReferenceFinder::sBasisLines.maps[irank];
+		auto &imap = ReferenceFinder::sBasisLines.ranks[irank];
 		for (auto li = imap.begin() + (sameRank ? 1 : 0); li != imap.end(); li++) {
-			auto &jmap = ReferenceFinder::sBasisLines.maps[jrank];
+			auto &jmap = ReferenceFinder::sBasisLines.ranks[jrank];
 			for (auto lj = jmap.begin(); lj != (sameRank ? li : jmap.end()); lj++) {
 				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_L2L rls1(*li, *lj, 0);
