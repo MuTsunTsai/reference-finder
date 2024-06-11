@@ -1,4 +1,3 @@
-
 import { useTranslation } from "react-i18next";
 import { useSettings } from "../../store";
 import { StatData, getMinMax } from "./chart";

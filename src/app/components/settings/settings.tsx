@@ -75,18 +75,28 @@ export function Settings() {
 						</div>
 						<div>
 							{hasChanged(db, tempDb) &&
-								<InfoTooltip title={t("settings.reInit")}
-									className="fa-solid fa-triangle-exclamation text-warning me-3" />
+								<InfoTooltip
+									title={t("settings.reInit")}
+									className="fa-solid fa-triangle-exclamation text-warning me-3"
+								/>
 							}
-							<button type="button" className="btn btn-secondary me-2 capitalize"
-								data-bs-dismiss="modal" onClick={handleCancel}>{t("keyword.cancel")}</button>
-							<button type="button" className="btn btn-primary"
-								data-bs-dismiss="modal" onClick={handleSave}>{t("keyword.ok")}</button>
+							<button
+								type="button"
+								className="btn btn-secondary me-2 capitalize"
+								data-bs-dismiss="modal"
+								onClick={handleCancel}
+							>{t("keyword.cancel")}</button>
+							<button
+								type="button"
+								className="btn btn-primary"
+								data-bs-dismiss="modal"
+								onClick={handleSave}
+							>{t("keyword.ok")}</button>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div >
+		</div>
 	</>;
 }
 

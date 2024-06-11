@@ -89,13 +89,21 @@ export function Axioms() {
 				<div>
 					{tempDb.axiomPriority.map((a, i) =>
 						<div className="d-flex align-items-baseline" key={a}>
-							<div className="me-3" >
-								<button type="button" className="btn btn-ld btn-sm py-0 px-1 me-2"
-									disabled={i == 0} onClick={() => move(i, i - 1)}>
+							<div className="me-3">
+								<button
+									type="button"
+									className="btn btn-ld btn-sm py-0 px-1 me-2"
+									disabled={i == 0}
+									onClick={() => move(i, i - 1)}
+								>
 									<i className="fa-solid fa-caret-up"></i>
 								</button>
-								<button type="button" className="btn btn-ld btn-sm py-0 px-1"
-									disabled={i == 6} onClick={() => move(i, i + 1)}>
+								<button
+									type="button"
+									className="btn btn-ld btn-sm py-0 px-1"
+									disabled={i == 6}
+									onClick={() => move(i, i + 1)}
+								>
 									<i className="fa-solid fa-caret-down"></i>
 								</button>
 							</div>
@@ -105,14 +113,13 @@ export function Axioms() {
 				</div> :
 				<div>
 					<DndContext onDragEnd={handleDragEnd} sensors={sensors} collisionDetection={closestCenter}>
-						<SortableContext items={tempDb.axiomPriority} >
+						<SortableContext items={tempDb.axiomPriority}>
 							{tempDb.axiomPriority.map((a, i) =>
 								<Item key={a} axiom={a} />
 							)}
 						</SortableContext>
 					</DndContext>
-				</div>
-			}
+				</div>}
 		</div>
 	);
 }

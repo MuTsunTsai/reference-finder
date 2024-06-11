@@ -1,5 +1,5 @@
-///<reference lib="webworker" />
-///<reference types="emscripten" />
+/// <reference lib="webworker" />
+/// <reference types="emscripten" />
 
 import ref from "../lib/ref";
 

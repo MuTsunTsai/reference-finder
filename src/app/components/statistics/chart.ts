@@ -40,4 +40,3 @@ export function usePrimary(): string {
 	if(theme == Theme.light) return color("#0d6efd").lighten(0.5).rgbString();
 	return "#0d6efd";
 }
-

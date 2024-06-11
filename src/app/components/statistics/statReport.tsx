@@ -1,4 +1,3 @@
-
 import { useTranslation } from "react-i18next";
 import { StatDist } from "./statDist";
 import { useState } from "react";

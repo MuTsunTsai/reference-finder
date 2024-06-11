@@ -16,7 +16,11 @@ export function InfoTooltip({ title, className }: TooltipProps) {
 	});
 
 	return (
-		<i className={className || "fa-solid fa-circle-info text-info ms-2"}
-			data-bs-toggle="tooltip" data-bs-title={title} ref={tooltip}></i>
+		<i
+			className={className || "fa-solid fa-circle-info text-info ms-2"}
+			data-bs-toggle="tooltip"
+			data-bs-title={title}
+			ref={tooltip}
+		></i>
 	);
 }

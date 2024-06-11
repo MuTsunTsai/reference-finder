@@ -1,4 +1,3 @@
-
 import ear from "rabbit-ear";
 
 import { Preview } from "./svg/preview";
@@ -56,8 +55,14 @@ export function Panel({ onSubmit }: PanelProps) {
 				<div className="row mb-2 pb-1">
 					<div className="col-auto">
 						<div className="form-check">
-							<input className="form-check-input" type="radio" name="mode" id="m1"
-								checked={mode == Mode.point} onChange={() => setMode(Mode.point)} />
+							<input
+								className="form-check-input"
+								type="radio"
+								name="mode"
+								id="m1"
+								checked={mode == Mode.point}
+								onChange={() => setMode(Mode.point)}
+							/>
 							<label className="form-check-label capitalize" htmlFor="m1">
 								{t("phrase.findPoint")}
 							</label>
@@ -65,8 +70,14 @@ export function Panel({ onSubmit }: PanelProps) {
 					</div>
 					<div className="col-auto">
 						<div className="form-check">
-							<input className="form-check-input" type="radio" name="mode" id="m2"
-								checked={mode == Mode.line} onChange={() => setMode(Mode.line)} />
+							<input
+								className="form-check-input"
+								type="radio"
+								name="mode"
+								id="m2"
+								checked={mode == Mode.line}
+								onChange={() => setMode(Mode.line)}
+							/>
 							<label className="form-check-label capitalize" htmlFor="m2">
 								{t("phrase.findLine")}
 							</label>

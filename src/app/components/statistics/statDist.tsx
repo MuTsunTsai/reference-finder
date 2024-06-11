@@ -1,4 +1,3 @@
-
 import { Bar } from "react-chartjs-2";
 import { color } from "chart.js/helpers";
 import { Theme, useSettings } from "../../store";

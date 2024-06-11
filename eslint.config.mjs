@@ -18,7 +18,7 @@ export default [
 	},
 	pluginJs.configs.recommended,
 	...pluginTs.configs.recommended,
-	stylistic,
+	...stylistic,
 	{
 		files: ["*.js"],
 		languageOptions: {
@@ -36,7 +36,7 @@ export default [
 			"@typescript-eslint/no-unused-vars": [
 				"warn",
 				{
-					"args": "none",
+					args: "none",
 				},
 			],
 		},

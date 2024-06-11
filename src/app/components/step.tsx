@@ -42,7 +42,8 @@ export function StepComponent({ data, last }: StepComponentProps) {
 
 	return (
 		<li>
-			{step.axiom == 0 ? purge(t(`intersection_solution`, { ...step })) :
+			{step.axiom == 0 ?
+				purge(t(`intersection_solution`, { ...step })) :
 				<>
 					<div>
 						{settings.showAxiom && <span>[O{step.axiom}] </span>}
@@ -54,13 +55,13 @@ export function StepComponent({ data, last }: StepComponentProps) {
 						<span> </span>
 					</div>
 					{step.intersection &&
-						<div>
-							{purge((last ?
-								t(`intersection_solution`, { ...step.intersection }) :
-								t(`intersection`, { ...step.intersection })) +
+					<div>
+						{purge((last ?
+							t(`intersection_solution`, { ...step.intersection }) :
+							t(`intersection`, { ...step.intersection })) +
 								(step.pinch ? " " + t("pinch") : "")
-							)}
-						</div>
+						)}
+					</div>
 					}
 				</>
 			}
