@@ -113,6 +113,7 @@ export default defineConfig({
 						/modal-static/,
 					],
 					greedy: [
+						/tooltip-arrow/,
 						/creasePattern|boundary/,
 						/(point|line|arc|label|target)-/,
 					],
