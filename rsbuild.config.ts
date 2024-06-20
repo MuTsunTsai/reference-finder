@@ -17,6 +17,7 @@ const isProduction = process.env.NODE_ENV === "production";
 export default defineConfig({
 	dev: {
 		progressBar: true,
+		lazyCompilation: true,
 	},
 	source: {
 		include: [

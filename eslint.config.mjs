@@ -11,14 +11,17 @@ export default [
 			"src/lib/**/*",
 		],
 	},
+	pluginJs.configs.recommended,
+	...pluginTs.configs.recommended,
+	...stylistic,
 	{
 		languageOptions: {
 			globals: globals.browser,
 		},
+		rules: {
+			"prefer-const": "warn",
+		},
 	},
-	pluginJs.configs.recommended,
-	...pluginTs.configs.recommended,
-	...stylistic,
 	{
 		files: ["*.js"],
 		languageOptions: {
