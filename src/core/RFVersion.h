@@ -18,9 +18,9 @@ NOTE: Do not edit these directly, as these values now sync with package.json aut
 
 #define APP_FAMILY ReferenceFinder
 #define VERSION_MAJOR 4
-#define VERSION_MINOR 2
+#define VERSION_MINOR 3
 #define VERSION_BUGFIX 0
-#define VERSION_BUILD 20240525
+#define VERSION_BUILD 20240626
 
 /******************************************************************************/
 
