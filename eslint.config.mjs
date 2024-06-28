@@ -1,7 +1,7 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import pluginTs from "typescript-eslint";
-import stylistic from "./config/stylistic.mjs";
+import stylistic from "@mutsuntsai/stylistic";
 
 export default [
 	{
