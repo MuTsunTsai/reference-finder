@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Solution, useSettings } from "../store";
 import { StepComponent } from "./step";
-import { Diagram } from "./svg/diagram";
+import { DIAGRAM_ZOOM, Diagram } from "./svg/diagram";
 import { useRef } from "react";
 
 interface SolutionComponentProps {
@@ -9,6 +9,9 @@ interface SolutionComponentProps {
 	show: boolean;
 	onSelect: () => void;
 }
+
+const DIAGRAM_PADDING = 0.18;
+const DIAGRAM_SIZE = `${12 * DIAGRAM_ZOOM}rem`;
 
 /**
  * Calculates the degree using the normal vector of a line.
@@ -54,7 +57,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 				<div ref={ref} className="card-header d-sm-none" onClick={handleSelect} style={{ cursor: "pointer" }}>
 					<div className="row gx-0 justify-content-center align-items-top">
 						<div className="col solution-preview" style={{ flex: "0 1 9rem" }}>
-							<Diagram data={data.diagrams[data.diagrams.length - 1]} />
+							<Diagram data={data.diagrams[data.diagrams.length - 1]} padding={DIAGRAM_PADDING} />
 						</div>
 						<div className="col mb-2 ps-3 mt-2" style={{ flex: "1 0 8rem" }}>
 							<div>{solution}</div>
@@ -68,20 +71,24 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 			<div className={"card-body " + (show ? "" : "d-none")}>
 				{data.steps.length == 0 &&
 					<div className="row justify-content-center">
-						<div className="col" style={{ flex: "0 1 12rem" }}>
-							<Diagram data={data.diagrams[0]} last={true} />
+						<div className="col" style={{ flex: `0 1 ${DIAGRAM_SIZE}` }}>
+							<Diagram data={data.diagrams[0]} last={true} padding={DIAGRAM_PADDING} />
 						</div>
-						<div className="col p-2" style={{ flex: "1 1 12rem" }}></div>
+						<div className="col p-2" style={{ flex: `1 1 ${DIAGRAM_SIZE}` }}></div>
 					</div>
 				}
 				<div className="row">
 					{data.steps.map((step, i) =>
 						<div className="col-12 col-md-4 mb-sm-3" key={i}>
 							<div className="row justify-content-center">
-								<div className="col" style={{ flex: "0 1 12rem" }}>
-									<Diagram data={data.diagrams[i]} last={i == data.steps.length - 1} />
+								<div className="col" style={{ flex: `0 1 ${DIAGRAM_SIZE}` }}>
+									<Diagram
+										data={data.diagrams[i]}
+										last={i == data.steps.length - 1}
+										padding={DIAGRAM_PADDING}
+									/>
 								</div>
-								<div className="col p-2" style={{ flex: "1 1 12rem" }}>
+								<div className="col p-2" style={{ flex: `1 1 ${DIAGRAM_SIZE}` }}>
 									<ol start={i + 1}>
 										<StepComponent data={step} last={i == data.steps.length - 1} />
 									</ol>

@@ -8,17 +8,23 @@ import { ElementType, LabelElement, LabelStyle, LineStyle, PointStyle, type Diag
 
 interface DiagramProps {
 	data: DiagramElement[];
+	padding: number;
 	last?: boolean;
 }
 
-function createText(root: RabbitEarOrigami, el: LabelElement, offset: IPoint): RabbitEarSVG {
-	const text = root.edges.text(el.text, el.pt);
-	text.setAttribute("transform", `translate(${offset[0]} ${2 * el.pt[1] - 0.05 + offset[1]}) scale(1 -1)`);
-	return text;
+export const DIAGRAM_ZOOM = 1.15;
+const OFFSET_SIZE = 0.09 / DIAGRAM_ZOOM / DIAGRAM_ZOOM;
+const MAX_ANGLE_OFFSET = Math.PI / 24; // 7.5 degree
+
+function scale(pt: IPoint): IPoint {
+	return [pt[0] * DIAGRAM_ZOOM, pt[1] * DIAGRAM_ZOOM];
 }
 
-const OFFSET_SIZE = 0.09;
-const MAX_ANGLE_OFFSET = Math.PI / 24; // 7.5 degree
+function createText(root: RabbitEarOrigami, el: LabelElement, offset: IPoint): RabbitEarSVG {
+	const text = root.edges.text(el.text, scale(el.pt));
+	text.setAttribute("transform", `translate(${offset[0] * DIAGRAM_ZOOM} ${(2 * el.pt[1] - 0.05 + offset[1]) * DIAGRAM_ZOOM}) scale(1 -1)`);
+	return text;
+}
 
 /**
  * Spread out the labels from each other.
@@ -40,8 +46,10 @@ function getTextOffset(text: LabelElement, data: DiagramElement[]): IPoint {
 	return [OFFSET_SIZE * avgX / norm, OFFSET_SIZE * avgY / norm];
 }
 
-export function Diagram({ data, last }: DiagramProps) {
-	const { width, height } = data[0] as PolyElement;
+export function Diagram({ data, last, padding }: DiagramProps) {
+	const poly = data[0] as PolyElement;
+	const width = poly.width * DIAGRAM_ZOOM;
+	const height = poly.height * DIAGRAM_ZOOM;
 
 	function render(svg: RabbitEarSVG) {
 		const root = svg.origami(ear.cp.rectangle(width, height));
@@ -49,11 +57,11 @@ export function Diagram({ data, last }: DiagramProps) {
 		for(const el of data) {
 			if(!el) continue;
 			if(el.type == ElementType.point) {
-				const pt = root.edges.circle(el.pt, el.style == PointStyle.normal ? 0.02 : 0.03);
+				const pt = root.edges.circle(scale(el.pt), el.style == PointStyle.normal ? 0.02 : 0.03);
 				pt.classList.add("point-" + PointStyle[el.style]);
 			}
 			if(el.type == ElementType.line) {
-				const line = root.edges.line(el.from, el.to);
+				const line = root.edges.line(scale(el.from), scale(el.to));
 				line.classList.add(el.style == LineStyle.valley && last ? "target-line" : "line-" + LineStyle[el.style]);
 			}
 			if(el.type == ElementType.arc) {
@@ -65,7 +73,11 @@ export function Diagram({ data, last }: DiagramProps) {
 				from += Math.min(0.075 / radius, MAX_ANGLE_OFFSET);
 				to -= Math.min(0.075 / radius, MAX_ANGLE_OFFSET);
 
-				const arc = root.edges.arc(center[0], center[1], radius, from, to);
+				const arc = root.edges.arc(
+					center[0] * DIAGRAM_ZOOM, center[1] * DIAGRAM_ZOOM,
+					radius * DIAGRAM_ZOOM,
+					from, to
+				);
 				arc.classList.add("arc-" + LineStyle[el.style]);
 				if(el.ccw) arc.classList.add("reverse");
 				if(radius < 0.5) {
@@ -83,5 +95,5 @@ export function Diagram({ data, last }: DiagramProps) {
 		}
 	}
 
-	return Svg({ render, width, height });
+	return Svg({ render, width, height, padding });
 }

@@ -38,5 +38,5 @@ export function Preview({ cp, points }: PreviewProps) {
 		}
 	}
 
-	return Svg({ render, width, height });
+	return Svg({ render, width, height, padding: 0.05 });
 }
