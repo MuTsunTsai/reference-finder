@@ -1,7 +1,5 @@
 
-#include "../ReferenceFinder.h"
-
-#include "global.h"
+#include "global/global.h"
 #include "math/paper.h"
 #include "refDgmr.h"
 

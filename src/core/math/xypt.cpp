@@ -18,3 +18,7 @@ comma-delimited pair.
 ostream &operator<<(ostream &os, const XYPt &p) {
 	return os << "[" << (p.x) << "," << (p.y) << "]";
 }
+
+BinaryOutputStream &operator<<(BinaryOutputStream &os, const XYPt &p) {
+	return os << p.x << p.y;
+}

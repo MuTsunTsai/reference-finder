@@ -3,8 +3,8 @@
 #define _REF_LINE_P2L_P2L_H_
 
 #include "../refMark/refMark.h"
-#include "../json/jsonArray.h"
 #include "refLine.h"
+#include "json/jsonArray.h"
 
 /**********
 class RefLine_P2L_P2L - Huzita-Hatori Axiom O6 (the cubic!)
@@ -36,18 +36,22 @@ class RefLine_P2L_P2L : public RefLine {
 		WHOMOVES_P2L1
 	};
 	WhoMoves mWhoMoves;
+	unsigned char mRoot;
 
   public:
-	RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, RefLine *arl2, short iroot);
+	RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, RefLine *arl2, unsigned char iroot);
 
-	bool UsesImmediate(RefBase *rb) const;
-	void SequencePushSelf();
-	JsonObject Serialize() const;
-	void DrawSelf(RefStyle rstyle, short ipass) const;
+	bool UsesImmediate(RefBase *rb) const override;
+	void SequencePushSelf() override;
+	JsonObject Serialize() const override;
+	void DrawSelf(RefStyle rstyle, short ipass) const override;
+	void Export(BinaryOutputStream &os) const override;
+
+	static RefLine *Import(BinaryInputStream &is);
 	static void MakeAll(rank_t arank);
 
   private:
-    static void MakeAllCore(rank_t irank, rank_t jrank, rank_t krank, rank_t lrank);
+	static void MakeAllCore(rank_t irank, rank_t jrank, rank_t krank, rank_t lrank);
 };
 
 #endif

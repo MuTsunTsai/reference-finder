@@ -35,6 +35,7 @@ export enum Theme {
 export const defaultSettings = {
 	showInit: true,
 	showAxiom: false,
+	useDB: true,
 	theme: Theme.system,
 	error: 0.005,
 	errorExp: "1/200",

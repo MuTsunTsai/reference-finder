@@ -18,7 +18,8 @@ Copyright:    ©1999-2007 Robert J. Lang. All Rights Reserved.
 // be helpful in debugging.
 // #define RF_PUT_KEY_IN_TEXT
 
-#include "class/global.h"
+#include "database/binaryOutputStream.hpp"
+#include "global/global.h"
 #include "class/refContainer.h"
 
 // forward declarations
@@ -76,7 +77,10 @@ class ReferenceFinder {
 	};
 
 	// Complete reinitialization of the database
-	static void MakeAllMarksAndLines();
+	static void BuildAndExportDatabase();
+
+	// Import database previously exported
+	static bool ImportDatabase();
 
 	// Functions for searching for the best marks and/or lines
 	static void FindBestMarks(const XYPt &ap, std::vector<RefMark *> &vm, short numMarks);
@@ -128,6 +132,7 @@ class ReferenceFinder {
 	static StatisticsFn sStatisticsFn;
 	static void *sStatisticsUserData;
 
+	static bool ShowProgress(DatabaseStatus status, rank_t rank);
 	static void CheckDatabaseStatus(); // called by RefContainer<>
 	static void MakeAllMarksAndLinesOfRank(rank_t arank);
 

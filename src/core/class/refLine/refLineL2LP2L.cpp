@@ -1,7 +1,7 @@
 
-#include "../../ReferenceFinder.h"
-#include "../math/paper.h"
 #include "../refDgmr.h"
+#include "ReferenceFinder.h"
+#include "math/paper.h"
 
 #include "refLineL2LP2L.h"
 
@@ -15,7 +15,8 @@ Bring line l1 onto itself so that point p1 falls on line l2.
 /*****
 Constructor. iroot can be 0 or 1.
 *****/
-RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2) : RefLine(CalcLineRank(arl1, arm1, arl2)), rl1(arl1), rm1(arm1), rl2(arl2) {
+RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2)
+	: RefLine(RefType::LINE_L2L_P2L, CalcLineRank(arl1, arm1, arl2)), rl1(arl1), rm1(arm1), rl2(arl2) {
 
 	mScore = rl1->mScore + rm1->mScore + rl2->mScore + Shared::sAxiomWeights[6];
 
@@ -186,4 +187,18 @@ void RefLine_L2L_P2L::MakeAll(rank_t arank) {
 				}
 			}
 		}
+}
+
+void RefLine_L2L_P2L::Export(BinaryOutputStream &os) const {
+	RefBase::Export(os);
+	os << rl1->id << rm1->id << rl2->id;
+}
+
+RefLine *RefLine_L2L_P2L::Import(BinaryInputStream &is) {
+	size_t id1, id2, id3;
+	is.read(id1).read(id2).read(id3);
+	RefLine *rl1 = ReferenceFinder::sBasisLines[id1];
+	RefMark *rm1 = ReferenceFinder::sBasisMarks[id2];
+	RefLine *rl2 = ReferenceFinder::sBasisLines[id3];
+	return new RefLine_L2L_P2L(rl1, rm1, rl2);
 }

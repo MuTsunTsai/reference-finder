@@ -48,18 +48,6 @@
 	},
 	"settings": {
 		"reset": "Redefinir para os padrões",
-		"display": {
-			"showAxiom": "Mostre o número do axioma na descrição.",
-			"theme": {
-				"dark": "Escuro",
-				"light": "Luz",
-				"system": "Sistema",
-				"_": "Tema"
-			},
-			"_": "Mostrar",
-			"showInit": "Mostrar o progresso da inicialização.",
-			"precision": "Precisão"
-		},
 		"advanced": {
 			"_": "Avançado"
 		},
@@ -68,7 +56,20 @@
 			"height": "Altura da folha",
 			"width": "Largura da folha"
 		},
-		"reInit": "Requer reinicialização."
+		"reInit": "Requer reinicialização.",
+		"system": {
+			"theme": {
+				"system": "Sistema",
+				"light": "Luz",
+				"dark": "Escuro",
+				"_": "Tema"
+			},
+			"showInit": "Mostrar o progresso da inicialização.",
+			"showAxiom": "Mostre o número do axioma na descrição.",
+			"precision": "Precisão",
+			"_": "Sistema",
+			"useDB": "Banco de dados em cache no dispositivo."
+		}
 	},
 	"invalid": {
 		"exp": "Deve ser um número pelo menos 0 ou uma expressão equivalente",

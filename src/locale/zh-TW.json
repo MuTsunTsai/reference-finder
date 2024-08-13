@@ -48,18 +48,6 @@
 	},
 	"settings": {
 		"reset": "重設為預設值",
-		"display": {
-			"showAxiom": "在描述中顯示公理編號。",
-			"theme": {
-				"dark": "黑暗",
-				"light": "明亮",
-				"system": "系統",
-				"_": "主題"
-			},
-			"_": "顯示",
-			"showInit": "顯示初始化進度。",
-			"precision": "精確度"
-		},
 		"advanced": {
 			"_": "進階"
 		},
@@ -68,7 +56,20 @@
 			"height": "紙張高度",
 			"width": "紙張寬度"
 		},
-		"reInit": "需要重新初始化。"
+		"reInit": "需要重新初始化。",
+		"system": {
+			"theme": {
+				"system": "系統",
+				"light": "明亮",
+				"dark": "黑暗",
+				"_": "主題"
+			},
+			"showInit": "顯示初始化進度。",
+			"showAxiom": "在描述中顯示公理編號。",
+			"precision": "精確度",
+			"_": "系統",
+			"useDB": "將資料庫快取到裝置中。"
+		}
 	},
 	"invalid": {
 		"exp": "應該是至少 0 的數字，或等價表達式",

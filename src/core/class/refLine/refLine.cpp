@@ -1,8 +1,6 @@
 
-#include "../../ReferenceFinder.h"
-
-#include "../global.h"
-#include "../math/paper.h"
+#include "global/global.h"
+#include "math/paper.h"
 #include "../refDgmr.h"
 #include "../refMark/refMark.h"
 #include "refLine.h"

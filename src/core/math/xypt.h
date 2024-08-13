@@ -5,7 +5,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "../global.h"
+#include "database/binaryOutputStream.hpp"
+#include "global/global.h"
 
 /**********
 class XYPt - a 2-vector that represents a point or a direction.
@@ -135,6 +136,8 @@ class XYPt {
 
 	// Stream I/O
 	friend std::ostream &operator<<(std::ostream &os, const XYPt &p);
+
+	friend BinaryOutputStream &operator<<(BinaryOutputStream &os, const XYPt &p);
 };
 
 #endif

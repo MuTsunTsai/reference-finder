@@ -1,6 +1,10 @@
 
 # Change log
 
+## v4.4
+
+- Caching the generated database to the device, allowing much faster startup afterwards.
+
 ## v4.3
 
 - Fixed a bug in the original ReferenceFinder that could result in overlooked solutions for points on the boundary of the sheet.

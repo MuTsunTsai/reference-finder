@@ -11,14 +11,14 @@ Copyright:    ©1999-2007 Robert J. Lang. All Rights Reserved.
 #include "ReferenceFinder.h"
 
 #include <algorithm>
+#include <fstream>
 #include <iomanip>
 #include <sstream>
 
-#include "class/math/xyline.h"
-#include "class/math/xypt.h"
-#include "class/math/xyrect.h"
+#include "math/paper.h"
 
-#include "class/math/paper.h"
+#include "database/binaryInputStream.hpp"
+
 #include "class/refLine/refLineOriginal.h"
 #include "class/refMark/refMarkIntersection.h"
 #include "class/refMark/refMarkOriginal.h"
@@ -56,6 +56,15 @@ void *ReferenceFinder::sStatisticsUserData = 0;
 int ReferenceFinder::sStatusCount = 0;
 rank_t ReferenceFinder::sCurRank = 0;
 
+bool ReferenceFinder::ShowProgress(DatabaseStatus status, rank_t rank) {
+	bool haltFlag = false;
+	if (sDatabaseFn) (*sDatabaseFn)(
+		DatabaseInfo(status, rank, GetNumLines(), GetNumMarks()),
+		sDatabaseUserData, haltFlag
+	);
+	return haltFlag;
+}
+
 /*****
 Routine called by RefContainer<R> to report progress during the time-consuming
 process of initialization. This routine updates our private counter each time
@@ -68,11 +77,7 @@ void ReferenceFinder::CheckDatabaseStatus() {
 	if (sStatusCount < Shared::sDatabaseStatusSkip)
 		sStatusCount++;
 	else {
-		bool haltFlag = false;
-		if (sDatabaseFn) (*sDatabaseFn)(
-			DatabaseInfo(DATABASE_WORKING, sCurRank, GetNumLines(), GetNumMarks()),
-			sDatabaseUserData, haltFlag);
-		if (haltFlag) throw EXC_HALT();
+		if (ShowProgress(DATABASE_WORKING, sCurRank)) throw EXC_HALT();
 		sStatusCount = 0;
 	}
 }
@@ -134,20 +139,98 @@ void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank) {
 	sBasisMarks.FlushBuffer();
 
 	// if we're reporting status, say how many we constructed.
-	bool haltFlag = false;
-	if (sDatabaseFn) (*sDatabaseFn)(
-		DatabaseInfo(DATABASE_RANK_COMPLETE, arank, GetNumLines(), GetNumMarks()),
-		sDatabaseUserData, haltFlag);
-	if (haltFlag) throw EXC_HALT();
+	if (ShowProgress(DATABASE_RANK_COMPLETE, arank)) throw EXC_HALT();
+}
+
+bool ReferenceFinder::ImportDatabase() {
+	if (!Shared::useDatabase || Shared::forceRebuild) return false;
+	Shared::sDatabaseStatusSkip = 100000;
+
+	ifstream inFile(string("/data/db"));
+	if (!inFile) return false;
+
+	BinaryInputStream is(inFile);
+
+	sBasisLines.Rebuild();
+	sBasisMarks.Rebuild();
+	sCurRank = Shared::sMaxRank;
+
+	size_t lines, marks;
+	is.read(lines).read(marks);
+	cout << "lines: " << lines << ", marks: " << marks << endl;
+
+	sBasisLines.reserve(lines);
+	sBasisMarks.reserve(marks);
+
+	while (sBasisLines.size() < lines || sBasisMarks.size() < marks) {
+		unsigned char type;
+		is.read(type);
+
+		RefBase *ref;
+		bool isLine = true;
+		switch (type) {
+		case RefBase::RefType::LINE_ORIGINAL:
+			ref = RefLine_Original::Import(is);
+			break;
+		case RefBase::RefType::LINE_C2P_C2P:
+			ref = RefLine_C2P_C2P::Import(is);
+			break;
+		case RefBase::RefType::LINE_P2P:
+			ref = RefLine_P2P::Import(is);
+			break;
+		case RefBase::RefType::LINE_L2L:
+			ref = RefLine_L2L::Import(is);
+			break;
+		case RefBase::RefType::LINE_L2L_C2P:
+			ref = RefLine_L2L_C2P::Import(is);
+			break;
+		case RefBase::RefType::LINE_P2L_C2P:
+			ref = RefLine_P2L_C2P::Import(is);
+			break;
+		case RefBase::RefType::LINE_P2L_P2L:
+			ref = RefLine_P2L_P2L::Import(is);
+			break;
+		case RefBase::RefType::LINE_L2L_P2L:
+			ref = RefLine_L2L_P2L::Import(is);
+			break;
+		case RefBase::RefType::MARK_ORIGINAL:
+			ref = RefMark_Original::Import(is);
+			isLine = false;
+			break;
+		case RefBase::RefType::MARK_INTERSECTION:
+			ref = RefMark_Intersection::Import(is);
+			isLine = false;
+			break;
+		default:
+			cout << "Error importing database. Data corrupted." << endl;
+			return false;
+		}
+
+		if (isLine) sBasisLines.push_back((RefLine *)ref);
+		else sBasisMarks.push_back((RefMark *)ref);
+		CheckDatabaseStatus();
+	}
+	ShowProgress(DATABASE_READY, sCurRank);
+	return true;
 }
 
 /*****
 Create all marks and lines sequentially. you should have previously verified
 that LineKeySizeOK() and MarkKeySizeOK() return true.
 *****/
-void ReferenceFinder::MakeAllMarksAndLines() {
-
+void ReferenceFinder::BuildAndExportDatabase() {
+	Shared::sDatabaseStatusSkip = 800000;
 	Shared::CheckDatabaseStatus = &CheckDatabaseStatus;
+
+	ofstream *outFile = NULL;
+	if (Shared::useDatabase) {
+		outFile = new ofstream(string("/data/db"));
+		if (!*outFile) Shared::useDatabase = false;
+		else {
+			Shared::dbStream = new BinaryOutputStream(*outFile);
+			*Shared::dbStream << (size_t)0 << (size_t)0;
+		}
+	}
 
 	// Start by clearing out any old marks or lines; this is so we can restart if
 	// we want.
@@ -155,10 +238,7 @@ void ReferenceFinder::MakeAllMarksAndLines() {
 	sBasisMarks.Rebuild();
 
 	// Let the user know that we're initializing and what operations we're using.
-	bool haltFlag = false;
-	if (sDatabaseFn) (*sDatabaseFn)(
-		DatabaseInfo(DATABASE_INITIALIZING, 0, GetNumLines(), GetNumMarks()),
-		sDatabaseUserData, haltFlag);
+	ShowProgress(DATABASE_INITIALIZING, 0);
 
 	// Build a bunch of marks of successively higher rank. Note that building
 	// lines up to rank 4 and marks up to rank 8 with no limits would result in
@@ -179,9 +259,7 @@ void ReferenceFinder::MakeAllMarksAndLines() {
 	sBasisMarks.Add(new RefMark_Original(sPaper.mTopRight, 0, string("ne")));
 
 	// Report our status for rank 0.
-	if (sDatabaseFn) (*sDatabaseFn)(
-		DatabaseInfo(DATABASE_RANK_COMPLETE, 0, GetNumLines(), GetNumMarks()),
-		sDatabaseUserData, haltFlag);
+	ShowProgress(DATABASE_RANK_COMPLETE, 0);
 
 	// Rank 1: Construct the two diagonals.
 	sBasisLines.Add(new RefLine_Original(sPaper.mUpwardDiagonal, 1, string("sw_ne")));
@@ -196,11 +274,26 @@ void ReferenceFinder::MakeAllMarksAndLines() {
 	try {
 		for (rank_t irank = 1; irank <= Shared::sMaxRank; irank++) {
 			MakeAllMarksAndLinesOfRank(irank);
+
+			// Unlikely, but check if disk space is OK
+			if (Shared::useDatabase && !*outFile) {
+				cout << "Saving database failed. Insufficient disk space." << endl;
+				Shared::useDatabase = false;
+			}
 		}
 	} catch (EXC_HALT) {
 		sBasisLines.FlushBuffer();
 		sBasisMarks.FlushBuffer();
 	}
+
+	// Conclude database exporting
+	if (Shared::useDatabase) {
+		outFile->seekp(0, ios::beg);
+		*Shared::dbStream << sBasisLines.size() << sBasisMarks.size();
+		outFile->close();
+	}
+	if (Shared::dbStream) delete Shared::dbStream;
+	if (outFile) delete outFile;
 
 	// Once that's done, all the objects are in the sortable arrays and we can
 	// free up the memory used by the maps.
@@ -208,9 +301,7 @@ void ReferenceFinder::MakeAllMarksAndLines() {
 	sBasisMarks.ClearMaps();
 
 	// And perform a final update of progress.
-	if (sDatabaseFn) (*sDatabaseFn)(
-		DatabaseInfo(DATABASE_READY, sCurRank, GetNumLines(), GetNumMarks()),
-		sDatabaseUserData, haltFlag);
+	ShowProgress(DATABASE_READY, sCurRank);
 }
 
 /*****

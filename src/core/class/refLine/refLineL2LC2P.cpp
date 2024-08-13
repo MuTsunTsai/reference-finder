@@ -1,7 +1,7 @@
 
-#include "../../ReferenceFinder.h"
-#include "../math/paper.h"
 #include "../refDgmr.h"
+#include "ReferenceFinder.h"
+#include "math/paper.h"
 
 #include "refLineL2LC2P.h"
 
@@ -15,7 +15,8 @@ Bring line l1 to itself so that the crease goes through point p1
 /*****
 Constructor.
 *****/
-RefLine_L2L_C2P::RefLine_L2L_C2P(RefLine *arl1, RefMark *arm1) : RefLine(CalcLineRank(arl1, arm1)), rl1(arl1), rm1(arm1) {
+RefLine_L2L_C2P::RefLine_L2L_C2P(RefLine *arl1, RefMark *arm1)
+	: RefLine(RefType::LINE_L2L_C2P, CalcLineRank(arl1, arm1)), rl1(arl1), rm1(arm1) {
 
 	mScore = rl1->mScore + rm1->mScore + Shared::sAxiomWeights[3];
 
@@ -111,4 +112,17 @@ void RefLine_L2L_C2P::MakeAll(rank_t arank) {
 			}
 		}
 	}
+}
+
+void RefLine_L2L_C2P::Export(BinaryOutputStream &os) const {
+	RefBase::Export(os);
+	os << rl1->id << rm1->id;
+}
+
+RefLine *RefLine_L2L_C2P::Import(BinaryInputStream &is) {
+	size_t id1, id2;
+	is.read(id1).read(id2);
+	RefLine *rl1 = ReferenceFinder::sBasisLines[id1];
+	RefMark *rm1 = ReferenceFinder::sBasisMarks[id2];
+	return new RefLine_L2L_C2P(rl1, rm1);
 }

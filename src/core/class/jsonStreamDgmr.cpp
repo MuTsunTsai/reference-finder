@@ -1,6 +1,4 @@
 
-#include "../ReferenceFinder.h"
-
 #include "jsonStreamDgmr.h"
 #include "math/paper.h"
 

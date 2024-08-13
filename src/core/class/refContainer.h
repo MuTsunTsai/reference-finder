@@ -2,7 +2,9 @@
 #ifndef _REF_CONTAINER_H_
 #define _REF_CONTAINER_H_
 
-#include "global.h"
+#include "database/binaryOutputStream.hpp"
+#include "global/global.h"
+#include "refBase.h"
 
 #include <unordered_map>
 #include <vector>
@@ -34,6 +36,7 @@ class RefContainer : public std::vector<R *> {
 
 	RefContainer(); // Constructor
 
+	size_t nextId;
 	void Rebuild();		// Re-initialize with new values
 	void Add(R *ar);	// Add an element to the array
 	void FlushBuffer(); // Add the contents of the buffer to the container
@@ -51,7 +54,7 @@ per key. class R = RefMark or RefLine
 Constructor. Initialize arrays.
 *****/
 template <class R>
-RefContainer<R>::RefContainer() {
+RefContainer<R>::RefContainer() : nextId(0) {
 	// expand our map array to hold all the ranks that we will create
 	ranks.resize(1 + Shared::sMaxRank);
 }
@@ -94,11 +97,12 @@ void RefContainer<R>::AddCopyIfValidAndUnique(const Rs &ars) {
 							 // it must be of a lower rank and we can safely ignore the current one.
 	) {
 		auto iter = buffer.find(ars.mKey);
+		Rs *ref = new Rs(ars);
 		if (iter == buffer.end()) {						// if the buffer also doesn't have the same key
-			Add(new Rs(ars));							// add the ref directly
+			Add(ref);									// add the ref directly
 		} else if (ars.mScore < iter->second->mScore) { // otherwise, see if the current one has a lower score
 			delete iter->second;						// don't forget to release memory
-			buffer[ars.mKey] = new Rs(ars);				// replace the item in the buffer
+			buffer[ars.mKey] = ref;						// replace the item in the buffer
 		}
 	}
 	Shared::CheckDatabaseStatus(); // report progress if appropriate
@@ -118,6 +122,10 @@ void RefContainer<R>::FlushBuffer() {
 		map.insert(typename map_t::value_type(ar->mKey, ar)); // add to the main map
 		ranks[ar->mRank].push_back(ar);						  // add to appropriate rank
 		this->push_back(ar);								  // also add to our sortable list
+		if (Shared::useDatabase) {
+			ar->id = nextId++; // assign a new id
+			ar->Export(*Shared::dbStream);
+		}
 	}
 	buffer.clear(); // clear the buffer
 }

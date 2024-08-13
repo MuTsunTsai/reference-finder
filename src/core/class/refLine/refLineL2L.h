@@ -3,8 +3,8 @@
 #define _REF_LINE_L2L_H_
 
 #include "../refMark/refMark.h"
-#include "../json/jsonArray.h"
 #include "refLine.h"
+#include "json/jsonArray.h"
 
 /**********
 class RefLine_L2L - Huzita-Hatori Axiom O3
@@ -21,14 +21,18 @@ class RefLine_L2L : public RefLine {
 		WHOMOVES_L2
 	};
 	WhoMoves mWhoMoves;
+	unsigned char mRoot;
 
   public:
-	RefLine_L2L(RefLine *arl1, RefLine *arl2, short iroot);
+	RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot);
 
-	bool UsesImmediate(RefBase *rb) const;
-	void SequencePushSelf();
-	JsonObject Serialize() const;
-	void DrawSelf(RefStyle rstyle, short ipass) const;
+	bool UsesImmediate(RefBase *rb) const override;
+	void SequencePushSelf() override;
+	JsonObject Serialize() const override;
+	void DrawSelf(RefStyle rstyle, short ipass) const override;
+	void Export(BinaryOutputStream &os) const override;
+
+	static RefLine *Import(BinaryInputStream &is);
 	static void MakeAll(rank_t arank);
 };
 

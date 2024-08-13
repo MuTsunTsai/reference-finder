@@ -25,12 +25,18 @@ template <class T>
 inline T max_val(T t1, T t2) { return (t1 > t2) ? t1 : t2; };
 
 class Paper;
+class BinaryOutputStream;
 
 class Shared {
   public:
 	// Publicly accessible settings. Users can set these directly before calling
-	// MakeAllMarksAndLines().
+	// BuildAndExportDatabase().
 	static Paper sPaper; // dimensions of the paper
+
+	static bool useDatabase;
+	static bool forceRebuild;
+	static int sizeBytes;
+	static BinaryOutputStream *dbStream;
 
 	static int sAxioms[7];
 	static int sAxiomWeights[7];

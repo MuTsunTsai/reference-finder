@@ -11,7 +11,7 @@ Copyright:    ©1999-2006 Robert J. Lang. All Rights Reserved.
 #include "RFVersion.h"
 #include "ReferenceFinder.h"
 #include "class/jsonStreamDgmr.h"
-#include "class/math/paper.h"
+#include "math/paper.h"
 #include "utils.h"
 
 #include <chrono>
@@ -51,6 +51,7 @@ void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &)
 		break;
 
 	// Initialization progress report
+	case ReferenceFinder::DATABASE_READY:
 	case ReferenceFinder::DATABASE_WORKING:
 	case ReferenceFinder::DATABASE_RANK_COMPLETE:
 		cout << "{\"rank\": " << info.mRank << ", \"lines\": " << info.mNumLines
@@ -126,12 +127,23 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, boo
 Read settings related to database generating
 ******************************/
 void readDbSettings() {
+	Shared::useDatabase = ReadNumber();
+	Shared::forceRebuild = ReadNumber();
 	double width = ReadNumber();
 	double height = ReadNumber();
 	Shared::sPaper = Paper(width, height);
 	Shared::sMaxRank = ReadNumber();
 	Shared::sMaxLines = ReadNumber();
 	Shared::sMaxMarks = ReadNumber();
+
+	int b = 1;
+	while (true) {
+		size_t t = 1 << (8 * b);
+		if (t > Shared::sMaxLines && t > Shared::sMaxMarks) break;
+		b++;
+	}
+	Shared::sizeBytes = b;
+	cout << "sizeBytes: " << b << endl;
 
 	for (int i = 0, j = 0; i < 7; i++) {
 		int a = ReadNumber();
@@ -163,16 +175,17 @@ Main program loop
 ******************************/
 int main() {
 	cout << APP_V_M_B_NAME_STR << " (build " << BUILD_CODE_STR << ")" << endl;
-	cout << "Copyright (c)1999-2006 by Robert J. Lang and (c)2024 by Mu-Tsun "
-			"Tsai. All rights reserved."
-		 << endl;
+	cout << "Copyright (c)1999-2006 by Robert J. Lang and (c)2024 by Mu-Tsun Tsai. All rights reserved." << endl;
 
 	readDbSettings();
 
 	JsonStreamDgmr jsonDgmr(cout);
 	ReferenceFinder::SetDatabaseFn(&ConsoleDatabaseProgress);
 	ReferenceFinder::SetStatisticsFn(&ConsoleStatisticsProgress);
-	ReferenceFinder::MakeAllMarksAndLines();
+
+	Shared::useDatabase = Shared::useDatabase && emscripten_utils_mount_fs();
+	if (!ReferenceFinder::ImportDatabase()) ReferenceFinder::BuildAndExportDatabase();
+	if (Shared::useDatabase) emscripten_utils_sync_fs();
 
 	//  Loop forever until the user quits from the menu.
 	while (true) {

@@ -1,6 +1,8 @@
-import { useDB, useStore } from "./store";
+import { useDB, useStore, useSettings } from "./store";
 
 import type { DbSettings, Solution } from "./store";
+
+export const idbSupported = typeof indexedDB !== "undefined";
 
 let worker: Worker;
 let statisticsCallback: (text: string | Error) => void;
@@ -26,8 +28,10 @@ function parseSolution(text: string) {
 }
 
 export function resetWorker(db: DbSettings) {
+	let forceRebuild = false;
 	if(worker) {
 		worker.terminate();
+		forceRebuild = true;
 		useStore.setState({ running: false, ready: false, progress: null });
 		console.log("Reset worker");
 	}
@@ -35,7 +39,10 @@ export function resetWorker(db: DbSettings) {
 	worker = new Worker(
 		/* webpackChunkName: "ref" */ new URL("./worker.ts", import.meta.url)
 	);
+	const { useDB } = useSettings.getState();
 	worker.postMessage([
+		idbSupported && useDB,
+		forceRebuild,
 		db.width,
 		db.height,
 		db.maxRank,

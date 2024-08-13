@@ -1,10 +1,11 @@
 
-#include "../../ReferenceFinder.h"
+#include "ReferenceFinder.h"
 
-#include "../global.h"
-#include "../math/paper.h"
-#include "../math/xyline.h"
 #include "../refLine/refLine.h"
+
+#include "global/global.h"
+#include "math/paper.h"
+#include "math/xyline.h"
 #include "refMarkIntersection.h"
 
 using namespace std;
@@ -17,7 +18,8 @@ the intersection of 2 lines.
 /*****
 Constructor.
 *****/
-RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2) : RefMark(CalcMarkRank(arl1, arl2)), rl1(arl1), rl2(arl2) {
+RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2)
+	: RefMark(RefType::MARK_INTERSECTION, CalcMarkRank(arl1, arl2)), rl1(arl1), rl2(arl2) {
 	// Get references to constituent math types
 
 	mScore = rl1->mScore + rl2->mScore;
@@ -97,4 +99,19 @@ void RefMark_Intersection::MakeAll(rank_t arank) {
 			}
 		}
 	}
+}
+
+void RefMark_Intersection::Export(BinaryOutputStream &os) const {
+	RefBase::Export(os);
+	os << rl1->id << rl2->id;
+}
+
+RefMark *RefMark_Intersection::Import(BinaryInputStream &is) {
+	size_t id1, id2;
+	is.read(id1).read(id2);
+	// auto size = ReferenceFinder::sBasisLines.size();
+	// if (id1 >= size || id2 >= size) cout << "lines: " << size << ", id1: " << id1 << ", id2: " << id2 << ", marks: " << ReferenceFinder::sBasisMarks.size() << endl;
+	RefLine *rl1 = ReferenceFinder::sBasisLines[id1];
+	RefLine *rl2 = ReferenceFinder::sBasisLines[id2];
+	return new RefMark_Intersection(rl1, rl2);
 }

@@ -1,5 +1,5 @@
 
-#include "global.h"
+#include "global/global.h"
 #include "math/paper.h"
 
 /*****
@@ -11,6 +11,11 @@ Shared::CheckDatabaseStatusFn Shared::CheckDatabaseStatus = 0;
 
 // Use unit square paper
 Paper Shared::sPaper(1.0, 1.0);
+
+bool Shared::useDatabase = true;
+bool Shared::forceRebuild = false;
+int Shared::sizeBytes = 8;
+BinaryOutputStream *Shared::dbStream = NULL;
 
 // The axioms to use, in the order of priority. A value of 0 means skipping.
 int Shared::sAxioms[7] = {2, 3, 7, 6, 5, 4, 1};
@@ -54,8 +59,7 @@ bool Shared::sVisibilityMatters = true;
 // than Pythagorean error. The former is more accurate, but slows searches.
 bool Shared::sLineWorstCaseError = true;
 
-// We make a call to our show progress callback routine every sDatabaseStatusSkip
-// attempts.
+// We make a call to our show progress callback routine every sDatabaseStatusSkip attempts.
 int Shared::sDatabaseStatusSkip = 800000;
 
 // Variables used when we calculate statistics on the database

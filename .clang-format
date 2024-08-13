@@ -1,6 +1,8 @@
 BreakBeforeBraces: Attach
+AlignAfterOpenBracket: BlockIndent
 AllowShortIfStatementsOnASingleLine: AllIfsAndElse
 AllowShortLoopsOnASingleLine: true
+PackConstructorInitializers: NextLine
 UseTab: Always
 IndentWidth: 4
 TabWidth: 4

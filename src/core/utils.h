@@ -1,5 +1,4 @@
 #include <emscripten.h>
-#include <string>
 
 // For silencing VS Code errors
 #ifdef __INTELLISENSE__
@@ -10,6 +9,21 @@
 #endif
 
 // clang-format off
+EM_ASYNC_JS(const bool, emscripten_utils_mount_fs, (), {
+	try {
+		FS.mkdir("/data");
+		FS.mount(IDBFS, {}, "/data");
+		const err = await new Promise(resolve => FS.syncfs(true, resolve));
+		return !err;
+	} catch(e) {
+		return false;
+	}
+});
+
+EM_ASYNC_JS(const bool, emscripten_utils_sync_fs, (), {
+	await new Promise(resolve => FS.syncfs(false, resolve));
+});
+
 EM_ASYNC_JS(const double *, emscripten_utils_get_double_impl, (), {
 	const value = await Module.get();
 	const ptr = _malloc(8);
@@ -24,14 +38,10 @@ EM_ASYNC_JS(const bool *, emscripten_utils_check_cancel_impl, (), {
 	return ptr;
 });
 
-EM_JS(void, emscripten_utils_clear_impl, (), {
+EM_JS(void, emscripten_utils_clear, (), {
 	Module.clear();
 });
 // clang-format on
-
-void emscripten_utils_clear() {
-	emscripten_utils_clear_impl();
-}
 
 double emscripten_utils_get_double() {
 	const double *ptr = emscripten_utils_get_double_impl();

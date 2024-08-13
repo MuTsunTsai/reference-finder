@@ -1,10 +1,9 @@
 
-#include "../../ReferenceFinder.h"
-
-#include "../global.h"
-#include "../math/paper.h"
-#include "../refDgmr.h"
 #include "refMark.h"
+#include "../refDgmr.h"
+
+#include "global/global.h"
+#include "math/paper.h"
 
 using namespace std;
 

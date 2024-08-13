@@ -1,6 +1,4 @@
 
-#include "../../ReferenceFinder.h"
-
 #include "paper.h"
 
 /**********

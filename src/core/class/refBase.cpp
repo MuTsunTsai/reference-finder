@@ -1,10 +1,8 @@
 
-#include "../ReferenceFinder.h"
-
-#include "global.h"
+#include "refBase.h"
+#include "global/global.h"
 #include "math/paper.h"
 #include "math/xypt.h"
-#include "refBase.h"
 #include "refDgmr.h"
 #include "refLine/refLine.h"
 #include "refMark/refMark.h"
@@ -39,6 +37,7 @@ RefBase static member initialization
 RefDgmr *RefBase::sDgmr;
 vector<RefBase *> RefBase::sSequence;
 vector<RefBase::DgmInfo> RefBase::sDgms;
+size_t RefBase::nextId = 0;
 
 /*  Notes on Sequences.
 A ref (RefMark or RefLine) is typically defined in terms of other refs, going
@@ -259,6 +258,10 @@ that a given mark only gets a single label.
 void RefBase::SequencePushUnique(RefBase *rb) {
 	if (find(sSequence.begin(), sSequence.end(), rb) == sSequence.end())
 		sSequence.push_back(rb);
+}
+
+void RefBase::Export(BinaryOutputStream &os) const {
+	os << type;
 }
 
 #ifdef _DEBUG_DB_

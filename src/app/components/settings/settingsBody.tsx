@@ -1,6 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { deleteDB } from "idb";
 
+import { idbSupported } from "../../bridge";
 import { ExpInput } from "../form/exp-input";
 import { IntInput } from "../form/int-input";
 import { Theme, useSettings } from "../../store";
@@ -15,6 +17,10 @@ export default function SettingsBody() {
 	const { tempDb, setTempDb } = useContext(SettingsContext);
 	const [tab, setTab] = useState(0);
 
+	useEffect(() => {
+		if(!settings.useDB) deleteDB("/data");
+	}, [settings.useDB]);
+
 	return (
 		<div className="modal-body">
 			<ul className="nav nav-tabs mb-3">
@@ -25,7 +31,7 @@ export default function SettingsBody() {
 					<span className={"nav-link " + (tab == 1 ? "active" : "")} onClick={() => setTab(1)}>{t("settings.advanced._")}</span>
 				</li>
 				<li className="nav-item">
-					<span className={"nav-link " + (tab == 2 ? "active" : "")} onClick={() => setTab(2)}>{t("settings.display._")}</span>
+					<span className={"nav-link " + (tab == 2 ? "active" : "")} onClick={() => setTab(2)}>{t("settings.system._")}</span>
 				</li>
 			</ul>
 			<div className={(tab == 0 ? "" : "d-none")}>
@@ -150,19 +156,19 @@ export default function SettingsBody() {
 			</div>
 			<div className={(tab == 2 ? "" : "d-none")}>
 				<div className="grid">
-					<SettingsRow label={t("settings.display.theme._")}>
+					<SettingsRow label={t("settings.system.theme._")}>
 						<select
 							value={settings.theme}
 							className="form-select"
 							onChange={e => useSettings.setState({ theme: Number(e.currentTarget.value) })}
 						>
-							<option value={Theme.system}>{t("settings.display.theme.system")}</option>
-							<option value={Theme.light}>{t("settings.display.theme.light")}</option>
-							<option value={Theme.dark}>{t("settings.display.theme.dark")}</option>
+							<option value={Theme.system}>{t("settings.system.theme.system")}</option>
+							<option value={Theme.light}>{t("settings.system.theme.light")}</option>
+							<option value={Theme.dark}>{t("settings.system.theme.dark")}</option>
 							<option value={Theme.rabbit}>RabbitEar</option>
 						</select>
 					</SettingsRow>
-					<SettingsRow label={t("settings.display.precision")}>
+					<SettingsRow label={t("settings.system.precision")}>
 						<IntInput
 							min={1}
 							max={6}
@@ -173,13 +179,18 @@ export default function SettingsBody() {
 				</div>
 				<div className="mt-3 mb-1">
 					<Checkbox
+						disabled={!idbSupported}
+						value={settings.useDB && idbSupported}
+						onInput={v => useSettings.setState({ useDB: v })}
+					>{t("settings.system.useDB")}</Checkbox>
+					<Checkbox
 						value={settings.showInit}
 						onInput={v => useSettings.setState({ showInit: v })}
-					>{t("settings.display.showInit")}</Checkbox>
+					>{t("settings.system.showInit")}</Checkbox>
 					<Checkbox
 						value={settings.showAxiom}
 						onInput={v => useSettings.setState({ showAxiom: v })}
-					>{t("settings.display.showAxiom")}</Checkbox>
+					>{t("settings.system.showAxiom")}</Checkbox>
 				</div>
 			</div>
 		</div>

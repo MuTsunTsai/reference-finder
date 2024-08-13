@@ -6,6 +6,7 @@ import { GenerateSW } from "workbox-webpack-plugin";
 import { PurgeCSSPlugin } from "purgecss-webpack-plugin";
 import { pluginAssetsRetry } from "@rsbuild/plugin-assets-retry";
 import { pluginSass } from "@rsbuild/plugin-sass";
+import { pluginHtmlMinifierTerser } from "rsbuild-plugin-html-minifier-terser";
 
 import * as pkg from "./package.json";
 
@@ -20,6 +21,7 @@ export default defineConfig({
 		include: [
 			// add matcher for packages that needs to be transpiled
 			/i18next-browser-languagedetector/,
+			/react-i18next/,
 			/chart\.js/,
 		],
 		define: {
@@ -71,15 +73,15 @@ export default defineConfig({
 	},
 	output: {
 		cleanDistPath: isProduction,
+		copy: [
+			// Uncomment these two lines for WASM debugging
+			// { from: "ref.wasm.map", context: "./src/lib/", to: "static/wasm/" },
+			// { from: "core/**/*", context: "./src/", to: "static" },
+		],
 		dataUriLimit: 100,
 		legalComments: "none",
 		assetPrefix: "/reference-finder/",
 		polyfill: "off",
-		minify: {
-			htmlOptions: {
-				removeComments: true,
-			},
-		},
 		distPath: {
 			root: "docs",
 		},
@@ -92,6 +94,9 @@ export default defineConfig({
 		}),
 		pluginAssetsRetry({
 			addQuery: true,
+		}),
+		pluginHtmlMinifierTerser({
+			removeComments: true,
 		}),
 	],
 	tools: {

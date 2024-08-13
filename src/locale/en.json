@@ -67,17 +67,18 @@
 		"advanced": {
 			"_": "Advanced"
 		},
-		"display": {
+		"system": {
+			"_": "System",
 			"theme": {
 				"system": "System",
 				"light": "Light",
 				"dark": "Dark",
 				"_": "Theme"
 			},
-			"showAxiom": "Show axiom number in description.",
 			"showInit": "Show initialization progress.",
-			"precision": "Precision",
-			"_": "Display"
+			"showAxiom": "Show axiom number in description.",
+			"useDB": "Cache database to device.",
+			"precision": "Precision"
 		}
 	},
 	"help": {

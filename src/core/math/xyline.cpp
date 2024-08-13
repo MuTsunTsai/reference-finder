@@ -18,3 +18,7 @@ parenthesis-enclosed, comma-delimited pair, e.g., "(0,(1,0))".
 ostream &operator<<(ostream &os, const XYLine &l) {
 	return os << "[" << (l.d) << "," << (l.u) << "]";
 }
+
+BinaryOutputStream &operator<<(BinaryOutputStream &os, const XYLine &l) {
+	return os << l.d << l.u;
+}

@@ -2,8 +2,8 @@
 #ifndef _REF_LINE_H_
 #define _REF_LINE_H_
 
-#include "../json/jsonObject.h"
-#include "../math/xyline.h"
+#include "json/jsonObject.h"
+#include "math/xyline.h"
 #include "../refBase.h"
 
 /**********
@@ -20,19 +20,19 @@ class RefLine : public RefBase {
 	static void moveCloser(XYPt &from, const XYPt &to, double dist);
 
   public:
-	RefLine(rank_t arank) : RefBase(arank) {}
-	RefLine(const XYLine &al, rank_t arank) : RefBase(arank), l(al) {}
+	RefLine(type_t atype, rank_t arank) : RefBase(atype, arank) {}
+	RefLine(type_t atype, const XYLine &al, rank_t arank) : RefBase(atype, arank), l(al) {}
 
 	void FinishConstructor();
 	double DistanceTo(const XYLine &al) const;
 	bool IsOnEdge() const;
-	bool IsLine() const;
-	bool IsActionLine() const;
+	bool IsLine() const override;
+	bool IsActionLine() const override;
 
-	const char GetLabel() const;
-	void PutName(char const *key, JsonObject &obj) const;
+	const char GetLabel() const override;
+	void PutName(char const *key, JsonObject &obj) const override;
 	void PutDistanceAndRank(JsonObject &solution, const XYLine &al) const;
-	void DrawSelf(RefStyle rstyle, short ipass) const;
+	void DrawSelf(RefStyle rstyle, short ipass) const override;
 
   protected:
 	static rank_t CalcLineRank(const RefBase *ar1, const RefBase *ar2) {
@@ -44,7 +44,7 @@ class RefLine : public RefBase {
 							   const RefBase *ar3, const RefBase *ar4) {
 		return 1 + ar1->mRank + ar2->mRank + ar3->mRank + ar4->mRank;
 	}
-	void SetIndex();
+	void SetIndex() override;
 
   private:
 	static void ResetCount();

@@ -12,15 +12,15 @@ class Paper : public XYRect {
   public:
 	double mWidth;			  // width of the paper
 	double mHeight;			  // height of the paper
-	XYPt mBotLeft;			  // only used by MakeAllMarksAndLines
+	XYPt mBotLeft;			  // only used by BuildAndExportDatabase
 	XYPt mBotRight;			  // ditto
 	XYPt mTopLeft;			  // ditto
 	XYPt mTopRight;			  // ditto
-	XYLine mTopEdge;		  // used by InteriorOverlaps() and MakeAllMarksAndLines
+	XYLine mTopEdge;		  // used by InteriorOverlaps() and BuildAndExportDatabase
 	XYLine mLeftEdge;		  // ditto
 	XYLine mRightEdge;		  // ditto
 	XYLine mBottomEdge;		  // ditto
-	XYLine mUpwardDiagonal;	  // only used by MakeAllMarksAndLines
+	XYLine mUpwardDiagonal;	  // only used by BuildAndExportDatabase
 	XYLine mDownwardDiagonal; // ditto
 
 	std::string mWidthAsText;  // paper width, as an expression

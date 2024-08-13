@@ -1,7 +1,7 @@
 
-#include "../../ReferenceFinder.h"
-#include "../math/paper.h"
 #include "../refDgmr.h"
+#include "ReferenceFinder.h"
+#include "math/paper.h"
 
 #include "refLineP2LP2L.h"
 
@@ -39,12 +39,8 @@ double CubeRoot(double x) {
 /*****
 Constructor. Variable iroot can be 0, 1, or 2.
 *****/
-RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2,
-								 RefLine *arl2, short iroot) : RefLine(CalcLineRank(arm1, arl1, arm2, arl2)),
-															   rm1(arm1),
-															   rl1(arl1),
-															   rm2(arm2),
-															   rl2(arl2) {
+RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, RefLine *arl2, unsigned char iroot)
+	: RefLine(RefType::LINE_P2L_P2L, CalcLineRank(arm1, arl1, arm2, arl2)), rm1(arm1), rl1(arl1), rm2(arm2), rl2(arl2), mRoot(iroot) {
 
 	mScore = rm1->mScore + rl1->mScore + rm2->mScore + rl2->mScore + Shared::sAxiomWeights[5];
 
@@ -435,4 +431,24 @@ void RefLine_P2L_P2L::MakeAllCore(rank_t irank, rank_t jrank, rank_t krank, rank
 			}
 		}
 	}
+}
+
+void RefLine_P2L_P2L::Export(BinaryOutputStream &os) const {
+	RefBase::Export(os);
+	os << rm1->id << rl1->id << rm2->id << rl2->id << mRoot;
+}
+
+RefLine *RefLine_P2L_P2L::Import(BinaryInputStream &is) {
+	size_t id1, id2, id3, id4;
+	unsigned char root;
+	is.read(id1).read(id2).read(id3).read(id4).read(root);
+	RefMark *rm1 = ReferenceFinder::sBasisMarks[id1];
+	RefLine *rl1 = ReferenceFinder::sBasisLines[id2];
+	RefMark *rm2 = ReferenceFinder::sBasisMarks[id3];
+	RefLine *rl2 = ReferenceFinder::sBasisLines[id4];
+
+	// We must run the case root = 0 to gather the parameters
+	if (root > 0) RefLine_P2L_P2L temp(rm1, rl1, rm2, rl2, 0);
+
+	return new RefLine_P2L_P2L(rm1, rl1, rm2, rl2, root);
 }

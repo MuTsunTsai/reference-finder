@@ -48,18 +48,6 @@
 	},
 	"settings": {
 		"reset": "重设为默认值",
-		"display": {
-			"showAxiom": "在描述中显示公理编号。",
-			"theme": {
-				"dark": "黑暗",
-				"light": "明亮",
-				"system": "系统",
-				"_": "主题"
-			},
-			"_": "显示",
-			"showInit": "显示初始化进度。",
-			"precision": "精确度"
-		},
 		"advanced": {
 			"_": "进阶"
 		},
@@ -68,7 +56,20 @@
 			"height": "纸张高度",
 			"width": "纸张宽度"
 		},
-		"reInit": "需要重新初始化。"
+		"reInit": "需要重新初始化。",
+		"system": {
+			"theme": {
+				"system": "系统",
+				"light": "明亮",
+				"dark": "黑暗",
+				"_": "主题"
+			},
+			"showInit": "显示初始化进度。",
+			"showAxiom": "在描述中显示公理编号。",
+			"precision": "精确度",
+			"_": "系统",
+			"useDB": "将数据库缓存到设备中。"
+		}
 	},
 	"invalid": {
 		"exp": "应该是至少 0 的数字，或等效表达式",

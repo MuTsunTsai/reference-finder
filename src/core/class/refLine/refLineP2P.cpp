@@ -1,7 +1,7 @@
 
-#include "../../ReferenceFinder.h"
-#include "../math/paper.h"
 #include "../refDgmr.h"
+#include "ReferenceFinder.h"
+#include "math/paper.h"
 
 #include "refLineP2P.h"
 
@@ -15,7 +15,8 @@ Bring p1 to p2.
 /*****
 Constructor.
 *****/
-RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2) : RefLine(CalcLineRank(arm1, arm2)), rm1(arm1), rm2(arm2) {
+RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2)
+	: RefLine(RefType::LINE_P2P, CalcLineRank(arm1, arm2)), rm1(arm1), rm2(arm2) {
 
 	mScore = rm1->mScore + rm2->mScore + Shared::sAxiomWeights[1];
 
@@ -140,4 +141,17 @@ void RefLine_P2P::MakeAll(rank_t arank) {
 			};
 		}
 	}
+}
+
+void RefLine_P2P::Export(BinaryOutputStream &os) const {
+	RefBase::Export(os);
+	os << rm1->id << rm2->id;
+}
+
+RefLine *RefLine_P2P::Import(BinaryInputStream &is) {
+	size_t id1, id2;
+	is.read(id1).read(id2);
+	RefMark *rm1 = ReferenceFinder::sBasisMarks[id1];
+	RefMark *rm2 = ReferenceFinder::sBasisMarks[id2];
+	return new RefLine_P2P(rm1, rm2);
 }

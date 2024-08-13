@@ -15,14 +15,17 @@ class RefLine_Original : public RefLine {
   public:
 	RefLine_Original(const XYLine &al, rank_t arank, std::string aName);
 
-	bool IsActionLine() const;
-	const char GetLabel() const;
-	void PutName(char const *key, JsonObject &obj) const;
-	void DrawSelf(RefStyle rstyle, short ipass) const;
+	bool IsActionLine() const override;
+	const char GetLabel() const override;
+	void PutName(char const *key, JsonObject &obj) const override;
+	void DrawSelf(RefStyle rstyle, short ipass) const override;
+	void Export(BinaryOutputStream &os) const override;
+
+	static RefLine *Import(BinaryInputStream &is);
 
   protected:
-	virtual bool IsDerived() const;
-	void SetIndex();
+	bool IsDerived() const override;
+	void SetIndex() override;
 };
 
 #endif

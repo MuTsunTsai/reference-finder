@@ -1,7 +1,7 @@
 
-#include "../../ReferenceFinder.h"
-#include "../math/paper.h"
 #include "../refDgmr.h"
+#include "ReferenceFinder.h"
+#include "math/paper.h"
 
 #include "refLineOriginal.h"
 
@@ -15,7 +15,8 @@ is the edge of the paper or an initial crease (like the diagonal).
 /*****
 Constructor.
 *****/
-RefLine_Original::RefLine_Original(const XYLine &al, rank_t arank, string aName) : RefLine(al, arank), mName(aName) {
+RefLine_Original::RefLine_Original(const XYLine &al, rank_t arank, string aName)
+	: RefLine(RefType::LINE_ORIGINAL, al, arank), mName(aName) {
 	FinishConstructor();
 }
 
@@ -87,4 +88,19 @@ zero, since we've already got a name.
 
 void RefLine_Original::SetIndex() {
 	mIndex = 0;
+}
+
+void RefLine_Original::Export(BinaryOutputStream &os) const {
+	RefBase::Export(os);
+	os << l << mRank << mName;
+}
+
+RefLine *RefLine_Original::Import(BinaryInputStream &is) {
+	double d, x, y;
+	rank_t rank;
+	string name;
+	is.read(d).read(x).read(y).read(rank).read(name);
+	XYPt p(x, y);
+	XYLine l(d, p);
+	return new RefLine_Original(l, rank, name);
 }

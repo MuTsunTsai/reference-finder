@@ -2,13 +2,17 @@
 #ifndef _REF_BASE_H_
 #define _REF_BASE_H_
 
-#include "global.h"
+#include "database/binaryInputStream.hpp"
+#include "database/binaryOutputStream.hpp"
+#include "global/global.h"
 #include "json/jsonArray.h"
 #include "json/jsonObject.h"
 
 #include <iostream>
 #include <vector>
 
+class BinaryInputStream;
+class BinaryOutputStream;
 class RefDgmr;
 
 /**********
@@ -16,6 +20,24 @@ class RefBase - base class for a mark or line.
 **********/
 class RefBase {
   public:
+	typedef const unsigned char type_t;
+	type_t type;
+	std::size_t id;			   // Unique id for refs that are actually added to the DB
+	static std::size_t nextId; // Next id
+
+	enum RefType {
+		LINE_ORIGINAL,
+		LINE_C2P_C2P,
+		LINE_P2P,
+		LINE_L2L,
+		LINE_L2L_C2P,
+		LINE_P2L_C2P,
+		LINE_P2L_P2L,
+		LINE_L2L_P2L,
+		MARK_ORIGINAL,
+		MARK_INTERSECTION
+	};
+
 	rank_t mRank; // Rank of this mark or line
 	key_t mKey;	  // Key used for maps within RefContainers
 	int mScore;	  // Used to decide whether to override existing refs
@@ -48,7 +70,7 @@ class RefBase {
 	}; // drawing order
 
   public:
-	RefBase(rank_t arank = 0) : mRank(arank), mKey(0), mIndex(0), mScore(0), mForMark(NULL) {}
+	RefBase(type_t atype, rank_t arank = 0) : type(atype), mRank(arank), mKey(0), mIndex(0), mScore(0), mForMark(NULL) {}
 	virtual ~RefBase() {}
 
 	// routines for building a sequence of refs
@@ -59,6 +81,7 @@ class RefBase {
 	virtual const char GetLabel() const = 0;
 	virtual void PutName(char const *key, JsonObject &obj) const;
 	virtual JsonObject Serialize() const;
+	virtual void Export(BinaryOutputStream &os) const;
 	void PutHowtoSequence(JsonObject &solution);
 
 	// routines for drawing diagrams

@@ -1,7 +1,7 @@
 
-#include "../../ReferenceFinder.h"
-#include "../math/paper.h"
 #include "../refDgmr.h"
+#include "ReferenceFinder.h"
+#include "math/paper.h"
 
 #include "refLineP2LC2P.h"
 
@@ -15,7 +15,8 @@ Bring point p1 to line l1 so that the crease passes through point p2.
 /*****
 Constructor. iroot can be 0 or 1.
 *****/
-RefLine_P2L_C2P::RefLine_P2L_C2P(RefMark *arm1, RefLine *arl1, RefMark *arm2, short iroot) : RefLine(CalcLineRank(arm1, arl1, arm2)), rm1(arm1), rl1(arl1), rm2(arm2) {
+RefLine_P2L_C2P::RefLine_P2L_C2P(RefMark *arm1, RefLine *arl1, RefMark *arm2, unsigned char iroot)
+	: RefLine(RefType::LINE_P2L_C2P, CalcLineRank(arm1, arl1, arm2)), rm1(arm1), rl1(arl1), rm2(arm2), mRoot(iroot) {
 
 	mScore = rm1->mScore + rl1->mScore + rm2->mScore + Shared::sAxiomWeights[4];
 
@@ -178,4 +179,19 @@ void RefLine_P2L_C2P::MakeAll(rank_t arank) {
 				}
 			}
 		}
+}
+
+void RefLine_P2L_C2P::Export(BinaryOutputStream &os) const {
+	RefBase::Export(os);
+	os << rm1->id << rl1->id << rm2->id << mRoot;
+}
+
+RefLine *RefLine_P2L_C2P::Import(BinaryInputStream &is) {
+	size_t id1, id2, id3;
+	unsigned char root;
+	is.read(id1).read(id2).read(id3).read(root);
+	RefMark *rm1 = ReferenceFinder::sBasisMarks[id1];
+	RefLine *rl1 = ReferenceFinder::sBasisLines[id2];
+	RefMark *rm2 = ReferenceFinder::sBasisMarks[id3];
+	return new RefLine_P2L_C2P(rm1, rl1, rm2, root);
 }

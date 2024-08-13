@@ -1,7 +1,7 @@
 
-#include "../../ReferenceFinder.h"
-#include "../math/paper.h"
 #include "../refDgmr.h"
+#include "ReferenceFinder.h"
+#include "math/paper.h"
 
 #include "refLineL2L.h"
 
@@ -18,7 +18,8 @@ Bring line l1 to line l2.
 Constructor. iroot = 0 or 1.
 *****/
 
-RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, short iroot) : RefLine(CalcLineRank(arl1, arl2)), rl1(arl1), rl2(arl2) {
+RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
+	: RefLine(RefType::LINE_L2L, CalcLineRank(arl1, arl2)), rl1(arl1), rl2(arl2), mRoot(iroot) {
 
 	mScore = rl1->mScore + rl2->mScore + Shared::sAxiomWeights[2];
 
@@ -228,4 +229,18 @@ void RefLine_L2L::MakeAll(rank_t arank) {
 			};
 		}
 	}
+}
+
+void RefLine_L2L::Export(BinaryOutputStream &os) const {
+	RefBase::Export(os);
+	os << rl1->id << rl2->id << mRoot;
+}
+
+RefLine *RefLine_L2L::Import(BinaryInputStream &is) {
+	size_t id1, id2;
+	unsigned char root;
+	is.read(id1).read(id2).read(root);
+	RefLine *rl1 = ReferenceFinder::sBasisLines[id1];
+	RefLine *rl2 = ReferenceFinder::sBasisLines[id2];
+	return new RefLine_L2L(rl1, rl2, root);
 }

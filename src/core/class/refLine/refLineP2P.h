@@ -3,7 +3,7 @@
 #define _REF_LINE_P2P_H_
 
 #include "../refMark/refMark.h"
-#include "../json/jsonArray.h"
+#include "json/jsonArray.h"
 #include "refLine.h"
 
 /**********
@@ -25,10 +25,13 @@ class RefLine_P2P : public RefLine {
   public:
 	RefLine_P2P(RefMark *arm1, RefMark *arm2);
 
-	bool UsesImmediate(RefBase *rb) const;
-	void SequencePushSelf();
-	JsonObject Serialize() const;
-	void DrawSelf(RefStyle rstyle, short ipass) const;
+	bool UsesImmediate(RefBase *rb) const override;
+	void SequencePushSelf() override;
+	JsonObject Serialize() const override;
+	void DrawSelf(RefStyle rstyle, short ipass) const override;
+	void Export(BinaryOutputStream &os) const override;
+
+	static RefLine *Import(BinaryInputStream &is);
 	static void MakeAll(rank_t arank);
 };
 
