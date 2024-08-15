@@ -82,6 +82,15 @@ export default defineConfig({
 		legalComments: "none",
 		assetPrefix: "/reference-finder/",
 		polyfill: "off",
+		minify: {
+			jsOptions: {
+				minimizerOptions: {
+					format: {
+						asciiOnly: false, // do not escape unicode in strings
+					},
+				},
+			},
+		},
 		distPath: {
 			root: "docs",
 		},
