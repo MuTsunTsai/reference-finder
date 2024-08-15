@@ -15,6 +15,8 @@ class RefLine_Original : public RefLine {
   public:
 	RefLine_Original(const XYLine &al, rank_t arank, std::string aName);
 
+	type_t GetType() const override;
+
 	bool IsActionLine() const override;
 	const char GetLabel() const override;
 	void PutName(char const *key, JsonObject &obj) const override;

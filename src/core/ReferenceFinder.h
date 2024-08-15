@@ -18,9 +18,9 @@ Copyright:    ©1999-2007 Robert J. Lang. All Rights Reserved.
 // be helpful in debugging.
 // #define RF_PUT_KEY_IN_TEXT
 
+#include "class/refContainer.h"
 #include "database/binaryOutputStream.hpp"
 #include "global/global.h"
-#include "class/refContainer.h"
 
 // forward declarations
 class XYPt;
@@ -36,7 +36,6 @@ target mark or line.
 **********/
 class ReferenceFinder {
   public:
-
 	// Getters
 	static std::size_t GetNumLines() {
 		return sBasisLines.GetTotalSize();
@@ -59,9 +58,8 @@ class ReferenceFinder {
 		std::size_t mNumLines;
 		std::size_t mNumMarks;
 
-		DatabaseInfo(DatabaseStatus status = DATABASE_EMPTY, rank_t rank = 0,
-					 std::size_t numLines = 0, std::size_t numMarks = 0) : mStatus(status), mRank(rank), mNumLines(numLines),
-																		   mNumMarks(numMarks){};
+		DatabaseInfo(DatabaseStatus status = DATABASE_EMPTY, rank_t rank = 0, std::size_t numLines = 0, std::size_t numMarks = 0)
+			: mStatus(status), mRank(rank), mNumLines(numLines), mNumMarks(numMarks) {};
 		bool operator==(const DatabaseInfo &info) const {
 			return mStatus == info.mStatus && mRank == info.mRank &&
 				   mNumLines == info.mNumLines && mNumMarks == info.mNumMarks;
@@ -101,8 +99,8 @@ class ReferenceFinder {
 		std::size_t mIndex;
 		double mError;
 
-		StatisticsInfo(StatisticsStatus status = STATISTICS_DONE,
-					   std::size_t index = std::size_t(-1), double error = 0.0) : mStatus(status), mIndex(index), mError(error){};
+		StatisticsInfo(StatisticsStatus status = STATISTICS_DONE, std::size_t index = std::size_t(-1), double error = 0.0)
+			: mStatus(status), mIndex(index), mError(error) {};
 		bool operator==(const StatisticsInfo &info) const {
 			return mStatus == info.mStatus && mIndex == info.mIndex &&
 				   mError == info.mError;
@@ -140,6 +138,7 @@ class ReferenceFinder {
 	ReferenceFinder();
 	ReferenceFinder(const ReferenceFinder &);
 
+	friend class Optimizer;
 	friend class RefBase;
 	friend class RefMark;
 	friend class RefMark_Intersection;
@@ -164,7 +163,7 @@ template <class R>
 class CompareError {
   public:
 	typename R::bare_t mTarget;
-	CompareError(const typename R::bare_t &target) : mTarget(target){};
+	CompareError(const typename R::bare_t &target) : mTarget(target) {};
 	bool operator()(R *r1, R *r2) const {
 		// Compare the distances from the stored target If the distances are
 		// equal, then compare the refs by their rank.
@@ -184,7 +183,7 @@ template <class R>
 class CompareRankAndError {
   public:
 	typename R::bare_t mTarget; // point that we're comparing to
-	CompareRankAndError(const typename R::bare_t &target) : mTarget(target){};
+	CompareRankAndError(const typename R::bare_t &target) : mTarget(target) {};
 	bool operator()(R *r1, R *r2) const {
 		// Compare the distances from the stored target. If both distances are less
 		// than or equal to sGoodEnoughError, compare the refs by their rank.

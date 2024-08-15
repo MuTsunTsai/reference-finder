@@ -13,8 +13,12 @@ class RefMark_Original - Specialization of RefMark that represents a named mark
 Constructor.
 *****/
 RefMark_Original::RefMark_Original(const XYPt &ap, rank_t arank, string aName)
-	: RefMark(RefType::MARK_ORIGINAL, ap, arank), mName(aName) {
+	: RefMark(ap, arank), mName(aName) {
 	FinishConstructor();
+}
+
+RefBase::type_t RefMark_Original::GetType() const {
+	return RefType::MARK_ORIGINAL;
 }
 
 /*****
@@ -55,9 +59,7 @@ bool RefMark_Original::IsDerived() const {
 /*****
 Overridden because we don't use an index for named marks.
 *****/
-void RefMark_Original::SetIndex() {
-	mIndex = 0;
-};
+void RefMark_Original::SetIndex() {}
 
 void RefMark_Original::Export(BinaryOutputStream &os) const {
 	RefBase::Export(os);

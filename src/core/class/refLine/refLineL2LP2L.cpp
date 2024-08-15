@@ -16,7 +16,7 @@ Bring line l1 onto itself so that point p1 falls on line l2.
 Constructor. iroot can be 0 or 1.
 *****/
 RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2)
-	: RefLine(RefType::LINE_L2L_P2L, CalcLineRank(arl1, arm1, arl2)), rl1(arl1), rm1(arm1), rl2(arl2) {
+	: RefLine(CalcLineRank(arl1, arm1, arl2)), rl1(arl1), rm1(arm1), rl2(arl2) {
 
 	mScore = rl1->mScore + rm1->mScore + rl2->mScore + Shared::sAxiomWeights[6];
 
@@ -77,6 +77,10 @@ RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2)
 
 	// Set the key.
 	FinishConstructor();
+}
+
+RefBase::type_t RefLine_L2L_P2L::GetType() const {
+	return RefType::LINE_L2L_P2L;
 }
 
 /*****

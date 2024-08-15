@@ -32,7 +32,7 @@ export function resetWorker(db: DbSettings) {
 	if(worker) {
 		worker.terminate();
 		forceRebuild = true;
-		useStore.setState({ running: false, ready: false, progress: null });
+		useStore.setState({ running: false, ready: false, progress: null, coreError: null });
 		console.log("Reset worker");
 	}
 	const startTime = performance.now();
@@ -88,7 +88,10 @@ export function resetWorker(db: DbSettings) {
 			}
 		}
 		if(msg.err) {
-			useStore.setState({ coreError: msg.err });
+			if(!useStore.getState().coreError) {
+				// Only set the very first error message received
+				useStore.setState({ coreError: msg.err });
+			}
 			const err = new Error(msg.err);
 			console.error(err);
 			if(statisticsRunning) statisticsCallback(err);

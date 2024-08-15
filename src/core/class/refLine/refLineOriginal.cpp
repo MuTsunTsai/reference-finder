@@ -16,8 +16,12 @@ is the edge of the paper or an initial crease (like the diagonal).
 Constructor.
 *****/
 RefLine_Original::RefLine_Original(const XYLine &al, rank_t arank, string aName)
-	: RefLine(RefType::LINE_ORIGINAL, al, arank), mName(aName) {
+	: RefLine(al, arank), mName(aName) {
 	FinishConstructor();
+}
+
+RefBase::type_t RefLine_Original::GetType() const {
+	return RefType::LINE_ORIGINAL;
 }
 
 /*****
@@ -86,9 +90,7 @@ Set the index of this line. Override the default method to use an index of
 zero, since we've already got a name.
 *****/
 
-void RefLine_Original::SetIndex() {
-	mIndex = 0;
-}
+void RefLine_Original::SetIndex() {}
 
 void RefLine_Original::Export(BinaryOutputStream &os) const {
 	RefBase::Export(os);

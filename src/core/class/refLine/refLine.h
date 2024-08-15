@@ -2,9 +2,9 @@
 #ifndef _REF_LINE_H_
 #define _REF_LINE_H_
 
-#include "json/jsonObject.h"
-#include "math/xyline.h"
 #include "../refBase.h"
+#include "math/xyline.h"
+#include "json/jsonObject.h"
 
 /**********
 class RefLine - base class for a reference line.
@@ -13,6 +13,10 @@ class RefLine : public RefBase {
   public:
 	typedef XYLine bare_t; // type of bare object that a RefLine represents
 	bare_t l;			   // the line this contains
+
+	/* A none-null value indicating that this line is used only for creating an intersection. */
+	RefBase *mForMark;
+
   private:
 	static index_t sCount; // class index, used for numbering sequences of lines
 	static char sLabels[]; // labels for lines, indexed by sCount
@@ -20,8 +24,8 @@ class RefLine : public RefBase {
 	static void moveCloser(XYPt &from, const XYPt &to, double dist);
 
   public:
-	RefLine(type_t atype, rank_t arank) : RefBase(atype, arank) {}
-	RefLine(type_t atype, const XYLine &al, rank_t arank) : RefBase(atype, arank), l(al) {}
+	RefLine(rank_t arank) : RefBase(arank) {}
+	RefLine(const XYLine &al, rank_t arank) : RefBase(arank), l(al), mForMark(NULL) {}
 
 	void FinishConstructor();
 	double DistanceTo(const XYLine &al) const;
@@ -38,10 +42,10 @@ class RefLine : public RefBase {
 	static rank_t CalcLineRank(const RefBase *ar1, const RefBase *ar2) {
 		return 1 + ar1->mRank + ar2->mRank;
 	}
-	static rank_t CalcLineRank(const RefBase *ar1, const RefBase *ar2,
-							   const RefBase *ar3) { return 1 + ar1->mRank + ar2->mRank + ar3->mRank; }
-	static rank_t CalcLineRank(const RefBase *ar1, const RefBase *ar2,
-							   const RefBase *ar3, const RefBase *ar4) {
+	static rank_t CalcLineRank(const RefBase *ar1, const RefBase *ar2, const RefBase *ar3) {
+		return 1 + ar1->mRank + ar2->mRank + ar3->mRank;
+	}
+	static rank_t CalcLineRank(const RefBase *ar1, const RefBase *ar2, const RefBase *ar3, const RefBase *ar4) {
 		return 1 + ar1->mRank + ar2->mRank + ar3->mRank + ar4->mRank;
 	}
 	void SetIndex() override;

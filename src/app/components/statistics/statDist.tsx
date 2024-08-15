@@ -4,9 +4,9 @@ import { Theme, useSettings } from "../../store";
 import { getMinMax, usePrimary, useTheme } from "./chart";
 import { BUCKET_COUNT } from "./chart";
 
-import type { TRBL } from "chart.js/dist/types/geometric";
 import type { ChartData, ChartOptions } from "chart.js";
 import type { StatData } from "./chart";
+import { useState } from "react";
 
 function getCounts(data: number[], buckets: number[]): number[] {
 	const counts: number[] = [];
@@ -34,6 +34,7 @@ function getAggregates(counts: number[]): number[] {
 export function StatDist({ data }: StatData) {
 	const settings = useSettings();
 	const theme = useTheme();
+	const [padding, setPadding] = useState(0);
 
 	const [min, max] = getMinMax(data);
 	const bucketSize = (max - min) / BUCKET_COUNT;
@@ -85,6 +86,11 @@ export function StatDist({ data }: StatData) {
 				grid: { color: "transparent" },
 			},
 		},
+		layout: {
+			padding: {
+				right: padding + 5,
+			},
+		},
 		plugins: {
 			legend: {
 				position: "top",
@@ -104,7 +110,7 @@ export function StatDist({ data }: StatData) {
 					if(isAgg && context.dataIndex == context.dataset.data.length - 1) {
 						// Dynamic padding based on text width
 						const width = context.chart.ctx.measureText(result).width;
-						(context.chart.options.layout!.padding as TRBL).right = width + 5;
+						setPadding(width);
 					}
 					return result;
 				},

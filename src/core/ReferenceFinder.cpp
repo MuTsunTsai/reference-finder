@@ -18,6 +18,7 @@ Copyright:    ©1999-2007 Robert J. Lang. All Rights Reserved.
 #include "math/paper.h"
 
 #include "database/binaryInputStream.hpp"
+#include "database/optimizer.h"
 
 #include "class/refLine/refLineOriginal.h"
 #include "class/refMark/refMarkIntersection.h"
@@ -366,20 +367,14 @@ void ReferenceFinder::CalcStatistics() {
 		sStatisticsFn(StatisticsInfo(STATISTICS_BEGIN), sStatisticsUserData, cancel);
 	}
 
-	vector<RefMark *> sortMarks(1); // a vector to do our sorting into
-
+	Optimizer::OptimizeMarks();
 	Paper &sPaper = Shared::sPaper;
 
 	// Run a bunch of test cases on random points.
 	int actNumTrials = Shared::sNumTrials;
 	for (size_t i = 0; i < size_t(Shared::sNumTrials); i++) {
 		XYPt testPt((double(rand()) / (RAND_MAX * sPaper.mWidth)), double(rand()) / (RAND_MAX * sPaper.mHeight));
-
-		// Find the mark closest to the test mark.
-		partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), sortMarks.begin(), sortMarks.end(), CompareError<RefMark>(testPt));
-
-		// note how close we were
-		double error = (testPt - sortMarks[0]->p).Mag();
+		double error = Optimizer::GetBestError(testPt);
 
 		// Report progress, and check for early termination from user
 		if (sStatisticsFn) {

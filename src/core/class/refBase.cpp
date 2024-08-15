@@ -35,9 +35,9 @@ creating a couple hundred thousand of them during program initialization.
 RefBase static member initialization
 *****/
 RefDgmr *RefBase::sDgmr;
+unordered_map<const RefBase*, RefBase::index_t> RefBase::sIndices;
 vector<RefBase *> RefBase::sSequence;
 vector<RefBase::DgmInfo> RefBase::sDgms;
-size_t RefBase::nextId = 0;
 
 /*  Notes on Sequences.
 A ref (RefMark or RefLine) is typically defined in terms of other refs, going
@@ -84,6 +84,7 @@ void RefBase::BuildAndNumberSequence() {
 
 	RefMark::ResetCount();
 	RefLine::ResetCount();
+	sIndices.clear();
 	for (size_t i = 0; i < sSequence.size(); i++) sSequence[i]->SetIndex();
 }
 
@@ -152,7 +153,7 @@ void RefBase::BuildDiagrams() {
 					}
 				}
 			}
-			sSequence[i]->mForMark = mark;
+			((RefLine*)sSequence[i])->mForMark = mark;
 		}
 		if (!sSequence[i]->IsLine() && sSequence[i]->IsDerived()) {
 			auto *mark = (RefMark_Intersection *)sSequence[i];
@@ -261,7 +262,7 @@ void RefBase::SequencePushUnique(RefBase *rb) {
 }
 
 void RefBase::Export(BinaryOutputStream &os) const {
-	os << type;
+	os << GetType();
 }
 
 #ifdef _DEBUG_DB_

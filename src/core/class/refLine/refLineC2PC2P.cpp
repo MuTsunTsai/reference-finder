@@ -15,7 +15,8 @@ Make a crease through two points p1 and p2.
 /*****
 Constructor. Initialize with the two marks that this line connects.
 *****/
-RefLine_C2P_C2P::RefLine_C2P_C2P(RefMark *arm1, RefMark *arm2) : RefLine(RefType::LINE_C2P_C2P, CalcLineRank(arm1, arm2)), rm1(arm1), rm2(arm2) {
+RefLine_C2P_C2P::RefLine_C2P_C2P(RefMark *arm1, RefMark *arm2)
+	: RefLine(CalcLineRank(arm1, arm2)), rm1(arm1), rm2(arm2) {
 
 	mScore = rm1->mScore + rm2->mScore + Shared::sAxiomWeights[0];
 
@@ -109,6 +110,10 @@ void RefLine_C2P_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 		// Draw an arrow that connects these two points.
 		sDgmr->DrawArrow(p3, p4);
 	}
+}
+
+RefBase::type_t RefLine_C2P_C2P::GetType() const {
+	return RefType::LINE_C2P_C2P;
 }
 
 /*****

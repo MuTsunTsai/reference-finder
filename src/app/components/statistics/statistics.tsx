@@ -22,7 +22,7 @@ export function Statistics() {
 	const { t } = useTranslation();
 	const [open, setOpen] = useState(false);
 	const [data, setData] = useState<StatData | null>(null);
-	const [progress, setProgress] = useState(0);
+	const [progress, setProgress] = useState(-1);
 	const [canceling, setCanceling] = useState(false);
 	const store = useStore();
 	const settings = useSettings();
@@ -41,7 +41,7 @@ export function Statistics() {
 		setData(null);
 		setCanceling(false);
 		tempData.length = 0;
-		setProgress(0);
+		setProgress(-1);
 		useStore.setState({ statisticsRunning: true });
 		startStatistics(settings.trials, callback);
 	}
@@ -65,7 +65,7 @@ export function Statistics() {
 		}
 	}
 
-	const percentage = progress / settings.trials * 100;
+	const percentage = progress < 0 ? 0 : progress / settings.trials * 100;
 
 	function cancel() {
 		gtag("event", "ref_statistics_cancel");
@@ -88,7 +88,10 @@ export function Statistics() {
 						</div>
 						<div className="modal-body">
 							<div className="grid">
-								<SettingsRow label={store.statisticsRunning ? `${progress} / ${settings.trials}` : t("statistics.trials")}>
+								<SettingsRow label={store.statisticsRunning ?
+									(progress < 0 ? "Initializing..." : `${progress} / ${settings.trials}`) :
+									t("statistics.trials")}
+								>
 									<div className="row gx-3 align-items-center">
 										{store.statisticsRunning ?
 											<>

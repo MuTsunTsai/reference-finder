@@ -42,7 +42,7 @@ export const defaultSettings = {
 	worstCaseError: true,
 	count: 5,
 	precision: 4,
-	trials: 1000,
+	trials: 100000,
 };
 
 export interface InitInfo {

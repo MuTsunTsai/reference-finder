@@ -14,6 +14,8 @@ Copyright:    ©1999-2006 Robert J. Lang. All Rights Reserved.
 #include "math/paper.h"
 #include "utils.h"
 
+#include "class/refMark/refMarkIntersection.h"
+
 #include <chrono>
 #include <sstream>
 
@@ -137,13 +139,12 @@ void readDbSettings() {
 	Shared::sMaxMarks = ReadNumber();
 
 	int b = 1;
-	while (true) {
+	while (b < 4) {
 		size_t t = 1 << (8 * b);
 		if (t > Shared::sMaxLines && t > Shared::sMaxMarks) break;
 		b++;
 	}
 	Shared::sizeBytes = b;
-	cout << "sizeBytes: " << b << endl;
 
 	for (int i = 0, j = 0; i < 7; i++) {
 		int a = ReadNumber();

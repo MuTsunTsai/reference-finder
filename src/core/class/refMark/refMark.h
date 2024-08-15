@@ -13,13 +13,14 @@ class RefMark : public RefBase {
   public:
 	typedef XYPt bare_t; // type of bare object a RefMark represents
 	bare_t p;			 // coordinates of the mark
+
   private:
 	static index_t sCount; // class index, used for numbering sequences of marks
 	static char sLabels[]; // labels for marks, indexed by sCount
 
   public:
-	RefMark(type_t atype, rank_t arank) : RefBase(atype, arank) {}
-	RefMark(type_t atype, const XYPt &ap, rank_t arank) : RefBase(atype, arank), p(ap) {}
+	RefMark(rank_t arank) : RefBase(arank) {}
+	RefMark(const XYPt &ap, rank_t arank) : RefBase(arank), p(ap) {}
 
 	void FinishConstructor();
 

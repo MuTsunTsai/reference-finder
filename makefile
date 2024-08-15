@@ -20,6 +20,8 @@ EMFLAGS :=\
 	-sALLOW_MEMORY_GROWTH\
 	-sASYNCIFY=1\
 	-sMIN_SAFARI_VERSION=120000\
+	-sASSERTIONS\
+	-sMAXIMUM_MEMORY=4GB\
 	-sEXPORTED_RUNTIME_METHODS=setValue\
 	-sEXPORT_ES6=1\
 	-sENVIRONMENT=worker
@@ -40,7 +42,7 @@ all: $(WASM)
 $(WASM): $(OBJ)
 	$(MK)
 	@echo Compiling [33m$(WASM)[0m
-	@$(CC) $(EMFLAGS) $(OPTI) -o $(TARGET)/$(OUT).js $(OBJ)
+	@$(CC) $(EMFLAGS) $(USRFLAGS) $(OPTI) -o $(TARGET)/$(OUT).js $(OBJ)
 	@echo [33mWebAssembly compile complete![0m
 
 $(TEMP)/%.o: $(SRCF)/%.cpp

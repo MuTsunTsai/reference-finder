@@ -89,6 +89,7 @@ bool RefLine::IsActionLine() const {
 Return the label for this line.
 *****/
 const char RefLine::GetLabel() const {
+	index_t mIndex = sIndices[this];
 	if (mIndex == 0) return ' ';
 	return sLabels[mIndex - 1];
 }
@@ -201,7 +202,7 @@ class variable sCount and then bumps up the count.
 *****/
 
 void RefLine::SetIndex() {
-	mIndex = ++sCount;
+	sIndices[this] = ++sCount;
 }
 
 /*****

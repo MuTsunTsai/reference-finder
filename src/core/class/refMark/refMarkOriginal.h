@@ -17,6 +17,8 @@ class RefMark_Original : public RefMark {
   public:
 	RefMark_Original(const XYPt &ap, rank_t arank, std::string aName);
 
+	type_t GetType() const override;
+
 	const char GetLabel() const override;
 	void PutName(char const *key, JsonObject &obj) const override;
 	void DrawSelf(RefStyle rstyle, short ipass) const override;

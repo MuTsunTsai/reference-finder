@@ -25,6 +25,8 @@ class RefLine_P2P : public RefLine {
   public:
 	RefLine_P2P(RefMark *arm1, RefMark *arm2);
 
+	type_t GetType() const override;
+
 	bool UsesImmediate(RefBase *rb) const override;
 	void SequencePushSelf() override;
 	JsonObject Serialize() const override;

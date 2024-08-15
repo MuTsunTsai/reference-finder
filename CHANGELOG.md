@@ -5,6 +5,9 @@
 
 - Caching the generated database to the device, allowing much faster startup afterwards.
 
+#### Patches
+- v4.4.1: Improve memory efficiency, and use greatly speed up statistics runtime.
+
 ## v4.3
 
 - Fixed a bug in the original ReferenceFinder that could result in overlooked solutions for points on the boundary of the sheet.

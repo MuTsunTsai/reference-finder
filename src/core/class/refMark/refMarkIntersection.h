@@ -18,6 +18,8 @@ class RefMark_Intersection : public RefMark {
 
 	RefMark_Intersection(RefLine *al1, RefLine *al2);
 
+	type_t GetType() const override;
+
 	bool UsesImmediate(RefBase *rb) const override;
 	void SequencePushSelf() override;
 	JsonObject Serialize() const override;

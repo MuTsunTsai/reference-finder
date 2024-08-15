@@ -41,10 +41,7 @@ double RefMark::DistanceTo(const XYPt &ap) const {
 Return true if this mark is on the edge of the paper
 *****/
 bool RefMark::IsOnEdge() const {
-	return (Shared::sPaper.mLeftEdge.Intersects(p) ||
-			Shared::sPaper.mRightEdge.Intersects(p) ||
-			Shared::sPaper.mTopEdge.Intersects(p) ||
-			Shared::sPaper.mBottomEdge.Intersects(p));
+	return (Shared::sPaper.mLeftEdge.Intersects(p) || Shared::sPaper.mRightEdge.Intersects(p) || Shared::sPaper.mTopEdge.Intersects(p) || Shared::sPaper.mBottomEdge.Intersects(p));
 }
 
 bool RefMark::IsLine() const {
@@ -62,6 +59,7 @@ bool RefMark::IsActionLine() const {
 Return the label for this mark.
 *****/
 const char RefMark::GetLabel() const {
+	index_t mIndex = sIndices[this];
 	if (mIndex == 0) return ' ';
 	return sLabels[mIndex - 1];
 }
@@ -127,7 +125,7 @@ Most types of RefMark use the default method, which gives the mark an index
 from the class variable sCount and then bumps up the class variable.
 *****/
 void RefMark::SetIndex() {
-	mIndex = ++sCount;
+	sIndices[this] = ++sCount;
 }
 
 /*****

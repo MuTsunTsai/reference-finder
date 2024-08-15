@@ -1,6 +1,6 @@
 {
 	"name": "reference-finder",
-	"version": "4.4.0",
+	"version": "4.4.1",
 	"description": "Find reference points and lines in crease patterns.",
 	"scripts": {
 		"start": "make && rsbuild dev -o",

@@ -41,6 +41,8 @@ class RefLine_P2L_P2L : public RefLine {
   public:
 	RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, RefLine *arl2, unsigned char iroot);
 
+	type_t GetType() const override;
+
 	bool UsesImmediate(RefBase *rb) const override;
 	void SequencePushSelf() override;
 	JsonObject Serialize() const override;

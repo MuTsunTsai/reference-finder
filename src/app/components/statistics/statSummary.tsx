@@ -36,7 +36,7 @@ export function StatSummary(props: StatData) {
 				</tr>
 				<tr>
 					<td>{t("statistics.summary.runTime")}</td>
-					<td>{(props.time / 1000).toFixed(1)}s ({(props.time / props.data.length).toFixed(1)}ms/trial)</td>
+					<td>{(props.time / 1000).toFixed(1)}s ({(props.time / props.data.length).toFixed(3)}ms/trial)</td>
 				</tr>
 				<tr>
 					<td>Min / max errors</td>

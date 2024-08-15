@@ -19,7 +19,7 @@ Constructor. iroot = 0 or 1.
 *****/
 
 RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
-	: RefLine(RefType::LINE_L2L, CalcLineRank(arl1, arl2)), rl1(arl1), rl2(arl2), mRoot(iroot) {
+	: RefLine(CalcLineRank(arl1, arl2)), rl1(arl1), rl2(arl2), mRoot(iroot) {
 
 	mScore = rl1->mScore + rl2->mScore + Shared::sAxiomWeights[2];
 
@@ -86,6 +86,10 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
 
 	// Set the key.
 	FinishConstructor();
+}
+
+RefBase::type_t RefLine_L2L::GetType() const {
+	return RefType::LINE_L2L;
 }
 
 /*****

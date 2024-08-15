@@ -16,7 +16,7 @@ Bring p1 to p2.
 Constructor.
 *****/
 RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2)
-	: RefLine(RefType::LINE_P2P, CalcLineRank(arm1, arm2)), rm1(arm1), rm2(arm2) {
+	: RefLine(CalcLineRank(arm1, arm2)), rm1(arm1), rm2(arm2) {
 
 	mScore = rm1->mScore + rm2->mScore + Shared::sAxiomWeights[1];
 
@@ -48,6 +48,10 @@ RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2)
 
 	// Set the key.
 	FinishConstructor();
+}
+
+RefBase::type_t RefLine_P2P::GetType() const {
+	return RefType::LINE_P2P;
 }
 
 /*****

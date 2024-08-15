@@ -9,6 +9,7 @@
 #include "json/jsonObject.h"
 
 #include <iostream>
+#include <unordered_map>
 #include <vector>
 
 class BinaryInputStream;
@@ -20,10 +21,7 @@ class RefBase - base class for a mark or line.
 **********/
 class RefBase {
   public:
-	typedef const unsigned char type_t;
-	type_t type;
-	std::size_t id;			   // Unique id for refs that are actually added to the DB
-	static std::size_t nextId; // Next id
+	std::size_t id; // Unique id for refs that are actually added to the DB
 
 	enum RefType {
 		LINE_ORIGINAL,
@@ -40,10 +38,10 @@ class RefBase {
 
 	rank_t mRank; // Rank of this mark or line
 	key_t mKey;	  // Key used for maps within RefContainers
-	int mScore;	  // Used to decide whether to override existing refs
 
-	/* A none-null value indicating that this ref (line in fact) is used only for creating an intersection. */
-	RefBase *mForMark;
+	// Used to decide whether to override existing refs.
+	// After initialization, this field is re-used for optimization.
+	int mScore;
 
 	static std::vector<RefBase *> sSequence; // a sequence of refs that fully define a ref
 
@@ -55,8 +53,8 @@ class RefBase {
 	static std::vector<DgmInfo> sDgms; // a list of diagrams that describe a given ref
 
   protected:
-	typedef short index_t; // type for indices
-	index_t mIndex;		   // used to label this ref in a folding sequence
+	typedef short index_t;										  // type for indices
+	static std::unordered_map<const RefBase *, index_t> sIndices; // used to label refs in a folding sequence
 
 	static RefDgmr *sDgmr; // object that draws diagrams
 	enum {
@@ -70,8 +68,11 @@ class RefBase {
 	}; // drawing order
 
   public:
-	RefBase(type_t atype, rank_t arank = 0) : type(atype), mRank(arank), mKey(0), mIndex(0), mScore(0), mForMark(NULL) {}
+	RefBase(rank_t arank = 0) : mRank(arank), mKey(0), mScore(0) {}
 	virtual ~RefBase() {}
+
+	typedef const unsigned char type_t;
+	virtual type_t GetType() const = 0;
 
 	// routines for building a sequence of refs
 	virtual void SequencePushSelf();

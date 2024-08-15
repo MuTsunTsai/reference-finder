@@ -16,6 +16,8 @@ class RefLine_C2P_C2P : public RefLine {
 
 	RefLine_C2P_C2P(RefMark *arm1, RefMark *arm2);
 
+	type_t GetType() const override;
+
 	bool UsesImmediate(RefBase *rb) const override;
 	void SequencePushSelf() override;
 	JsonObject Serialize() const override;
