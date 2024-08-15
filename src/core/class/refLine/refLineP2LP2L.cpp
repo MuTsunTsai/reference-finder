@@ -40,7 +40,7 @@ double CubeRoot(double x) {
 Constructor. Variable iroot can be 0, 1, or 2.
 *****/
 RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, RefLine *arl2, unsigned char iroot)
-	: RefLine(CalcLineRank(arm1, arl1, arm2, arl2)), rm1(arm1), rl1(arl1), rm2(arm2), rl2(arl2), mRoot(iroot) {
+	: RefLine(), rm1(arm1), rl1(arl1), rm2(arm2), rl2(arl2), mRoot(iroot) {
 
 	mScore = rm1->mScore + rl1->mScore + rm2->mScore + rl2->mScore + Shared::sAxiomWeights[5];
 
@@ -256,6 +256,10 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 
 RefBase::type_t RefLine_P2L_P2L::GetType() const {
 	return RefType::LINE_P2L_P2L;
+}
+
+rank_t RefLine_P2L_P2L::GetRank() const {
+	return 1 + rm1->GetRank() + rl1->GetRank() + rm2->GetRank() + rl2->GetRank();
 }
 
 /*****

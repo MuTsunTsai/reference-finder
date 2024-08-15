@@ -36,8 +36,7 @@ class RefBase {
 		MARK_INTERSECTION
 	};
 
-	rank_t mRank; // Rank of this mark or line
-	key_t mKey;	  // Key used for maps within RefContainers
+	key_t mKey; // Key used for maps within RefContainers
 
 	// Used to decide whether to override existing refs.
 	// After initialization, this field is re-used for optimization.
@@ -68,11 +67,17 @@ class RefBase {
 	}; // drawing order
 
   public:
-	RefBase(rank_t arank = 0) : mRank(arank), mKey(0), mScore(0) {}
+	RefBase() : mKey(0), mScore(0) {}
 	virtual ~RefBase() {}
 
 	typedef const unsigned char type_t;
 	virtual type_t GetType() const = 0;
+
+	// Rank of this mark or line.
+	// We only need this info in edge cases during CompareRankAndError and in exporting,
+	// so calculate its value as needed recursively does not significantly bring down performance,
+	// and we can save quite some memory usage by eliminating one field.
+	virtual rank_t GetRank() const = 0;
 
 	// routines for building a sequence of refs
 	virtual void SequencePushSelf();

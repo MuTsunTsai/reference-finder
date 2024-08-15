@@ -19,8 +19,8 @@ class RefMark : public RefBase {
 	static char sLabels[]; // labels for marks, indexed by sCount
 
   public:
-	RefMark(rank_t arank) : RefBase(arank) {}
-	RefMark(const XYPt &ap, rank_t arank) : RefBase(arank), p(ap) {}
+	RefMark() : RefBase() {}
+	RefMark(const XYPt &ap) : RefBase(), p(ap) {}
 
 	void FinishConstructor();
 
@@ -35,9 +35,6 @@ class RefMark : public RefBase {
 	void DrawSelf(RefStyle rstyle, short ipass) const override;
 
   protected:
-	static rank_t CalcMarkRank(const RefBase *ar1, const RefBase *ar2) {
-		return ar1->mRank + ar2->mRank;
-	}
 	void SetIndex() override;
 
   private:

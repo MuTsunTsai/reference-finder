@@ -7,6 +7,7 @@
 
 #### Patches
 - v4.4.1: Improve memory efficiency, and use greatly speed up statistics runtime.
+- v4.4.2: Further improve memory efficiency.
 
 ## v4.3
 

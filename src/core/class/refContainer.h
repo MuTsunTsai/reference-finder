@@ -21,7 +21,7 @@ class RefContainer : public std::vector<R *> {
 	typedef std::unordered_set<key_t> set_t;	  // typedef for set holding keys
 	typedef std::vector<R *> vec_t;				  // typedef for vector holding R*
 
-	std::vector<vec_t> ranks;  // Holds vectors of objects, one for each rank
+	std::vector<vec_t> ranks; // Holds vectors of objects, one for each rank
 
 	// Used to accumulate new objects.
 	// We break it into chunks of size CHUNK_SIZE,
@@ -47,10 +47,10 @@ class RefContainer : public std::vector<R *> {
 	size_t nextId;
 	set_t set; // A centralized set for checking duplication
 	int mBufferSize;
-	void Rebuild();		// Re-initialize with new values
-	void Add(R *ar);	// Add an element to the array
-	void FlushBuffer(); // Add the contents of the buffer to the container
-	void ClearMaps();	// Clear the map arrays when no longer needed
+	void Rebuild();					// Re-initialize with new values
+	void Add(R *ar);				// Add an element to the array
+	void FlushBuffer(rank_t arank); // Add the contents of the buffer to the container
+	void ClearMaps();				// Clear the map arrays when no longer needed
 };
 
 /**********
@@ -90,8 +90,8 @@ FlushBuffer().
 template <class R>
 void RefContainer<R>::Add(R *ar) {
 	int i = mBufferSize / CHUNK_SIZE;
-	if (mBufferSize % CHUNK_SIZE == 0) buffer.resize(i + 1); // Add a new chunk
-	buffer[i].insert(typename map_t::value_type(ar->mKey, ar));	  // Add it to the buffer.
+	if (mBufferSize % CHUNK_SIZE == 0) buffer.resize(i + 1);	// Add a new chunk
+	buffer[i].insert(typename map_t::value_type(ar->mKey, ar)); // Add it to the buffer.
 	mBufferSize++;
 }
 
@@ -132,7 +132,7 @@ void RefContainer<R>::AddCopyIfValidAndUnique(const Rs &ars) {
 Put the contents of the buffer into the main container.
 *****/
 template <class R>
-void RefContainer<R>::FlushBuffer() {
+void RefContainer<R>::FlushBuffer(rank_t arank) {
 	for (auto &buf : buffer) {
 		// Make room for the buffer in the sortable list.
 		this->reserve(this->size() + buf.size());
@@ -140,9 +140,9 @@ void RefContainer<R>::FlushBuffer() {
 		// Go through the buffer and add each element to the appropriate rank in the main container.
 		for (auto &bi : buf) {
 			R *ar = bi.second;
-			set.insert(ar->mKey);			// add to the main set
-			ranks[ar->mRank].push_back(ar); // add to appropriate rank
-			this->push_back(ar);			// also add to our sortable list
+			set.insert(ar->mKey);		// add to the main set
+			ranks[arank].push_back(ar); // add to appropriate rank
+			this->push_back(ar);		// also add to our sortable list
 			if (Shared::useDatabase) {
 				ar->id = nextId++; // assign a new id
 				ar->Export(*Shared::dbStream);

@@ -133,11 +133,11 @@ void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank) {
 	}
 
 	// Having constructed all lines in the buffer, add them to the main collection.
-	sBasisLines.FlushBuffer();
+	sBasisLines.FlushBuffer(arank);
 
 	// construct all types of marks of the given rank
 	RefMark_Intersection::MakeAll(arank);
-	sBasisMarks.FlushBuffer();
+	sBasisMarks.FlushBuffer(arank);
 
 	// if we're reporting status, say how many we constructed.
 	if (ShowProgress(DATABASE_RANK_COMPLETE, arank)) throw EXC_HALT();
@@ -259,6 +259,10 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	sBasisMarks.Add(new RefMark_Original(sPaper.mTopLeft, 0, string("nw")));
 	sBasisMarks.Add(new RefMark_Original(sPaper.mTopRight, 0, string("ne")));
 
+	// Flush the buffers.
+	sBasisLines.FlushBuffer(0);
+	sBasisMarks.FlushBuffer(0);
+
 	// Report our status for rank 0.
 	ShowProgress(DATABASE_RANK_COMPLETE, 0);
 
@@ -267,8 +271,8 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	sBasisLines.Add(new RefLine_Original(sPaper.mDownwardDiagonal, 1, string("nw_se")));
 
 	// Flush the buffers.
-	sBasisLines.FlushBuffer();
-	sBasisMarks.FlushBuffer();
+	sBasisLines.FlushBuffer(1);
+	sBasisMarks.FlushBuffer(1);
 
 	// Now build the rest, one rank at a time, starting with rank 1. This can
 	// be terminated by a EXC_HALT if the user cancelled during the callback.
@@ -283,8 +287,8 @@ void ReferenceFinder::BuildAndExportDatabase() {
 			}
 		}
 	} catch (EXC_HALT) {
-		sBasisLines.FlushBuffer();
-		sBasisMarks.FlushBuffer();
+		sBasisLines.FlushBuffer(sCurRank);
+		sBasisMarks.FlushBuffer(sCurRank);
 	}
 
 	// Conclude database exporting

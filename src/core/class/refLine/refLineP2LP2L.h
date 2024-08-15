@@ -42,6 +42,7 @@ class RefLine_P2L_P2L : public RefLine {
 	RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, RefLine *arl2, unsigned char iroot);
 
 	type_t GetType() const override;
+	rank_t GetRank() const override;
 
 	bool UsesImmediate(RefBase *rb) const override;
 	void SequencePushSelf() override;

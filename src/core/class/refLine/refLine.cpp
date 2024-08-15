@@ -109,7 +109,7 @@ Put the distance between this line and line al to a stream along with the rank
 void RefLine::PutDistanceAndRank(JsonObject &solution, const XYLine &al) const {
 	solution.add("solution", l);
 	solution.add("err", DistanceTo(al));
-	solution.add("rank", mRank);
+	solution.add("rank", GetRank());
 }
 
 /*****

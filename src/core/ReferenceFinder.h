@@ -169,7 +169,7 @@ class CompareError {
 		// equal, then compare the refs by their rank.
 		double d1 = r1->DistanceTo(mTarget);
 		double d2 = r2->DistanceTo(mTarget);
-		if (d1 == d2) return r1->mRank < r2->mRank;
+		if (d1 == d2) return r1->GetRank() < r2->GetRank();
 		else return d1 < d2;
 	};
 };
@@ -189,14 +189,15 @@ class CompareRankAndError {
 		// than or equal to sGoodEnoughError, compare the refs by their rank.
 		double d1 = r1->DistanceTo(mTarget);
 		double d2 = r2->DistanceTo(mTarget);
-		if ((d1 > Shared::sGoodEnoughError) ||
-			(d2 > Shared::sGoodEnoughError)) {
-			if (d1 == d2) return r1->mRank < r2->mRank;
-			else return d1 < d2;
-		} else {
-			if (r1->mRank == r2->mRank) return d1 < d2;
-			else return r1->mRank < r2->mRank;
-		}
+
+		bool notBothGood = d1 > Shared::sGoodEnoughError || d2 > Shared::sGoodEnoughError;
+		if (notBothGood && d1 != d2) return d1 < d2;
+
+		rank_t rank1 = r1->GetRank();
+		rank_t rank2 = r2->GetRank();
+		if (notBothGood) return rank1 < rank2; // we must have d1 == d2 here
+		else if (rank1 == rank2) return d1 < d2;
+		else return rank1 < rank2;
 	};
 };
 

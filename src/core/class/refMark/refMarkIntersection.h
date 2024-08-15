@@ -19,6 +19,7 @@ class RefMark_Intersection : public RefMark {
 	RefMark_Intersection(RefLine *al1, RefLine *al2);
 
 	type_t GetType() const override;
+	rank_t GetRank() const override;
 
 	bool UsesImmediate(RefBase *rb) const override;
 	void SequencePushSelf() override;

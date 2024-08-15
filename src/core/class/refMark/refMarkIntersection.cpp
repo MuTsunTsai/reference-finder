@@ -19,7 +19,7 @@ the intersection of 2 lines.
 Constructor.
 *****/
 RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2)
-	: RefMark(CalcMarkRank(arl1, arl2)), rl1(arl1), rl2(arl2) {
+	: RefMark(), rl1(arl1), rl2(arl2) {
 	// Get references to constituent math types
 
 	mScore = rl1->mScore + rl2->mScore;
@@ -51,6 +51,10 @@ RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2)
 
 RefBase::type_t RefMark_Intersection::GetType() const {
 	return RefType::MARK_INTERSECTION;
+}
+
+rank_t RefMark_Intersection::GetRank() const {
+	return rl1->GetRank() + rl2->GetRank();
 }
 
 /*****

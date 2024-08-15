@@ -79,7 +79,7 @@ Put the distance from this mark to point ap to a stream.
 void RefMark::PutDistanceAndRank(JsonObject &solution, const XYPt &ap) const {
 	solution.add("solution", p.Chop());
 	solution.add("err", DistanceTo(ap));
-	solution.add("rank", mRank);
+	solution.add("rank", GetRank());
 }
 
 /*****

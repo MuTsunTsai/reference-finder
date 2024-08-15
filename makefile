@@ -50,7 +50,7 @@ $(TEMP)/%.o: $(SRCF)/%.cpp
 	@echo Compiling [32m$<[0m
 	@$(CC) $(CCFLAGS) $(OPTI) -MMD -c $< -o $@
 
-$(TEMP)/main.o: $(SRCF)/main.cpp
+$(TEMP)/main.o: $(SRCF)/main.cpp $(SRCF)/RFVersion.h
 	$(MK)
 	@echo Compiling [32m$<[0m
 	@$(CC) $(CCFLAGS) $(OPTI) -MMD -c $< -o $@

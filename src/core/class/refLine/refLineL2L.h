@@ -27,6 +27,7 @@ class RefLine_L2L : public RefLine {
 	RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot);
 
 	type_t GetType() const override;
+	rank_t GetRank() const override;
 
 	bool UsesImmediate(RefBase *rb) const override;
 	void SequencePushSelf() override;

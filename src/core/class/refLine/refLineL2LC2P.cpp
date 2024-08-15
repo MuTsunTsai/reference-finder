@@ -16,7 +16,7 @@ Bring line l1 to itself so that the crease goes through point p1
 Constructor.
 *****/
 RefLine_L2L_C2P::RefLine_L2L_C2P(RefLine *arl1, RefMark *arm1)
-	: RefLine(CalcLineRank(arl1, arm1)), rl1(arl1), rm1(arm1) {
+	: RefLine(), rl1(arl1), rm1(arm1) {
 
 	mScore = rl1->mScore + rm1->mScore + Shared::sAxiomWeights[3];
 
@@ -44,6 +44,10 @@ RefLine_L2L_C2P::RefLine_L2L_C2P(RefLine *arl1, RefMark *arm1)
 
 RefBase::type_t RefLine_L2L_C2P::GetType() const {
 	return RefType::LINE_L2L_C2P;
+}
+
+rank_t RefLine_L2L_C2P::GetRank() const {
+	return 1 + rl1->GetRank() + rm1->GetRank();
 }
 
 /*****

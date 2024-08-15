@@ -24,8 +24,8 @@ class RefLine : public RefBase {
 	static void moveCloser(XYPt &from, const XYPt &to, double dist);
 
   public:
-	RefLine(rank_t arank) : RefBase(arank) {}
-	RefLine(const XYLine &al, rank_t arank) : RefBase(arank), l(al), mForMark(NULL) {}
+	RefLine() : RefBase() {}
+	RefLine(const XYLine &al) : RefBase(), l(al), mForMark(NULL) {}
 
 	void FinishConstructor();
 	double DistanceTo(const XYLine &al) const;
@@ -39,15 +39,6 @@ class RefLine : public RefBase {
 	void DrawSelf(RefStyle rstyle, short ipass) const override;
 
   protected:
-	static rank_t CalcLineRank(const RefBase *ar1, const RefBase *ar2) {
-		return 1 + ar1->mRank + ar2->mRank;
-	}
-	static rank_t CalcLineRank(const RefBase *ar1, const RefBase *ar2, const RefBase *ar3) {
-		return 1 + ar1->mRank + ar2->mRank + ar3->mRank;
-	}
-	static rank_t CalcLineRank(const RefBase *ar1, const RefBase *ar2, const RefBase *ar3, const RefBase *ar4) {
-		return 1 + ar1->mRank + ar2->mRank + ar3->mRank + ar4->mRank;
-	}
 	void SetIndex() override;
 
   private:

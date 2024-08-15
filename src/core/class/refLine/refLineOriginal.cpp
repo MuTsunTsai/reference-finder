@@ -16,12 +16,16 @@ is the edge of the paper or an initial crease (like the diagonal).
 Constructor.
 *****/
 RefLine_Original::RefLine_Original(const XYLine &al, rank_t arank, string aName)
-	: RefLine(al, arank), mName(aName) {
+	: RefLine(al), mRank(arank), mName(aName) {
 	FinishConstructor();
 }
 
 RefBase::type_t RefLine_Original::GetType() const {
 	return RefType::LINE_ORIGINAL;
+}
+
+rank_t RefLine_Original::GetRank() const {
+	return mRank;
 }
 
 /*****
