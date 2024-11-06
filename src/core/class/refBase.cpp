@@ -85,7 +85,7 @@ void RefBase::BuildAndNumberSequence() {
 	RefMark::ResetCount();
 	RefLine::ResetCount();
 	sIndices.clear();
-	for (size_t i = 0; i < sSequence.size(); i++) sSequence[i]->SetIndex();
+	for (auto &i : sSequence) i->SetIndex();
 }
 
 void RefBase::PutName(char const *key, JsonObject &obj) const {}
@@ -104,8 +104,8 @@ Send the full how-to sequence to the given stream.
 *****/
 void RefBase::PutHowtoSequence(JsonObject &solution) {
 	JsonArray steps;
-	for (size_t i = 0; i < sSequence.size(); i++) {
-		steps.add(sSequence[i]->Serialize());
+	for (auto &i : sSequence) {
+		steps.add(i->Serialize());
 	}
 	solution.add("steps", steps);
 }
@@ -138,15 +138,15 @@ void RefBase::BuildDiagrams() {
 	size_t ss = sSequence.size();
 	for (size_t i = 0; i < ss; i++) {
 		if (sSequence[i]->IsActionLine()) {
-			sDgms.push_back(DgmInfo(i, i));
+			sDgms.emplace_back(i, i);
 
 			// For each line, check if it is only used to create one intersection and nothing more.
 			// If so, it suffices to pinch only near the corresponding mark, and not the entire line.
-			RefBase *mark = NULL;
+			RefBase *mark = nullptr;
 			for (size_t j = 0; j < ss; j++) {
 				if (sSequence[j]->UsesImmediate(sSequence[i])) {
-					if (sSequence[j]->IsLine() || mark != NULL) {
-						mark = NULL;
+					if (sSequence[j]->IsLine() || mark != nullptr) {
+						mark = nullptr;
 						break;
 					} else {
 						mark = sSequence[j];
@@ -158,24 +158,24 @@ void RefBase::BuildDiagrams() {
 		if (!sSequence[i]->IsLine() && sSequence[i]->IsDerived()) {
 			auto *mark = (RefMark_Intersection *)sSequence[i];
 			// It won't make sense to have both lines as pinches.
-			if (mark->rl2->mForMark != NULL) mark->rl1->mForMark = NULL;
+			if (mark->rl2->mForMark != nullptr) mark->rl1->mForMark = nullptr;
 		}
 	}
 
 	// We should always have at least one diagram, even if there was only one ref
 	// in sSequence (which happens if the ref was a RefMark_Original or
 	// RefLine_Original).
-	if (sDgms.size() == 0) sDgms.push_back(DgmInfo(0, 0));
+	if (sDgms.size() == 0) sDgms.emplace_back(0, 0);
 
 	// And we make sure we have a diagram for the last ref in the sequence (which
 	// might not be the case if we ended with a RefMark or an original).
-	if (sDgms[sDgms.size() - 1].iact < ss - 1) sDgms.push_back(DgmInfo(0, ss - 1));
+	if (sDgms[sDgms.size() - 1].iact < ss - 1) sDgms.emplace_back(0, ss - 1);
 
 	// Now we go through and set the idef fields of each DgmInfo record.
 	size_t id = 0;
-	for (size_t i = 0; i < sDgms.size(); i++) {
-		sDgms[i].idef = id;
-		id = sDgms[i].iact + 1;
+	for (auto &sDgm : sDgms) {
+		sDgm.idef = id;
+		id = sDgm.iact + 1;
 	}
 }
 

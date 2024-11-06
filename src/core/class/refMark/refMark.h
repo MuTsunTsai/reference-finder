@@ -11,7 +11,7 @@ class RefMark - base class for a mark on the paper.
 **********/
 class RefMark : public RefBase {
   public:
-	typedef XYPt bare_t; // type of bare object a RefMark represents
+	using bare_t = XYPt; // type of bare object a RefMark represents
 	bare_t p;			 // coordinates of the mark
 
   private:

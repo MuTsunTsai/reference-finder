@@ -43,8 +43,8 @@ void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &)
 	case ReferenceFinder::DATABASE_INITIALIZING:
 		// Called at beginning of initialization
 		cout << "Initializing using";
-		for (int i = 0; i < 7; i++) {
-			if (Shared::sAxioms[i] > 0) cout << " O" << Shared::sAxioms[i] << ",";
+		for (int &sAxiom : Shared::sAxioms) {
+			if (sAxiom > 0) cout << " O" << sAxiom << ",";
 		}
 		cout << " vis=";
 		if (Shared::sVisibilityMatters) cout << "true";

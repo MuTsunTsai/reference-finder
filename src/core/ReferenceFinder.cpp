@@ -50,10 +50,10 @@ private static member initialization
 *****/
 RefContainer<RefLine> ReferenceFinder::sBasisLines;
 RefContainer<RefMark> ReferenceFinder::sBasisMarks;
-ReferenceFinder::DatabaseFn ReferenceFinder::sDatabaseFn = 0;
-void *ReferenceFinder::sDatabaseUserData = 0;
-ReferenceFinder::StatisticsFn ReferenceFinder::sStatisticsFn = 0;
-void *ReferenceFinder::sStatisticsUserData = 0;
+ReferenceFinder::DatabaseFn ReferenceFinder::sDatabaseFn = nullptr;
+void *ReferenceFinder::sDatabaseUserData = nullptr;
+ReferenceFinder::StatisticsFn ReferenceFinder::sStatisticsFn = nullptr;
+void *ReferenceFinder::sStatisticsUserData = nullptr;
 int ReferenceFinder::sStatusCount = 0;
 rank_t ReferenceFinder::sCurRank = 0;
 
@@ -104,8 +104,8 @@ void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank) {
 	// (1) It will more likely to give pinch marks rather than a whole line.
 	// (2) It is more likely to come up with traditionally known folding sequences.
 
-	for (int i = 0; i < 7; i++) {
-		switch (Shared::sAxioms[i]) {
+	for (int sAxiom : Shared::sAxioms) {
+		switch (sAxiom) {
 		case 1:
 			RefLine_C2P_C2P::MakeAll(arank);
 			break;
@@ -223,7 +223,7 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	Shared::sDatabaseStatusSkip = 800000;
 	Shared::CheckDatabaseStatus = &CheckDatabaseStatus;
 
-	ofstream *outFile = NULL;
+	ofstream *outFile = nullptr;
 	if (Shared::useDatabase) {
 		outFile = new ofstream(string("/data/db"));
 		if (!*outFile) Shared::useDatabase = false;
@@ -375,7 +375,6 @@ void ReferenceFinder::CalcStatistics() {
 	Paper &sPaper = Shared::sPaper;
 
 	// Run a bunch of test cases on random points.
-	int actNumTrials = Shared::sNumTrials;
 	for (size_t i = 0; i < size_t(Shared::sNumTrials); i++) {
 		XYPt testPt((double(rand()) / (RAND_MAX * sPaper.mWidth)), double(rand()) / (RAND_MAX * sPaper.mHeight));
 		double error = Optimizer::GetBestError(testPt);
@@ -383,10 +382,7 @@ void ReferenceFinder::CalcStatistics() {
 		// Report progress, and check for early termination from user
 		if (sStatisticsFn) {
 			sStatisticsFn(StatisticsInfo(STATISTICS_WORKING, i, error), sStatisticsUserData, cancel);
-			if (cancel) {
-				actNumTrials = 1 + int(i);
-				break;
-			}
+			if (cancel) break;
 		}
 	}
 

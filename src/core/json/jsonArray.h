@@ -17,7 +17,7 @@ class JsonArray {
 
   private:
 	std::stringstream mStream;
-	bool mStarted;
+	bool mStarted{false};
 
 	friend std::ostream &operator<<(std::ostream &os, const JsonArray &j);
 };

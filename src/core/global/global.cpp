@@ -7,7 +7,7 @@ Accessible static member initialization -- variables that you might want to
 change (because they alter the behavior of the program) are given default values here.
 *****/
 
-Shared::CheckDatabaseStatusFn Shared::CheckDatabaseStatus = 0;
+Shared::CheckDatabaseStatusFn Shared::CheckDatabaseStatus = nullptr;
 
 // Use unit square paper
 Paper Shared::sPaper(1.0, 1.0);
@@ -15,7 +15,7 @@ Paper Shared::sPaper(1.0, 1.0);
 bool Shared::useDatabase = true;
 bool Shared::forceRebuild = false;
 int Shared::sizeBytes = 8;
-BinaryOutputStream *Shared::dbStream = NULL;
+BinaryOutputStream *Shared::dbStream = nullptr;
 
 // The axioms to use, in the order of priority. A value of 0 means skipping.
 int Shared::sAxioms[7] = {2, 3, 7, 6, 5, 4, 1};

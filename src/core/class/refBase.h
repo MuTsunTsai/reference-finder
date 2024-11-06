@@ -21,7 +21,7 @@ class RefBase - base class for a mark or line.
 **********/
 class RefBase {
   public:
-	std::size_t id; // Unique id for refs that are actually added to the DB
+	std::size_t id{0}; // Unique id for refs that are actually added to the DB
 
 	enum RefType {
 		LINE_ORIGINAL,
@@ -36,11 +36,11 @@ class RefBase {
 		MARK_INTERSECTION
 	};
 
-	key_t mKey; // Key used for maps within RefContainers
+	key_t mKey{0}; // Key used for maps within RefContainers
 
 	// Used to decide whether to override existing refs.
 	// After initialization, this field is re-used for optimization.
-	int mScore;
+	int mScore{0};
 
 	static std::vector<RefBase *> sSequence; // a sequence of refs that fully define a ref
 
@@ -52,7 +52,7 @@ class RefBase {
 	static std::vector<DgmInfo> sDgms; // a list of diagrams that describe a given ref
 
   protected:
-	typedef short index_t;										  // type for indices
+	using index_t = short;										  // type for indices
 	static std::unordered_map<const RefBase *, index_t> sIndices; // used to label refs in a folding sequence
 
 	static RefDgmr *sDgmr; // object that draws diagrams
@@ -67,10 +67,10 @@ class RefBase {
 	}; // drawing order
 
   public:
-	RefBase() : mKey(0), mScore(0) {}
-	virtual ~RefBase() {}
+	RefBase() = default;
+	virtual ~RefBase() = default;
 
-	typedef const unsigned char type_t;
+	using type_t = const unsigned char;
 	virtual type_t GetType() const = 0;
 
 	// Rank of this mark or line.

@@ -68,8 +68,8 @@ class ReferenceFinder {
 			return !operator==(info);
 		};
 	};
-	typedef void (*DatabaseFn)(DatabaseInfo info, void *userData, bool &cancel);
-	static void SetDatabaseFn(DatabaseFn databaseFn, void *userData = 0) {
+	using DatabaseFn = void (*)(DatabaseInfo, void *, bool &);
+	static void SetDatabaseFn(DatabaseFn databaseFn, void *userData = nullptr) {
 		sDatabaseFn = databaseFn;
 		sDatabaseUserData = userData;
 	};
@@ -109,8 +109,8 @@ class ReferenceFinder {
 			return !operator==(info);
 		};
 	};
-	typedef void (*StatisticsFn)(StatisticsInfo info, void *userData, bool &cancel);
-	static void SetStatisticsFn(StatisticsFn statisticsFn, void *userData = 0) {
+	using StatisticsFn = void (*)(StatisticsInfo, void *, bool &);
+	static void SetStatisticsFn(StatisticsFn statisticsFn, void *userData = nullptr) {
 		sStatisticsFn = statisticsFn;
 		sStatisticsUserData = userData;
 	};

@@ -11,7 +11,7 @@ class RefLine - base class for a reference line.
 **********/
 class RefLine : public RefBase {
   public:
-	typedef XYLine bare_t; // type of bare object that a RefLine represents
+	using bare_t = XYLine; // type of bare object that a RefLine represents
 	bare_t l;			   // the line this contains
 
 	/* A none-null value indicating that this line is used only for creating an intersection. */
@@ -24,8 +24,8 @@ class RefLine : public RefBase {
 	static void moveCloser(XYPt &from, const XYPt &to, double dist);
 
   public:
-	RefLine() : RefBase() {}
-	RefLine(const XYLine &al) : RefBase(), l(al), mForMark(NULL) {}
+	RefLine() : RefBase(), mForMark(nullptr) {}
+	RefLine(const XYLine &al) : RefBase(), l(al), mForMark(nullptr) {}
 
 	void FinishConstructor();
 	double DistanceTo(const XYLine &al) const;

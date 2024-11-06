@@ -4,7 +4,7 @@
 
 using namespace std;
 
-JsonObject::JsonObject() : mStarted(false) {
+JsonObject::JsonObject() {
 	// Set the precision so that double numbers are printed with more digits
 	mStream.precision(15);
 }

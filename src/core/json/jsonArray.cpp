@@ -4,7 +4,7 @@
 
 using namespace std;
 
-JsonArray::JsonArray() : mStarted(false) {}
+JsonArray::JsonArray() = default;
 
 void JsonArray::clear() {
 	mStarted = false;

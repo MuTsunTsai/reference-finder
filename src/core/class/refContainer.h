@@ -17,9 +17,9 @@ template <class R>
 class RefContainer : public std::vector<R *> {
   public:
 	// For our use case, using std::unordered_map can improve performance by about 12% comparing to std::map
-	typedef std::unordered_map<key_t, R *> map_t; // typedef for map holding R*
-	typedef std::unordered_set<key_t> set_t;	  // typedef for set holding keys
-	typedef std::vector<R *> vec_t;				  // typedef for vector holding R*
+	using map_t = std::unordered_map<key_t, R *>; // typedef for map holding R*
+	using set_t = std::unordered_set<key_t>;	  // typedef for set holding keys
+	using vec_t = std::vector<R *>;				  // typedef for vector holding R*
 
 	std::vector<vec_t> ranks; // Holds vectors of objects, one for each rank
 
@@ -44,9 +44,9 @@ class RefContainer : public std::vector<R *> {
 
 	RefContainer(); // Constructor
 
-	size_t nextId;
+	size_t nextId{0};
 	set_t set; // A centralized set for checking duplication
-	int mBufferSize;
+	int mBufferSize{0};
 	void Rebuild();					// Re-initialize with new values
 	void Add(R *ar);				// Add an element to the array
 	void FlushBuffer(rank_t arank); // Add the contents of the buffer to the container
@@ -64,7 +64,7 @@ per key. class R = RefMark or RefLine
 Constructor. Initialize arrays.
 *****/
 template <class R>
-RefContainer<R>::RefContainer() : nextId(0), mBufferSize(0) {
+RefContainer<R>::RefContainer() {
 	// expand our map array to hold all the ranks that we will create
 	ranks.resize(1 + Shared::sMaxRank);
 	buffer.resize(0);

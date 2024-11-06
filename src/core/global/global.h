@@ -13,8 +13,8 @@ Globals
 
 const double EPS = 1.0e-8; // used for equality of XYPts, parallelness of XYLines
 
-typedef unsigned short rank_t;
-typedef int key_t;
+using rank_t = unsigned short;
+using key_t = int;
 
 /*****
 Utilities
@@ -67,7 +67,7 @@ class Shared {
 		return sNumX < std::numeric_limits<key_t>::max() / sNumY;
 	};
 
-	typedef void (*CheckDatabaseStatusFn)();
+	using CheckDatabaseStatusFn = void (*)();
 
 	static CheckDatabaseStatusFn CheckDatabaseStatus;
 };

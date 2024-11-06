@@ -24,8 +24,8 @@ void RefMark::FinishConstructor() {
 	const double fx = p.x / Shared::sPaper.mWidth;	// fx is between 0 and 1
 	const double fy = p.y / Shared::sPaper.mHeight; // fy is between 0 and 1
 
-	key_t nx = static_cast<key_t>(floor(0.5 + fx * (Shared::sNumX - 1)));
-	key_t ny = static_cast<key_t>(floor(0.5 + fy * (Shared::sNumY - 1)));
+	auto nx = static_cast<key_t>(floor(0.5 + fx * (Shared::sNumX - 1)));
+	auto ny = static_cast<key_t>(floor(0.5 + fy * (Shared::sNumY - 1)));
 	mKey = 1 + nx * Shared::sNumY + ny;
 }
 

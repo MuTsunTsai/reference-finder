@@ -13,7 +13,7 @@ class RefMark_Original - Specialization of RefMark that represents a named mark
 Constructor.
 *****/
 RefMark_Original::RefMark_Original(const XYPt &ap, rank_t arank, string aName)
-	: RefMark(ap), mRank(arank), mName(aName) {
+	: RefMark(ap), mRank(arank), mName(std::move(aName)) {
 	FinishConstructor();
 }
 

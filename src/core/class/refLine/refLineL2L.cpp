@@ -156,7 +156,7 @@ JsonObject RefLine_L2L::Serialize() const {
 		step.add("p0", pa.Chop());
 	}
 
-	if (mForMark != NULL) step.add("pinch", 1);
+	if (mForMark != nullptr) step.add("pinch", 1);
 #ifdef _DEBUG_DB_
 	PutDebug(step);
 #endif
@@ -204,7 +204,7 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 			weight++;
 		} while (!isParallel && (p1c - p2c).Mag() < 0.3 && weight < 5);
 
-		XYPt *around = isParallel ? NULL : &p; // Specify arrow orientation for L2L
+		XYPt *around = isParallel ? nullptr : &p; // Specify arrow orientation for L2L
 		switch (mWhoMoves) {
 		case WHOMOVES_L1:
 			sDgmr->DrawArrow(p1c, p2c, around);

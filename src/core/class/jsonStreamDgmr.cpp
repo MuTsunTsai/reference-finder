@@ -29,9 +29,9 @@ void JsonStreamDgmr::PutRefList(const typename R::bare_t &ar, vector<R *> &vr) {
 		vr[i]->PutHowtoSequence(solution);
 
 		JsonArray diagrams;
-		for (size_t j = 0; j < RefBase::sDgms.size(); j++) {
+		for (auto sDgm : RefBase::sDgms) {
 			mArray.clear();
-			RefBase::DrawDiagram(*this, RefBase::sDgms[j]);
+			RefBase::DrawDiagram(*this, sDgm);
 			diagrams.add(mArray);
 		};
 		solution.add("diagrams", diagrams);

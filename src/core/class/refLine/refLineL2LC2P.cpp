@@ -76,7 +76,7 @@ JsonObject RefLine_L2L_C2P::Serialize() const {
 	PutName("x", step);
 	rm1->PutName("p0", step);
 
-	if (mForMark != NULL) step.add("pinch", 1);
+	if (mForMark != nullptr) step.add("pinch", 1);
 #ifdef _DEBUG_DB_
 	PutDebug(step);
 #endif

@@ -13,7 +13,7 @@ using namespace std;
 double Optimizer::sSize = 0;
 int Optimizer::sRows = 0;
 int Optimizer::sCols = 0;
-vector<int> *Optimizer::sIndices = NULL;
+vector<int> *Optimizer::sIndices = nullptr;
 
 int Optimizer::keyX(XYPt &p) {
 	return static_cast<int>(floor(p.x / sSize));

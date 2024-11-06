@@ -23,7 +23,7 @@ class JsonObject {
 
   private:
 	std::stringstream mStream;
-	bool mStarted;
+	bool mStarted{false};
 
 	void addKey(char const *key);
 

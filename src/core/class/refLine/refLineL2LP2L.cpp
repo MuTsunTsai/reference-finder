@@ -133,7 +133,7 @@ JsonObject RefLine_L2L_P2L::Serialize() const {
 	};
 	PutName("x", step);
 
-	if (mForMark != NULL) step.add("pinch", 1);
+	if (mForMark != nullptr) step.add("pinch", 1);
 #ifdef _DEBUG_DB_
 	PutDebug(step);
 #endif

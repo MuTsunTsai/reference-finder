@@ -34,9 +34,9 @@ void RefLine::FinishConstructor() {
 							 pow(Shared::sPaper.mHeight, 2));
 	const double fd = l.d / dmax; // fd is between 0 and 1
 
-	key_t nd = static_cast<key_t>(floor(0.5 + fd * (Shared::sNumD - 1)));
+	auto nd = static_cast<key_t>(floor(0.5 + fd * (Shared::sNumD - 1)));
 	if (nd == 0) fa = fmod(2 * fa, 1); // for d=0, we map alpha and pi+alpha to the same key
-	key_t na = static_cast<key_t>(floor(0.5 + fa * (Shared::sNumA - 1)));
+	auto na = static_cast<key_t>(floor(0.5 + fa * (Shared::sNumA - 1)));
 	mKey = 1 + na * Shared::sNumD + nd;
 }
 
@@ -121,9 +121,9 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 	XYPt p1(op1), p2(op2);
 	double pinchLength = 0;
 
-	if (mForMark != NULL) {
+	if (mForMark != nullptr) {
 		pinchLength = std::min(Shared::sPaper.mWidth, Shared::sPaper.mHeight) / 10.0;
-		RefMark *mark = (RefMark *)mForMark;
+		auto *mark = (RefMark *)mForMark;
 		moveCloser(p1, mark->p, pinchLength);
 		moveCloser(p2, mark->p, pinchLength);
 	}
@@ -146,11 +146,11 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 			sDgmr->DrawLine(p1, p2, RefDgmr::LINESTYLE_HILITE);
 			break;
 		case REFSTYLE_ACTION:
-			if (mForMark != NULL) {
+			if (mForMark != nullptr) {
 				sDgmr->DrawLine(op1, p1, RefDgmr::LINESTYLE_DOTTED);
 				sDgmr->DrawLine(op2, p2, RefDgmr::LINESTYLE_DOTTED);
 			}
-			sDgmr->DrawLine(p1, p2, mForMark == NULL ? RefDgmr::LINESTYLE_VALLEY : RefDgmr::LINESTYLE_PINCH);
+			sDgmr->DrawLine(p1, p2, mForMark == nullptr ? RefDgmr::LINESTYLE_VALLEY : RefDgmr::LINESTYLE_PINCH);
 			break;
 		default:; // keep compiler happy
 		}
@@ -171,8 +171,8 @@ void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
 			// normal lines don't get labels
 			break;
 		case REFSTYLE_HILITE:
-			if (mForMark != NULL) {
-				RefMark *mark = (RefMark *)mForMark;
+			if (mForMark != nullptr) {
+				auto *mark = (RefMark *)mForMark;
 				moveCloser(mp, mark->p, pinchLength * 0.75);
 			}
 			sDgmr->DrawLabel(mp, sl, RefDgmr::LABELSTYLE_HILITE);

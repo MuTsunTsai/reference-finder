@@ -13,8 +13,8 @@ platform-specific drawing models, etc.
 **********/
 class RefDgmr {
   public:
-	RefDgmr(){};
-	virtual ~RefDgmr(){};
+	RefDgmr() = default;
+	virtual ~RefDgmr() = default;
 
 	// Subclasses must override these methods to implement
 	enum PointStyle {

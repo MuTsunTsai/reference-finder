@@ -27,12 +27,12 @@ class JsonStreamDgmr : public RefDgmr {
 	void PutRefList(const typename R::bare_t &ar, std::vector<R *> &vr);
 
 	// Overridden functions from ancestor class RefDgmr
-	void DrawPt(const XYPt &aPt, PointStyle pstyle);
-	void DrawLine(const XYPt &fromPt, const XYPt &toPt, LineStyle lstyle);
+	void DrawPt(const XYPt &aPt, PointStyle pstyle) override;
+	void DrawLine(const XYPt &fromPt, const XYPt &toPt, LineStyle lstyle) override;
 	void DrawArc(const XYPt &ctr, double rad, double fromAngle,
-				 double toAngle, bool ccw, LineStyle lstyle);
-	void DrawPoly(const std::vector<XYPt> &poly, PolyStyle pstyle);
-	void DrawLabel(const XYPt &aPt, const std::string &aString, LabelStyle lstyle);
+				 double toAngle, bool ccw, LineStyle lstyle) override;
+	void DrawPoly(const std::vector<XYPt> &poly, PolyStyle pstyle) override;
+	void DrawLabel(const XYPt &aPt, const std::string &aString, LabelStyle lstyle) override;
 };
 
 #endif
