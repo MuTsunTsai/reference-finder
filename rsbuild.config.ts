@@ -96,7 +96,13 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		pluginSass(),
+		pluginSass({
+			sassLoaderOptions: {
+				sassOptions: {
+					silenceDeprecations: ["mixed-decls", "color-functions", "import", "global-builtin"],
+				},
+			},
+		}),
 		pluginReact(),
 		pluginCheckSyntax({
 			ecmaVersion: 2018,
