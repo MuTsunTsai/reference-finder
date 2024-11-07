@@ -1,19 +1,18 @@
 {
-    "configurations": [
-        {
-            "name": "Win32",
-            "includePath": [
-                "${workspaceFolder}/src/core",
-				// Change the next line to your Emscripten location
-				"C:/Sdk/emsdk/upstream/emscripten/cache/sysroot/include/c++/v1",
-				"C:/Sdk/emsdk/upstream/emscripten/cache/sysroot/include"
-            ],
-            "windowsSdkVersion": "10.0.22621.0",
-            "compilerPath": "C:/Sdk/LLVM/bin/clang.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64"
-        }
-    ],
-    "version": 4
+	// https://code.visualstudio.com/docs/cpp/c-cpp-properties-schema-reference
+	"configurations": [
+		{
+			"name": "Emscripten",
+			"includePath": [
+				"${workspaceFolder}/src/core"
+			],
+			// Change the next line to your Emscripten location
+			"compilerPath": "C:/Sdk/emsdk/upstream/emscripten/emcc.bat", // we need to disable this to work with clang-tidy
+			"cStandard": "c17",
+			"cppStandard": "c++17",
+			"intelliSenseMode": "linux-clang-x86"
+		}
+	],
+	"version": 4,
+	"enableConfigurationSquiggles": true
 }

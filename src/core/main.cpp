@@ -66,10 +66,10 @@ void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &)
 }
 
 void updateInterval(double laps) {
-	auto duration = system_clock::now() - startTime;
-	double lap = duration_cast<milliseconds>(duration).count() / laps;
-	intervalReport = 250 / lap;
-	intervalCheckStop = 1000 / lap;
+	std::chrono::duration<double> duration = system_clock::now() - startTime;
+	double lap = duration.count() / laps;
+	intervalReport = 0.25 / lap;
+	intervalCheckStop = 1 / lap;
 
 	// Just in case one lap is VERY slow
 	if (intervalReport == 0) intervalReport = 1;

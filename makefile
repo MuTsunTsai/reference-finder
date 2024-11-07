@@ -25,10 +25,6 @@ EMFLAGS :=\
 	-sEXPORTED_RUNTIME_METHODS=setValue\
 	-sEXPORT_ES6=1\
 	-sENVIRONMENT=worker
-TIDYFLAGS :=\
-	-target wasm32-unknown-emscripten\
-	--sysroot=C:\Sdk\emsdk\upstream\emscripten\cache\sysroot\
-	-DEMSCRIPTEN
 OPTI :=	-O3
 
 WASM := $(TARGET)/$(OUT).wasm
@@ -75,7 +71,3 @@ ifeq ($(OS),Windows_NT)
 else
 	@rm -f $(TEMP)
 endif
-
-.PHONY: tidy
-tidy:
-	clang-tidy $(SRC) -- $(TIDYFLAGS) $(CCFLAGS)

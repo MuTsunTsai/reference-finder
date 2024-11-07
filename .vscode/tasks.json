@@ -25,7 +25,7 @@
 				"background": {
 					"activeOnStart": true,
 					"beginsPattern": "Rsbuild",
-					"endsPattern": "ready   Client compiled"
+					"endsPattern": "ready"
 				}
 			}
 		},

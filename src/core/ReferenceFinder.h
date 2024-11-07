@@ -36,6 +36,10 @@ target mark or line.
 **********/
 class ReferenceFinder {
   public:
+	// You should never create an instance of this class
+	ReferenceFinder() = delete;
+	ReferenceFinder(const ReferenceFinder &) = delete;
+
 	// Getters
 	static std::size_t GetNumLines() {
 		return sBasisLines.GetTotalSize();
@@ -133,10 +137,6 @@ class ReferenceFinder {
 	static bool ShowProgress(DatabaseStatus status, rank_t rank);
 	static void CheckDatabaseStatus(); // called by RefContainer<>
 	static void MakeAllMarksAndLinesOfRank(rank_t arank);
-
-	// You should never create an instance of this class
-	ReferenceFinder();
-	ReferenceFinder(const ReferenceFinder &);
 
 	friend class Optimizer;
 	friend class RefBase;
