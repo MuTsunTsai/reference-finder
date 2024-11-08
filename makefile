@@ -1,7 +1,7 @@
 
 MAKEFLAGS += -j12
 
-CC := emcc
+CXX := em++
 
 SRCF := src/core
 TEMP := obj
@@ -13,8 +13,9 @@ DEP := $(patsubst $(SRCF)/%.cpp,$(TEMP)/%.d,$(SRC))
 
 OUT := ref
 
-CCFLAGS := -I$(SRCF) -std=c++17
-EMFLAGS :=\
+CPPFLAGS := -I$(SRCF) -std=c++17
+CXXFLAGS :=	-O3
+LDFLAGS :=\
 	-lidbfs.js\
 	-sINITIAL_MEMORY=50MB\
 	-sALLOW_MEMORY_GROWTH\
@@ -25,13 +26,13 @@ EMFLAGS :=\
 	-sEXPORTED_RUNTIME_METHODS=setValue\
 	-sEXPORT_ES6=1\
 	-sENVIRONMENT=worker
-OPTI :=	-O3
 
 WASM := $(TARGET)/$(OUT).wasm
 
 ifeq ($(OS),Windows_NT)
 # Error is still possible in parallel running, so we add extra protection
 	MK = -@if not exist "$(@D)" mkdir "$(@D)" 2> NUL
+	RM = rmdir /s /q
 else
 	MK = @mkdir -p "$(@D)"
 endif
@@ -42,18 +43,18 @@ all: $(WASM)
 $(WASM): $(OBJ)
 	$(MK)
 	@echo Compiling [33m$(WASM)[0m
-	@$(CC) $(EMFLAGS) $(USRFLAGS) $(OPTI) -o $(TARGET)/$(OUT).js $(OBJ)
+	@$(LINK.cc) $(USRFLAGS) -o $(TARGET)/$(OUT).js $(OBJ)
 	@echo [33mWebAssembly compile complete![0m
 
 $(TEMP)/%.o: $(SRCF)/%.cpp
 	$(MK)
 	@echo Compiling [32m$<[0m
-	@$(CC) $(CCFLAGS) $(OPTI) -MMD -c $< -o $@
+	@$(COMPILE.cc) -MMD -c $< -o $@
 
 $(TEMP)/main.o: $(SRCF)/main.cpp $(SRCF)/RFVersion.h
 	$(MK)
 	@echo Compiling [32m$<[0m
-	@$(CC) $(CCFLAGS) $(OPTI) -MMD -c $< -o $@
+	@$(COMPILE.cc) -MMD -c $< -o $@
 
 # Ignoring old dependencies that were removed
 %.h: ;
@@ -66,8 +67,4 @@ $(SRCF)/RFVersion.h: package.json
 
 .PHONY: clean
 clean:
-ifeq ($(OS),Windows_NT)
-	@rmdir /s /q $(TEMP)
-else
-	@rm -f $(TEMP)
-endif
+	@$(RM) $(TEMP)
