@@ -19,11 +19,11 @@
 	"devDependencies": {
 		"@eslint/js": "^9.14.0",
 		"@mutsuntsai/stylistic": "^1.0.3",
-		"@rsbuild/core": "1.0.19",
-		"@rsbuild/plugin-assets-retry": "1.0.4",
-		"@rsbuild/plugin-check-syntax": "1.0.1",
-		"@rsbuild/plugin-react": "1.0.6",
-		"@rsbuild/plugin-sass": "1.1.0",
+		"@rsbuild/core": "^1.1.0",
+		"@rsbuild/plugin-assets-retry": "^1.0.4",
+		"@rsbuild/plugin-check-syntax": "^1.0.1",
+		"@rsbuild/plugin-react": "^1.0.7",
+		"@rsbuild/plugin-sass": "^1.1.0",
 		"@types/bootstrap": "^5.2.10",
 		"@types/emscripten": "^1.39.13",
 		"@types/gtag.js": "^0.0.20",
@@ -61,7 +61,7 @@
 		"react": "^18.3.1",
 		"react-chartjs-2": "^5.2.0",
 		"react-dom": "^18.3.1",
-		"react-i18next": "^15.1.0",
+		"react-i18next": "^15.1.1",
 		"zustand": "^5.0.1"
 	},
 	"pnpm": {
