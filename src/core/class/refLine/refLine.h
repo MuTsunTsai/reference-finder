@@ -6,6 +6,8 @@
 #include "math/xyline.h"
 #include "json/jsonObject.h"
 
+#include <array>
+
 /**********
 class RefLine - base class for a reference line.
 **********/
@@ -18,8 +20,8 @@ class RefLine : public RefBase {
 	RefBase *mForMark;
 
   private:
-	static index_t sCount; // class index, used for numbering sequences of lines
-	static char sLabels[]; // labels for lines, indexed by sCount
+	static index_t sCount;					   // class index, used for numbering sequences of lines
+	static std::array<const char, 10> sLabels; // labels for lines, indexed by sCount
 
 	static void moveCloser(XYPt &from, const XYPt &to, double dist);
 

@@ -1,6 +1,8 @@
 
 #include "paper.h"
 
+#include <array>
+
 /**********
 class Paper - specialization of XYRect, used for representing the paper
 **********/
@@ -41,9 +43,9 @@ bool Paper::ClipLine(const XYLine &al, XYPt &ap1, XYPt &ap2) const {
 	// Start by collecting all points of intersection between the line and the
 	// four sides of the paper.
 
-	unsigned npts = 0; // counter for number of points of intersection
-	XYPt ipts[4];	   // list of points of intersection
-	XYPt p;			   // a scratch pad for intersection points
+	unsigned npts = 0;		  // counter for number of points of intersection
+	std::array<XYPt, 4> ipts; // list of points of intersection
+	XYPt p;					  // a scratch pad for intersection points
 
 	if (mTopEdge.Intersects(al, p) && Encloses(p)) ipts[npts++] = p;
 	if (mLeftEdge.Intersects(al, p) && Encloses(p)) ipts[npts++] = p;

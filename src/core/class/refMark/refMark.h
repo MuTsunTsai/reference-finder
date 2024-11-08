@@ -6,6 +6,8 @@
 #include "math/xypt.h"
 #include "json/jsonObject.h"
 
+#include <array>
+
 /**********
 class RefMark - base class for a mark on the paper.
 **********/
@@ -15,8 +17,8 @@ class RefMark : public RefBase {
 	bare_t p;			 // coordinates of the mark
 
   private:
-	static index_t sCount; // class index, used for numbering sequences of marks
-	static char sLabels[]; // labels for marks, indexed by sCount
+	static index_t sCount;					   // class index, used for numbering sequences of marks
+	static std::array<const char, 11> sLabels; // labels for marks, indexed by sCount
 
   public:
 	RefMark() : RefBase() {}

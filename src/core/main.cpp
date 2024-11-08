@@ -188,7 +188,6 @@ int main() {
 	if (!ReferenceFinder::ImportDatabase()) ReferenceFinder::BuildAndExportDatabase();
 	if (Shared::useDatabase) emscripten_utils_sync_fs();
 
-	//  Loop forever until the user quits from the menu.
 	while (true) {
 		emscripten_utils_clear();
 
@@ -196,10 +195,6 @@ int main() {
 		int ns = ReadNumber();
 
 		switch (ns) {
-		case 0: {
-			exit(1);
-			break;
-		}
 		case 1: {
 			int count = readSearchSettings();
 			XYPt pp;
@@ -237,13 +232,14 @@ int main() {
 		}
 		case 99: {
 			Shared::sNumTrials = ReadNumber();
-			// hidden command to calculate statistics on marks & report results
 			ReferenceFinder::CalcStatistics();
 			break;
 		}
 		default:
-			cerr << "Enter just 0, 1 or 2, please.\n\n";
+			cerr << "Unknown command " << ns << endl;
 		}
 	};
+
+	// Technically the loop never ends until the user closes the web app.
 	return 0;
 }

@@ -61,7 +61,7 @@ Return the label for this mark.
 const char RefMark::GetLabel() const {
 	index_t mIndex = sIndices[this];
 	if (mIndex == 0) return ' ';
-	return sLabels[mIndex - 1];
+	return sLabels.at(mIndex - 1);
 }
 
 /*****

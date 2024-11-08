@@ -18,11 +18,11 @@ if(probablyChina) {
 }
 
 const resources = {
-	en: { translation: en },
-	es: { translation: es },
-	ja: { translation: ja },
-	pt: { translation: pt },
-	ru: { translation: ru },
+	"en": { translation: en },
+	"es": { translation: es },
+	"ja": { translation: ja },
+	"pt": { translation: pt },
+	"ru": { translation: ru },
 	"zh-CN": { translation: cn },
 	"zh-TW": { translation: tw },
 };

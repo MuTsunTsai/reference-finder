@@ -7,7 +7,7 @@
 				"${workspaceFolder}/src/core"
 			],
 			// Change the next line to your Emscripten location
-			"compilerPath": "C:/Sdk/emsdk/upstream/emscripten/emcc.bat", // we need to disable this to work with clang-tidy
+			"compilerPath": "C:/Sdk/emsdk/upstream/emscripten/emcc.bat",
 			"cStandard": "c17",
 			"cppStandard": "c++17",
 			"intelliSenseMode": "linux-clang-x86"

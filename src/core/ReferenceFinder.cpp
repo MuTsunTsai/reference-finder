@@ -42,8 +42,8 @@ database.
 **********/
 
 // Letters that are used for labels for marks and lines.
-char RefLine::sLabels[] = "ABCDEFGHIJ";
-char RefMark::sLabels[] = "PQRSTUVWXYZ";
+std::array<const char, 10> RefLine::sLabels = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+std::array<const char, 11> RefMark::sLabels = {'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
 /*****
 private static member initialization
@@ -94,8 +94,9 @@ void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank) {
 	// get built, since the first object with a given key to be constructed gets
 	// the key slot.
 
-	// The original priority given by Lang is 3276541, in which we give first preference to lines that don't
-	// involve making creases through points, because these are the hardest to do accurately in practice.
+	// The original priority given by Lang was 3276541,
+	// in which we first give preference to lines that don't involve making creases through points,
+	// because these are the hardest to do accurately in practice.
 	// Next, we'll make lines that put a crease through a single point.
 	// Finally, we'll do lines that put a crease through both points.
 

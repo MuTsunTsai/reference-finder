@@ -91,7 +91,7 @@ Return the label for this line.
 const char RefLine::GetLabel() const {
 	index_t mIndex = sIndices[this];
 	if (mIndex == 0) return ' ';
-	return sLabels[mIndex - 1];
+	return sLabels.at(mIndex - 1);
 }
 
 /*****

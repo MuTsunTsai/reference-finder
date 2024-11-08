@@ -2,6 +2,7 @@
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
+#include <array>
 #include <limits>
 
 // Uncomment the next line to include debug info in the JSON data.
@@ -33,13 +34,13 @@ class Shared {
 	// BuildAndExportDatabase().
 	static Paper sPaper; // dimensions of the paper
 
-	static bool useDatabase;
-	static bool forceRebuild;
+	static bool useDatabase;  // Save the database to device
+	static bool forceRebuild; // Rebuild the database regardless of the saved one
 	static int sizeBytes;
 	static BinaryOutputStream *dbStream;
 
-	static int sAxioms[7];
-	static int sAxiomWeights[7];
+	static std::array<int, 7> sAxioms;
+	static std::array<int, 7> sAxiomWeights;
 
 	static rank_t sMaxRank;		  // maximum rank to create
 	static std::size_t sMaxLines; // maximum number of lines to create
