@@ -1,6 +1,5 @@
 
-#ifndef _REF_LINE_H_
-#define _REF_LINE_H_
+#pragma once
 
 #include "../refBase.h"
 #include "math/xyline.h"
@@ -47,5 +46,3 @@ class RefLine : public RefBase {
 	static void ResetCount();
 	friend class RefBase;
 };
-
-#endif

@@ -1,6 +1,5 @@
 
-#ifndef _XYLINE_H_
-#define _XYLINE_H_
+#pragma once
 
 #include "database/binaryOutputStream.hpp"
 #include "xypt.h"
@@ -66,5 +65,3 @@ class XYLine {
 
 	friend BinaryOutputStream &operator<<(BinaryOutputStream &os, const XYLine &l);
 };
-
-#endif

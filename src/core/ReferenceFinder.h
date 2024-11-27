@@ -8,8 +8,7 @@ Created:      2006-04-22
 Copyright:    ©1999-2007 Robert J. Lang. All Rights Reserved.
 ******************************************************************************/
 
-#ifndef _REFERENCEFINDER_H_
-#define _REFERENCEFINDER_H_
+#pragma once
 
 #include <sstream>
 #include <vector>
@@ -200,5 +199,3 @@ class CompareRankAndError {
 		else return rank1 < rank2;
 	};
 };
-
-#endif

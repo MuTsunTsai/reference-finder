@@ -1,6 +1,5 @@
 
-#ifndef _REF_LINE_ORIGINAL_H_
-#define _REF_LINE_ORIGINAL_H_
+#pragma once
 
 #include "refLine.h"
 
@@ -31,5 +30,3 @@ class RefLine_Original : public RefLine {
 	bool IsDerived() const override;
 	void SetIndex() override;
 };
-
-#endif

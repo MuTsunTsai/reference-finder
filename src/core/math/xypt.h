@@ -1,6 +1,5 @@
 
-#ifndef _XYPT_H_
-#define _XYPT_H_
+#pragma once
 
 #include <cmath>
 #include <iostream>
@@ -139,5 +138,3 @@ class XYPt {
 
 	friend BinaryOutputStream &operator<<(BinaryOutputStream &os, const XYPt &p);
 };
-
-#endif

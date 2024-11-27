@@ -1,6 +1,5 @@
 
-#ifndef _OPTIMIZER_H_
-#define _OPTIMIZER_H_
+#pragma once
 
 #include "class/refMark/refMark.h"
 
@@ -25,5 +24,3 @@ class Optimizer {
 
 	static double GetBestErrorAtBucket(XYPt &testPt, int key);
 };
-
-#endif

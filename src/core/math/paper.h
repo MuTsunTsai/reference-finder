@@ -1,6 +1,5 @@
 
-#ifndef _PAPER_H_
-#define _PAPER_H_
+#pragma once
 
 #include "xyline.h"
 #include "xyrect.h"
@@ -33,5 +32,3 @@ class Paper : public XYRect {
 	bool InteriorOverlaps(const XYLine &al) const;
 	bool MakesSkinnyFlap(const XYLine &al) const;
 };
-
-#endif

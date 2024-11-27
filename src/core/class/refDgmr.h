@@ -1,6 +1,5 @@
 
-#ifndef _REF_DGMR_H_
-#define _REF_DGMR_H_
+#pragma once
 
 #include <vector>
 
@@ -61,5 +60,3 @@ class RefDgmr {
 				   XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw,
 				   double &ahSize, XYPt &fromDir, XYPt &toDir);
 };
-
-#endif

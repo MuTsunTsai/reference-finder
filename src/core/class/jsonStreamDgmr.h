@@ -1,6 +1,5 @@
 
-#ifndef _VERBAL_STREAM_DGMR_H_
-#define _VERBAL_STREAM_DGMR_H_
+#pragma once
 
 #include "json/jsonArray.h"
 #include "json/jsonObject.h"
@@ -34,5 +33,3 @@ class JsonStreamDgmr : public RefDgmr {
 	void DrawPoly(const std::vector<XYPt> &poly, PolyStyle pstyle) override;
 	void DrawLabel(const XYPt &aPt, const std::string &aString, LabelStyle lstyle) override;
 };
-
-#endif

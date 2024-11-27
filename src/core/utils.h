@@ -1,3 +1,6 @@
+
+#pragma once
+
 #include <emscripten.h>
 
 // For silencing VS Code errors

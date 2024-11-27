@@ -1,6 +1,5 @@
 
-#ifndef _REF_CONTAINER_H_
-#define _REF_CONTAINER_H_
+#pragma once
 
 #include "database/binaryOutputStream.hpp"
 #include "global/global.h"
@@ -161,7 +160,5 @@ Clear the set and rank vectors. Called when they're no longer needed.
 template <class R>
 void RefContainer<R>::ClearMaps() {
 	set.clear();
-	for (size_t ir = 0; ir < ranks.size(); ir++) ranks[ir].clear();
+	for (auto &rank : ranks) rank.clear();
 }
-
-#endif

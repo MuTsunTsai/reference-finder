@@ -1,6 +1,5 @@
 
-#ifndef _REF_MARK_H_
-#define _REF_MARK_H_
+#pragma once
 
 #include "../refBase.h"
 #include "math/xypt.h"
@@ -43,5 +42,3 @@ class RefMark : public RefBase {
 	static void ResetCount();
 	friend class RefBase;
 };
-
-#endif

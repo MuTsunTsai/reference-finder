@@ -1,6 +1,5 @@
 
-#ifndef _REF_MARK_ORIGINAL_H_
-#define _REF_MARK_ORIGINAL_H_
+#pragma once
 
 #include "refMark.h"
 
@@ -32,5 +31,3 @@ class RefMark_Original : public RefMark {
 	bool IsDerived() const override;
 	void SetIndex() override;
 };
-
-#endif

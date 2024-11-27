@@ -1,6 +1,5 @@
 
-#ifndef _REF_LINE_P2P_H_
-#define _REF_LINE_P2P_H_
+#pragma once
 
 #include "../refMark/refMark.h"
 #include "json/jsonArray.h"
@@ -37,5 +36,3 @@ class RefLine_P2P : public RefLine {
 	static RefLine *Import(BinaryInputStream &is);
 	static void MakeAll(rank_t arank);
 };
-
-#endif

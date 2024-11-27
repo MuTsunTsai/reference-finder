@@ -1,6 +1,5 @@
 
-#ifndef _BINARY_OUTPUT_STREAM_H_
-#define _BINARY_OUTPUT_STREAM_H_
+#pragma once
 
 #include "global/global.h"
 
@@ -31,5 +30,3 @@ class BinaryOutputStream {
   private:
 	std::ostream &os_;
 };
-
-#endif

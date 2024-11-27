@@ -1,6 +1,5 @@
 
-#ifndef _JSON_OBJECT_H_
-#define _JSON_OBJECT_H_
+#pragma once
 
 #include "math/xypt.h"
 #include "math/xyline.h"
@@ -31,5 +30,3 @@ class JsonObject {
 
 	friend std::ostream &operator<<(std::ostream &os, const JsonObject &j);
 };
-
-#endif

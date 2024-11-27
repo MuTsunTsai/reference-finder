@@ -1,6 +1,5 @@
 
-#ifndef _REF_MARK_INTERSECTION_H_
-#define _REF_MARK_INTERSECTION_H_
+#pragma once
 
 #include "refMark.h"
 #include "json/jsonArray.h"
@@ -30,5 +29,3 @@ class RefMark_Intersection : public RefMark {
 
 	static void MakeAll(rank_t arank);
 };
-
-#endif

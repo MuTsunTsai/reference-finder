@@ -8,8 +8,7 @@ Created:      2006-05-07
 Copyright:    ©2006-2007 Robert J. Lang. All Rights Reserved.
 *******************************************************************************/
 
-#ifndef _RFVERSION_H_
-#define _RFVERSION_H_
+#pragma once
 
 /*****
 Define version macros as symbols and strings.
@@ -39,5 +38,3 @@ enum {
 
 /* Build code as string (used in About box) */
 #define BUILD_CODE_STR MACRO_MAKE_STR(VERSION_BUILD)
-
-#endif // _RFVERSION_H_

@@ -1,9 +1,10 @@
-BreakBeforeBraces: Attach
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
 AlignAfterOpenBracket: BlockIndent
 AllowShortIfStatementsOnASingleLine: AllIfsAndElse
 AllowShortLoopsOnASingleLine: true
-PackConstructorInitializers: NextLine
-UseTab: Always
-IndentWidth: 4
-TabWidth: 4
+BreakBeforeBraces: Attach
 ColumnLimit: 0
+IndentWidth: 4
+PackConstructorInitializers: NextLine
+TabWidth: 4
+UseTab: Always

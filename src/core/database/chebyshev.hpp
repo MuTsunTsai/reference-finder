@@ -1,6 +1,5 @@
 
-#ifndef _CHEBYSHEV_H_
-#define _CHEBYSHEV_H_
+#pragma once
 
 /**
  * Traverse all points of Chebyshev distance r.
@@ -50,5 +49,3 @@ class Chebyshev {
   private:
 	int r;
 };
-
-#endif

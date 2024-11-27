@@ -1,6 +1,5 @@
 
-#ifndef _JSON_ARRAY_H_
-#define _JSON_ARRAY_H_
+#pragma once
 
 #include <sstream>
 
@@ -21,5 +20,3 @@ class JsonArray {
 
 	friend std::ostream &operator<<(std::ostream &os, const JsonArray &j);
 };
-
-#endif

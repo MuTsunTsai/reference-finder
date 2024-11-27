@@ -1,6 +1,5 @@
 
-#ifndef _XYRECT_H_
-#define _XYRECT_H_
+#pragma once
 
 #include "xypt.h"
 
@@ -65,5 +64,3 @@ inline const XYRect GetBoundingBox(const XYPt &p1, const XYPt &p2) {
 inline const XYRect GetBoundingBox(const XYPt &p1, const XYPt &p2, const XYPt &p3) {
 	return XYRect(p1).Include(p2).Include(p3);
 }
-
-#endif

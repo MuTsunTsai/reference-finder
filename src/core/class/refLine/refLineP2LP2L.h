@@ -1,6 +1,5 @@
 
-#ifndef _REF_LINE_P2L_P2L_H_
-#define _REF_LINE_P2L_P2L_H_
+#pragma once
 
 #include "../refMark/refMark.h"
 #include "refLine.h"
@@ -56,5 +55,3 @@ class RefLine_P2L_P2L : public RefLine {
   private:
 	static void MakeAllCore(rank_t irank, rank_t jrank, rank_t krank, rank_t lrank);
 };
-
-#endif

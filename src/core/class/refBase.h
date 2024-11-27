@@ -1,6 +1,5 @@
 
-#ifndef _REF_BASE_H_
-#define _REF_BASE_H_
+#pragma once
 
 #include "database/binaryInputStream.hpp"
 #include "database/binaryOutputStream.hpp"
@@ -113,5 +112,3 @@ class RefBase {
 	void PutDebug(JsonObject &step) const;
 #endif
 };
-
-#endif

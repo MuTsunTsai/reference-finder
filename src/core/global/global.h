@@ -1,6 +1,5 @@
 
-#ifndef _GLOBAL_H_
-#define _GLOBAL_H_
+#pragma once
 
 #include <array>
 #include <limits>
@@ -72,5 +71,3 @@ class Shared {
 
 	static CheckDatabaseStatusFn CheckDatabaseStatus;
 };
-
-#endif

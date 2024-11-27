@@ -1,6 +1,5 @@
 
-#ifndef _REF_LINE_P2L_C2P_H_
-#define _REF_LINE_P2L_C2P_H_
+#pragma once
 
 #include "../refMark/refMark.h"
 #include "refLine.h"
@@ -39,5 +38,3 @@ class RefLine_P2L_C2P : public RefLine {
 	static RefLine *Import(BinaryInputStream &is);
 	static void MakeAll(rank_t arank);
 };
-
-#endif

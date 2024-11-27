@@ -1,6 +1,5 @@
 
-#ifndef _BINARY_INPUT_STREAM_H_
-#define _BINARY_INPUT_STREAM_H_
+#pragma once
 
 #include "global/global.h"
 
@@ -33,5 +32,3 @@ class BinaryInputStream {
   private:
 	std::istream &is_;
 };
-
-#endif
