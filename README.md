@@ -1,3 +1,6 @@
+![GitHub package.json version](https://img.shields.io/github/package-json/v/mutsuntsai/reference-finder)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/mutsuntsai/reference-finder)
+![GitHub top language](https://img.shields.io/github/languages/top/mutsuntsai/reference-finder)
 
 # ReferenceFinder
 
