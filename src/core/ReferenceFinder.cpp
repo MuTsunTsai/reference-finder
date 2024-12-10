@@ -377,7 +377,7 @@ void ReferenceFinder::CalcStatistics() {
 
 	// Run a bunch of test cases on random points.
 	for (size_t i = 0; i < size_t(Shared::sNumTrials); i++) {
-		XYPt testPt((double(rand()) / (RAND_MAX * sPaper.mWidth)), double(rand()) / (RAND_MAX * sPaper.mHeight));
+		XYPt testPt((double(rand()) / RAND_MAX * sPaper.mWidth), double(rand()) / RAND_MAX * sPaper.mHeight);
 		double error = Optimizer::GetBestError(testPt);
 
 		// Report progress, and check for early termination from user

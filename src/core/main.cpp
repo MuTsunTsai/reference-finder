@@ -232,6 +232,8 @@ int main() {
 		}
 		case 99: {
 			Shared::sNumTrials = ReadNumber();
+			unsigned int seed = ReadNumber();
+			srand(seed);
 			ReferenceFinder::CalcStatistics();
 			break;
 		}

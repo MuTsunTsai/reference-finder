@@ -45,7 +45,7 @@ ref({
 	checkCancel: () => new Promise(function(resolve) {
 		cancelResolve = resolve;
 
-		// if any message comes in when the tread is blocked,
+		// if any message comes in when the thread is blocked,
 		// it will be executed before setTimeout
 		setTimeout(() => resolve(false), 0);
 	}),

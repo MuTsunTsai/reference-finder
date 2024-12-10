@@ -8,7 +8,9 @@ To build and run this project, you will need the following:
 - [Node.js](https://nodejs.org/)
 - [PNPM](https://pnpm.io/), and then execute the following in the project folder: `pnpm install`.
 - [Emscripten](https://emscripten.org/), and make sure that `emcc` is available in PATH.\
-	You may also need to change `configurations.includePath` in the [.vscode/c_cpp_properties.json](./.vscode/c_cpp_properties.json) file to reflect the location of your Emscripten installation.
+	You may also need to change `configurations.compilerPath` in the
+	[.vscode/c_cpp_properties.json](./.vscode/c_cpp_properties.json)
+	file to reflect the location of your Emscripten installation.
 - [GNU make](https://community.chocolatey.org/packages/make), if you're on Windows.\
 	(Our makefile should work on all desktop platforms regardlessly.)
 

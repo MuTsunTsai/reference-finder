@@ -48,12 +48,12 @@ $(WASM): $(OBJ)
 
 $(TEMP)/%.o: $(SRCF)/%.cpp
 	$(MK)
-	@echo Compiling [32m$<[0m
+	@echo Compiling [32m$(patsubst $(SRCF)/%,%,$<)[0m
 	@$(COMPILE.cc) -MMD -c $< -o $@
 
 $(TEMP)/main.o: $(SRCF)/main.cpp $(SRCF)/RFVersion.h
 	$(MK)
-	@echo Compiling [32m$<[0m
+	@echo Compiling [32m$(patsubst $(SRCF)/%,%,$<)[0m
 	@$(COMPILE.cc) -MMD -c $< -o $@
 
 # Ignoring old dependencies that were removed

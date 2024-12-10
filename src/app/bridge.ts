@@ -11,9 +11,11 @@ export function useWorker() {
 	return worker;
 }
 
+const UINT_MAX = 4294967295; // Max value of unsigned int
+
 export function startStatistics(trials: number, callback: typeof statisticsCallback) {
 	statisticsCallback = callback;
-	worker.postMessage([99, trials]);
+	worker.postMessage([99, trials, Math.floor(Math.random() * UINT_MAX)]);
 }
 
 function parseSolution(text: string) {
