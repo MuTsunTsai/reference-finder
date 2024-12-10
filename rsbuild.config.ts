@@ -20,8 +20,7 @@ export default defineConfig({
 	source: {
 		include: [
 			// add matcher for packages that needs to be transpiled
-			/i18next-browser-languagedetector/,
-			/react-i18next/,
+			/i18next/,
 			/chart\.js/,
 		],
 		define: {
