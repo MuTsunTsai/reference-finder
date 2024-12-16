@@ -18,8 +18,7 @@ Bring line l1 to line l2.
 Constructor. iroot = 0 or 1.
 *****/
 
-RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
-	: RefLine(), rl1(arl1), rl2(arl2), mRoot(iroot) {
+RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot): rl1(arl1), rl2(arl2), mRoot(iroot) {
 
 	mScore = rl1->mScore + rl2->mScore + Shared::sAxiomWeights[2];
 
@@ -38,6 +37,7 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
 			l.u = u1;
 			l.d = .5 * (d1 + d2 * u2.Dot(u1));
 		} else
+			// NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.UninitializedObject)
 			return; // iroot = 1 for parallel lines isn't a valid solution.
 	} else {		// nonparallel lines
 
@@ -63,7 +63,8 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
 		else if(l2edge)
 			mWhoMoves = WHOMOVES_L2;
 		else {
-			XYPt lp1, lp2;
+			XYPt lp1;
+			XYPt lp2;
 			Shared::sPaper.ClipLine(l1, lp1, lp2);
 			if(Shared::sPaper.Encloses(l.Fold(lp1)) &&
 			   Shared::sPaper.Encloses(l.Fold(lp2)))
@@ -145,7 +146,8 @@ JsonObject RefLine_L2L::Serialize() const {
 	XYPt p;
 	rl1->l.Intersects(rl2->l, p); // get the intersection of the two bisectors
 
-	XYPt pa, pb;
+	XYPt pa;
+	XYPt pb;
 	Shared::sPaper.ClipLine(l, pa, pb); // find where our fold line hits the paper.
 
 	// Return the first point of intersection between the fold line and the edge of the
@@ -179,9 +181,11 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		XYLine &l2 = rl2->l;
 		XYPt p;
 		bool isParallel = !l1.Intersects(l2, p); // intersection
-		XYPt p1a, p1b;
+		XYPt p1a;
+		XYPt p1b;
 		Shared::sPaper.ClipLine(l1, p1a, p1b); // endpoints of l1
-		XYPt p2a, p2b;
+		XYPt p2a;
+		XYPt p2b;
 		Shared::sPaper.ClipLine(l2, p2a, p2b); // endpoints of l2
 		p2a = l.Fold(p2a);					   // flop l2 points onto l1
 		p2b = l.Fold(p2b);
@@ -195,7 +199,8 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		sort(tvals.begin(), tvals.end());	   // sort them in order; we want the middle 2
 
 		// Place the arrow closer to tvals[2] if the resulting arrow is too small
-		XYPt p1c, p2c;
+		XYPt p1c;
+		XYPt p2c;
 		int weight = 1;
 		do {
 			double offset = (tvals[1] + weight * tvals[2]) / (1 + weight);
@@ -245,7 +250,8 @@ void RefLine_L2L::Export(BinaryOutputStream &os) const {
 }
 
 RefLine *RefLine_L2L::Import(BinaryInputStream &is) {
-	size_t id1, id2;
+	size_t id1;
+	size_t id2;
 	unsigned char root;
 	is.read(id1).read(id2).read(root);
 	RefLine *rl1 = ReferenceFinder::sBasisLines[id1];

@@ -20,7 +20,7 @@ class RefMark_Original: public RefMark {
 	type_t GetType() const override;
 	rank_t GetRank() const override;
 
-	const char GetLabel() const override;
+	char GetLabel() const override;
 	void PutName(char const *key, JsonObject &obj) const override;
 	void DrawSelf(RefStyle rstyle, short ipass) const override;
 	void Export(BinaryOutputStream &os) const override;

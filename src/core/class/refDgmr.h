@@ -16,7 +16,7 @@ class RefDgmr {
 	virtual ~RefDgmr() = default;
 
 	// Subclasses must override these methods to implement
-	enum PointStyle {
+	enum PointStyle : std::uint8_t {
 		POINTSTYLE_NORMAL,
 		POINTSTYLE_HILITE,
 		POINTSTYLE_ACTION
@@ -26,7 +26,7 @@ class RefDgmr {
 	*****/
 	virtual void DrawPt(const XYPt &aPt, PointStyle pstyle) = 0;
 
-	enum LineStyle {
+	enum LineStyle : std::uint8_t {
 		LINESTYLE_CREASE,
 		LINESTYLE_EDGE,
 		LINESTYLE_HILITE,
@@ -46,7 +46,7 @@ class RefDgmr {
 	*****/
 	virtual void DrawArc(const XYPt &ctr, double rad, double fromAngle, double toAngle, bool ccw, LineStyle lstyle) = 0;
 
-	enum PolyStyle {
+	enum PolyStyle : std::uint8_t {
 		POLYSTYLE_WHITE,
 		POLYSTYLE_COLORED,
 		POLYSTYLE_ARROW
@@ -56,7 +56,7 @@ class RefDgmr {
 	*****/
 	virtual void DrawPoly(const std::vector<XYPt> &poly, PolyStyle pstyle) = 0;
 
-	enum LabelStyle {
+	enum LabelStyle : std::uint8_t {
 		LABELSTYLE_NORMAL,
 		LABELSTYLE_HILITE,
 		LABELSTYLE_ACTION
@@ -68,7 +68,4 @@ class RefDgmr {
 
 	void DrawArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around);
 	void DrawArrow(const XYPt &fromPt, const XYPt &toPt);
-
-  private:
-	void CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around, XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw, double &ahSize, XYPt &fromDir, XYPt &toDir);
 };

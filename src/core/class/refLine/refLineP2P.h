@@ -15,7 +15,7 @@ class RefLine_P2P: public RefLine {
 	RefMark *rm2; // to another mark, and form a crease.
 
   private:
-	enum WhoMoves {
+	enum WhoMoves : std::uint8_t {
 		WHOMOVES_P1,
 		WHOMOVES_P2
 	};

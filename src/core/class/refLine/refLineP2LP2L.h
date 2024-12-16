@@ -28,7 +28,7 @@ class RefLine_P2L_P2L: public RefLine {
 	static double Si;
 	static double U;
 
-	enum WhoMoves {
+	enum WhoMoves : std::uint8_t {
 		WHOMOVES_P1P2,
 		WHOMOVES_L1L2,
 		WHOMOVES_P1L2,

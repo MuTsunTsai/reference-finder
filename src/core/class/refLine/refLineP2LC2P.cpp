@@ -16,7 +16,7 @@ Bring point p1 to line l1 so that the crease passes through point p2.
 Constructor. iroot can be 0 or 1.
 *****/
 RefLine_P2L_C2P::RefLine_P2L_C2P(RefMark *arm1, RefLine *arl1, RefMark *arm2, unsigned char iroot)
-	: RefLine(), rm1(arm1), rl1(arl1), rm2(arm2), mRoot(iroot) {
+	: rm1(arm1), rl1(arl1), rm2(arm2), mRoot(iroot) {
 
 	mScore = rm1->mScore + rl1->mScore + rm2->mScore + Shared::sAxiomWeights[4];
 
@@ -29,6 +29,7 @@ RefLine_P2L_C2P::RefLine_P2L_C2P(RefMark *arm1, RefLine *arl1, RefMark *arm2, un
 
 	// If either point is already on the line, then this isn't interesting, i.e., it's
 	// a trivial Haga construction.
+	// NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.UninitializedObject)
 	if(l1.Intersects(p1) || l1.Intersects(p2)) return;
 
 	// Construct the line.
@@ -172,9 +173,9 @@ void RefLine_P2L_C2P::MakeAll(rank_t arank) {
 	for(rank_t irank = 0; irank <= (arank - 1); irank++)
 		for(rank_t jrank = 0; jrank <= (arank - 1 - irank); jrank++) {
 			rank_t krank = arank - irank - jrank - 1;
-			for(auto mi: ReferenceFinder::sBasisMarks.ranks[irank]) {
-				for(auto lj: ReferenceFinder::sBasisLines.ranks[jrank]) {
-					for(auto mk: ReferenceFinder::sBasisMarks.ranks[krank]) {
+			for(auto *mi: ReferenceFinder::sBasisMarks.ranks[irank]) {
+				for(auto *lj: ReferenceFinder::sBasisLines.ranks[jrank]) {
+					for(auto *mk: ReferenceFinder::sBasisMarks.ranks[krank]) {
 						if((irank != krank) || (mi != mk)) { // only cmpr iterators if same container
 							if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 							RefLine_P2L_C2P rlh1(mi, lj, mk, 0);
@@ -195,7 +196,9 @@ void RefLine_P2L_C2P::Export(BinaryOutputStream &os) const {
 }
 
 RefLine *RefLine_P2L_C2P::Import(BinaryInputStream &is) {
-	size_t id1, id2, id3;
+	size_t id1;
+	size_t id2;
+	size_t id3;
 	unsigned char root;
 	is.read(id1).read(id2).read(id3).read(root);
 	RefMark *rm1 = ReferenceFinder::sBasisMarks[id1];

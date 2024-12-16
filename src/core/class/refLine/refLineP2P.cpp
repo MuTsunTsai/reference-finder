@@ -15,8 +15,7 @@ Bring p1 to p2.
 /*****
 Constructor.
 *****/
-RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2)
-	: RefLine(), rm1(arm1), rm2(arm2) {
+RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2): rm1(arm1), rm2(arm2) {
 
 	mScore = rm1->mScore + rm2->mScore + Shared::sAxiomWeights[1];
 
@@ -38,6 +37,7 @@ RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2)
 		else if(p2edge)
 			mWhoMoves = WHOMOVES_P2;
 		else
+			// NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.UninitializedObject)
 			return;
 	} else {
 		mWhoMoves = WHOMOVES_P1;
@@ -157,7 +157,8 @@ void RefLine_P2P::Export(BinaryOutputStream &os) const {
 }
 
 RefLine *RefLine_P2P::Import(BinaryInputStream &is) {
-	size_t id1, id2;
+	size_t id1;
+	size_t id2;
 	is.read(id1).read(id2);
 	RefMark *rm1 = ReferenceFinder::sBasisMarks[id1];
 	RefMark *rm2 = ReferenceFinder::sBasisMarks[id2];

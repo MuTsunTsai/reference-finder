@@ -15,8 +15,7 @@ Make a crease through two points p1 and p2.
 /*****
 Constructor. Initialize with the two marks that this line connects.
 *****/
-RefLine_C2P_C2P::RefLine_C2P_C2P(RefMark *arm1, RefMark *arm2)
-	: RefLine(), rm1(arm1), rm2(arm2) {
+RefLine_C2P_C2P::RefLine_C2P_C2P(RefMark *arm1, RefMark *arm2): rm1(arm1), rm2(arm2) {
 
 	mScore = rm1->mScore + rm2->mScore + Shared::sAxiomWeights[0];
 
@@ -98,7 +97,8 @@ void RefLine_C2P_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 		lb.d = mp.Dot(lb.u);
 
 		// Get the points where the bisector crosses the paper
-		XYPt p3, p4;
+		XYPt p3;
+		XYPt p4;
 		Shared::sPaper.ClipLine(lb, p3, p4);
 
 		// Parameterize these points along the bisector. Don't care about sign.
@@ -146,7 +146,8 @@ void RefLine_C2P_C2P::Export(BinaryOutputStream &os) const {
 }
 
 RefLine *RefLine_C2P_C2P::Import(BinaryInputStream &is) {
-	size_t id1, id2;
+	size_t id1;
+	size_t id2;
 	is.read(id1).read(id2);
 	RefMark *rm1 = ReferenceFinder::sBasisMarks[id1];
 	RefMark *rm2 = ReferenceFinder::sBasisMarks[id2];

@@ -11,8 +11,8 @@ class JsonArray {
 	void clear();
 	void add(const JsonObject &obj);
 	void add(const JsonArray &array);
-	void add(const int value);
-	void add(const double value);
+	void add(int value);
+	void add(double value);
 
   private:
 	std::stringstream mStream;

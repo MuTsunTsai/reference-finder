@@ -39,7 +39,7 @@ bool RefLine_Original::IsActionLine() const {
 /*****
 Return the label for this line.
 *****/
-const char RefLine_Original::GetLabel() const {
+char RefLine_Original::GetLabel() const {
 	return 0; // originals get no label
 }
 
@@ -58,7 +58,8 @@ Draw this line in the appropriate style
 void RefLine_Original::DrawSelf(RefStyle rstyle, short ipass) const {
 	// RefLine_Originals don't get labels, and they are REFSTYLE_ACTION, we
 	// still draw them highlighted.
-	XYPt p1, p2;
+	XYPt p1;
+	XYPt p2;
 	Shared::sPaper.ClipLine(l, p1, p2);
 	switch(ipass) {
 	case PASS_LINES:
@@ -102,7 +103,9 @@ void RefLine_Original::Export(BinaryOutputStream &os) const {
 }
 
 RefLine *RefLine_Original::Import(BinaryInputStream &is) {
-	double d, x, y;
+	double d;
+	double x;
+	double y;
 	rank_t rank;
 	string name;
 	is.read(d).read(x).read(y).read(rank).read(name);

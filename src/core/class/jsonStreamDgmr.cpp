@@ -11,7 +11,7 @@ class JsonStreamDgmr is a variation of the original VerbalStreamDgmr.
 /*****
 Constructor
 ******/
-JsonStreamDgmr::JsonStreamDgmr(ostream &aStream): RefDgmr(), mStream(&aStream) {
+JsonStreamDgmr::JsonStreamDgmr(ostream &aStream): mStream(&aStream) {
 }
 
 /*****
@@ -26,7 +26,7 @@ void JsonStreamDgmr::PutRefList(const typename R::bare_t &ar, vector<R *> &vr) {
 		vr[i]->PutDistanceAndRank(solution, ar);
 		vr[i]->BuildAndNumberSequence();
 		vr[i]->BuildDiagrams();
-		vr[i]->PutHowtoSequence(solution);
+		RefBase::PutHowtoSequence(solution);
 
 		JsonArray diagrams;
 		for(auto sDgm: RefBase::sDgms) {

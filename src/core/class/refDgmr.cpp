@@ -24,7 +24,7 @@ offset and scale appropriately to convert to canvas coordinates.
 /*****
 Calculate all the parameters necessary to draw arrow.
 *****/
-void RefDgmr::CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around, XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw, double &ahSize, XYPt &fromDir, XYPt &toDir) {
+void CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around, XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw, double &ahSize, XYPt &fromDir, XYPt &toDir) {
 	const double RADIANS = 57.29577951;
 	const double TWO_PI = 6.283185308;
 	const double PI = 3.1415926535;

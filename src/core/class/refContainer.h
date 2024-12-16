@@ -27,7 +27,6 @@ class RefContainer: public std::vector<R *> {
 	// to reduce the stress of copying data from the buffer to the main container.
 	std::vector<map_t> buffer;
 
-  public:
 	std::size_t GetTotalSize() const {
 		// Total number of elements, all ranks
 		return this->size() + mBufferSize;

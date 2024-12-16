@@ -79,7 +79,8 @@ Return true if line al overlaps the paper in its interior. Return false if the
 line misses the paper entirely, only hits a corner, or only runs along an edge.
 *****/
 bool Paper::InteriorOverlaps(const XYLine &al) const {
-	XYPt pa, pb;							// endpoints of the fold line
+	XYPt pa;
+	XYPt pb;								// endpoints of the fold line
 	if(!ClipLine(al, pa, pb)) return false; // the line completely misses the paper
 
 	if((pa - pb).Mag() < EPS) return false; // line hits at a single point (a corner)
@@ -92,10 +93,7 @@ bool Paper::InteriorOverlaps(const XYLine &al) const {
 
 	XYPt mp = MidPoint(pa, pb);
 
-	if(mTopEdge.Intersects(mp) || mBottomEdge.Intersects(mp) ||
-	   mLeftEdge.Intersects(mp) || mRightEdge.Intersects(mp)) return false;
-
-	return true;
+	return !(mTopEdge.Intersects(mp) || mBottomEdge.Intersects(mp) || mLeftEdge.Intersects(mp) || mRightEdge.Intersects(mp));
 }
 
 /*****
@@ -107,13 +105,15 @@ bool Paper::MakesSkinnyFlap(const XYLine &al) const {
 	// Since "true" = "bad", we'll return true for any failures along the way due to bad
 	// input parameters.
 
-	XYPt p1, p2;		  // endpoints of the line al
+	XYPt p1;
+	XYPt p2;			  // endpoints of the line al
 	ClipLine(al, p1, p2); // get the endpoints of the fold line on the paper
 
 	XYLine lb; // perpendicular bisector of line segment p1-p2
 	lb.u = al.u.Rotate90();
 	lb.d = MidPoint(p1, p2).Dot(lb.u);
-	XYPt bp1, bp2;			// endpoints of the bisector
+	XYPt bp1;
+	XYPt bp2;				// endpoints of the bisector
 	ClipLine(lb, bp1, bp2); // get the endpoints of the bisector
 
 	// Get the bounding box that contains the fold line and a point on either side of the

@@ -58,9 +58,9 @@ class XYRect {
 /*****
 Return an XYRect that encloses all of the points passed as parameters.
 *****/
-inline const XYRect GetBoundingBox(const XYPt &p1, const XYPt &p2) {
+inline XYRect GetBoundingBox(const XYPt &p1, const XYPt &p2) {
 	return XYRect(p1).Include(p2);
 }
-inline const XYRect GetBoundingBox(const XYPt &p1, const XYPt &p2, const XYPt &p3) {
+inline XYRect GetBoundingBox(const XYPt &p1, const XYPt &p2, const XYPt &p3) {
 	return XYRect(p1).Include(p2).Include(p3);
 }

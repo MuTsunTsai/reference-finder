@@ -46,20 +46,21 @@ double RefLine::DistanceTo(const XYLine &al) const {
 	if(Shared::sLineWorstCaseError) {
 		// Use the worst-case separation between the endpoints of the two lines
 		// where they leave the paper.
-		XYPt p1a, p1b, p2a, p2b;
-		if(Shared::sPaper.ClipLine(l, p1a, p1b) &&
-		   Shared::sPaper.ClipLine(al, p2a, p2b)) {
+		XYPt p1a;
+		XYPt p1b;
+		XYPt p2a;
+		XYPt p2b;
+		if(Shared::sPaper.ClipLine(l, p1a, p1b) && Shared::sPaper.ClipLine(al, p2a, p2b)) {
 			double err1 = max_val((p1a - p2a).Mag(), (p1b - p2b).Mag());
 			double err2 = max_val((p1a - p2b).Mag(), (p1b - p2a).Mag());
 			return min_val(err1, err2);
-		} else {
-			return 1 / EPS; // lines don't intersect the paper, return very large number
 		}
-	} else {
-		// Use the Pythagorean sum of the distance between the characteristic
-		// vectors of the tangent point and angle.
-		return sqrt(pow(l.u.Dot(al.u.Rotate90()), 2) + pow(l.d - al.d * l.u.Dot(al.u), 2));
+		return 1 / EPS; // lines don't intersect the paper, return very large number
+
 	}
+	// Use the Pythagorean sum of the distance between the characteristic
+	// vectors of the tangent point and angle.
+	return sqrt(pow(l.u.Dot(al.u.Rotate90()), 2) + pow(l.d - al.d * l.u.Dot(al.u), 2));
 }
 
 /*****
@@ -83,7 +84,7 @@ bool RefLine::IsActionLine() const {
 /*****
 Return the label for this line.
 *****/
-const char RefLine::GetLabel() const {
+char RefLine::GetLabel() const {
 	index_t mIndex = sIndices[this];
 	if(mIndex == 0) return ' ';
 	return sLabels.at(mIndex - 1);
@@ -111,9 +112,11 @@ void RefLine::PutDistanceAndRank(JsonObject &solution, const XYLine &al) const {
 Draw a line in the given style.
 *****/
 void RefLine::DrawSelf(RefStyle rstyle, short ipass) const {
-	XYPt op1, op2;
+	XYPt op1;
+	XYPt op2;
 	Shared::sPaper.ClipLine(l, op1, op2);
-	XYPt p1(op1), p2(op2);
+	XYPt p1(op1);
+	XYPt p2(op2);
 	double pinchLength = 0;
 
 	if(mForMark != nullptr) {

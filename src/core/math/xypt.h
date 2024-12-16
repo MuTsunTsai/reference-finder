@@ -19,27 +19,27 @@ class XYPt {
 	XYPt(double xx = 0, double yy = 0): x(xx), y(yy) {}
 
 	// Arithmetic with XYPts and scalars
-	const XYPt operator+(const XYPt &p) const { return XYPt(x + p.x, y + p.y); }
-	const XYPt operator-(const XYPt &p) const { return XYPt(x - p.x, y - p.y); }
-	const XYPt operator*(const XYPt &p) const { return XYPt(x * p.x, y * p.y); }
-	const XYPt operator/(const XYPt &p) const { return XYPt(x / p.x, y / p.y); }
+	XYPt operator+(const XYPt &p) const { return {x + p.x, y + p.y}; }
+	XYPt operator-(const XYPt &p) const { return {x - p.x, y - p.y}; }
+	XYPt operator*(const XYPt &p) const { return {x * p.x, y * p.y}; }
+	XYPt operator/(const XYPt &p) const { return {x / p.x, y / p.y}; }
 
-	const XYPt operator+(double z) const { return XYPt(x + z, y + z); }
-	const XYPt operator-(double z) const { return XYPt(x - z, y - z); }
-	const XYPt operator*(double z) const { return XYPt(x * z, y * z); }
-	const XYPt operator/(double z) const { return XYPt(x / z, y / z); }
+	XYPt operator+(double z) const { return {x + z, y + z}; }
+	XYPt operator-(double z) const { return {x - z, y - z}; }
+	XYPt operator*(double z) const { return {x * z, y * z}; }
+	XYPt operator/(double z) const { return {x / z, y / z}; }
 
-	friend const XYPt operator+(double d, const XYPt &pp) {
-		return XYPt(d + pp.x, d + pp.y);
+	friend XYPt operator+(double d, const XYPt &pp) {
+		return {d + pp.x, d + pp.y};
 	}
-	friend const XYPt operator-(double d, const XYPt &pp) {
-		return XYPt(d - pp.x, d - pp.y);
+	friend XYPt operator-(double d, const XYPt &pp) {
+		return {d - pp.x, d - pp.y};
 	}
-	friend const XYPt operator*(double d, const XYPt &pp) {
-		return XYPt(d * pp.x, d * pp.y);
+	friend XYPt operator*(double d, const XYPt &pp) {
+		return {d * pp.x, d * pp.y};
 	}
-	friend const XYPt operator/(double d, const XYPt &pp) {
-		return XYPt(d / pp.x, d / pp.y);
+	friend XYPt operator/(double d, const XYPt &pp) {
+		return {d / pp.x, d / pp.y};
 	}
 
 	XYPt &operator+=(const XYPt &p) {
@@ -85,11 +85,11 @@ class XYPt {
 	}
 
 	// Counterclockwise rotation
-	const XYPt Rotate90() const { return XYPt(-y, x); }
-	const XYPt RotateCCW(double a) const { // a is in radians
+	XYPt Rotate90() const { return {-y, x}; }
+	XYPt RotateCCW(double a) const { // a is in radians
 		double sa = std::sin(a);
 		double ca = std::cos(a);
-		return XYPt(ca * x - sa * y, sa * x + ca * y);
+		return {ca * x - sa * y, sa * x + ca * y};
 	}
 
 	// Scalar products and norms
@@ -102,9 +102,9 @@ class XYPt {
 	double Mag() const {
 		return std::sqrt(x * x + y * y);
 	}
-	const XYPt Normalize() const {
+	XYPt Normalize() const {
 		double m = Mag();
-		return XYPt(x / m, y / m);
+		return {x / m, y / m};
 	}
 	XYPt &NormalizeSelf() {
 		double m = Mag();
@@ -114,13 +114,13 @@ class XYPt {
 	}
 
 	// Other utilities
-	friend const XYPt MidPoint(const XYPt &p1, const XYPt &p2) {
-		return XYPt(0.5 * (p1.x + p2.x), 0.5 * (p1.y + p2.y));
+	friend XYPt MidPoint(const XYPt &p1, const XYPt &p2) {
+		return {0.5 * (p1.x + p2.x), 0.5 * (p1.y + p2.y)};
 	}
 
 	// Chop() makes numbers close to zero equal to zero.
-	const XYPt Chop() const {
-		return XYPt(std::abs(x) < EPS ? 0 : x, std::abs(y) < EPS ? 0 : y);
+	XYPt Chop() const {
+		return {std::abs(x) < EPS ? 0 : x, std::abs(y) < EPS ? 0 : y};
 	}
 	XYPt &ChopSelf() {
 		if(std::abs(x) < EPS) x = 0;

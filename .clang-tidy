@@ -1,4 +1,16 @@
 Checks: '-*,
-	modernize-*,
-	-modernize-use-trailing-return-type,
-	-modernize-use-nodiscard'
+  modernize-*,
+  -modernize-use-trailing-return-type,
+  -modernize-use-nodiscard,
+  performance-*,
+  -performance-avoid-endl,
+  readability-*,
+  -readability-identifier-length,
+  -readability-implicit-bool-conversion,
+  -readability-braces-around-statements,
+  -readability-magic-numbers,
+  -readability-avoid-nested-conditional-operator,
+-readability-use-anyofallof'
+CheckOptions:
+  - key: readability-function-cognitive-complexity.Threshold
+    value: 60

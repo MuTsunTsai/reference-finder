@@ -8,6 +8,7 @@
 	"C_Cpp.codeAnalysis.clangTidy.headerFilter": "${workspaceFolder}",
 	"C_Cpp.loggingLevel": "Debug",
 	"cSpell.words": [
+		"Chebyshev",
 		"Emscripten"
 	],
 	"editor.codeActionsOnSave": {

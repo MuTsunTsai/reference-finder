@@ -20,8 +20,8 @@ class RefMark: public RefBase {
 	static std::array<const char, 11> sLabels; // labels for marks, indexed by sCount
 
   public:
-	RefMark(): RefBase() {}
-	RefMark(const XYPt &ap): RefBase(), p(ap) {}
+	RefMark() = default;
+	RefMark(const XYPt &ap): p(ap) {}
 
 	void FinishConstructor();
 
@@ -30,7 +30,7 @@ class RefMark: public RefBase {
 	bool IsLine() const override;
 	bool IsActionLine() const override;
 
-	const char GetLabel() const override;
+	char GetLabel() const override;
 	void PutName(char const *key, JsonObject &obj) const override;
 	void PutDistanceAndRank(JsonObject &solution, const XYPt &ap) const;
 	void DrawSelf(RefStyle rstyle, short ipass) const override;

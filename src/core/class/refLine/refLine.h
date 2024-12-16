@@ -25,8 +25,8 @@ class RefLine: public RefBase {
 	static void moveCloser(XYPt &from, const XYPt &to, double dist);
 
   public:
-	RefLine(): RefBase(), mForMark(nullptr) {}
-	RefLine(const XYLine &al): RefBase(), l(al), mForMark(nullptr) {}
+	RefLine(): mForMark(nullptr) {}
+	RefLine(const XYLine &al): l(al), mForMark(nullptr) {}
 
 	void FinishConstructor();
 	double DistanceTo(const XYLine &al) const;
@@ -34,7 +34,7 @@ class RefLine: public RefBase {
 	bool IsLine() const override;
 	bool IsActionLine() const override;
 
-	const char GetLabel() const override;
+	char GetLabel() const override;
 	void PutName(char const *key, JsonObject &obj) const override;
 	void PutDistanceAndRank(JsonObject &solution, const XYLine &al) const;
 	void DrawSelf(RefStyle rstyle, short ipass) const override;

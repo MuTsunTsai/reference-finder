@@ -32,15 +32,14 @@ Take the cube root; works for both positive and negative numbers
 double CubeRoot(double x) {
 	if(x >= 0)
 		return pow(x, 1. / 3);
-	else
-		return -pow(-x, 1. / 3);
+	return -pow(-x, 1. / 3);
 }
 
 /*****
 Constructor. Variable iroot can be 0, 1, or 2.
 *****/
 RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, RefLine *arl2, unsigned char iroot)
-	: RefLine(), rm1(arm1), rl1(arl1), rm2(arm2), rl2(arl2), mRoot(iroot) {
+	: rm1(arm1), rl1(arl1), rm2(arm2), rl2(arl2), mRoot(iroot) {
 
 	mScore = rm1->mScore + rl1->mScore + rm2->mScore + rl2->mScore + Shared::sAxiomWeights[5];
 
@@ -60,6 +59,7 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 
 	// First, some trivial checks; we can't have p1 already on l1, or p2 already
 	// on l2.
+	// NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.UninitializedObject)
 	if(l1.Intersects(p1)) return;
 	if(l2.Intersects(p2)) return;
 
@@ -118,7 +118,8 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 			if(disc < 0) {
 				irootMax = -1; // no roots
 				return;
-			} else if(abs(disc) < EPS) {
+			}
+			if(abs(disc) < EPS) {
 				irootMax = 0; // 1 degenerate root
 				rc = q1;	  // and here it is
 			} else {
@@ -422,8 +423,8 @@ void RefLine_P2L_P2L::MakeAllCore(rank_t irank, rank_t jrank, rank_t krank, rank
 	for(auto mi = imap.begin() + (psameRank ? 1 : 0); mi != imap.end(); mi++) {
 		auto &jmap = marks.ranks[jrank];
 		for(auto mj = jmap.begin(); mj != (psameRank ? mi : jmap.end()); mj++) {
-			for(auto lk: lines.ranks[krank]) {
-				for(auto ll: lines.ranks[lrank]) {
+			for(auto *lk: lines.ranks[krank]) {
+				for(auto *ll: lines.ranks[lrank]) {
 					if((krank != lrank) || (lk != ll)) { // cmpr iterators only if same container
 						if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 						RefLine_P2L_P2L rlp0(*mi, lk, *mj, ll, 0);
@@ -447,7 +448,10 @@ void RefLine_P2L_P2L::Export(BinaryOutputStream &os) const {
 }
 
 RefLine *RefLine_P2L_P2L::Import(BinaryInputStream &is) {
-	size_t id1, id2, id3, id4;
+	size_t id1;
+	size_t id2;
+	size_t id3;
+	size_t id4;
 	unsigned char root;
 	is.read(id1).read(id2).read(id3).read(id4).read(root);
 	RefMark *rm1 = ReferenceFinder::sBasisMarks[id1];

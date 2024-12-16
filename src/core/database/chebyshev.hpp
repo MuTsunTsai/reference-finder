@@ -16,7 +16,8 @@ class Chebyshev {
 		Iterator(int r, Pt cursor): r(r), cursor(cursor) {}
 
 		Pt operator*() const {
-			const int i = cursor.x, j = cursor.y;
+			const int i = cursor.x;
+			const int j = cursor.y;
 			const int f = i % 2 ? 1 : -1;
 			int dx = i < 2 ? f * (j - r) : f * r;
 			int dy = i < 2 ? f * r : f * (r - j);

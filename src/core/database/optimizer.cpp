@@ -46,7 +46,7 @@ void Optimizer::OptimizeMarks() {
 	sRows = static_cast<int>(floor(paper.mHeight / sSize)) + 1;
 
 	// Optimize sBasisMarks
-	for(auto iter: sBasisMarks) iter->mScore = Optimizer::key(iter);
+	for(auto *iter: sBasisMarks) iter->mScore = Optimizer::key(iter);
 	sort(sBasisMarks.begin(), sBasisMarks.end(), Optimizer());
 
 	// Build index
@@ -67,10 +67,13 @@ double Optimizer::GetBestError(XYPt &testPt) {
 	double error = GetBestErrorAtBucket(testPt, key);
 
 	// Step 2: If the bucket is empty, find the closet nonempty bucket
-	int r = 1, sdx = 0, sdy = 0;
+	int r = 1;
+	int sdx = 0;
+	int sdy = 0;
 	while(error < 0) {
 		for(auto iter: Chebyshev(r)) {
-			int dx = iter.x, dy = iter.y;
+			int dx = iter.x;
+			int dy = iter.y;
 			if(x + dx < 0 || x + dx >= sCols) continue;
 			if(y + dy < 0 || y + dy >= sRows) continue;
 			key = (x + dx) + (y + dy) * sCols;
@@ -90,7 +93,8 @@ double Optimizer::GetBestError(XYPt &testPt) {
 	// Step 3: Compare neighbor buckets if the error is large
 	for(r = 1; r <= 2; r++) {
 		for(auto iter: Chebyshev(r)) {
-			int sx = iter.x + x, sy = iter.y + y;
+			int sx = iter.x + x;
+			int sy = iter.y + y;
 			if(sx < 0 || sx >= sCols) continue;
 			if(sy < 0 || sy >= sRows) continue;
 

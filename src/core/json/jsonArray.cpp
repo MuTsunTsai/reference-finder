@@ -24,13 +24,13 @@ void JsonArray::add(const JsonArray &array) {
 	mStream << array;
 }
 
-void JsonArray::add(const int value) {
+void JsonArray::add(int value) {
 	if(mStarted) mStream << ",";
 	mStarted = true;
 	mStream << value;
 }
 
-void JsonArray::add(const double value) {
+void JsonArray::add(double value) {
 	if(mStarted) mStream << ",";
 	mStarted = true;
 	mStream << value;

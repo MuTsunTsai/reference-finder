@@ -38,7 +38,7 @@ static double ReadNumber() {
 /*****
 Callback routine to show progress by reporting information to the console.
 *****/
-void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &) {
+void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *_, bool &__) {
 	switch(info.mStatus) {
 	case ReferenceFinder::DATABASE_INITIALIZING:
 		// Called at beginning of initialization
@@ -79,7 +79,7 @@ void updateInterval(double laps) {
 /*****
 Callback routine for statistics function
 *****/
-void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, bool &cancel) {
+void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *_, bool &cancel) {
 	switch(info.mStatus) {
 	case ReferenceFinder::STATISTICS_BEGIN: {
 		// record start time
@@ -197,9 +197,7 @@ int main() {
 		switch(ns) {
 		case 1: {
 			int count = readSearchSettings();
-			XYPt pp;
-			pp.x = ReadNumber();
-			pp.y = ReadNumber();
+			XYPt pp(ReadNumber(), ReadNumber());
 			string err;
 			if(ReferenceFinder::ValidateMark(pp, err)) {
 				vector<RefMark *> marks;
@@ -213,11 +211,8 @@ int main() {
 		}
 		case 2: {
 			int count = readSearchSettings();
-			XYPt p1, p2;
-			p1.x = ReadNumber();
-			p1.y = ReadNumber();
-			p2.x = ReadNumber();
-			p2.y = ReadNumber();
+			XYPt p1(ReadNumber(), ReadNumber());
+			XYPt p2(ReadNumber(), ReadNumber());
 			string err;
 			if(ReferenceFinder::ValidateLine(p1, p2, err)) {
 				XYLine ll(p1, p2);

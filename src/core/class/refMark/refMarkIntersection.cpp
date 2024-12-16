@@ -18,8 +18,7 @@ the intersection of 2 lines.
 /*****
 Constructor.
 *****/
-RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2)
-	: RefMark(), rl1(arl1), rl2(arl2) {
+RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2): rl1(arl1), rl2(arl2) {
 	// Get references to constituent math types
 
 	mScore = rl1->mScore + rl2->mScore;
@@ -115,7 +114,8 @@ void RefMark_Intersection::Export(BinaryOutputStream &os) const {
 }
 
 RefMark *RefMark_Intersection::Import(BinaryInputStream &is) {
-	size_t id1, id2;
+	size_t id1;
+	size_t id2;
 	is.read(id1).read(id2);
 	// auto size = ReferenceFinder::sBasisLines.size();
 	// if (id1 >= size || id2 >= size) cout << "lines: " << size << ", id1: " << id1 << ", id2: " << id2 << ", marks: " << ReferenceFinder::sBasisMarks.size() << endl;

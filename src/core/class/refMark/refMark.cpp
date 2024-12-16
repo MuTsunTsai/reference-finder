@@ -58,7 +58,7 @@ bool RefMark::IsActionLine() const {
 /*****
 Return the label for this mark.
 *****/
-const char RefMark::GetLabel() const {
+char RefMark::GetLabel() const {
 	index_t mIndex = sIndices[this];
 	if(mIndex == 0) return ' ';
 	return sLabels.at(mIndex - 1);

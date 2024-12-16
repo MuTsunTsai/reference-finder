@@ -22,7 +22,7 @@ class RefBase {
   public:
 	std::size_t id{0}; // Unique id for refs that are actually added to the DB
 
-	enum RefType {
+	enum RefType : std::uint8_t {
 		LINE_ORIGINAL,
 		LINE_C2P_C2P,
 		LINE_P2P,
@@ -55,7 +55,7 @@ class RefBase {
 	static std::unordered_map<const RefBase *, index_t> sIndices; // used to label refs in a folding sequence
 
 	static RefDgmr *sDgmr; // object that draws diagrams
-	enum {
+	enum : std::uint8_t {
 		// Drawing happens in multiple passes to get the stacking order correct
 		PASS_LINES,
 		PASS_HLINES,
@@ -69,7 +69,7 @@ class RefBase {
 	RefBase() = default;
 	virtual ~RefBase() = default;
 
-	using type_t = const unsigned char;
+	using type_t = unsigned char;
 	virtual type_t GetType() const = 0;
 
 	// Rank of this mark or line.
@@ -83,11 +83,11 @@ class RefBase {
 	void BuildAndNumberSequence();
 
 	// routine for creating a text description of how to fold a ref
-	virtual const char GetLabel() const = 0;
+	virtual char GetLabel() const = 0;
 	virtual void PutName(char const *key, JsonObject &obj) const;
 	virtual JsonObject Serialize() const;
 	virtual void Export(BinaryOutputStream &os) const;
-	void PutHowtoSequence(JsonObject &solution);
+	static void PutHowtoSequence(JsonObject &solution);
 
 	// routines for drawing diagrams
 	void BuildDiagrams();
@@ -101,7 +101,7 @@ class RefBase {
 	virtual bool IsDerived() const;
 	virtual void SetIndex() = 0;
 	static void SequencePushUnique(RefBase *rb);
-	enum RefStyle {
+	enum RefStyle : std::uint8_t {
 		REFSTYLE_NORMAL,
 		REFSTYLE_HILITE,
 		REFSTYLE_ACTION

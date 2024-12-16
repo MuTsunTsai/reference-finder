@@ -15,8 +15,7 @@ Bring line l1 onto itself so that point p1 falls on line l2.
 /*****
 Constructor. iroot can be 0 or 1.
 *****/
-RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2)
-	: RefLine(), rl1(arl1), rm1(arm1), rl2(arl2) {
+RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2): rl1(arl1), rm1(arm1), rl2(arl2) {
 
 	mScore = rl1->mScore + rm1->mScore + rl2->mScore + Shared::sAxiomWeights[6];
 
@@ -32,6 +31,7 @@ RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2)
 	l.u = u2.Rotate90();
 
 	double uf1 = l.u.Dot(u1);
+	// NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.UninitializedObject)
 	if(abs(uf1) < EPS) return; // parallel lines, no solution
 
 	l.d = (d1 + 2 * p1.Dot(l.u) * uf1 - p1.Dot(u1)) / (2 * uf1);
@@ -52,7 +52,8 @@ RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2)
 	bool l1edge = arl1->IsOnEdge();
 
 	if(Shared::sVisibilityMatters) {
-		XYPt lp1, lp2;
+		XYPt lp1;
+		XYPt lp2;
 		Shared::sPaper.ClipLine(l, lp1, lp2);
 		double t1 = (lp1 - pt).Dot(l.u);
 		double t2 = (lp2 - pt).Dot(l.u);
@@ -151,7 +152,8 @@ void RefLine_L2L_P2L::DrawSelf(RefStyle rstyle, short ipass) const {
 	if((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
 
 		// Draw line-to-itself arrow
-		XYPt p1, p2;
+		XYPt p1;
+		XYPt p2;
 		XYLine &l2 = rl2->l;
 		Shared::sPaper.ClipLine(l2, p1, p2); // get endpts of the reference line
 		XYPt pi = Intersection(l, l2);		 // intersection w/ fold line
@@ -180,12 +182,12 @@ Go through existing lines and marks and create RefLine_L2L_P2Ls with rank equal
 arank up to a cumulative total of sMaxLines.
 *****/
 void RefLine_L2L_P2L::MakeAll(rank_t arank) {
-	for(rank_t irank = 0; irank <= (arank - 1); irank++)
+	for(rank_t irank = 0; irank <= (arank - 1); irank++) {
 		for(rank_t jrank = 0; jrank <= (arank - 1 - irank); jrank++) {
 			rank_t krank = arank - irank - jrank - 1;
-			for(auto li: ReferenceFinder::sBasisLines.ranks[irank]) {
-				for(auto mj: ReferenceFinder::sBasisMarks.ranks[jrank]) {
-					for(auto lk: ReferenceFinder::sBasisLines.ranks[krank]) {
+			for(auto *li: ReferenceFinder::sBasisLines.ranks[irank]) {
+				for(auto *mj: ReferenceFinder::sBasisMarks.ranks[jrank]) {
+					for(auto *lk: ReferenceFinder::sBasisLines.ranks[krank]) {
 						if((irank != krank) || (li != lk)) {
 							if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 							RefLine_L2L_P2L rlh1(li, mj, lk);
@@ -195,6 +197,7 @@ void RefLine_L2L_P2L::MakeAll(rank_t arank) {
 				}
 			}
 		}
+	}
 }
 
 void RefLine_L2L_P2L::Export(BinaryOutputStream &os) const {
@@ -203,7 +206,9 @@ void RefLine_L2L_P2L::Export(BinaryOutputStream &os) const {
 }
 
 RefLine *RefLine_L2L_P2L::Import(BinaryInputStream &is) {
-	size_t id1, id2, id3;
+	size_t id1;
+	size_t id2;
+	size_t id3;
 	is.read(id1).read(id2).read(id3);
 	RefLine *rl1 = ReferenceFinder::sBasisLines[id1];
 	RefMark *rm1 = ReferenceFinder::sBasisMarks[id2];

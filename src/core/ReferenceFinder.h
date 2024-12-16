@@ -48,7 +48,7 @@ class ReferenceFinder {
 	};
 
 	// Support for a callback function to show progress during initialization
-	enum DatabaseStatus {
+	enum DatabaseStatus : std::uint8_t {
 		DATABASE_EMPTY,
 		DATABASE_INITIALIZING,
 		DATABASE_WORKING,
@@ -92,7 +92,7 @@ class ReferenceFinder {
 	static bool ValidateLine(const XYPt &ap1, const XYPt &ap2, std::string &err);
 
 	// Support for a callback function to show progress during statistics
-	enum StatisticsStatus {
+	enum StatisticsStatus : std::uint8_t {
 		STATISTICS_BEGIN,
 		STATISTICS_WORKING,
 		STATISTICS_DONE
@@ -169,7 +169,7 @@ class CompareError {
 		double d1 = r1->DistanceTo(mTarget);
 		double d2 = r2->DistanceTo(mTarget);
 		if(d1 == d2) return r1->GetRank() < r2->GetRank();
-		else return d1 < d2;
+		return d1 < d2;
 	};
 };
 
@@ -195,7 +195,7 @@ class CompareRankAndError {
 		rank_t rank1 = r1->GetRank();
 		rank_t rank2 = r2->GetRank();
 		if(notBothGood) return rank1 < rank2; // we must have d1 == d2 here
-		else if(rank1 == rank2) return d1 < d2;
-		else return rank1 < rank2;
+		if(rank1 == rank2) return d1 < d2;
+		return rank1 < rank2;
 	};
 };

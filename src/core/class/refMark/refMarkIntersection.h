@@ -15,7 +15,7 @@ class RefMark_Intersection: public RefMark {
 	RefLine *rl1; // first line
 	RefLine *rl2; // second line
 
-	RefMark_Intersection(RefLine *al1, RefLine *al2);
+	RefMark_Intersection(RefLine *arl1, RefLine *arl2);
 
 	type_t GetType() const override;
 	rank_t GetRank() const override;

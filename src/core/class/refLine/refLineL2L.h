@@ -15,7 +15,7 @@ class RefLine_L2L: public RefLine {
 	RefLine *rl2; // to another line
 
   private:
-	enum WhoMoves {
+	enum WhoMoves : std::uint8_t {
 		WHOMOVES_L1,
 		WHOMOVES_L2
 	};

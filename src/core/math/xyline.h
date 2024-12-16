@@ -54,9 +54,9 @@ class XYLine {
 
 	// Intersection() just returns the intersection point, no error checking
 	// for parallel-ness. Use Intersects() when in doubt.
-	friend const XYPt Intersection(const XYLine &l1, const XYLine &l2) {
+	friend XYPt Intersection(const XYLine &l1, const XYLine &l2) {
 		double denom = l1.u.x * l2.u.y - l1.u.y * l2.u.x;
-		return XYPt((l1.d * l2.u.y - l2.d * l1.u.y) / denom, (l2.d * l1.u.x - l1.d * l2.u.x) / denom);
+		return {(l1.d * l2.u.y - l2.d * l1.u.y) / denom, (l2.d * l1.u.x - l1.d * l2.u.x) / denom};
 	}
 
 	// Stream I/O

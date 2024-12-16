@@ -159,7 +159,8 @@ bool ReferenceFinder::ImportDatabase() {
 	sBasisMarks.Rebuild();
 	sCurRank = Shared::sMaxRank;
 
-	size_t lines, marks;
+	size_t lines;
+	size_t marks;
 	is.read(lines).read(marks);
 	cout << "lines: " << lines << ", marks: " << marks << endl;
 
@@ -229,8 +230,10 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	ofstream *outFile = nullptr;
 	if(Shared::useDatabase) {
 		outFile = new ofstream(string("/data/db"));
-		if(!*outFile) Shared::useDatabase = false;
-		else {
+		if(!*outFile) {
+			Shared::useDatabase = false;
+			outFile = nullptr;
+		} else {
 			Shared::dbStream = new BinaryOutputStream(*outFile);
 			*Shared::dbStream << (size_t)0 << (size_t)0;
 		}
@@ -300,8 +303,8 @@ void ReferenceFinder::BuildAndExportDatabase() {
 		*Shared::dbStream << sBasisLines.size() << sBasisMarks.size();
 		outFile->close();
 	}
-	if(Shared::dbStream) delete Shared::dbStream;
-	if(outFile) delete outFile;
+	delete Shared::dbStream;
+	delete outFile;
 
 	// Once that's done, all the objects are in the sortable arrays and we can
 	// free up the memory used by the maps.

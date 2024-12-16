@@ -15,7 +15,7 @@ class RefLine_L2L_P2L: public RefLine {
 	RefMark *rm1; // so that point p1
 	RefLine *rl2; // falls on line l2.
   private:
-	enum WhoMoves {
+	enum WhoMoves : std::uint8_t {
 		WHOMOVES_P1,
 		WHOMOVES_L1
 	};

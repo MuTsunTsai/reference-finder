@@ -25,7 +25,7 @@ class BinaryInputStream {
 		size_t size;
 		read(size);
 		str.resize(size);
-		is_.read(&str[0], size);
+		is_.read(str.data(), size);
 		return *this;
 	}
 

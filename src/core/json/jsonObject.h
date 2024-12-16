@@ -12,9 +12,9 @@ class JsonObject {
   public:
 	JsonObject();
 	void add(char const *key, const std::string &value);
-	void add(char const *key, const char value);
-	void add(char const *key, const int value);
-	void add(char const *key, const double value);
+	void add(char const *key, char value);
+	void add(char const *key, int value);
+	void add(char const *key, double value);
 	void add(char const *key, const XYPt &pt);
 	void add(char const *key, const XYLine &pt);
 	void add(char const *key, const JsonObject &obj);

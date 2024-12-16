@@ -28,7 +28,7 @@ rank_t RefMark_Original::GetRank() const {
 /*****
 Return the label for this mark.
 *****/
-const char RefMark_Original::GetLabel() const {
+char RefMark_Original::GetLabel() const {
 	return 0; // originals get no labels
 }
 
@@ -71,7 +71,8 @@ void RefMark_Original::Export(BinaryOutputStream &os) const {
 }
 
 RefMark *RefMark_Original::Import(BinaryInputStream &is) {
-	double x, y;
+	double x;
+	double y;
 	rank_t rank;
 	string name;
 	is.read(x).read(y).read(rank).read(name);

@@ -15,8 +15,7 @@ Bring line l1 to itself so that the crease goes through point p1
 /*****
 Constructor.
 *****/
-RefLine_L2L_C2P::RefLine_L2L_C2P(RefLine *arl1, RefMark *arm1)
-	: RefLine(), rl1(arl1), rm1(arm1) {
+RefLine_L2L_C2P::RefLine_L2L_C2P(RefLine *arl1, RefMark *arm1): rl1(arl1), rm1(arm1) {
 
 	mScore = rl1->mScore + rm1->mScore + Shared::sAxiomWeights[3];
 
@@ -92,8 +91,8 @@ void RefLine_L2L_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 
 	// If we're moving, we need an arrow
 	if((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
-
-		XYPt p1, p2;
+		XYPt p1;
+		XYPt p2;
 		XYLine &l1 = rl1->l;
 		Shared::sPaper.ClipLine(l1, p1, p2); // get endpts of the reference line
 		XYPt pi = Intersection(l, l1);		 // intersection w/ fold line
@@ -112,8 +111,8 @@ to arank up to a cumulative total of sMaxLines.
 void RefLine_L2L_C2P::MakeAll(rank_t arank) {
 	for(rank_t irank = 0; irank <= (arank - 1); irank++) {
 		rank_t jrank = arank - irank - 1;
-		for(auto li: ReferenceFinder::sBasisLines.ranks[irank]) {
-			for(auto mj: ReferenceFinder::sBasisMarks.ranks[jrank]) {
+		for(auto *li: ReferenceFinder::sBasisLines.ranks[irank]) {
+			for(auto *mj: ReferenceFinder::sBasisMarks.ranks[jrank]) {
 				if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_L2L_C2P rls1(li, mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls1);
@@ -128,7 +127,8 @@ void RefLine_L2L_C2P::Export(BinaryOutputStream &os) const {
 }
 
 RefLine *RefLine_L2L_C2P::Import(BinaryInputStream &is) {
-	size_t id1, id2;
+	size_t id1;
+	size_t id2;
 	is.read(id1).read(id2);
 	RefLine *rl1 = ReferenceFinder::sBasisLines[id1];
 	RefMark *rm1 = ReferenceFinder::sBasisMarks[id2];

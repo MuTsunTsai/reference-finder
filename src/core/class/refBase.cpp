@@ -148,9 +148,8 @@ void RefBase::BuildDiagrams() {
 					if(sSequence[j]->IsLine() || mark != nullptr) {
 						mark = nullptr;
 						break;
-					} else {
-						mark = sSequence[j];
 					}
+					mark = sSequence[j];
 				}
 			}
 			((RefLine *)sSequence[i])->mForMark = mark;
@@ -165,7 +164,7 @@ void RefBase::BuildDiagrams() {
 	// We should always have at least one diagram, even if there was only one ref
 	// in sSequence (which happens if the ref was a RefMark_Original or
 	// RefLine_Original).
-	if(sDgms.size() == 0) sDgms.emplace_back(0, 0);
+	if(sDgms.empty()) sDgms.emplace_back(0, 0);
 
 	// And we make sure we have a diagram for the last ref in the sequence (which
 	// might not be the case if we ended with a RefMark or an original).

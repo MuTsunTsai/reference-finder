@@ -14,17 +14,17 @@ void JsonObject::add(char const *key, const string &value) {
 	mStream << "\"" << value << "\"";
 }
 
-void JsonObject::add(char const *key, const char value) {
+void JsonObject::add(char const *key, char value) {
 	addKey(key);
 	mStream << "\"" << value << "\"";
 }
 
-void JsonObject::add(char const *key, const int value) {
+void JsonObject::add(char const *key, int value) {
 	addKey(key);
 	mStream << value;
 }
 
-void JsonObject::add(char const *key, const double value) {
+void JsonObject::add(char const *key, double value) {
 	addKey(key);
 	mStream << value;
 }

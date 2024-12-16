@@ -16,7 +16,7 @@ class RefLine_P2L_C2P: public RefLine {
 	RefMark *rm2; // so that the crease runs through another point.
 
   private:
-	enum WhoMoves {
+	enum WhoMoves : std::uint8_t {
 		WHOMOVES_P1,
 		WHOMOVES_L1
 	};
