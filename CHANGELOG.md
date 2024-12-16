@@ -8,6 +8,8 @@
 #### Patches
 - v4.4.1: Improve memory efficiency, and use greatly speed up statistics runtime.
 - v4.4.2: Further improve memory efficiency.
+- v4.4.3: Add random seed to the statistics.
+- v4.4.4: Codebase refactoring.
 
 ## v4.3
 

@@ -19,8 +19,8 @@ NOTE: Do not edit these directly, as these values now sync with package.json aut
 enum {
 	VERSION_MAJOR = 4,
 	VERSION_MINOR = 4,
-	VERSION_BUGFIX = 3,
-	VERSION_BUILD = 20241210
+	VERSION_BUGFIX = 4,
+	VERSION_BUILD = 20241216
 };
 
 /******************************************************************************/
