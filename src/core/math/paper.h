@@ -7,7 +7,7 @@
 /**********
 class Paper - specialization of XYRect for representing the paper
 **********/
-class Paper : public XYRect {
+class Paper: public XYRect {
   public:
 	double mWidth;			  // width of the paper
 	double mHeight;			  // height of the paper

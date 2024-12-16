@@ -13,9 +13,9 @@ class XYRect {
 	XYPt tr; // top right corner
 
 	// Constructors
-	XYRect(const XYPt &ap) : bl(ap), tr(ap) {}
-	XYRect(const XYPt &abl, const XYPt &atr) : bl(abl), tr(atr) {}
-	XYRect(double ablx, double ably, double atrx, double atry) : bl(ablx, ably), tr(atrx, atry) {}
+	XYRect(const XYPt &ap): bl(ap), tr(ap) {}
+	XYRect(const XYPt &abl, const XYPt &atr): bl(abl), tr(atr) {}
+	XYRect(double ablx, double ably, double atrx, double atry): bl(ablx, ably), tr(atrx, atry) {}
 
 	// Dimensional queries
 	double GetWidth() const { return tr.x - bl.x; }
@@ -44,10 +44,10 @@ class XYRect {
 	// Include(p) stretches the coordinates so that this rect encloses the point.
 	// Returns a reference so multiple calls can be chained.
 	XYRect &Include(const XYPt &p) {
-		if (bl.x > p.x) bl.x = p.x;
-		if (bl.y > p.y) bl.y = p.y;
-		if (tr.x < p.x) tr.x = p.x;
-		if (tr.y < p.y) tr.y = p.y;
+		if(bl.x > p.x) bl.x = p.x;
+		if(bl.y > p.y) bl.y = p.y;
+		if(tr.x < p.x) tr.x = p.x;
+		if(tr.y < p.y) tr.y = p.y;
 		return *this;
 	}
 

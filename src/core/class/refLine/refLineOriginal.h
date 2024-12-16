@@ -7,7 +7,7 @@
 class RefLine_Original - Specialization of RefLine that represents a line that
 is the edge of the paper or an initial crease (like the diagonal).
 **********/
-class RefLine_Original : public RefLine {
+class RefLine_Original: public RefLine {
   private:
 	std::string mName; // name of the line
 	rank_t mRank;	   // Rank of this line

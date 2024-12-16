@@ -59,10 +59,12 @@ rank_t ReferenceFinder::sCurRank = 0;
 
 bool ReferenceFinder::ShowProgress(DatabaseStatus status, rank_t rank) {
 	bool haltFlag = false;
-	if (sDatabaseFn) (*sDatabaseFn)(
-		DatabaseInfo(status, rank, GetNumLines(), GetNumMarks()),
-		sDatabaseUserData, haltFlag
-	);
+	if(sDatabaseFn) {
+		(*sDatabaseFn)(
+			DatabaseInfo(status, rank, GetNumLines(), GetNumMarks()),
+			sDatabaseUserData, haltFlag
+		);
+	}
 	return haltFlag;
 }
 
@@ -75,10 +77,10 @@ sDatabaseStatusSkip. If the client DatabaseFn sets the value of haltFlag to
 true, we immediately terminate construction of references.
 *****/
 void ReferenceFinder::CheckDatabaseStatus() {
-	if (sStatusCount < Shared::sDatabaseStatusSkip)
+	if(sStatusCount < Shared::sDatabaseStatusSkip)
 		sStatusCount++;
 	else {
-		if (ShowProgress(DATABASE_WORKING, sCurRank)) throw EXC_HALT();
+		if(ShowProgress(DATABASE_WORKING, sCurRank)) throw EXC_HALT();
 		sStatusCount = 0;
 	}
 }
@@ -105,8 +107,8 @@ void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank) {
 	// (1) It will more likely to give pinch marks rather than a whole line.
 	// (2) It is more likely to come up with traditionally known folding sequences.
 
-	for (int sAxiom : Shared::sAxioms) {
-		switch (sAxiom) {
+	for(int sAxiom: Shared::sAxioms) {
+		switch(sAxiom) {
 		case 1:
 			RefLine_C2P_C2P::MakeAll(arank);
 			break;
@@ -141,15 +143,15 @@ void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank) {
 	sBasisMarks.FlushBuffer(arank);
 
 	// if we're reporting status, say how many we constructed.
-	if (ShowProgress(DATABASE_RANK_COMPLETE, arank)) throw EXC_HALT();
+	if(ShowProgress(DATABASE_RANK_COMPLETE, arank)) throw EXC_HALT();
 }
 
 bool ReferenceFinder::ImportDatabase() {
-	if (!Shared::useDatabase || Shared::forceRebuild) return false;
+	if(!Shared::useDatabase || Shared::forceRebuild) return false;
 	Shared::sDatabaseStatusSkip = 100000;
 
 	ifstream inFile(string("/data/db"));
-	if (!inFile) return false;
+	if(!inFile) return false;
 
 	BinaryInputStream is(inFile);
 
@@ -164,13 +166,13 @@ bool ReferenceFinder::ImportDatabase() {
 	sBasisLines.reserve(lines);
 	sBasisMarks.reserve(marks);
 
-	while (sBasisLines.size() < lines || sBasisMarks.size() < marks) {
+	while(sBasisLines.size() < lines || sBasisMarks.size() < marks) {
 		unsigned char type;
 		is.read(type);
 
 		RefBase *ref;
 		bool isLine = true;
-		switch (type) {
+		switch(type) {
 		case RefBase::RefType::LINE_ORIGINAL:
 			ref = RefLine_Original::Import(is);
 			break;
@@ -208,7 +210,7 @@ bool ReferenceFinder::ImportDatabase() {
 			return false;
 		}
 
-		if (isLine) sBasisLines.push_back((RefLine *)ref);
+		if(isLine) sBasisLines.push_back((RefLine *)ref);
 		else sBasisMarks.push_back((RefMark *)ref);
 		CheckDatabaseStatus();
 	}
@@ -225,9 +227,9 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	Shared::CheckDatabaseStatus = &CheckDatabaseStatus;
 
 	ofstream *outFile = nullptr;
-	if (Shared::useDatabase) {
+	if(Shared::useDatabase) {
 		outFile = new ofstream(string("/data/db"));
-		if (!*outFile) Shared::useDatabase = false;
+		if(!*outFile) Shared::useDatabase = false;
 		else {
 			Shared::dbStream = new BinaryOutputStream(*outFile);
 			*Shared::dbStream << (size_t)0 << (size_t)0;
@@ -278,28 +280,28 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	// Now build the rest, one rank at a time, starting with rank 1. This can
 	// be terminated by a EXC_HALT if the user cancelled during the callback.
 	try {
-		for (rank_t irank = 1; irank <= Shared::sMaxRank; irank++) {
+		for(rank_t irank = 1; irank <= Shared::sMaxRank; irank++) {
 			MakeAllMarksAndLinesOfRank(irank);
 
 			// Unlikely, but check if disk space is OK
-			if (Shared::useDatabase && !*outFile) {
+			if(Shared::useDatabase && !*outFile) {
 				cout << "Saving database failed. Insufficient disk space." << endl;
 				Shared::useDatabase = false;
 			}
 		}
-	} catch (EXC_HALT) {
+	} catch(EXC_HALT) {
 		sBasisLines.FlushBuffer(sCurRank);
 		sBasisMarks.FlushBuffer(sCurRank);
 	}
 
 	// Conclude database exporting
-	if (Shared::useDatabase) {
+	if(Shared::useDatabase) {
 		outFile->seekp(0, ios::beg);
 		*Shared::dbStream << sBasisLines.size() << sBasisMarks.size();
 		outFile->close();
 	}
-	if (Shared::dbStream) delete Shared::dbStream;
-	if (outFile) delete outFile;
+	if(Shared::dbStream) delete Shared::dbStream;
+	if(outFile) delete outFile;
 
 	// Once that's done, all the objects are in the sortable arrays and we can
 	// free up the memory used by the maps.
@@ -333,14 +335,14 @@ Return true if ap is a valid mark. Return an error message if it isn't.
 *****/
 bool ReferenceFinder::ValidateMark(const XYPt &ap, string &err) {
 	Paper &sPaper = Shared::sPaper;
-	if (ap.x < 0 || ap.x > sPaper.mWidth) {
+	if(ap.x < 0 || ap.x > sPaper.mWidth) {
 		stringstream ss;
 		ss << "x coordinate should lie between 0 and " << sPaper.mWidth;
 		err = ss.str();
 		return false;
 	}
 
-	if (ap.y < 0 || ap.y > sPaper.mHeight) {
+	if(ap.y < 0 || ap.y > sPaper.mHeight) {
 		stringstream ss;
 		ss << "y coordinate should lie between 0 and " << sPaper.mHeight;
 		err = ss.str();
@@ -354,7 +356,7 @@ Validate the two entered points that define the line. Return an error message
 if they aren't distinct.
 *****/
 bool ReferenceFinder::ValidateLine(const XYPt &ap1, const XYPt &ap2, string &err) {
-	if ((ap1 - ap2).Mag() > EPS) return true;
+	if((ap1 - ap2).Mag() > EPS) return true;
 	stringstream ss;
 	ss.precision(10);
 	ss << "The two points must be distinct (separated by at least " << EPS << ").";
@@ -368,7 +370,7 @@ chosen set of points and pass the results in our static string variable.
 *****/
 void ReferenceFinder::CalcStatistics() {
 	bool cancel = false;
-	if (sStatisticsFn) {
+	if(sStatisticsFn) {
 		sStatisticsFn(StatisticsInfo(STATISTICS_BEGIN), sStatisticsUserData, cancel);
 	}
 
@@ -376,20 +378,20 @@ void ReferenceFinder::CalcStatistics() {
 	Paper &sPaper = Shared::sPaper;
 
 	// Run a bunch of test cases on random points.
-	for (size_t i = 0; i < size_t(Shared::sNumTrials); i++) {
+	for(size_t i = 0; i < size_t(Shared::sNumTrials); i++) {
 		XYPt testPt((double(rand()) / RAND_MAX * sPaper.mWidth), double(rand()) / RAND_MAX * sPaper.mHeight);
 		double error = Optimizer::GetBestError(testPt);
 
 		// Report progress, and check for early termination from user
-		if (sStatisticsFn) {
+		if(sStatisticsFn) {
 			sStatisticsFn(StatisticsInfo(STATISTICS_WORKING, i, error), sStatisticsUserData, cancel);
-			if (cancel) break;
+			if(cancel) break;
 		}
 	}
 
 	// Call the callback for the final time, passing the string containing the
 	// results.
-	if (sStatisticsFn) {
+	if(sStatisticsFn) {
 		sStatisticsFn(StatisticsInfo(STATISTICS_DONE), sStatisticsUserData, cancel);
 	}
 }

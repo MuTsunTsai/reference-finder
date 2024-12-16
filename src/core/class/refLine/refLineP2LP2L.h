@@ -9,7 +9,7 @@
 class RefLine_P2L_P2L - Huzita-Hatori Axiom O6 (the cubic!)
 Bring point p1 to line l1 and point p2 to line l2
 **********/
-class RefLine_P2L_P2L : public RefLine {
+class RefLine_P2L_P2L: public RefLine {
   public:
 	RefMark *rm1; // bring a point...
 	RefLine *rl1; // to a line...

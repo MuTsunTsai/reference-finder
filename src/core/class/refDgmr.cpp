@@ -1,7 +1,7 @@
 
+#include "refDgmr.h"
 #include "global/global.h"
 #include "math/paper.h"
-#include "refDgmr.h"
 
 using namespace std;
 
@@ -17,50 +17,14 @@ the location of the diagram on the canvas and will implement the handful of
 virtual drawing methods that render the diagram on the canvas. The base class
 does nothing. All points are given in the paper coordinate system. The subclass
 implementation of drawing should determine the layout of the diagrams and
-offset and scale appropriately to convert to canvas coordinates. See
-PSStreamDgmr for an example.
+offset and scale appropriately to convert to canvas coordinates.
 */
 
-/*****
-Draw a point in the given style.
-*****/
-void RefDgmr::DrawPt(const XYPt & /* aPt */, PointStyle /* pstyle */) {
-}
-
-/*****
-Draw a line in the given style.
-*****/
-void RefDgmr::DrawLine(const XYPt & /* fromPt */, const XYPt & /* toPt */,
-					   LineStyle /* lstyle */) {
-}
-
-/*****
-Draw an arc in the given style. fromAngle and toAngle are given in radians.
-*****/
-void RefDgmr::DrawArc(const XYPt & /* ctr */, double /* rad */,
-					  double /* fromAngle */, double /* toAngle */, bool /* ccw */,
-					  LineStyle /* lstyle */) {
-}
-
-/*****
-Draw a polygon in the given style.
-*****/
-void RefDgmr::DrawPoly(const vector<XYPt> & /* poly */, PolyStyle /* pstyle */) {
-}
-
-/*****
-Draw a label at a given point
-*****/
-void RefDgmr::DrawLabel(const XYPt & /* aPt */, const string & /* aString */,
-						LabelStyle /* lstyle */) {
-}
 
 /*****
 Calculate all the parameters necessary to draw arrow.
 *****/
-void RefDgmr::CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around,
-						XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw,
-						double &ahSize, XYPt &fromDir, XYPt &toDir) {
+void RefDgmr::CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around, XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw, double &ahSize, XYPt &fromDir, XYPt &toDir) {
 	const double RADIANS = 57.29577951;
 	const double TWO_PI = 6.283185308;
 	const double PI = 3.1415926535;
@@ -92,18 +56,18 @@ void RefDgmr::CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around
 
 	// Check direction of rotation.
 	double ra = toAngle - fromAngle; // rotation angle
-	while (ra < 0) ra += TWO_PI;	 // get it into the right range
-	while (ra > TWO_PI) ra -= TWO_PI;
+	while(ra < 0) ra += TWO_PI;		 // get it into the right range
+	while(ra > TWO_PI) ra -= TWO_PI;
 	ccw = (ra < PI); // true == arc goes in ccw direction
 
 	// Compute the size of the arrowheads
 	ahSize = Shared::sPaper.mWidth;
-	if (ahSize > Shared::sPaper.mHeight) {
+	if(ahSize > Shared::sPaper.mHeight) {
 		ahSize = Shared::sPaper.mHeight;
 	}
 	ahSize *= 0.15;
 	double ah1 = 0.4 * (toPt - fromPt).Mag();
-	if (ahSize > ah1) ahSize = ah1;
+	if(ahSize > ah1) ahSize = ah1;
 
 	// Compute the direction vectors for the arrowheads
 	mu.NormalizeSelf();

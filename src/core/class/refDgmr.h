@@ -21,7 +21,10 @@ class RefDgmr {
 		POINTSTYLE_HILITE,
 		POINTSTYLE_ACTION
 	};
-	virtual void DrawPt(const XYPt &aPt, PointStyle pstyle);
+	/*****
+	Draw a point in the given style.
+	*****/
+	virtual void DrawPt(const XYPt &aPt, PointStyle pstyle) = 0;
 
 	enum LineStyle {
 		LINESTYLE_CREASE,
@@ -33,30 +36,39 @@ class RefDgmr {
 		LINESTYLE_DOTTED,
 		LINESTYLE_PINCH,
 	};
-	virtual void DrawLine(const XYPt &fromPt, const XYPt &toPt, LineStyle lstyle);
-	virtual void DrawArc(const XYPt &ctr, double rad, double fromAngle,
-						 double toAngle, bool ccw, LineStyle lstyle);
+	/*****
+	Draw a line in the given style.
+	*****/
+	virtual void DrawLine(const XYPt &fromPt, const XYPt &toPt, LineStyle lstyle) = 0;
+
+	/*****
+	Draw an arc in the given style. fromAngle and toAngle are given in radians.
+	*****/
+	virtual void DrawArc(const XYPt &ctr, double rad, double fromAngle, double toAngle, bool ccw, LineStyle lstyle) = 0;
 
 	enum PolyStyle {
 		POLYSTYLE_WHITE,
 		POLYSTYLE_COLORED,
 		POLYSTYLE_ARROW
 	};
-	virtual void DrawPoly(const std::vector<XYPt> &poly, PolyStyle pstyle);
+	/*****
+	Draw a polygon in the given style.
+	*****/
+	virtual void DrawPoly(const std::vector<XYPt> &poly, PolyStyle pstyle) = 0;
 
 	enum LabelStyle {
 		LABELSTYLE_NORMAL,
 		LABELSTYLE_HILITE,
 		LABELSTYLE_ACTION
 	};
-	virtual void DrawLabel(const XYPt &aPt, const std::string &aString,
-						   LabelStyle lstyle);
+	/*****
+	Draw a label at a given point
+	*****/
+	virtual void DrawLabel(const XYPt &aPt, const std::string &aString, LabelStyle lstyle) = 0;
 
 	void DrawArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around);
 	void DrawArrow(const XYPt &fromPt, const XYPt &toPt);
 
   private:
-	void CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around,
-				   XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw,
-				   double &ahSize, XYPt &fromDir, XYPt &toDir);
+	void CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around, XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw, double &ahSize, XYPt &fromDir, XYPt &toDir);
 };

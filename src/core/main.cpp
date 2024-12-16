@@ -39,15 +39,15 @@ static double ReadNumber() {
 Callback routine to show progress by reporting information to the console.
 *****/
 void ConsoleDatabaseProgress(ReferenceFinder::DatabaseInfo info, void *, bool &) {
-	switch (info.mStatus) {
+	switch(info.mStatus) {
 	case ReferenceFinder::DATABASE_INITIALIZING:
 		// Called at beginning of initialization
 		cout << "Initializing using";
-		for (int &sAxiom : Shared::sAxioms) {
-			if (sAxiom > 0) cout << " O" << sAxiom << ",";
+		for(int &sAxiom: Shared::sAxioms) {
+			if(sAxiom > 0) cout << " O" << sAxiom << ",";
 		}
 		cout << " vis=";
-		if (Shared::sVisibilityMatters) cout << "true";
+		if(Shared::sVisibilityMatters) cout << "true";
 		else cout << "false";
 		cout << endl;
 		break;
@@ -72,15 +72,15 @@ void updateInterval(double laps) {
 	intervalCheckStop = 1 / lap;
 
 	// Just in case one lap is VERY slow
-	if (intervalReport == 0) intervalReport = 1;
-	if (intervalCheckStop == 0) intervalCheckStop = 1;
+	if(intervalReport == 0) intervalReport = 1;
+	if(intervalCheckStop == 0) intervalCheckStop = 1;
 }
 
 /*****
 Callback routine for statistics function
 *****/
 void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, bool &cancel) {
-	switch (info.mStatus) {
+	switch(info.mStatus) {
 	case ReferenceFinder::STATISTICS_BEGIN: {
 		// record start time
 		lapToTime = 1;
@@ -92,13 +92,13 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, boo
 		int index = (int)info.mIndex + 1;
 
 		// Use the execution time of the first trial to estimate intervals.
-		if (index == lapToTime) {
+		if(index == lapToTime) {
 			updateInterval(index);
 			lapToTime *= 10; // Just to be sure, we re-estimate again on lap 10, 100, and so on.
 		}
 
 		// Print progress
-		if (index % intervalReport == 0) {
+		if(index % intervalReport == 0) {
 			JsonObject json;
 			json.add("total", Shared::sNumTrials);
 			json.add("progress", progress);
@@ -107,7 +107,7 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *, boo
 		}
 
 		// Check if the user requested stopping
-		if (index % intervalCheckStop == 0) {
+		if(index % intervalCheckStop == 0) {
 			cancel = emscripten_utils_check_cancel();
 		}
 		break;
@@ -139,17 +139,17 @@ void readDbSettings() {
 	Shared::sMaxMarks = ReadNumber();
 
 	int b = 1;
-	while (b < 4) {
+	while(b < 4) {
 		size_t t = 1 << (8 * b);
-		if (t > Shared::sMaxLines && t > Shared::sMaxMarks) break;
+		if(t > Shared::sMaxLines && t > Shared::sMaxMarks) break;
 		b++;
 	}
 	Shared::sizeBytes = b;
 
-	for (int i = 0, j = 0; i < 7; i++) {
+	for(int i = 0, j = 0; i < 7; i++) {
 		int a = ReadNumber();
 		Shared::sAxioms[i] = a;
-		if (a > 0) Shared::sAxiomWeights[a - 1] = 1 << (j++);
+		if(a > 0) Shared::sAxiomWeights[a - 1] = 1 << (j++);
 	}
 
 	Shared::sNumX = ReadNumber();
@@ -185,23 +185,23 @@ int main() {
 	ReferenceFinder::SetStatisticsFn(&ConsoleStatisticsProgress);
 
 	Shared::useDatabase = Shared::useDatabase && emscripten_utils_mount_fs();
-	if (!ReferenceFinder::ImportDatabase()) ReferenceFinder::BuildAndExportDatabase();
-	if (Shared::useDatabase) emscripten_utils_sync_fs();
+	if(!ReferenceFinder::ImportDatabase()) ReferenceFinder::BuildAndExportDatabase();
+	if(Shared::useDatabase) emscripten_utils_sync_fs();
 
-	while (true) {
+	while(true) {
 		emscripten_utils_clear();
 
 		cout << "Ready" << endl;
 		int ns = ReadNumber();
 
-		switch (ns) {
+		switch(ns) {
 		case 1: {
 			int count = readSearchSettings();
 			XYPt pp;
 			pp.x = ReadNumber();
 			pp.y = ReadNumber();
 			string err;
-			if (ReferenceFinder::ValidateMark(pp, err)) {
+			if(ReferenceFinder::ValidateMark(pp, err)) {
 				vector<RefMark *> marks;
 				ReferenceFinder::FindBestMarks(pp, marks, count);
 
@@ -219,7 +219,7 @@ int main() {
 			p2.x = ReadNumber();
 			p2.y = ReadNumber();
 			string err;
-			if (ReferenceFinder::ValidateLine(p1, p2, err)) {
+			if(ReferenceFinder::ValidateLine(p1, p2, err)) {
 				XYLine ll(p1, p2);
 				vector<RefLine *> lines;
 				ReferenceFinder::FindBestLines(ll, lines, count);

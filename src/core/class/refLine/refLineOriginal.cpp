@@ -60,9 +60,9 @@ void RefLine_Original::DrawSelf(RefStyle rstyle, short ipass) const {
 	// still draw them highlighted.
 	XYPt p1, p2;
 	Shared::sPaper.ClipLine(l, p1, p2);
-	switch (ipass) {
+	switch(ipass) {
 	case PASS_LINES:
-		switch (rstyle) {
+		switch(rstyle) {
 		case REFSTYLE_NORMAL:
 			sDgmr->DrawLine(p1, p2, RefDgmr::LINESTYLE_CREASE);
 			break;
@@ -70,7 +70,7 @@ void RefLine_Original::DrawSelf(RefStyle rstyle, short ipass) const {
 		}
 		break;
 	case PASS_HLINES:
-		switch (rstyle) {
+		switch(rstyle) {
 		case REFSTYLE_HILITE:
 		case REFSTYLE_ACTION:
 			sDgmr->DrawLine(p1, p2, RefDgmr::LINESTYLE_HILITE);

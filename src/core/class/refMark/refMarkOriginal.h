@@ -9,7 +9,7 @@
 class RefMark_Original - Specialization of RefMark that represents a named mark
 (like a corner).
 **********/
-class RefMark_Original : public RefMark {
+class RefMark_Original: public RefMark {
   private:
 	std::string mName; // name of the mark
 	rank_t mRank;	   // Rank of this mark

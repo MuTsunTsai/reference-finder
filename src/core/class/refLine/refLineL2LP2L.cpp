@@ -32,39 +32,39 @@ RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2)
 	l.u = u2.Rotate90();
 
 	double uf1 = l.u.Dot(u1);
-	if (abs(uf1) < EPS) return; // parallel lines, no solution
+	if(abs(uf1) < EPS) return; // parallel lines, no solution
 
 	l.d = (d1 + 2 * p1.Dot(l.u) * uf1 - p1.Dot(u1)) / (2 * uf1);
 
 	// Make sure point of intersection of fold with l2 lies within the paper.
 	XYPt pt = Intersection(l, l2);
-	if (!Shared::sPaper.Encloses(pt)) return;
+	if(!Shared::sPaper.Encloses(pt)) return;
 
 	// Make sure point of incidence of p1 on l1 lies within the paper.
 	XYPt p1p = l.Fold(p1);
-	if (!Shared::sPaper.Encloses(p1p)) return;
+	if(!Shared::sPaper.Encloses(p1p)) return;
 
 	// Make sure p1 isn't already on l1 (in which case the alignment is ill-defined).
-	if (l1.Intersects(p1)) return;
+	if(l1.Intersects(p1)) return;
 
 	// Check visibility.
 	bool p1edge = arm1->IsOnEdge();
 	bool l1edge = arl1->IsOnEdge();
 
-	if (Shared::sVisibilityMatters) {
+	if(Shared::sVisibilityMatters) {
 		XYPt lp1, lp2;
 		Shared::sPaper.ClipLine(l, lp1, lp2);
 		double t1 = (lp1 - pt).Dot(l.u);
 		double t2 = (lp2 - pt).Dot(l.u);
 		double tp = (p1 - pt).Dot(l.u);
-		if ((t1 * tp) < 0) {
+		if((t1 * tp) < 0) {
 			double ti = t2;
 			t2 = t1;
 			t1 = ti;
 		}; // now t1 is the parameter for the endpoint on the p1 side of l2.
-		if (p1edge && (abs(t1) <= abs(t2)))
+		if(p1edge && (abs(t1) <= abs(t2)))
 			mWhoMoves = WHOMOVES_P1;
-		else if (l1edge && (abs(t1) >= abs(t2)))
+		else if(l1edge && (abs(t1) >= abs(t2)))
 			mWhoMoves = WHOMOVES_L1;
 		else
 			return;
@@ -73,7 +73,7 @@ RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2)
 	};
 
 	// If this line creates a skinny flap, we won't use it.
-	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
+	if(Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// Set the key.
 	FinishConstructor();
@@ -98,7 +98,7 @@ bool RefLine_L2L_P2L::UsesImmediate(RefBase *rb) const {
 Build the folding sequence that constructs this object.
 *****/
 void RefLine_L2L_P2L::SequencePushSelf() {
-	switch (mWhoMoves) {
+	switch(mWhoMoves) {
 	case WHOMOVES_P1:
 		rl1->SequencePushSelf();
 		rm1->SequencePushSelf();
@@ -120,7 +120,7 @@ JsonObject RefLine_L2L_P2L::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 7);
 	rl2->PutName("l1", step);
-	switch (mWhoMoves) {
+	switch(mWhoMoves) {
 	case WHOMOVES_P1:
 		rm1->PutName("p0", step);
 		rl1->PutName("l0", step);
@@ -133,7 +133,7 @@ JsonObject RefLine_L2L_P2L::Serialize() const {
 	};
 	PutName("x", step);
 
-	if (mForMark != nullptr) step.add("pinch", 1);
+	if(mForMark != nullptr) step.add("pinch", 1);
 #ifdef _DEBUG_DB_
 	PutDebug(step);
 #endif
@@ -148,7 +148,7 @@ void RefLine_L2L_P2L::DrawSelf(RefStyle rstyle, short ipass) const {
 	RefLine::DrawSelf(rstyle, ipass);
 
 	// If we're moving, we need an arrow
-	if ((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
+	if((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
 
 		// Draw line-to-itself arrow
 		XYPt p1, p2;
@@ -164,7 +164,7 @@ void RefLine_L2L_P2L::DrawSelf(RefStyle rstyle, short ipass) const {
 		// Draw point-to-line arrow
 		XYPt &p3 = rm1->p;
 		XYPt p3p = l.Fold(p3);
-		switch (mWhoMoves) {
+		switch(mWhoMoves) {
 		case WHOMOVES_P1:
 			sDgmr->DrawArrow(p3, p3p);
 			break;
@@ -180,14 +180,14 @@ Go through existing lines and marks and create RefLine_L2L_P2Ls with rank equal
 arank up to a cumulative total of sMaxLines.
 *****/
 void RefLine_L2L_P2L::MakeAll(rank_t arank) {
-	for (rank_t irank = 0; irank <= (arank - 1); irank++)
-		for (rank_t jrank = 0; jrank <= (arank - 1 - irank); jrank++) {
+	for(rank_t irank = 0; irank <= (arank - 1); irank++)
+		for(rank_t jrank = 0; jrank <= (arank - 1 - irank); jrank++) {
 			rank_t krank = arank - irank - jrank - 1;
-			for (auto li : ReferenceFinder::sBasisLines.ranks[irank]) {
-				for (auto mj : ReferenceFinder::sBasisMarks.ranks[jrank]) {
-					for (auto lk : ReferenceFinder::sBasisLines.ranks[krank]) {
-						if ((irank != krank) || (li != lk)) {
-							if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+			for(auto li: ReferenceFinder::sBasisLines.ranks[irank]) {
+				for(auto mj: ReferenceFinder::sBasisMarks.ranks[jrank]) {
+					for(auto lk: ReferenceFinder::sBasisLines.ranks[krank]) {
+						if((irank != krank) || (li != lk)) {
+							if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 							RefLine_L2L_P2L rlh1(li, mj, lk);
 							ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlh1);
 						};

@@ -7,7 +7,7 @@
 
 class BinaryOutputStream {
   public:
-	BinaryOutputStream(std::ostream &os) : os_(os) {}
+	BinaryOutputStream(std::ostream &os): os_(os) {}
 
 	template <typename T>
 	BinaryOutputStream &operator<<(const T &value) {

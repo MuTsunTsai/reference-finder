@@ -9,7 +9,7 @@
 class RefLine_P2L_C2P - Huzita-Hatori Axiom O5.
 Bring point p1 to line l1 so that the crease passes through point p2.
 **********/
-class RefLine_P2L_C2P : public RefLine {
+class RefLine_P2L_C2P: public RefLine {
   public:
 	RefMark *rm1; // bring a point...
 	RefLine *rl1; // to a line...

@@ -10,7 +10,7 @@
 /**********
 class RefMark - base class for a mark on the paper.
 **********/
-class RefMark : public RefBase {
+class RefMark: public RefBase {
   public:
 	using bare_t = XYPt; // type of bare object a RefMark represents
 	bare_t p;			 // coordinates of the mark
@@ -20,8 +20,8 @@ class RefMark : public RefBase {
 	static std::array<const char, 11> sLabels; // labels for marks, indexed by sCount
 
   public:
-	RefMark() : RefBase() {}
-	RefMark(const XYPt &ap) : RefBase(), p(ap) {}
+	RefMark(): RefBase() {}
+	RefMark(const XYPt &ap): RefBase(), p(ap) {}
 
 	void FinishConstructor();
 

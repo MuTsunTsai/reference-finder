@@ -35,16 +35,16 @@ RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2)
 	// If the lines don't intersect, it's not a valid point. If they do,
 	// assign the intersection to the member variable p.
 
-	if (!l1.Intersects(l2, p)) return;
+	if(!l1.Intersects(l2, p)) return;
 
 	// If the intersection point falls outside the square, it's not valid.
 
-	if (!Shared::sPaper.Encloses(p)) return;
+	if(!Shared::sPaper.Encloses(p)) return;
 
 	// If the lines intersect at less than a 30 degree angle, we won't keep this
 	// point because such intersections are imprecise to use as reference points.
 
-	if (abs(u1.Dot(u2.Rotate90())) < Shared::sMinAngleSine) return;
+	if(abs(u1.Dot(u2.Rotate90())) < Shared::sMinAngleSine) return;
 
 	FinishConstructor();
 }
@@ -94,14 +94,14 @@ Go through existing lines and create RefMark_Intersections with rank equal to
 arank, up to a cumulative total of sMaxMarks.
 *****/
 void RefMark_Intersection::MakeAll(rank_t arank) {
-	for (rank_t irank = 0; irank <= arank / 2; irank++) {
+	for(rank_t irank = 0; irank <= arank / 2; irank++) {
 		rank_t jrank = arank - irank;
 		bool sameRank = (irank == jrank);
 		auto &imap = ReferenceFinder::sBasisLines.ranks[irank];
-		for (auto li = imap.begin() + (sameRank ? 1 : 0); li != imap.end(); li++) {
+		for(auto li = imap.begin() + (sameRank ? 1 : 0); li != imap.end(); li++) {
 			auto &jmap = ReferenceFinder::sBasisLines.ranks[jrank];
-			for (auto lj = jmap.begin(); lj != (sameRank ? li : jmap.end()); lj++) {
-				if (ReferenceFinder::GetNumMarks() >= Shared::sMaxMarks) return;
+			for(auto lj = jmap.begin(); lj != (sameRank ? li : jmap.end()); lj++) {
+				if(ReferenceFinder::GetNumMarks() >= Shared::sMaxMarks) return;
 				RefMark_Intersection rmi(*li, *lj);
 				ReferenceFinder::sBasisMarks.AddCopyIfValidAndUnique(rmi);
 			}

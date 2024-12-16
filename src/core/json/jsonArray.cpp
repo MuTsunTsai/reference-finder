@@ -12,26 +12,26 @@ void JsonArray::clear() {
 }
 
 void JsonArray::add(const JsonObject &obj) {
-	if (!obj.mStarted) return; // ignore empty object
-	if (mStarted) mStream << ",";
+	if(!obj.mStarted) return; // ignore empty object
+	if(mStarted) mStream << ",";
 	mStarted = true;
 	mStream << obj;
 }
 
 void JsonArray::add(const JsonArray &array) {
-	if (mStarted) mStream << ",";
+	if(mStarted) mStream << ",";
 	mStarted = true;
 	mStream << array;
 }
 
 void JsonArray::add(const int value) {
-	if (mStarted) mStream << ",";
+	if(mStarted) mStream << ",";
 	mStarted = true;
 	mStream << value;
 }
 
 void JsonArray::add(const double value) {
-	if (mStarted) mStream << ",";
+	if(mStarted) mStream << ",";
 	mStarted = true;
 	mStream << value;
 }

@@ -30,7 +30,7 @@ double RefLine_P2L_P2L::U = 0;
 Take the cube root; works for both positive and negative numbers
 *****/
 double CubeRoot(double x) {
-	if (x >= 0)
+	if(x >= 0)
 		return pow(x, 1. / 3);
 	else
 		return -pow(-x, 1. / 3);
@@ -60,17 +60,17 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 
 	// First, some trivial checks; we can't have p1 already on l1, or p2 already
 	// on l2.
-	if (l1.Intersects(p1)) return;
-	if (l2.Intersects(p2)) return;
+	if(l1.Intersects(p1)) return;
+	if(l2.Intersects(p2)) return;
 
 	// Also make sure we're using distinct points and lines.
-	if ((p1 == p2) || (l1 == l2)) return;
+	if((p1 == p2) || (l1 == l2)) return;
 
 	// Now construct the terms of the cubic equation. These are stored in static
 	// member variables during the iroot==0 construction; if iroot==1 or 2, we
 	// used the stored values.
 	double rc = 0; // this will hold the root of the cubic equation after this switch(iroot).
-	switch (iroot) {
+	switch(iroot) {
 	case 0: {
 		// case iroot==0 computes a bunch of quantities that are used for all roots.
 		// Some of these get stored in private static member variables.
@@ -92,17 +92,17 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 		double d = c1 * c3 + c5 * c7;
 
 		// compute the order of the equation
-		if (abs(a) > EPS)
+		if(abs(a) > EPS)
 			order = 3; // cubic equation
-		else if (abs(b) > EPS)
+		else if(abs(b) > EPS)
 			order = 2; // quadratic equation
-		else if (abs(c) > EPS)
+		else if(abs(c) > EPS)
 			order = 1; // linear equation
 		else
 			order = 0; // ill-formed equation (no variables!)
 
 		// what we do next depends on the order of the equation.
-		switch (order) {
+		switch(order) {
 		case 0: // ill-formed equation has 0 roots
 			return;
 
@@ -115,10 +115,10 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 		{
 			double disc = pow(c, 2) - 4 * b * d;
 			q1 = -c / (2 * b);
-			if (disc < 0) {
+			if(disc < 0) {
 				irootMax = -1; // no roots
 				return;
-			} else if (abs(disc) < EPS) {
+			} else if(abs(disc) < EPS) {
 				irootMax = 0; // 1 degenerate root
 				rc = q1;	  // and here it is
 			} else {
@@ -142,13 +142,13 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 
 			// The number of roots depends on the value of D.
 
-			if (D > 0) {
+			if(D > 0) {
 				irootMax = 0; // one root
 				double rD = sqrt(D);
 				S = CubeRoot(R + rD);
 				double T = CubeRoot(R - rD);
 				rc = U + S + T; // and here it is.
-			} else if (abs(D) < EPS) {
+			} else if(abs(D) < EPS) {
 				irootMax = 1; // two roots
 				S = pow(R, 1. / 3);
 				rc = U + 2 * S; // here's the first
@@ -168,14 +168,14 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 	// of the equation and first root have already been constructed.
 	case 1: // of iroot, meaning we're looking for the second root
 
-		if (irootMax < 1) return;
-		switch (order) {
+		if(irootMax < 1) return;
+		switch(order) {
 		case 2:
 			rc = q1 - q2; // second root of a quadratic
 			break;
 
 		case 3: // second root of a cubic
-			if (irootMax == 1)
+			if(irootMax == 1)
 				rc = U - S;
 			else // irootMax == 2
 				rc = U - Sr - sqrt(3.) * Si;
@@ -185,8 +185,8 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 
 	case 2: // of iroot, meaning we're looking for the third root
 
-		if (irootMax < 2) return;
-		switch (order) {
+		if(irootMax < 2) return;
+		switch(order) {
 		case 3: // third root of a cubic
 			rc = U - Sr + sqrt(3.) * Si;
 			break;
@@ -198,15 +198,15 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 	// If we're here, rc contains a root of the equation, which must still be validated.
 	XYPt p1p = d1 * u1 + rc * u1p; // image of p1 in fold line
 
-	if (p1p == p1) return; // we only consider p1 off of the fold line
+	if(p1p == p1) return; // we only consider p1 off of the fold line
 
 	l.u = (p1p - p1).Normalize();				   // normal to fold line
 	l.d = l.u.Dot(MidPoint(p1p, p1));			   // d-parameter of fold line
 	XYPt p2p = p2 + 2 * (l.d - p2.Dot(l.u)) * l.u; // image of p2 in fold line
 
 	// Validate; the images of p1 and p2 must lie within the square.
-	if (!Shared::sPaper.Encloses(p1p) ||
-		!Shared::sPaper.Encloses(p2p)) return;
+	if(!Shared::sPaper.Encloses(p1p) ||
+	   !Shared::sPaper.Encloses(p2p)) return;
 
 	// Validate visibility; we require that the alignment be visible even with
 	// opaque paper. Meaning that the moving parts must be edge points or edge
@@ -226,29 +226,29 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 
 	// Now, check the visibility of this alignment and use it to specify which
 	// parts move
-	if (Shared::sVisibilityMatters) {
-		if (sameSide)
-			if (p1edge && p2edge)
+	if(Shared::sVisibilityMatters) {
+		if(sameSide)
+			if(p1edge && p2edge)
 				mWhoMoves = WHOMOVES_P1P2;
-			else if (l1edge && l2edge)
+			else if(l1edge && l2edge)
 				mWhoMoves = WHOMOVES_L1L2;
 			else
 				return;
-		else if (p1edge && l2edge)
+		else if(p1edge && l2edge)
 			mWhoMoves = WHOMOVES_P1L2;
-		else if (p2edge && l1edge)
+		else if(p2edge && l1edge)
 			mWhoMoves = WHOMOVES_P2L1;
 		else
 			return;
 	} else {
-		if (sameSide)
+		if(sameSide)
 			mWhoMoves = WHOMOVES_P1P2;
 		else
 			mWhoMoves = WHOMOVES_P1L2;
 	};
 
 	// If this line creates a skinny flap, we won't use it.
-	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
+	if(Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// Set the key.
 	FinishConstructor();
@@ -273,7 +273,7 @@ bool RefLine_P2L_P2L::UsesImmediate(RefBase *rb) const {
 Build the folding sequence that constructs this object.
 *****/
 void RefLine_P2L_P2L::SequencePushSelf() {
-	switch (mWhoMoves) {
+	switch(mWhoMoves) {
 	case WHOMOVES_P1P2:
 		rl2->SequencePushSelf();
 		rl1->SequencePushSelf();
@@ -311,7 +311,7 @@ Export the construction of this line.
 JsonObject RefLine_P2L_P2L::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 6);
-	switch (mWhoMoves) {
+	switch(mWhoMoves) {
 	case WHOMOVES_P1P2:
 		rm1->PutName("p0", step);
 		rl1->PutName("l0", step);
@@ -342,7 +342,7 @@ JsonObject RefLine_P2L_P2L::Serialize() const {
 	};
 	PutName("x", step);
 
-	if (mForMark != nullptr) step.add("pinch", 1);
+	if(mForMark != nullptr) step.add("pinch", 1);
 #ifdef _DEBUG_DB_
 	PutDebug(step);
 #endif
@@ -357,13 +357,13 @@ void RefLine_P2L_P2L::DrawSelf(RefStyle rstyle, short ipass) const {
 	RefLine::DrawSelf(rstyle, ipass);
 
 	// If we're moving, we need an arrow
-	if ((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
+	if((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
 
 		XYPt &p1a = rm1->p;
 		XYPt p1b = l.Fold(p1a);
 		XYPt &p2a = rm2->p;
 		XYPt p2b = l.Fold(p2a);
-		switch (mWhoMoves) {
+		switch(mWhoMoves) {
 		case WHOMOVES_P1P2:
 			sDgmr->DrawArrow(p1a, p1b);
 			sDgmr->DrawArrow(p2a, p2b);
@@ -394,16 +394,16 @@ arank up to a cumulative total of sMaxLines.
 void RefLine_P2L_P2L::MakeAll(rank_t arank) {
 	// psrank == sum of ranks of the two points
 	// lsrank == sum of ranks of the two lines
-	for (rank_t psrank = 0; psrank <= (arank - 1); psrank++) {
-		for (rank_t lsrank = 0; lsrank <= (arank - 1) - psrank; lsrank++) {
+	for(rank_t psrank = 0; psrank <= (arank - 1); psrank++) {
+		for(rank_t lsrank = 0; lsrank <= (arank - 1) - psrank; lsrank++) {
 
 			// point order doesn't matter, so rank(pt[i]) will always be <= rank(pt[j])
-			for (rank_t irank = 0; irank <= psrank / 2; irank++) {
+			for(rank_t irank = 0; irank <= psrank / 2; irank++) {
 				rank_t jrank = psrank - irank;
 
 				// line order does matter, so both lines vary over all ranks
-				for (rank_t krank = 0; krank <= lsrank; krank++) {
-					for (rank_t lrank = 0; lrank <= lsrank - krank; lrank++) {
+				for(rank_t krank = 0; krank <= lsrank; krank++) {
+					for(rank_t lrank = 0; lrank <= lsrank - krank; lrank++) {
 						MakeAllCore(irank, jrank, krank, lrank);
 					}
 				}
@@ -419,19 +419,19 @@ void RefLine_P2L_P2L::MakeAllCore(rank_t irank, rank_t jrank, rank_t krank, rank
 
 	// iterate over all combinations of points & lines with given rank
 	auto &imap = marks.ranks[irank];
-	for (auto mi = imap.begin() + (psameRank ? 1 : 0); mi != imap.end(); mi++) {
+	for(auto mi = imap.begin() + (psameRank ? 1 : 0); mi != imap.end(); mi++) {
 		auto &jmap = marks.ranks[jrank];
-		for (auto mj = jmap.begin(); mj != (psameRank ? mi : jmap.end()); mj++) {
-			for (auto lk : lines.ranks[krank]) {
-				for (auto ll : lines.ranks[lrank]) {
-					if ((krank != lrank) || (lk != ll)) { // cmpr iterators only if same container
-						if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+		for(auto mj = jmap.begin(); mj != (psameRank ? mi : jmap.end()); mj++) {
+			for(auto lk: lines.ranks[krank]) {
+				for(auto ll: lines.ranks[lrank]) {
+					if((krank != lrank) || (lk != ll)) { // cmpr iterators only if same container
+						if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 						RefLine_P2L_P2L rlp0(*mi, lk, *mj, ll, 0);
 						lines.AddCopyIfValidAndUnique(rlp0);
-						if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+						if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 						RefLine_P2L_P2L rlp1(*mi, lk, *mj, ll, 1);
 						lines.AddCopyIfValidAndUnique(rlp1);
-						if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+						if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 						RefLine_P2L_P2L rlp2(*mi, lk, *mj, ll, 2);
 						lines.AddCopyIfValidAndUnique(rlp2);
 					}
@@ -456,7 +456,7 @@ RefLine *RefLine_P2L_P2L::Import(BinaryInputStream &is) {
 	RefLine *rl2 = ReferenceFinder::sBasisLines[id4];
 
 	// We must run the case root = 0 to gather the parameters
-	if (root > 0) RefLine_P2L_P2L temp(rm1, rl1, rm2, rl2, 0);
+	if(root > 0) RefLine_P2L_P2L temp(rm1, rl1, rm2, rl2, 0);
 
 	return new RefLine_P2L_P2L(rm1, rl1, rm2, rl2, root);
 }

@@ -32,10 +32,10 @@ RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2)
 	bool p1edge = arm1->IsOnEdge();
 	bool p2edge = arm2->IsOnEdge();
 
-	if (Shared::sVisibilityMatters) {
-		if (p1edge)
+	if(Shared::sVisibilityMatters) {
+		if(p1edge)
 			mWhoMoves = WHOMOVES_P1;
-		else if (p2edge)
+		else if(p2edge)
 			mWhoMoves = WHOMOVES_P2;
 		else
 			return;
@@ -44,7 +44,7 @@ RefLine_P2P::RefLine_P2P(RefMark *arm1, RefMark *arm2)
 	};
 
 	// If this line creates a skinny flap, we won't use it.
-	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
+	if(Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// Set the key.
 	FinishConstructor();
@@ -69,7 +69,7 @@ bool RefLine_P2P::UsesImmediate(RefBase *rb) const {
 Build the folding sequence that constructs this object.
 *****/
 void RefLine_P2P::SequencePushSelf() {
-	switch (mWhoMoves) {
+	switch(mWhoMoves) {
 	case WHOMOVES_P1:
 		rm2->SequencePushSelf();
 		rm1->SequencePushSelf();
@@ -89,7 +89,7 @@ Export the construction of this line.
 JsonObject RefLine_P2P::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 2);
-	switch (mWhoMoves) {
+	switch(mWhoMoves) {
 	case WHOMOVES_P1:
 		rm1->PutName("p0", step);
 		rm2->PutName("p1", step);
@@ -102,7 +102,7 @@ JsonObject RefLine_P2P::Serialize() const {
 	};
 	PutName("x", step);
 
-	if (mForMark != nullptr) step.add("pinch", 1);
+	if(mForMark != nullptr) step.add("pinch", 1);
 #ifdef _DEBUG_DB_
 	PutDebug(step);
 #endif
@@ -117,10 +117,10 @@ void RefLine_P2P::DrawSelf(RefStyle rstyle, short ipass) const {
 	RefLine::DrawSelf(rstyle, ipass);
 
 	// If we're moving, we need an arrow
-	if ((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
+	if((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
 		XYPt &p1 = rm1->p;
 		XYPt &p2 = rm2->p;
-		switch (mWhoMoves) {
+		switch(mWhoMoves) {
 		case WHOMOVES_P1:
 			sDgmr->DrawArrow(p1, p2);
 			break;
@@ -136,14 +136,14 @@ Go through existing lines and marks and create RefLine_P2Ps with rank equal to
 arank, up to a cumulative total of sMaxLines.
 *****/
 void RefLine_P2P::MakeAll(rank_t arank) {
-	for (rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
+	for(rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
 		rank_t jrank = arank - irank - 1;
 		bool sameRank = (irank == jrank);
 		auto &imap = ReferenceFinder::sBasisMarks.ranks[irank];
-		for (auto mi = imap.begin() + (sameRank ? 1 : 0); mi != imap.end(); mi++) {
+		for(auto mi = imap.begin() + (sameRank ? 1 : 0); mi != imap.end(); mi++) {
 			auto &jmap = ReferenceFinder::sBasisMarks.ranks[jrank];
-			for (auto mj = jmap.begin(); mj != (sameRank ? mi : jmap.end()); mj++) {
-				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+			for(auto mj = jmap.begin(); mj != (sameRank ? mi : jmap.end()); mj++) {
+				if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_P2P rlb(*mi, *mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlb);
 			};

@@ -60,7 +60,7 @@ Return the label for this mark.
 *****/
 const char RefMark::GetLabel() const {
 	index_t mIndex = sIndices[this];
-	if (mIndex == 0) return ' ';
+	if(mIndex == 0) return ' ';
 	return sLabels.at(mIndex - 1);
 }
 
@@ -86,9 +86,9 @@ void RefMark::PutDistanceAndRank(JsonObject &solution, const XYPt &ap) const {
 Draw a RefMark in the indicated style
 *****/
 void RefMark::DrawSelf(RefStyle rstyle, short ipass) const {
-	switch (ipass) {
+	switch(ipass) {
 	case PASS_POINTS: {
-		switch (rstyle) {
+		switch(rstyle) {
 		case REFSTYLE_NORMAL:
 			sDgmr->DrawPt(p, RefDgmr::POINTSTYLE_NORMAL);
 			break;
@@ -104,7 +104,7 @@ void RefMark::DrawSelf(RefStyle rstyle, short ipass) const {
 
 	case PASS_LABELS: {
 		string sm(1, GetLabel());
-		switch (rstyle) {
+		switch(rstyle) {
 		case REFSTYLE_NORMAL:
 			// Normal points don't get labels drawn
 			break;

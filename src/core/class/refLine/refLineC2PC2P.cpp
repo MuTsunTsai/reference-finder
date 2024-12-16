@@ -29,7 +29,7 @@ RefLine_C2P_C2P::RefLine_C2P_C2P(RefMark *arm1, RefMark *arm2)
 
 	// Don't need to check visibility because this type is always visible.
 	// If this line creates a skinny flap, we won't use it.
-	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
+	if(Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// This type is always valid.
 	FinishConstructor();
@@ -69,7 +69,7 @@ JsonObject RefLine_C2P_C2P::Serialize() const {
 	rm2->PutName("p1", step);
 	PutName("x", step);
 
-	if (mForMark != nullptr) step.add("pinch", 1);
+	if(mForMark != nullptr) step.add("pinch", 1);
 
 #ifdef _DEBUG_DB_
 	PutDebug(step);
@@ -85,7 +85,7 @@ void RefLine_C2P_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 	RefLine::DrawSelf(rstyle, ipass);
 
 	// If we're moving, we need arrows.
-	if ((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
+	if((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
 
 		// Get the endpoints of the fold
 		const XYPt &p1 = rm1->p;
@@ -108,7 +108,7 @@ void RefLine_C2P_C2P::DrawSelf(RefStyle rstyle, short ipass) const {
 		// Construct a new pair of points that mate when folded and that are
 		// guaranteed to lie within the paper.
 		XYPt dp;
-		if (t3 < t4)
+		if(t3 < t4)
 			dp = t3 * l.u;
 		else
 			dp = t4 * l.u;
@@ -125,14 +125,14 @@ Go through existing lines and marks and create RefLine_C2P_C2Ps with rank equal
 to arank, up to a cumulative total of sMaxLines.
 *****/
 void RefLine_C2P_C2P::MakeAll(rank_t arank) {
-	for (rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
+	for(rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
 		rank_t jrank = arank - irank - 1;
 		bool sameRank = (irank == jrank);
 		auto &imap = ReferenceFinder::sBasisMarks.ranks[irank];
-		for (auto mi = imap.begin() + (sameRank ? 1 : 0); mi != imap.end(); mi++) {
+		for(auto mi = imap.begin() + (sameRank ? 1 : 0); mi != imap.end(); mi++) {
 			auto &jmap = ReferenceFinder::sBasisMarks.ranks[jrank];
-			for (auto mj = jmap.begin(); mj != (sameRank ? mi : jmap.end()); mj++) {
-				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+			for(auto mj = jmap.begin(); mj != (sameRank ? mi : jmap.end()); mj++) {
+				if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_C2P_C2P rlc(*mi, *mj);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rlc);
 			};

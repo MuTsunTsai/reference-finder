@@ -13,7 +13,7 @@
 class RefContainer - Container for marks and lines.
 **********/
 template <class R>
-class RefContainer : public std::vector<R *> {
+class RefContainer: public std::vector<R *> {
   public:
 	// For our use case, using std::unordered_map can improve performance by about 12% comparing to std::map
 	using map_t = std::unordered_map<key_t, R *>; // typedef for map holding R*
@@ -89,7 +89,7 @@ FlushBuffer().
 template <class R>
 void RefContainer<R>::Add(R *ar) {
 	int i = mBufferSize / CHUNK_SIZE;
-	if (mBufferSize % CHUNK_SIZE == 0) buffer.resize(i + 1);	// Add a new chunk
+	if(mBufferSize % CHUNK_SIZE == 0) buffer.resize(i + 1);		// Add a new chunk
 	buffer[i].insert(typename map_t::value_type(ar->mKey, ar)); // Add it to the buffer.
 	mBufferSize++;
 }
@@ -104,25 +104,25 @@ blind-copied, and/or strings (which know how to copy themselves).
 template <class R>
 template <class Rs>
 void RefContainer<R>::AddCopyIfValidAndUnique(const Rs &ars) {
-	if (
+	if(
 		ars.mKey != 0 &&	 // The ref is valid (fully constructed) if its key is something other than 0.
 		!set.count(ars.mKey) // If the main set already has one with the same key,
 							 // it must be of a lower rank and we can safely ignore the current one.
 	) {
 		Rs *ref = new Rs(ars);
 		bool found = false;
-		for (map_t &buf : buffer) {
+		for(map_t &buf: buffer) {
 			auto iter = buf.find(ars.mKey);
-			if (iter != buf.end()) {
+			if(iter != buf.end()) {
 				found = true;
-				if (ars.mScore < iter->second->mScore) { // see if the current one has a lower score
-					delete iter->second;				 // don't forget to release memory
-					iter->second = ref;					 // replace the item in the buffer
+				if(ars.mScore < iter->second->mScore) { // see if the current one has a lower score
+					delete iter->second;				// don't forget to release memory
+					iter->second = ref;					// replace the item in the buffer
 				}
 				break;
 			}
 		}
-		if (!found) Add(ref); // if the buffer doesn't have the same key, add the ref directly
+		if(!found) Add(ref); // if the buffer doesn't have the same key, add the ref directly
 	}
 	Shared::CheckDatabaseStatus(); // report progress if appropriate
 }
@@ -132,17 +132,17 @@ Put the contents of the buffer into the main container.
 *****/
 template <class R>
 void RefContainer<R>::FlushBuffer(rank_t arank) {
-	for (auto &buf : buffer) {
+	for(auto &buf: buffer) {
 		// Make room for the buffer in the sortable list.
 		this->reserve(this->size() + buf.size());
 
 		// Go through the buffer and add each element to the appropriate rank in the main container.
-		for (auto &bi : buf) {
+		for(auto &bi: buf) {
 			R *ar = bi.second;
 			set.insert(ar->mKey);		// add to the main set
 			ranks[arank].push_back(ar); // add to appropriate rank
 			this->push_back(ar);		// also add to our sortable list
-			if (Shared::useDatabase) {
+			if(Shared::useDatabase) {
 				ar->id = nextId++; // assign a new id
 				ar->Export(*Shared::dbStream);
 			}
@@ -160,5 +160,5 @@ Clear the set and rank vectors. Called when they're no longer needed.
 template <class R>
 void RefContainer<R>::ClearMaps() {
 	set.clear();
-	for (auto &rank : ranks) rank.clear();
+	for(auto &rank: ranks) rank.clear();
 }

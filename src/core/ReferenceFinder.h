@@ -162,13 +162,13 @@ template <class R>
 class CompareError {
   public:
 	typename R::bare_t mTarget;
-	CompareError(const typename R::bare_t &target) : mTarget(target) {};
+	CompareError(const typename R::bare_t &target): mTarget(target) {};
 	bool operator()(R *r1, R *r2) const {
 		// Compare the distances from the stored target If the distances are
 		// equal, then compare the refs by their rank.
 		double d1 = r1->DistanceTo(mTarget);
 		double d2 = r2->DistanceTo(mTarget);
-		if (d1 == d2) return r1->GetRank() < r2->GetRank();
+		if(d1 == d2) return r1->GetRank() < r2->GetRank();
 		else return d1 < d2;
 	};
 };
@@ -182,7 +182,7 @@ template <class R>
 class CompareRankAndError {
   public:
 	typename R::bare_t mTarget; // point that we're comparing to
-	CompareRankAndError(const typename R::bare_t &target) : mTarget(target) {};
+	CompareRankAndError(const typename R::bare_t &target): mTarget(target) {};
 	bool operator()(R *r1, R *r2) const {
 		// Compare the distances from the stored target. If both distances are less
 		// than or equal to sGoodEnoughError, compare the refs by their rank.
@@ -190,12 +190,12 @@ class CompareRankAndError {
 		double d2 = r2->DistanceTo(mTarget);
 
 		bool notBothGood = d1 > Shared::sGoodEnoughError || d2 > Shared::sGoodEnoughError;
-		if (notBothGood && d1 != d2) return d1 < d2;
+		if(notBothGood && d1 != d2) return d1 < d2;
 
 		rank_t rank1 = r1->GetRank();
 		rank_t rank2 = r2->GetRank();
-		if (notBothGood) return rank1 < rank2; // we must have d1 == d2 here
-		else if (rank1 == rank2) return d1 < d2;
+		if(notBothGood) return rank1 < rank2; // we must have d1 == d2 here
+		else if(rank1 == rank2) return d1 < d2;
 		else return rank1 < rank2;
 	};
 };

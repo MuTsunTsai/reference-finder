@@ -50,7 +50,7 @@ void JsonObject::add(char const *key, const JsonArray &array) {
 }
 
 void JsonObject::addKey(char const *key) {
-	if (mStarted) mStream << ",";
+	if(mStarted) mStream << ",";
 	mStarted = true;
 	mStream << "\"" << key << "\":";
 }

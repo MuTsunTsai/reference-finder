@@ -16,8 +16,8 @@ is improperly defined, the aspect ratio may be negative.
 double XYRect::GetAspectRatio() const {
 	double wd = GetWidth();
 	double ht = GetHeight();
-	if (abs(wd) < EPS && abs(ht) < EPS) return 0;
-	if (abs(wd) <= abs(ht)) return wd / ht;
+	if(abs(wd) < EPS && abs(ht) < EPS) return 0;
+	if(abs(wd) <= abs(ht)) return wd / ht;
 	return ht / wd;
 }
 

@@ -7,7 +7,7 @@
 
 class BinaryInputStream {
   public:
-	BinaryInputStream(std::istream &is) : is_(is) {}
+	BinaryInputStream(std::istream &is): is_(is) {}
 
 	template <typename T>
 	BinaryInputStream &read(T &value) {

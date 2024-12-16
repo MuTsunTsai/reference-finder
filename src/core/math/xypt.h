@@ -16,7 +16,7 @@ class XYPt {
 	double y; // y coordinate
 
 	// Constructor
-	XYPt(double xx = 0, double yy = 0) : x(xx), y(yy) {}
+	XYPt(double xx = 0, double yy = 0): x(xx), y(yy) {}
 
 	// Arithmetic with XYPts and scalars
 	const XYPt operator+(const XYPt &p) const { return XYPt(x + p.x, y + p.y); }
@@ -123,8 +123,8 @@ class XYPt {
 		return XYPt(std::abs(x) < EPS ? 0 : x, std::abs(y) < EPS ? 0 : y);
 	}
 	XYPt &ChopSelf() {
-		if (std::abs(x) < EPS) x = 0;
-		if (std::abs(y) < EPS) y = 0;
+		if(std::abs(x) < EPS) x = 0;
+		if(std::abs(y) < EPS) y = 0;
 		return *this;
 	}
 

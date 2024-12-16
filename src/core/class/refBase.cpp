@@ -35,7 +35,7 @@ creating a couple hundred thousand of them during program initialization.
 RefBase static member initialization
 *****/
 RefDgmr *RefBase::sDgmr;
-unordered_map<const RefBase*, RefBase::index_t> RefBase::sIndices;
+unordered_map<const RefBase *, RefBase::index_t> RefBase::sIndices;
 vector<RefBase *> RefBase::sSequence;
 vector<RefBase::DgmInfo> RefBase::sDgms;
 
@@ -85,7 +85,7 @@ void RefBase::BuildAndNumberSequence() {
 	RefMark::ResetCount();
 	RefLine::ResetCount();
 	sIndices.clear();
-	for (auto &i : sSequence) i->SetIndex();
+	for(auto &i: sSequence) i->SetIndex();
 }
 
 void RefBase::PutName(char const *key, JsonObject &obj) const {}
@@ -104,7 +104,7 @@ Send the full how-to sequence to the given stream.
 *****/
 void RefBase::PutHowtoSequence(JsonObject &solution) {
 	JsonArray steps;
-	for (auto &i : sSequence) {
+	for(auto &i: sSequence) {
 		steps.add(i->Serialize());
 	}
 	solution.add("steps", steps);
@@ -136,16 +136,16 @@ void RefBase::BuildDiagrams() {
 	// Now, we need to note which elements of the sequence are action lines;
 	// there will be a diagram for each one of these.
 	size_t ss = sSequence.size();
-	for (size_t i = 0; i < ss; i++) {
-		if (sSequence[i]->IsActionLine()) {
+	for(size_t i = 0; i < ss; i++) {
+		if(sSequence[i]->IsActionLine()) {
 			sDgms.emplace_back(i, i);
 
 			// For each line, check if it is only used to create one intersection and nothing more.
 			// If so, it suffices to pinch only near the corresponding mark, and not the entire line.
 			RefBase *mark = nullptr;
-			for (size_t j = 0; j < ss; j++) {
-				if (sSequence[j]->UsesImmediate(sSequence[i])) {
-					if (sSequence[j]->IsLine() || mark != nullptr) {
+			for(size_t j = 0; j < ss; j++) {
+				if(sSequence[j]->UsesImmediate(sSequence[i])) {
+					if(sSequence[j]->IsLine() || mark != nullptr) {
 						mark = nullptr;
 						break;
 					} else {
@@ -153,27 +153,27 @@ void RefBase::BuildDiagrams() {
 					}
 				}
 			}
-			((RefLine*)sSequence[i])->mForMark = mark;
+			((RefLine *)sSequence[i])->mForMark = mark;
 		}
-		if (!sSequence[i]->IsLine() && sSequence[i]->IsDerived()) {
+		if(!sSequence[i]->IsLine() && sSequence[i]->IsDerived()) {
 			auto *mark = (RefMark_Intersection *)sSequence[i];
 			// It won't make sense to have both lines as pinches.
-			if (mark->rl2->mForMark != nullptr) mark->rl1->mForMark = nullptr;
+			if(mark->rl2->mForMark != nullptr) mark->rl1->mForMark = nullptr;
 		}
 	}
 
 	// We should always have at least one diagram, even if there was only one ref
 	// in sSequence (which happens if the ref was a RefMark_Original or
 	// RefLine_Original).
-	if (sDgms.size() == 0) sDgms.emplace_back(0, 0);
+	if(sDgms.size() == 0) sDgms.emplace_back(0, 0);
 
 	// And we make sure we have a diagram for the last ref in the sequence (which
 	// might not be the case if we ended with a RefMark or an original).
-	if (sDgms[sDgms.size() - 1].iact < ss - 1) sDgms.emplace_back(0, ss - 1);
+	if(sDgms[sDgms.size() - 1].iact < ss - 1) sDgms.emplace_back(0, ss - 1);
 
 	// Now we go through and set the idef fields of each DgmInfo record.
 	size_t id = 0;
-	for (auto &sDgm : sDgms) {
+	for(auto &sDgm: sDgms) {
 		sDgm.idef = id;
 		id = sDgm.iact + 1;
 	}
@@ -211,18 +211,18 @@ void RefBase::DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm) {
 	// action style. Any refs that are used immediately by the action line get
 	// drawn in hilite style. Drawing for each diagram is done in multiple passes
 	// so that, for examples, labels end up on top of everything else.
-	for (short ipass = 0; ipass < NUM_PASSES; ipass++) {
-		for (size_t i = 0; i < act; i++) {
+	for(short ipass = 0; ipass < NUM_PASSES; ipass++) {
+		for(size_t i = 0; i < act; i++) {
 			RefBase *rb = sSequence[i];
 			bool shouldHighlight = (i >= aDgm.idef && rb->IsDerived()) || ral->UsesImmediate(rb);
 			RefStyle style = shouldHighlight ? REFSTYLE_HILITE : REFSTYLE_NORMAL;
 			rb->DrawSelf(style, ipass);
 		};
-		if (act < ss) {
+		if(act < ss) {
 			sSequence[act]->DrawSelf(REFSTYLE_ACTION, ipass);
 
 			// When the next thing in the sequence is a mark, we also include it in the current diagram.
-			if (
+			if(
 				act < ss - 2 &&				  // unless it's the very last one, which will be a standalone diagram.
 				!sSequence[act + 1]->IsLine() // the next one is a mark
 			) {
@@ -257,7 +257,7 @@ Utility used by subclasses when they implement SequencePushSelf(). This insures
 that a given mark only gets a single label.
 *****/
 void RefBase::SequencePushUnique(RefBase *rb) {
-	if (find(sSequence.begin(), sSequence.end(), rb) == sSequence.end())
+	if(find(sSequence.begin(), sSequence.end(), rb) == sSequence.end())
 		sSequence.push_back(rb);
 }
 

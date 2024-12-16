@@ -46,7 +46,7 @@ class RefBase {
 	struct DgmInfo {	  // information that encodes a diagram description
 		std::size_t idef; // first ref that's defined in this diagram
 		std::size_t iact; // ref that terminates this diagram
-		DgmInfo(std::size_t adef, std::size_t aact) : idef(adef), iact(aact) {}
+		DgmInfo(std::size_t adef, std::size_t aact): idef(adef), iact(aact) {}
 	};
 	static std::vector<DgmInfo> sDgms; // a list of diagrams that describe a given ref
 

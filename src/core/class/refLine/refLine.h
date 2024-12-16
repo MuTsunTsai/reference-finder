@@ -10,7 +10,7 @@
 /**********
 class RefLine - base class for a reference line.
 **********/
-class RefLine : public RefBase {
+class RefLine: public RefBase {
   public:
 	using bare_t = XYLine; // type of bare object that a RefLine represents
 	bare_t l;			   // the line this contains
@@ -25,8 +25,8 @@ class RefLine : public RefBase {
 	static void moveCloser(XYPt &from, const XYPt &to, double dist);
 
   public:
-	RefLine() : RefBase(), mForMark(nullptr) {}
-	RefLine(const XYLine &al) : RefBase(), l(al), mForMark(nullptr) {}
+	RefLine(): RefBase(), mForMark(nullptr) {}
+	RefLine(const XYLine &al): RefBase(), l(al), mForMark(nullptr) {}
 
 	void FinishConstructor();
 	double DistanceTo(const XYLine &al) const;

@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include "math/xypt.h"
 #include "math/xyline.h"
+#include "math/xypt.h"
 
 #include <sstream>
 

@@ -33,8 +33,8 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
 
 	// Parallel lines get handled specially. There's only one solution; we arbitrarily make
 	// it the iroot=0 solution.
-	if (l1.IsParallelTo(l2)) {
-		if (iroot == 0) {
+	if(l1.IsParallelTo(l2)) {
+		if(iroot == 0) {
 			l.u = u1;
 			l.d = .5 * (d1 + d2 * u2.Dot(u1));
 		} else
@@ -42,7 +42,7 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
 	} else {		// nonparallel lines
 
 		// Construct the direction vector for the bisector, depending on the value of iroot.
-		if (iroot == 0)
+		if(iroot == 0)
 			l.u = (u1 + u2).Normalize();
 		else
 			l.u = (u1 - u2).Normalize();
@@ -51,27 +51,27 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
 	};
 
 	// If the paper doesn't overlap the fold line, we're not valid.
-	if (!Shared::sPaper.InteriorOverlaps(l)) return;
+	if(!Shared::sPaper.InteriorOverlaps(l)) return;
 
 	// Check visibility
 	bool l1edge = arl1->IsOnEdge();
 	bool l2edge = arl2->IsOnEdge();
 
-	if (Shared::sVisibilityMatters) {
-		if (l1edge)
+	if(Shared::sVisibilityMatters) {
+		if(l1edge)
 			mWhoMoves = WHOMOVES_L1;
-		else if (l2edge)
+		else if(l2edge)
 			mWhoMoves = WHOMOVES_L2;
 		else {
 			XYPt lp1, lp2;
 			Shared::sPaper.ClipLine(l1, lp1, lp2);
-			if (Shared::sPaper.Encloses(l.Fold(lp1)) &&
-				Shared::sPaper.Encloses(l.Fold(lp2)))
+			if(Shared::sPaper.Encloses(l.Fold(lp1)) &&
+			   Shared::sPaper.Encloses(l.Fold(lp2)))
 				mWhoMoves = WHOMOVES_L1;
 			else {
 				Shared::sPaper.ClipLine(l2, lp1, lp2);
-				if (Shared::sPaper.Encloses(l.Fold(lp1)) &&
-					Shared::sPaper.Encloses(l.Fold(lp2)))
+				if(Shared::sPaper.Encloses(l.Fold(lp1)) &&
+				   Shared::sPaper.Encloses(l.Fold(lp2)))
 					mWhoMoves = WHOMOVES_L2;
 				else
 					return;
@@ -82,7 +82,7 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
 	};
 
 	// If this line creates a skinny flap, we won't use it.
-	if (Shared::sPaper.MakesSkinnyFlap(l)) return;
+	if(Shared::sPaper.MakesSkinnyFlap(l)) return;
 
 	// Set the key.
 	FinishConstructor();
@@ -107,7 +107,7 @@ bool RefLine_L2L::UsesImmediate(RefBase *rb) const {
 Build the folding sequence that constructs this object.
 *****/
 void RefLine_L2L::SequencePushSelf() {
-	switch (mWhoMoves) {
+	switch(mWhoMoves) {
 	case WHOMOVES_L1:
 		rl2->SequencePushSelf();
 		rl1->SequencePushSelf();
@@ -127,7 +127,7 @@ Export the construction of this line.
 JsonObject RefLine_L2L::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 3);
-	switch (mWhoMoves) {
+	switch(mWhoMoves) {
 	case WHOMOVES_L1:
 		rl1->PutName("l0", step);
 		rl2->PutName("l1", step);
@@ -150,13 +150,13 @@ JsonObject RefLine_L2L::Serialize() const {
 
 	// Return the first point of intersection between the fold line and the edge of the
 	// paper that _isn't_ the intersection of the two bisectors.
-	if (p == pa) {
+	if(p == pa) {
 		step.add("p0", pb.Chop());
 	} else {
 		step.add("p0", pa.Chop());
 	}
 
-	if (mForMark != nullptr) step.add("pinch", 1);
+	if(mForMark != nullptr) step.add("pinch", 1);
 #ifdef _DEBUG_DB_
 	PutDebug(step);
 #endif
@@ -173,7 +173,7 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 	// If we're moving, we need an arrow that brings two points from one line to
 	// two points on the other line. We need to pick points that are within the
 	// paper for both lines.
-	if ((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
+	if((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
 
 		XYLine &l1 = rl1->l;
 		XYLine &l2 = rl2->l;
@@ -202,10 +202,10 @@ void RefLine_L2L::DrawSelf(RefStyle rstyle, short ipass) const {
 			p1c = du1 + offset * up1;
 			p2c = l.Fold(p1c);
 			weight++;
-		} while (!isParallel && (p1c - p2c).Mag() < 0.3 && weight < 5);
+		} while(!isParallel && (p1c - p2c).Mag() < 0.3 && weight < 5);
 
 		XYPt *around = isParallel ? nullptr : &p; // Specify arrow orientation for L2L
-		switch (mWhoMoves) {
+		switch(mWhoMoves) {
 		case WHOMOVES_L1:
 			sDgmr->DrawArrow(p1c, p2c, around);
 			break;
@@ -221,17 +221,17 @@ Go through existing lines and marks and create RefLine_L2Ls with rank equal to
 arank up to a cumulative total of sMaxLines.
 *****/
 void RefLine_L2L::MakeAll(rank_t arank) {
-	for (rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
+	for(rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
 		rank_t jrank = arank - irank - 1;
 		bool sameRank = (irank == jrank);
 		auto &imap = ReferenceFinder::sBasisLines.ranks[irank];
-		for (auto li = imap.begin() + (sameRank ? 1 : 0); li != imap.end(); li++) {
+		for(auto li = imap.begin() + (sameRank ? 1 : 0); li != imap.end(); li++) {
 			auto &jmap = ReferenceFinder::sBasisLines.ranks[jrank];
-			for (auto lj = jmap.begin(); lj != (sameRank ? li : jmap.end()); lj++) {
-				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+			for(auto lj = jmap.begin(); lj != (sameRank ? li : jmap.end()); lj++) {
+				if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_L2L rls1(*li, *lj, 0);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls1);
-				if (ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
+				if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_L2L rls2(*li, *lj, 1);
 				ReferenceFinder::sBasisLines.AddCopyIfValidAndUnique(rls2);
 			};
