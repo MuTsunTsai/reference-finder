@@ -10,7 +10,7 @@ Checks: '-*,
   -readability-braces-around-statements,
   -readability-magic-numbers,
   -readability-avoid-nested-conditional-operator,
--readability-use-anyofallof'
+  -readability-use-anyofallof'
 CheckOptions:
   - key: readability-function-cognitive-complexity.Threshold
     value: 60
