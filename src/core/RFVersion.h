@@ -20,7 +20,7 @@ enum {
 	VERSION_MAJOR = 4,
 	VERSION_MINOR = 4,
 	VERSION_BUGFIX = 4,
-	VERSION_BUILD = 20241216
+	VERSION_BUILD = 20241224
 };
 
 /******************************************************************************/
