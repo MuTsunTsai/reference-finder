@@ -108,6 +108,7 @@ export default defineConfig({
 		}),
 		pluginAssetsRetry({
 			addQuery: true,
+			test: url => !url.includes("gtag"),
 		}),
 		pluginHtmlMinifierTerser({
 			removeComments: true,
