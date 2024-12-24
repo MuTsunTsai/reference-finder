@@ -90,7 +90,7 @@ class RefBase {
 	static void PutHowtoSequence(JsonObject &solution);
 
 	// routines for drawing diagrams
-	void BuildDiagrams();
+	static void BuildDiagrams();
 	static void DrawPaper();
 	static void DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm);
 
