@@ -333,8 +333,11 @@ void fillBestSolutions(vector<T *> &v, vector<T *> &temp, short num) {
 		for(; i < v.size(); i++) {
 			if(ref->DistanceTo(v[i]) < IDENTICAL_THRESHOLD) break;
 		}
-		if(i == v.size() && i < num) v.push_back(ref);
-		else if(ref->mScore < v[i]->mScore) v[i] = ref;
+		if(i == v.size()) {
+			if(i < num) v.push_back(ref);
+		} else {
+			if(ref->mScore < v[i]->mScore) v[i] = ref;
+		}
 	}
 }
 
