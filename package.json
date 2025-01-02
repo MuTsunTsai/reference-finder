@@ -19,7 +19,7 @@
 	"devDependencies": {
 		"@eslint/js": "^9.17.0",
 		"@mutsuntsai/stylistic": "^1.0.3",
-		"@rsbuild/core": "^1.1.12",
+		"@rsbuild/core": "^1.1.13",
 		"@rsbuild/plugin-assets-retry": "^1.0.7",
 		"@rsbuild/plugin-check-syntax": "^1.2.0",
 		"@rsbuild/plugin-react": "^1.1.0",
@@ -40,7 +40,7 @@
 		"purgecss-webpack-plugin": "^7.0.2",
 		"rsbuild-plugin-html-minifier-terser": "^1.1.1",
 		"typescript": "^5.7.2",
-		"typescript-eslint": "^8.18.2",
+		"typescript-eslint": "^8.19.0",
 		"workbox-webpack-plugin": "^7.3.0"
 	},
 	"dependencies": {
@@ -59,9 +59,9 @@
 		"probably-china": "^1.1.0",
 		"rabbit-ear": "^0.9.32",
 		"react": "^19.0.0",
-		"react-chartjs-2": "^5.2.0",
+		"react-chartjs-2": "^5.3.0",
 		"react-dom": "^19.0.0",
-		"react-i18next": "^15.2.0",
+		"react-i18next": "^15.4.0",
 		"zustand": "^5.0.2"
 	},
 	"pnpm": {
