@@ -30,6 +30,7 @@ class RefLine: public RefBase {
 
 	void FinishConstructor();
 	double DistanceTo(const XYLine &al) const;
+	double DistanceTo(const RefLine *ref) const;
 	bool IsOnEdge() const;
 	bool IsLine() const override;
 	bool IsActionLine() const override;

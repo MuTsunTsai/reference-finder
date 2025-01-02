@@ -37,6 +37,10 @@ double RefMark::DistanceTo(const XYPt &ap) const {
 	return (p - ap).Mag();
 }
 
+double RefMark::DistanceTo(const RefMark *ref) const {
+	return DistanceTo(ref->p);
+}
+
 /*****
 Return true if this mark is on the edge of the paper
 *****/

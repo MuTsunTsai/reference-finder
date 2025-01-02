@@ -26,6 +26,7 @@ class RefMark: public RefBase {
 	void FinishConstructor();
 
 	double DistanceTo(const XYPt &ap) const;
+	double DistanceTo(const RefMark *ref) const;
 	bool IsOnEdge() const;
 	bool IsLine() const override;
 	bool IsActionLine() const override;

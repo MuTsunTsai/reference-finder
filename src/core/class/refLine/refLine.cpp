@@ -63,6 +63,10 @@ double RefLine::DistanceTo(const XYLine &al) const {
 	return sqrt(pow(l.u.Dot(al.u.Rotate90()), 2) + pow(l.d - al.d * l.u.Dot(al.u), 2));
 }
 
+double RefLine::DistanceTo(const RefLine *ref) const {
+	return DistanceTo(ref->l);
+}
+
 /*****
 Return true if this RefLine is on the edge of the paper
 *****/

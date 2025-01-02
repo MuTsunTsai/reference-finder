@@ -315,22 +315,45 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	ShowProgress(DATABASE_READY, sCurRank);
 }
 
+constexpr double IDENTICAL_THRESHOLD = 1e-14;
+
 /*****
-Find the best marks closest to a given point ap, storing the results in the
-vector vm.
+In some cases, it is possible for essentially identical solutions to show up,
+because they are numerically different due to floating error,
+and are coincidentally placed in different buckets in the container.
+We use this function to perform a quick checking for such cases,
+to ensure the displayed solutions are all essentially different.
 *****/
-void ReferenceFinder::FindBestMarks(const XYPt &ap, vector<RefMark *> &vm, short numMarks) {
-	vm.resize(numMarks);
-	partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), vm.begin(), vm.end(), CompareRankAndError<RefMark>(ap));
+template <class T>
+void fillBestSolutions(vector<T *> &v, vector<T *> &temp, short num) {
+	v.resize(0);
+	v.reserve(num);
+	for(auto &ref: temp) {
+		int i = 0;
+		for(; i < v.size(); i++) {
+			if(ref->DistanceTo(v[i]) < IDENTICAL_THRESHOLD) break;
+		}
+		if(i == v.size() && i < num) v.push_back(ref);
+		else if(ref->mScore < v[i]->mScore) v[i] = ref;
+	}
 }
 
 /*****
-Find the best lines closest to a given line al, storing the results in the
-vector vl.
+Find the best marks closest to a given point ap, storing the results in the vector vm.
+*****/
+void ReferenceFinder::FindBestMarks(const XYPt &ap, vector<RefMark *> &vm, short numMarks) {
+	vector<RefMark *> temp(numMarks * 2);
+	partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), temp.begin(), temp.end(), CompareRankAndError<RefMark>(ap));
+	fillBestSolutions(vm, temp, numMarks);
+}
+
+/*****
+Find the best lines closest to a given line al, storing the results in the vector vl.
 *****/
 void ReferenceFinder::FindBestLines(const XYLine &al, vector<RefLine *> &vl, short numLines) {
-	vl.resize(numLines);
-	partial_sort_copy(sBasisLines.begin(), sBasisLines.end(), vl.begin(), vl.end(), CompareRankAndError<RefLine>(al));
+	vector<RefLine *> temp(numLines * 2);
+	partial_sort_copy(sBasisLines.begin(), sBasisLines.end(), temp.begin(), temp.end(), CompareRankAndError<RefLine>(al));
+	fillBestSolutions(vl, temp, numLines);
 }
 
 /*****

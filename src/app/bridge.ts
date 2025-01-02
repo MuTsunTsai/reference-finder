@@ -19,6 +19,7 @@ export function startStatistics(trials: number, callback: typeof statisticsCallb
 }
 
 function parseSolution(text: string) {
+	console.log(text);
 	const solution = JSON.parse(text) as Solution;
 	const steps = solution.steps;
 	solution.steps = [];

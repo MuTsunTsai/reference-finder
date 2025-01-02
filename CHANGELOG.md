@@ -10,6 +10,7 @@
 - v4.4.2: Further improve memory efficiency.
 - v4.4.3: Add random seed to the statistics.
 - v4.4.4: Codebase refactoring.
+- v4.4.5: Filter out essentially identical solutions (fixes issue [#1](https://github.com/MuTsunTsai/reference-finder/issues/1)).
 
 ## v4.3
 
