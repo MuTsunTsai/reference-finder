@@ -20,15 +20,13 @@ implementation of drawing should determine the layout of the diagrams and
 offset and scale appropriately to convert to canvas coordinates.
 */
 
+constexpr double TWO_PI = 2 * M_PI;
+constexpr double RADIANS = 180 * M_1_PI;
 
 /*****
 Calculate all the parameters necessary to draw arrow.
 *****/
 void CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around, XYPt &ctr, double &rad, double &fromAngle, double &toAngle, bool &ccw, double &ahSize, XYPt &fromDir, XYPt &toDir) {
-	const double RADIANS = 57.29577951;
-	const double TWO_PI = 6.283185308;
-	const double PI = 3.1415926535;
-
 	const double ha = 30 / RADIANS; // half-angle of arc of arrow, in degrees
 	const double tana = tan(ha);	// tan of this angle
 
@@ -58,7 +56,7 @@ void CalcArrow(const XYPt &fromPt, const XYPt &toPt, const XYPt *around, XYPt &c
 	double ra = toAngle - fromAngle; // rotation angle
 	while(ra < 0) ra += TWO_PI;		 // get it into the right range
 	while(ra > TWO_PI) ra -= TWO_PI;
-	ccw = (ra < PI); // true == arc goes in ccw direction
+	ccw = (ra < M_PI); // true == arc goes in ccw direction
 
 	// Compute the size of the arrowheads
 	ahSize = Shared::sPaper.mWidth;

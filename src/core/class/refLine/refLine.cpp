@@ -29,7 +29,7 @@ void RefLine::FinishConstructor() {
 		l.u.y = -l.u.y;
 	};
 
-	double fa = (1. + atan2(l.u.y, l.u.x) / (3.14159265358979323)) / 2.0; // fa is between 0 & 1
+	double fa = (1. + atan2(l.u.y, l.u.x) / M_PI) / 2.0; // fa is between 0 & 1
 	const double dmax = sqrt(pow(Shared::sPaper.mWidth, 2) + pow(Shared::sPaper.mHeight, 2));
 	const double fd = l.d / dmax; // fd is between 0 and 1
 
