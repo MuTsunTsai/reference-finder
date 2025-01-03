@@ -35,7 +35,9 @@ class RefBase {
 		MARK_INTERSECTION
 	};
 
-	key_t mKey{0}; // Key used for maps within RefContainers
+	// Key used for maps within RefContainers.
+	// A valid key starts with 1. A key value of zero implies the ref is invalid.
+	key_t mKey{0};
 
 	// Used to decide whether to override existing refs.
 	// After initialization, this field is re-used for optimization.

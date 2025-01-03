@@ -21,6 +21,8 @@ export default function SettingsBody() {
 		if(!settings.useDB) deleteDB("/data");
 	}, [settings.useDB]);
 
+	const MAX_DIV = 65000; // About the sqrt of max unsigned int
+
 	return (
 		<div className="modal-body">
 			<ul className="nav nav-tabs mb-3">
@@ -78,7 +80,7 @@ export default function SettingsBody() {
 					<IntInput
 						value={tempDb.numX}
 						min={100}
-						max={46000}
+						max={MAX_DIV}
 						onInput={v => setTempDb({ ...tempDb, numX: v })}
 					/>
 				</SettingsRow>
@@ -86,7 +88,7 @@ export default function SettingsBody() {
 					<IntInput
 						value={tempDb.numY}
 						min={100}
-						max={46000}
+						max={MAX_DIV}
 						onInput={v => setTempDb({ ...tempDb, numY: v })}
 					/>
 				</SettingsRow>
@@ -94,7 +96,7 @@ export default function SettingsBody() {
 					<IntInput
 						value={tempDb.numA}
 						min={100}
-						max={46000}
+						max={MAX_DIV}
 						onInput={v => setTempDb({ ...tempDb, numA: v })}
 					/>
 				</SettingsRow>
@@ -102,7 +104,7 @@ export default function SettingsBody() {
 					<IntInput
 						value={tempDb.numD}
 						min={100}
-						max={46000}
+						max={MAX_DIV}
 						onInput={v => setTempDb({ ...tempDb, numD: v })}
 					/>
 				</SettingsRow>

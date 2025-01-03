@@ -33,10 +33,10 @@ size_t Shared::sMaxMarks = 500000;
 // keys. The maximum key has the value (sNumX * sNumY) for marks, (sNumA * sNumD)
 // for lines. These numbers set a limit on the accuracy, since we won't create
 // more than one object for a given key.
-int Shared::sNumX = 5000;
-int Shared::sNumY = 5000;
-int Shared::sNumA = 5000;
-int Shared::sNumD = 5000;
+key_t Shared::sNumX = 5000;
+key_t Shared::sNumY = 5000;
+key_t Shared::sNumA = 5000;
+key_t Shared::sNumD = 5000;
 
 // Defines "good enough" for a mark. For marks with errors better than this, we
 // give priority to lower-rank marks.

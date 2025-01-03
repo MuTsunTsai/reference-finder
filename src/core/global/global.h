@@ -14,7 +14,7 @@ Globals
 const double EPS = 1.0e-8; // used for equality of XYPts, parallelness of XYLines
 
 using rank_t = unsigned short;
-using key_t = int;
+using key_t = unsigned int;
 
 /*****
 Utilities
