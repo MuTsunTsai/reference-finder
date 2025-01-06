@@ -19,8 +19,8 @@ export function startStatistics(trials: number, callback: typeof statisticsCallb
 }
 
 function parseSolution(text: string) {
-	console.log(text);
 	const solution = JSON.parse(text) as Solution;
+	console.log(solution);
 	const steps = solution.steps;
 	solution.steps = [];
 	for(const step of steps) {
@@ -52,6 +52,7 @@ export function resetWorker(db: DbSettings) {
 		db.maxLinesV1,
 		db.maxMarksV1,
 		...db.axiomPriority.map(a => db.axioms[a - 1] ? a : 0),
+		db.useDivision,
 		db.numX,
 		db.numY,
 		db.numA,

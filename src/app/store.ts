@@ -69,6 +69,7 @@ export const defaultDB = {
 	maxRank: 6,
 	maxLinesV1: 600000,
 	maxMarksV1: 600000,
+	useDivision: true,
 	numX: 5000,
 	numY: 5000,
 	numA: 5000,

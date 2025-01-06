@@ -152,7 +152,7 @@ JsonObject RefLine_L2L::Serialize() const {
 
 	// Return the first point of intersection between the fold line and the edge of the
 	// paper that _isn't_ the intersection of the two bisectors.
-	if(p == pa) {
+	if(p.equals(pa)) {
 		step.add("p0", pb.Chop());
 	} else {
 		step.add("p0", pa.Chop());

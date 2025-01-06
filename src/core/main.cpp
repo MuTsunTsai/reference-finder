@@ -152,6 +152,9 @@ void readDbSettings() {
 		if(a > 0) Shared::sAxiomWeights[a - 1] = 1 << (j++);
 	}
 
+	Shared::use_division = ReadNumber();
+	if(Shared::sMaxRank > 5) Shared::use_division = true; // fool-proof
+
 	Shared::sNumX = ReadNumber();
 	Shared::sNumY = ReadNumber();
 	Shared::sNumA = ReadNumber();

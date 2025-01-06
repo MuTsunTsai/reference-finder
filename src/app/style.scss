@@ -66,6 +66,11 @@ span.capitalize {
 		--bs-nav-link-color: var(--bs-gray-500);
 		--bs-nav-link-hover-color: var(--bs-gray-300);
 	}
+
+	.form-control:disabled {
+		background-color: #222;
+		opacity: 0.5;
+	}
 }
 
 .nav-tabs {

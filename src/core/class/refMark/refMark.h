@@ -23,6 +23,9 @@ class RefMark: public RefBase {
 	RefMark() = default;
 	RefMark(const XYPt &ap): p(ap) {}
 
+	size_t hash() const override;
+	bool operator==(const RefMark &other) const;
+
 	void FinishConstructor();
 
 	double DistanceTo(const XYPt &ap) const;

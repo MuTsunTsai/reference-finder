@@ -29,6 +29,11 @@ void RefLine::FinishConstructor() {
 		l.u.y = -l.u.y;
 	};
 
+	if(!Shared::use_division) {
+		mKey = 1;
+		return;
+	}
+
 	double fa = (1. + atan2(l.u.y, l.u.x) / M_PI) / 2.0; // fa is between 0 & 1
 	const double dmax = sqrt(pow(Shared::sPaper.mWidth, 2) + pow(Shared::sPaper.mHeight, 2));
 	const double fd = l.d / dmax; // fd is between 0 and 1
@@ -37,6 +42,14 @@ void RefLine::FinishConstructor() {
 	if(nd == 0) fa = fmod(2 * fa, 1); // for d=0, we map alpha and pi+alpha to the same key
 	auto na = static_cast<key_t>(floor(0.5 + fa * (Shared::sNumA - 1)));
 	mKey = 1 + na * Shared::sNumD + nd;
+}
+
+size_t RefLine::hash() const {
+	return std::hash<double>()(l.d) ^ (std::hash<double>()(l.u.x) << 1) ^ (std::hash<double>()(l.u.y) << 2);
+}
+
+bool RefLine::operator==(const RefLine &other) const {
+	return l.d == other.l.d && l.u.x == other.l.u.x && l.u.y == other.l.u.y;
 }
 
 /*****
@@ -56,7 +69,6 @@ double RefLine::DistanceTo(const XYLine &al) const {
 			return min_val(err1, err2);
 		}
 		return 1 / EPS; // lines don't intersect the paper, return very large number
-
 	}
 	// Use the Pythagorean sum of the distance between the characteristic
 	// vectors of the tangent point and angle.
@@ -71,7 +83,8 @@ double RefLine::DistanceTo(const RefLine *ref) const {
 Return true if this RefLine is on the edge of the paper
 *****/
 bool RefLine::IsOnEdge() const {
-	return ((Shared::sPaper.mLeftEdge == l) || (Shared::sPaper.mTopEdge == l) || (Shared::sPaper.mRightEdge == l) || (Shared::sPaper.mBottomEdge == l));
+	return Shared::sPaper.mLeftEdge.equals(l) || Shared::sPaper.mTopEdge.equals(l) ||
+		   Shared::sPaper.mRightEdge.equals(l) || Shared::sPaper.mBottomEdge.equals(l);
 }
 
 bool RefLine::IsLine() const {

@@ -21,12 +21,25 @@ Calculate the key value used for distinguishing RefMarks. This should be called
 at the end of every constructor if the mark is valid (and not if it isn't).
 *****/
 void RefMark::FinishConstructor() {
+	if(!Shared::use_division) {
+		mKey = 1;
+		return;
+	}
+
 	const double fx = p.x / Shared::sPaper.mWidth;	// fx is between 0 and 1
 	const double fy = p.y / Shared::sPaper.mHeight; // fy is between 0 and 1
 
 	auto nx = static_cast<key_t>(floor(0.5 + fx * (Shared::sNumX - 1)));
 	auto ny = static_cast<key_t>(floor(0.5 + fy * (Shared::sNumY - 1)));
 	mKey = 1 + nx * Shared::sNumY + ny;
+}
+
+size_t RefMark::hash() const {
+	return std::hash<double>()(p.x) ^ (std::hash<double>()(p.y) << 1);
+}
+
+bool RefMark::operator==(const RefMark &other) const {
+	return p.x == other.p.x && p.y == other.p.y;
 }
 
 /*****

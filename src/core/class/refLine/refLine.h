@@ -18,6 +18,9 @@ class RefLine: public RefBase {
 	/* A none-null value indicating that this line is used only for creating an intersection. */
 	RefBase *mForMark;
 
+	size_t hash() const override;
+	bool operator==(const RefLine &other) const;
+
   private:
 	static index_t sCount;					   // class index, used for numbering sequences of lines
 	static std::array<const char, 10> sLabels; // labels for lines, indexed by sCount

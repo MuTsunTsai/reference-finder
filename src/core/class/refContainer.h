@@ -9,23 +9,39 @@
 #include <unordered_set>
 #include <vector>
 
+// Custom hash
+struct RefHash {
+	template <typename T>
+	size_t operator()(T *ptr) const {
+		if(Shared::use_division) return std::hash<key_t>()(ptr->mKey);
+		return ptr->hash();
+	}
+};
+
+// Custom equality comparison
+struct RefEqual {
+	template <typename T>
+	size_t operator()(T *a, T *b) const {
+		if(Shared::use_division) return a->mKey == b->mKey;
+		return *a == *b; // Will use overriden operator
+	}
+};
+
 /**********
 class RefContainer - Container for marks and lines.
 **********/
 template <class R>
 class RefContainer: public std::vector<R *> {
   public:
-	// For our use case, using std::unordered_map can improve performance by about 12% comparing to std::map
-	using map_t = std::unordered_map<key_t, R *>; // typedef for map holding R*
-	using set_t = std::unordered_set<key_t>;	  // typedef for set holding keys
-	using vec_t = std::vector<R *>;				  // typedef for vector holding R*
+	using set_t = std::unordered_set<R *, RefHash, RefEqual>; // typedef for set holding R*
+	using vec_t = std::vector<R *>;							  // typedef for vector holding R*
 
 	std::vector<vec_t> ranks; // Holds vectors of objects, one for each rank
 
 	// Used to accumulate new objects.
 	// We break it into chunks of size CHUNK_SIZE,
 	// to reduce the stress of copying data from the buffer to the main container.
-	std::vector<map_t> buffer;
+	std::vector<set_t> buffer;
 
 	std::size_t GetTotalSize() const {
 		// Total number of elements, all ranks
@@ -88,8 +104,8 @@ FlushBuffer().
 template <class R>
 void RefContainer<R>::Add(R *ar) {
 	int i = mBufferSize / CHUNK_SIZE;
-	if(mBufferSize % CHUNK_SIZE == 0) buffer.resize(i + 1);		// Add a new chunk
-	buffer[i].insert(typename map_t::value_type(ar->mKey, ar)); // Add it to the buffer.
+	if(mBufferSize % CHUNK_SIZE == 0) buffer.resize(i + 1); // Add a new chunk
+	buffer[i].insert(ar);									// Add it to the buffer.
 	mBufferSize++;
 }
 
@@ -104,19 +120,20 @@ template <class R>
 template <class Rs>
 void RefContainer<R>::AddCopyIfValidAndUnique(const Rs &ars) {
 	if(
-		ars.mKey != 0 &&	 // The ref is valid (fully constructed) if its key is something other than 0.
-		!set.count(ars.mKey) // If the main set already has one with the same key,
-							 // it must be of a lower rank and we can safely ignore the current one.
+		ars.mKey != 0 &&	  // The ref is valid (fully constructed) if its key is something other than 0.
+		!set.count((R *)&ars) // If the main set already has one with the same key,
+							  // it must be of a lower rank and we can safely ignore the current one.
 	) {
 		Rs *ref = new Rs(ars);
 		bool found = false;
-		for(map_t &buf: buffer) {
-			auto iter = buf.find(ars.mKey);
+		for(set_t &buf: buffer) {
+			auto iter = buf.find((R *)&ars);
 			if(iter != buf.end()) {
 				found = true;
-				if(ars.mScore < iter->second->mScore) { // see if the current one has a lower score
-					delete iter->second;				// don't forget to release memory
-					iter->second = ref;					// replace the item in the buffer
+				if(ars.mScore < (*iter)->mScore) { // see if the current one has a lower score
+					delete *iter;				   // don't forget to release memory
+					buf.erase(iter);
+					buf.insert(ref);
 				}
 				break;
 			}
@@ -136,9 +153,8 @@ void RefContainer<R>::FlushBuffer(rank_t arank) {
 		this->reserve(this->size() + buf.size());
 
 		// Go through the buffer and add each element to the appropriate rank in the main container.
-		for(auto &bi: buf) {
-			R *ar = bi.second;
-			set.insert(ar->mKey);		// add to the main set
+		for(auto *ar: buf) {
+			set.insert(ar);				// add to the main set
 			ranks[arank].push_back(ar); // add to appropriate rank
 			this->push_back(ar);		// also add to our sortable list
 			if(Shared::useDatabase) {
@@ -147,7 +163,7 @@ void RefContainer<R>::FlushBuffer(rank_t arank) {
 			}
 		}
 		buf.clear();   // clear the buffer
-		buf = map_t(); // force releasing memory
+		buf = set_t(); // force releasing memory
 	}
 	buffer.resize(0);
 	mBufferSize = 0;

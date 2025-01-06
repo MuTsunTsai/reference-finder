@@ -39,7 +39,7 @@ class RefBase {
 	};
 
 	// A unique key that is used to efficiently store and search over marks and lines.
-  	// mKey is initialized to 0. If the object has been successfully constructed,
+	// mKey is initialized to 0. If the object has been successfully constructed,
 	// it will be set to an integer greater than 0,
 	// so `mKey == 0` is used as a test for successful construction.
 	key_t mKey{0};
@@ -58,8 +58,7 @@ class RefBase {
 	static std::vector<DgmInfo> sDgms; // a list of diagrams that describe a given ref
 
   protected:
-	using index_t = short;										  // type for indices
-
+	using index_t = short; // type for indices
 
 	// A counter used in constructing the verbal sequence;
 	// basically, it's the order in which the object is created for a given folding sequence.
@@ -88,6 +87,8 @@ class RefBase {
 	// so calculate its value as needed recursively does not significantly bring down performance,
 	// and we can save quite some memory usage by eliminating one field.
 	virtual rank_t GetRank() const = 0;
+
+	virtual size_t hash() const = 0;
 
 	// routines for building a sequence of refs
 	virtual void SequencePushSelf();

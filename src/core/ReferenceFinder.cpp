@@ -315,8 +315,6 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	ShowProgress(DATABASE_READY, sCurRank);
 }
 
-constexpr double IDENTICAL_THRESHOLD = 1e-14;
-
 /*****
 In some cases, it is possible for essentially identical solutions to show up,
 because they are numerically different due to floating error,
@@ -331,7 +329,7 @@ void fillBestSolutions(vector<T *> &v, vector<T *> &temp, short num) {
 	for(auto &ref: temp) {
 		int i = 0;
 		for(; i < v.size(); i++) {
-			if(ref->DistanceTo(v[i]) < IDENTICAL_THRESHOLD) break;
+			if(ref->DistanceTo(v[i]) < EPS) break;
 		}
 		if(i == v.size()) {
 			if(i < num) v.push_back(ref);
@@ -345,7 +343,7 @@ void fillBestSolutions(vector<T *> &v, vector<T *> &temp, short num) {
 Find the best marks closest to a given point ap, storing the results in the vector vm.
 *****/
 void ReferenceFinder::FindBestMarks(const XYPt &ap, vector<RefMark *> &vm, short numMarks) {
-	vector<RefMark *> temp(numMarks * 2);
+	vector<RefMark *> temp(numMarks * 3);
 	partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), temp.begin(), temp.end(), CompareRankAndError<RefMark>(ap));
 	fillBestSolutions(vm, temp, numMarks);
 }
@@ -354,7 +352,7 @@ void ReferenceFinder::FindBestMarks(const XYPt &ap, vector<RefMark *> &vm, short
 Find the best lines closest to a given line al, storing the results in the vector vl.
 *****/
 void ReferenceFinder::FindBestLines(const XYLine &al, vector<RefLine *> &vl, short numLines) {
-	vector<RefLine *> temp(numLines * 2);
+	vector<RefLine *> temp(numLines * 3);
 	partial_sort_copy(sBasisLines.begin(), sBasisLines.end(), temp.begin(), temp.end(), CompareRankAndError<RefLine>(al));
 	fillBestSolutions(vl, temp, numLines);
 }

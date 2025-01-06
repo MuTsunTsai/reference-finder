@@ -29,6 +29,8 @@ rank_t Shared::sMaxRank = 6;
 size_t Shared::sMaxLines = 500000;
 size_t Shared::sMaxMarks = 500000;
 
+bool Shared::use_division = true;
+
 // constants that quantify the discretization of marks and lines in forming
 // keys. The maximum key has the value (sNumX * sNumY) for marks, (sNumA * sNumD)
 // for lines. These numbers set a limit on the accuracy, since we won't create

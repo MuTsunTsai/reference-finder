@@ -32,7 +32,7 @@ class XYLine {
 		return std::abs(u.Dot(ll.u.Rotate90())) < EPS;
 	}
 
-	bool operator==(const XYLine &ll) const {
+	bool equals(const XYLine &ll) const {
 		// true if lines are same
 		return (std::abs(d - ll.d * u.Dot(ll.u)) < EPS) &&
 			   (std::abs(u.Dot(ll.u.Rotate90())) < EPS);

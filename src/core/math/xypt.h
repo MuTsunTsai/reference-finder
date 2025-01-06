@@ -129,7 +129,7 @@ class XYPt {
 	}
 
 	// Comparison
-	bool operator==(const XYPt &p) const {
+	bool equals(const XYPt &p) const {
 		return (*this - p).Mag() < EPS;
 	}
 
