@@ -15,7 +15,7 @@ export function Footer() {
 					© 2018-2022 <a href="https://github.com/mayakraft/ReferenceFinder" target="_blank">Maya Kraft</a>
 				</div>
 				<div className="col-12 col-md-auto">
-					© 2024 <a href="https://github.com/mutsuntsai/reference-finder" target="_blank">Mu-Tsun Tsai</a>
+					© 2024-{new Date().getFullYear()} <a href="https://github.com/mutsuntsai/reference-finder" target="_blank">Mu-Tsun Tsai</a>
 				</div>
 			</footer>
 		</div>
