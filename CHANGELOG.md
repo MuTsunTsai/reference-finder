@@ -1,6 +1,11 @@
 
 # Change log
 
+## v4.5
+
+- Allowing disabling divisions to generate all references found (up to rank 5).
+- Add (probably) exact folding sequence indicator.
+
 ## v4.4
 
 - Caching the generated database to the device, allowing much faster startup afterwards.
