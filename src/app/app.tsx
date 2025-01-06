@@ -7,6 +7,7 @@ import { Diagram } from "./components/svg/diagram";
 import { Panel } from "./components/panel";
 import { Footer } from "./components/footer";
 import { Locale } from "./components/form/locale";
+import { Exact } from "./components/exact";
 
 function App() {
 	const { t } = useTranslation();
@@ -71,7 +72,7 @@ function App() {
 								>
 									<Diagram data={s.diagrams[s.diagrams.length - 1]} padding={0.1} />
 									<div>{formatSolution(s, settings.precision)}</div>
-									<div>{t("phrase.error")} {s.err.toFixed(settings.precision)}</div>
+									<div><Exact err={s.err} />{t("phrase.error")} {s.err.toFixed(settings.precision)}</div>
 									<div>rank {s.rank}</div>
 								</button>
 							</div>

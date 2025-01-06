@@ -98,7 +98,8 @@
 	"tip": {
 		"title": "Tip:",
 		"origin": "The origin of coordinates is at the lower left corner.",
-		"exp": "You can use math expression such as {{exp}} (trigonometry functions uses degrees)."
+		"exp": "You can use math expression such as {{exp}} (trigonometry functions uses degrees).",
+		"exact": "This solution is within floating error, and probably is an exact folding sequence."
 	},
 	"phrase": {
 		"settings": "settings",

@@ -80,7 +80,8 @@
 	"tip": {
 		"title": "Consejo:",
 		"exp": "Puedes usar expresiones matemáticas como {{exp}} (las funciones trigonométricas usan grados).",
-		"origin": "El origen de coordenadas está en la esquina inferior izquierda."
+		"origin": "El origen de coordenadas está en la esquina inferior izquierda.",
+		"exact": "Esta solución está dentro del margen de error de punto flotante y probablemente es una secuencia de plegado exacta."
 	},
 	"statistics": {
 		"_": "Estadísticas",

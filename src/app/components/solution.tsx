@@ -3,6 +3,7 @@ import { Solution, useSettings } from "../store";
 import { StepComponent } from "./step";
 import { DIAGRAM_ZOOM, Diagram } from "./svg/diagram";
 import { useRef } from "react";
+import { Exact } from "./exact";
 
 interface SolutionComponentProps {
 	data: Solution;
@@ -48,6 +49,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 	return (
 		<div className={"card mt-3 " + (show ? "" : "d-sm-none")} style={{ overflow: "hidden" }}>
 			<div className="card-header d-none d-sm-block">
+				<Exact err={data.err} />
 				<span className="d-inline-block capitalize">{t("phrase.solution")} {solution},</span> <span className="d-inline-block">{t("phrase.error")} {err},</span> <span className="d-inline-block">rank {data.rank}</span>
 			</div>
 			{show ?
