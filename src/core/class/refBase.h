@@ -17,6 +17,9 @@ class RefDgmr;
 
 /**********
 class RefBase - base class for a mark or line.
+
+Any subclasses of RefBase should be fairly lightweight because we'll be
+creating a couple hundred thousand of them during program initialization.
 **********/
 class RefBase {
   public:
@@ -35,8 +38,10 @@ class RefBase {
 		MARK_INTERSECTION
 	};
 
-	// Key used for maps within RefContainers.
-	// A valid key starts with 1. A key value of zero implies the ref is invalid.
+	// A unique key that is used to efficiently store and search over marks and lines.
+  	// mKey is initialized to 0. If the object has been successfully constructed,
+	// it will be set to an integer greater than 0,
+	// so `mKey == 0` is used as a test for successful construction.
 	key_t mKey{0};
 
 	// Used to decide whether to override existing refs.
@@ -54,7 +59,11 @@ class RefBase {
 
   protected:
 	using index_t = short;										  // type for indices
-	static std::unordered_map<const RefBase *, index_t> sIndices; // used to label refs in a folding sequence
+
+
+	// A counter used in constructing the verbal sequence;
+	// basically, it's the order in which the object is created for a given folding sequence.
+	static std::unordered_map<const RefBase *, index_t> sIndices;
 
 	static RefDgmr *sDgmr; // object that draws diagrams
 	enum : std::uint8_t {
@@ -74,7 +83,7 @@ class RefBase {
 	using type_t = unsigned char;
 	virtual type_t GetType() const = 0;
 
-	// Rank of this mark or line.
+	// Rank of this mark or line, which is the number of creases that need to be made to define it.
 	// We only need this info in edge cases during CompareRankAndError and in exporting,
 	// so calculate its value as needed recursively does not significantly bring down performance,
 	// and we can save quite some memory usage by eliminating one field.

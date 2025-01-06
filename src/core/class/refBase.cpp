@@ -17,20 +17,6 @@ using namespace std;
 class RefBase - base class for a mark or line.
 **********/
 
-/*
-Non-static member variables are:
-mRank - the rank, which is the number of creases that need to be made to define
-  it.
-mKey - a unique key that is used to efficiently store and search over marks and
-  lines. mKey is initialized to 0. If the object has been successfully
-  constructed, it will be set to an integer greater than 0, so mKey==0 is used
-  as a test for successful construction.
-mIndex - a counter used in constructing the verbal sequence; basically, it's
-  the order in which the object is created for a given folding sequence.
-Any subclasses of RefBase should be fairly lightweight because we'll be
-creating a couple hundred thousand of them during program initialization.
-*/
-
 /*****
 RefBase static member initialization
 *****/
@@ -45,7 +31,7 @@ all the way back to RefMark_Original and RefLine_Original. The routine
 aRef->BuildAndNumberSequence() constructs an ordered list of all the refs that
 make up aRef. The ordering is such that ancestor refs come earlier in the list
 than refs derived from them. In addition to constructing the list,
-BuildAndNumberSequence also sets the mIndex variable of each non- original ref,
+BuildAndNumberSequence also sets the sIndices of each non-original ref,
 so that each can be given a unique name (which depends on the index, and is a
 letter, A-J for lines, P-Z for points).
 
@@ -68,7 +54,7 @@ void RefBase::SequencePushSelf() {
 
 /*****
 Build a sequence (in sSequence) of all of the references that are needed to
-define this one; also set mIndex for each reference so that the relevant
+define this one; also set sIndices for each reference so that the relevant
 RefMarks and RefLines are sequentially numbered.
 *****/
 void RefBase::BuildAndNumberSequence() {
