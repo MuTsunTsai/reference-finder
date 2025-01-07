@@ -68,6 +68,20 @@ bool ReferenceFinder::ShowProgress(DatabaseStatus status, rank_t rank) {
 	return haltFlag;
 }
 
+void ReferenceFinder::print_ref_sizes() {
+	cout << "RefBase: " << sizeof(RefBase) << endl;
+	cout << "RefMark: " << sizeof(RefMark) << endl;
+	cout << "RefMark_Intersection: " << sizeof(RefMark_Intersection) << endl;
+	cout << "RefLine: " << sizeof(RefLine) << endl;
+	cout << "RefLine_C2P_C2P: " << sizeof(RefLine_C2P_C2P) << endl;
+	cout << "RefLine_P2P: " << sizeof(RefLine_P2P) << endl;
+	cout << "RefLine_L2L: " << sizeof(RefLine_L2L) << endl;
+	cout << "RefLine_L2L_C2P: " << sizeof(RefLine_L2L_C2P) << endl;
+	cout << "RefLine_P2L_C2P: " << sizeof(RefLine_P2L_C2P) << endl;
+	cout << "RefLine_P2L_P2L: " << sizeof(RefLine_P2L_P2L) << endl;
+	cout << "RefLine_L2L_P2L: " << sizeof(RefLine_L2L_P2L) << endl;
+}
+
 /*****
 Routine called by RefContainer<R> to report progress during the time-consuming
 process of initialization. This routine updates our private counter each time
