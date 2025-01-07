@@ -101,9 +101,9 @@ export function Settings() {
 	</>;
 }
 
-function hasChanged<T extends object>(oldV: T, newV: T): boolean { // Was causing problems, so I just commented it out lol TODO: FIX THIS!
+function hasChanged<T extends object>(oldV: T, newV: T): boolean {
 	for(const key in oldV) {
-		if(!newV[key]) return true;
+		if(!newV[key]) return true; // check if newV has attribute key; if not, return true (db has changed)
 		if(Array.isArray(oldV[key])) {
 			if(hasChanged(oldV[key] as unknown[], newV[key] as unknown[])) return true;
 		} else {
