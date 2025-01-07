@@ -6,6 +6,10 @@
 - Allowing disabling divisions to generate all references found (up to rank 5).
 - Add (probably) exact folding sequence indicator.
 
+#### Patches
+
+- v4.5.1: Improve memory efficiency and performance.
+
 ## v4.4
 
 - Caching the generated database to the device, allowing much faster startup afterwards.

@@ -181,7 +181,8 @@ int main() {
 	cout << APP_V_M_B_NAME_STR << " (build " << BUILD_CODE_STR << ")" << endl;
 	cout << "Copyright (c)1999-2006 by Robert J. Lang and (c)2024-2025 by Mu-Tsun Tsai. All rights reserved." << endl;
 
-	ReferenceFinder::print_ref_sizes();
+	// Uncomment the next line to inspect memory usage for each Ref classes.
+	// ReferenceFinder::print_ref_sizes();
 
 	readDbSettings();
 
