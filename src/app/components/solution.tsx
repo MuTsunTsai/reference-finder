@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { Solution, useSettings } from "../store";
+import { ElementType, LineStyle, Solution, useDB, useSettings, useStore } from "../store";
 import { StepComponent } from "./step";
 import { DIAGRAM_ZOOM, Diagram } from "./svg/diagram";
 import { useRef } from "react";
+import { resetWorker } from "../bridge";
 
 interface SolutionComponentProps {
 	data: Solution;
@@ -33,6 +34,40 @@ export function formatSolution(data: Solution, precision: number): string {
 	return `(${data.solution[0].toFixed(precision)}, ${text})`;
 }
 
+/**
+ * Function that runs when the user accepts a specific solution.
+ * Adds the creases from the last diagram of the accepted solution and recreates the database.
+ */
+function acceptSolution(data: Solution) {
+	// Add the creases from the last diagram of the accepted solution to the store (to render on the preview paper)
+	const existingCreaseLines = useStore.getState().existingCreaseLines;
+	const lastDiagram = data.diagrams[data.diagrams.length - 1];
+	for (const el of lastDiagram) {
+		if (!el) continue;
+		if (el.type != ElementType.line) continue;
+		el.style = LineStyle.crease;
+		existingCreaseLines.push(el);
+	}
+	useStore.setState({ existingCreaseLines: existingCreaseLines });
+
+	// Now we get rid of all solutions so that the panel elements are re-enabled and the user can find more references
+	// TODO: we should probably find a better way to do this
+	useStore.setState({ solutions: [] as Solution[] });
+
+	// Finally, we add the auxiliary marks and lines from this selected solution to the db and recreate it
+	const db = useDB.getState();
+	for (const el of lastDiagram) {
+		if (!el) continue;
+		if (el.type == ElementType.point) {
+			db.existingAuxiliaryMarks.push(el.pt);
+		}
+		if (el.type == ElementType.line) {
+			db.existingAuxiliaryLines.push([el.from, el.to]);
+		}
+	}
+	resetWorker(db);
+}
+
 export function SolutionComponent({ data, show, onSelect }: SolutionComponentProps) {
 	const { t } = useTranslation();
 	const settings = useSettings();
@@ -48,7 +83,14 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 	return (
 		<div className={"card mt-3 " + (show ? "" : "d-sm-none")} style={{ overflow: "hidden" }}>
 			<div className="card-header d-none d-sm-block">
-				<span className="d-inline-block capitalize">{t("phrase.solution")} {solution},</span> <span className="d-inline-block">{t("phrase.error")} {err},</span> <span className="d-inline-block">rank {data.rank}</span>
+				<div className="d-flex">
+					<span className="d-inline-block capitalize m-1">{t("phrase.solution")} {solution},</span>
+					<span className="d-inline-block m-1">{t("phrase.error")} {err},</span>
+					<span className="d-inline-block m-1">rank {data.rank}</span>
+					<span className="d-inline-block ms-auto">
+						<button className="btn btn-large btn-success" onClick={() => acceptSolution(data)}><i className="fa-solid fa-check"></i>&nbsp;<span className="d-inline-block capitalize m-1">{t("phrase.acceptThisSolution")}</span></button>
+					</span>
+				</div>
 			</div>
 			{show ?
 				<div ref={ref} className="card-header d-sm-none text-bg-primary">

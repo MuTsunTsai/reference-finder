@@ -59,6 +59,7 @@ const defaultStore = {
 	solutions: [] as Solution[],
 	statisticsRunning: false,
 	computedTheme: Theme.light,
+	existingCreaseLines: [] as LineElement[], // for rendering on the preview paper
 };
 
 export const defaultDB = {

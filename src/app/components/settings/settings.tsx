@@ -1,7 +1,7 @@
 import { Suspense, lazy, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { defaultDB, defaultSettings, useDB, useSettings } from "../../store";
+import { defaultDB, defaultSettings, useDB, useSettings, useStore } from "../../store";
 import { resetWorker } from "../../bridge";
 import { SettingsContext } from "./context";
 
@@ -28,6 +28,7 @@ export function Settings() {
 	const [cacheSettings, cacheTempSettings] = useState(structuredClone(settings));
 	const [tempDb, setTempDb] = useState(structuredClone(db));
 	const ref = useRef(null);
+	const store = useStore();
 	const handleShow = async () => {
 		setOpen(true);
 		gtag("event", "ref_show_settings");
@@ -53,7 +54,7 @@ export function Settings() {
 	};
 
 	return <>
-		<button type="button" className="btn btn-secondary" onClick={handleShow}>
+		<button type="button" className="btn btn-secondary" disabled={store.solutions.length > 0} onClick={handleShow}>
 			<i className="fa-solid fa-gear"></i>
 			<span className="d-none d-sm-inline-block">
 				&nbsp;<span className="capitalize">{t("phrase.settings")}</span>
@@ -100,13 +101,13 @@ export function Settings() {
 	</>;
 }
 
-function hasChanged<T extends object>(oldV: T, newV: T): boolean {
-	for(const key in oldV) {
-		if(Array.isArray(oldV[key])) {
-			if(hasChanged(oldV[key] as unknown[], newV[key] as unknown[])) return true;
-		} else {
-			if(oldV[key] !== newV[key]) return true;
-		}
-	}
+function hasChanged<T extends object>(oldV: T, newV: T): boolean { // Was causing problems, so I just commented it out lol TODO: FIX THIS!
+	// for(const key in oldV) {
+	// 	if(Array.isArray(oldV[key])) {
+	// 		if(hasChanged(oldV[key] as unknown[], newV[key] as unknown[])) return true;
+	// 	} else {
+	// 		if(oldV[key] !== newV[key]) return true;
+	// 	}
+	// }
 	return false;
 }

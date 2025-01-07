@@ -3,7 +3,8 @@ $enable-gradients: true;
 $tooltip-max-width: min(400px, 90vw);
 
 @import "bootstrap/scss/bootstrap";
-@import "../icon/css/all.min.css";
+// @import "../icon/css/all.min.css"; // TODO: ask Mu-Tsun Tsai how this all.min.css file is generated / how to add additional icons such as fa-undo
+@import "~@fortawesome/fontawesome-free/css/all.css"; // for now we'll just import all font awesome icons
 
 @font-face {
 	font-family: Flag;

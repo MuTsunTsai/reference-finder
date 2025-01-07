@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse } from "../../parser";
-import { useSettings } from "../../store";
+import { useSettings, useStore } from "../../store";
 
 import "./exp-input.scss";
 
@@ -33,6 +33,7 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 	const [temp, setTemp] = useState(exp ?? value.toString());
 	const [tempValue, setTempValue] = useState(value);
 	const [cache, setCache] = useState(exp ?? value.toString());
+	const store = useStore();
 
 	function format(v: number): string {
 		return v.toFixed(settings.precision).replace(/0+$/, "").replace(/\.$/, "").replace(/^$/, "0");
@@ -93,6 +94,7 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 					value={temp}
 					onInput={e => input(e.currentTarget.value)}
 					onBlur={blur}
+					disabled={store.solutions.length > 0}
 				/>
 				<div className="suffix-container d-none d-sm-block">
 					<span className="exp-suffix" ref={suffix}>

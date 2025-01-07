@@ -3,7 +3,7 @@ File:         ReferenceFinder.cpp
 Project:      ReferenceFinder 4.x
 Purpose:      Implementation for ReferenceFinder generic model
 Author:       Robert J. Lang
-Modified by:  Mu-Tsun Tsai
+Modified by:  Mu-Tsun Tsai, Omri Shavit
 Created:      2006-04-22
 Copyright:    ©1999-2007 Robert J. Lang. All Rights Reserved.
 ******************************************************************************/
@@ -241,6 +241,7 @@ void ReferenceFinder::BuildAndExportDatabase() {
 
 	// Start by clearing out any old marks or lines; this is so we can restart if
 	// we want.
+	// Edit: We add the old marks and lines back in when the user requests additional reference points/lines.
 	sBasisLines.Rebuild();
 	sBasisMarks.Rebuild();
 
@@ -265,16 +266,20 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	sBasisMarks.Add(new RefMark_Original(sPaper.mTopLeft, 0, string("nw")));
 	sBasisMarks.Add(new RefMark_Original(sPaper.mTopRight, 0, string("ne")));
 
+	// Rank 0: Add existing auxiliary points and lines
+	for(const auto &mark: Shared::existingAuxiliaryMarks) {
+		sBasisMarks.Add(new RefMark_Original(mark, 0, string(""))); // TODO: Figure out naming
+	}
+	for(const auto &line: Shared::existingAuxiliaryLines) {
+		sBasisLines.Add(new RefLine_Original(line, 0, string(""))); // TODO: Figure out naming
+	}
+
 	// Flush the buffers.
 	sBasisLines.FlushBuffer(0);
 	sBasisMarks.FlushBuffer(0);
 
 	// Report our status for rank 0.
 	ShowProgress(DATABASE_RANK_COMPLETE, 0);
-
-	// Rank 1: Construct the two diagonals.
-	sBasisLines.Add(new RefLine_Original(sPaper.mUpwardDiagonal, 1, string("sw_ne")));
-	sBasisLines.Add(new RefLine_Original(sPaper.mDownwardDiagonal, 1, string("nw_se")));
 
 	// Flush the buffers.
 	sBasisLines.FlushBuffer(1);
