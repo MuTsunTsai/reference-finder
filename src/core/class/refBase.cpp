@@ -250,6 +250,14 @@ void RefBase::Export(BinaryOutputStream &os) const {
 	os << GetType();
 }
 
+size_t RefBase::simple_hash() const {
+	return std::hash<key_t>()(mKey);
+}
+
+bool RefBase::simple_equals(const RefBase *other) const {
+	return mKey == other->mKey;
+}
+
 #ifdef _DEBUG_DB_
 void RefBase::PutDebug(JsonObject &step) const {
 	step.add("key", mKey);
@@ -257,3 +265,6 @@ void RefBase::PutDebug(JsonObject &step) const {
 	step.add("rank", mRank);
 }
 #endif
+
+size_t (RefBase::*ptrToHash)() const = &RefBase::simple_hash;
+bool (RefBase::*ptrToEquals)(const RefBase *other) const = &RefBase::simple_equals;

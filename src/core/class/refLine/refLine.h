@@ -19,7 +19,7 @@ class RefLine: public RefBase {
 	RefBase *mForMark;
 
 	size_t hash() const override;
-	bool operator==(const RefLine &other) const;
+	bool equals(const RefBase *other) const override;
 
   private:
 	static index_t sCount;					   // class index, used for numbering sequences of lines

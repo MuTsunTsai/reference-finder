@@ -13,8 +13,7 @@
 struct RefHash {
 	template <typename T>
 	size_t operator()(T *ptr) const {
-		if(Shared::use_division) return std::hash<key_t>()(ptr->mKey);
-		return ptr->hash();
+		return (ptr->*ptrToHash)();
 	}
 };
 
@@ -22,8 +21,7 @@ struct RefHash {
 struct RefEqual {
 	template <typename T>
 	size_t operator()(T *a, T *b) const {
-		if(Shared::use_division) return a->mKey == b->mKey;
-		return *a == *b; // Will use overriden operator
+		return (a->*ptrToEquals)(b);
 	}
 };
 

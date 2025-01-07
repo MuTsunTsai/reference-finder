@@ -227,6 +227,11 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	Shared::sDatabaseStatusSkip = 800000;
 	Shared::CheckDatabaseStatus = &CheckDatabaseStatus;
 
+	if(!Shared::use_division) {
+		ptrToHash = &RefBase::hash;
+		ptrToEquals = &RefBase::equals;
+	}
+
 	ofstream *outFile = nullptr;
 	if(Shared::useDatabase) {
 		outFile = new ofstream(string("/data/db"));

@@ -38,8 +38,9 @@ size_t RefMark::hash() const {
 	return std::hash<double>()(p.x) ^ (std::hash<double>()(p.y) << 1);
 }
 
-bool RefMark::operator==(const RefMark &other) const {
-	return p.x == other.p.x && p.y == other.p.y;
+bool RefMark::equals(const RefBase *other) const {
+	const auto *o = static_cast<const RefMark *>(other);
+	return p.x == o->p.x && p.y == o->p.y;
 }
 
 /*****

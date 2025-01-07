@@ -88,7 +88,10 @@ class RefBase {
 	// and we can save quite some memory usage by eliminating one field.
 	virtual rank_t GetRank() const = 0;
 
+	size_t simple_hash() const;
 	virtual size_t hash() const = 0;
+	bool simple_equals(const RefBase *other) const;
+	virtual bool equals(const RefBase *other) const = 0;
 
 	// routines for building a sequence of refs
 	virtual void SequencePushSelf();
@@ -124,3 +127,6 @@ class RefBase {
 	void PutDebug(JsonObject &step) const;
 #endif
 };
+
+extern size_t (RefBase::*ptrToHash)() const;
+extern bool (RefBase::*ptrToEquals)(const RefBase *other) const;

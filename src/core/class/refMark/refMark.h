@@ -24,7 +24,7 @@ class RefMark: public RefBase {
 	RefMark(const XYPt &ap): p(ap) {}
 
 	size_t hash() const override;
-	bool operator==(const RefMark &other) const;
+	bool equals(const RefBase *other) const override;
 
 	void FinishConstructor();
 

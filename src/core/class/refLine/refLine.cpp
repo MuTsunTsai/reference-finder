@@ -48,8 +48,9 @@ size_t RefLine::hash() const {
 	return std::hash<double>()(l.d) ^ (std::hash<double>()(l.u.x) << 1) ^ (std::hash<double>()(l.u.y) << 2);
 }
 
-bool RefLine::operator==(const RefLine &other) const {
-	return l.d == other.l.d && l.u.x == other.l.u.x && l.u.y == other.l.u.y;
+bool RefLine::equals(const RefBase *other) const {
+	const auto *o = static_cast<const RefLine *>(other);
+	return l.d == o->l.d && l.u.x == o->l.u.x && l.u.y == o->l.u.y;
 }
 
 /*****
