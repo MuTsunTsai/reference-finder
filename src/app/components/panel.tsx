@@ -56,7 +56,7 @@ export function Panel({ onSubmit }: PanelProps) {
 		// The last button in this forum is either "Initializing...", "Find Solutions" or "Edit input"
 		if (store.solutions.length > 0) { // "Edit input" (in case the user made a mistake)
 			return <button className="btn btn-secondary" onClick={editInput}>
-				<i className="fas fa-undo"></i>&nbsp;<span className="capitalize">t("phrase.editInput")</span>
+				<i className="fas fa-undo"></i>&nbsp;<span className="capitalize">{t("phrase.editInput")}</span>
 			</button>;
 		} else if (store.running && !store.ready) { // "Initializing..."
 			return <button className="btn btn-primary" disabled>
@@ -65,7 +65,7 @@ export function Panel({ onSubmit }: PanelProps) {
 		}
 		// "Find Solutions"
 		return <button className="btn btn-primary" onClick={find}>
-			<i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">t("phrase.findSolutions")</span>
+			<i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.findSolutions")}</span>
 		</button>;
 	}
 

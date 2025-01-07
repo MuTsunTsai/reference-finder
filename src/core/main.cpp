@@ -129,7 +129,7 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *_, bo
 Reads existing auxiliary marks and lines from the console,
 and returns them via existingAuxiliaryMarks and existingAuxiliaryLines respectively
 ******************************/
-void readExistingAuxiliaryPointsAndLines(const vector<XYPt>* existingAuxiliaryMarks, const vector<XYLine>* existingAuxiliaryLines) {
+void readExistingAuxiliaryPointsAndLines(vector<XYPt>* existingAuxiliaryMarks, vector<XYLine>* existingAuxiliaryLines) {
 	// Read existing auxiliary marks
 	int existingAuxiliaryMarksCount = ReadNumber();
 	XYPt p;
@@ -209,19 +209,19 @@ Main program loop
 ******************************/
 int main() {
 	cout << APP_V_M_B_NAME_STR << " (build " << BUILD_CODE_STR << ")" << endl;
-	cout << "Copyright (c)1999-2006 by Robert J. Lang and (c)2024 by Mu-Tsun Tsai (c)2024 by Omri Shavit. All rights reserved." << endl;
+	cout << "Copyright (c)1999-2006 by Robert J. Lang and (c)2024-2025 by Mu-Tsun Tsai (c)2024-2025 by Omri Shavit. All rights reserved." << endl;
 
 	readDbSettings();
 
-	// // print out existing auxiliary marks and lines that the core recieved (uncomment for debugging)
-	// cout << "existing auxiliary marks: " << endl;
-	// for(const auto &mark: Shared::existingAuxiliaryMarks) {
-	// 	cout << "    " << mark << endl;
-	// }
-	// cout << "existing auxiliary lines: " << endl;
-	// for(const auto &line: Shared::existingAuxiliaryLines) {
-	// 	cout << "    " << line << endl;
-	// }
+	// print out existing auxiliary marks and lines that the core recieved (uncomment for debugging)
+	cout << "existing auxiliary marks: " << endl;
+	for(const auto &mark: Shared::existingAuxiliaryMarks) {
+		cout << "    " << mark << endl;
+	}
+	cout << "existing auxiliary lines: " << endl;
+	for(const auto &line: Shared::existingAuxiliaryLines) {
+		cout << "    " << line << endl;
+	}
 
 	JsonStreamDgmr jsonDgmr(cout);
 	ReferenceFinder::SetDatabaseFn(&ConsoleDatabaseProgress);
