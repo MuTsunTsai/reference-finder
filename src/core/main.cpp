@@ -3,7 +3,7 @@ File:         ReferenceFinder_console.cpp
 Project:      ReferenceFinder 4.x
 Purpose:      Implementation for command-line version of ReferenceFinder
 Author:       Robert J. Lang
-Modified by:  Mu-Tsun Tsai
+Modified by:  Mu-Tsun Tsai, Omri Shavit
 Created:      2006-04-22
 Copyright:    ©1999-2006 Robert J. Lang. All Rights Reserved.
 ******************************************************************************/
@@ -126,6 +126,32 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *_, bo
 }
 
 /******************************
+Reads existing auxiliary marks and lines from the console,
+and returns them via existingAuxiliaryMarks and existingAuxiliaryLines respectively
+******************************/
+void readExistingAuxiliaryPointsAndLines(const vector<XYPt>* existingAuxiliaryMarks, const vector<XYLine>* existingAuxiliaryLines) {
+	// Read existing auxiliary marks
+	int existingAuxiliaryMarksCount = ReadNumber();
+	XYPt p;
+	for(int i = 0; i < existingAuxiliaryMarksCount; i++) {
+		p = XYPt(ReadNumber(), ReadNumber());
+		existingAuxiliaryMarks->push_back(p);
+	}
+
+	// Read existing auxiliary lines
+	int existingAuxiliaryLinesCount = ReadNumber();
+	XYPt p1;
+	XYPt p2;
+	XYLine line;
+	for(int i = 0; i < existingAuxiliaryLinesCount; i++) {
+		p1 = XYPt(ReadNumber(), ReadNumber());
+		p2 = XYPt(ReadNumber(), ReadNumber());
+		line = XYLine(p1, p2);
+		existingAuxiliaryLines->push_back(line);
+	}
+}
+
+/******************************
 Read settings related to database generating
 ******************************/
 void readDbSettings() {
@@ -159,6 +185,13 @@ void readDbSettings() {
 	Shared::sMinAspectRatio = ReadNumber();
 	Shared::sMinAngleSine = ReadNumber();
 	Shared::sVisibilityMatters = ReadNumber();
+
+	// Read existing auxiliary marks and lines
+	vector<XYPt> existingAuxiliaryMarks;
+	vector<XYLine> existingAuxiliaryLines;
+	readExistingAuxiliaryPointsAndLines(&existingAuxiliaryMarks, &existingAuxiliaryLines);
+	Shared::existingAuxiliaryMarks = existingAuxiliaryMarks;
+	Shared::existingAuxiliaryLines = existingAuxiliaryLines;
 }
 
 /******************************
@@ -176,9 +209,19 @@ Main program loop
 ******************************/
 int main() {
 	cout << APP_V_M_B_NAME_STR << " (build " << BUILD_CODE_STR << ")" << endl;
-	cout << "Copyright (c)1999-2006 by Robert J. Lang and (c)2024 by Mu-Tsun Tsai. All rights reserved." << endl;
+	cout << "Copyright (c)1999-2006 by Robert J. Lang and (c)2024 by Mu-Tsun Tsai (c)2024 by Omri Shavit. All rights reserved." << endl;
 
 	readDbSettings();
+
+	// // print out existing auxiliary marks and lines that the core recieved (uncomment for debugging)
+	// cout << "existing auxiliary marks: " << endl;
+	// for(const auto &mark: Shared::existingAuxiliaryMarks) {
+	// 	cout << "    " << mark << endl;
+	// }
+	// cout << "existing auxiliary lines: " << endl;
+	// for(const auto &line: Shared::existingAuxiliaryLines) {
+	// 	cout << "    " << line << endl;
+	// }
 
 	JsonStreamDgmr jsonDgmr(cout);
 	ReferenceFinder::SetDatabaseFn(&ConsoleDatabaseProgress);
@@ -195,21 +238,20 @@ int main() {
 		int ns = ReadNumber();
 
 		switch(ns) {
-		case 1: {
+		case 1: { // reference point
 			int count = readSearchSettings();
 			XYPt pp(ReadNumber(), ReadNumber());
 			string err;
 			if(ReferenceFinder::ValidateMark(pp, err)) {
 				vector<RefMark *> marks;
 				ReferenceFinder::FindBestMarks(pp, marks, count);
-
 				jsonDgmr.PutMarkList(pp, marks);
 			} else {
 				cerr << err << endl;
 			}
 			break;
 		}
-		case 2: {
+		case 2: { // reference line
 			int count = readSearchSettings();
 			XYPt p1(ReadNumber(), ReadNumber());
 			XYPt p2(ReadNumber(), ReadNumber());
@@ -218,14 +260,13 @@ int main() {
 				XYLine ll(p1, p2);
 				vector<RefLine *> lines;
 				ReferenceFinder::FindBestLines(ll, lines, count);
-
 				jsonDgmr.PutLineList(ll, lines);
 			} else {
 				cerr << err << endl;
 			}
 			break;
 		}
-		case 99: {
+		case 99: { // calculate statistics
 			Shared::sNumTrials = ReadNumber();
 			unsigned int seed = ReadNumber();
 			srand(seed);

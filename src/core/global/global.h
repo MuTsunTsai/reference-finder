@@ -3,6 +3,7 @@
 
 #include <array>
 #include <limits>
+#include <vector>
 
 // Uncomment the next line to include debug info in the JSON data.
 // #define _DEBUG_DB_
@@ -13,6 +14,7 @@ Globals
 
 const double EPS = 1.0e-8; // used for equality of XYPts, parallelness of XYLines
 
+// Type definitions
 using rank_t = unsigned short;
 using key_t = int;
 
@@ -26,6 +28,8 @@ inline T max_val(T t1, T t2) { return (t1 > t2) ? t1 : t2; };
 
 class Paper;
 class BinaryOutputStream;
+class XYPt;
+class XYLine;
 
 class Shared {
   public:
@@ -70,4 +74,8 @@ class Shared {
 	using CheckDatabaseStatusFn = void (*)();
 
 	static CheckDatabaseStatusFn CheckDatabaseStatus;
+
+	// Existing auxiliary marks and lines
+	static std::vector<XYPt> existingAuxiliaryMarks;
+	static std::vector<XYLine> existingAuxiliaryLines;
 };

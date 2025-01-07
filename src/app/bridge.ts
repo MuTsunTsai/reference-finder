@@ -58,6 +58,11 @@ export function resetWorker(db: DbSettings) {
 		db.minAspectRatio,
 		db.minAngleSine,
 		db.visibility,
+		// Pass in existing auxiliary lines and marks
+		db.existingAuxiliaryMarks.length,
+		...db.existingAuxiliaryMarks.flat(),
+		db.existingAuxiliaryLines.length,
+		...db.existingAuxiliaryLines.flat(2),
 	]);
 	worker.onmessage = e => {
 		const msg = e.data;

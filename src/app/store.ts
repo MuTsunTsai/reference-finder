@@ -80,6 +80,8 @@ export const defaultDB = {
 	visibility: true,
 	axioms: [true, true, true, true, true, true, true],
 	axiomPriority: [2, 3, 7, 6, 5, 4, 1], // The default priority
+	existingAuxiliaryMarks: [] as IPoint[], // for computing solutions
+	existingAuxiliaryLines: [] as ISegment[], // for computing solutions
 };
 export type DbSettings = typeof defaultDB;
 
