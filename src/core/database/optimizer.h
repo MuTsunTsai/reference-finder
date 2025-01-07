@@ -18,8 +18,7 @@ class Optimizer {
 
 	static std::vector<int> *sIndices;
 
-	static int keyX(XYPt &p);
-	static int keyY(XYPt &p);
+	static int keyV(double v);
 	static int key(RefMark *m);
 
 	static double GetBestErrorAtBucket(XYPt &testPt, int key);

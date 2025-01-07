@@ -39,8 +39,9 @@ double CubeRoot(double x) {
 Constructor. Variable iroot can be 0, 1, or 2.
 *****/
 RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, RefLine *arl2, unsigned char iroot)
-	: rm1(arm1), rl1(arl1), rm2(arm2), rl2(arl2), mRoot(iroot) {
+	: rm1(arm1), rl1(arl1), rm2(arm2), rl2(arl2) {
 
+	mRoot = iroot;
 	mScore = rm1->mScore + rl1->mScore + rm2->mScore + rl2->mScore + Shared::sAxiomWeights[5];
 
 	// Get references to the points and lines involved in the construction

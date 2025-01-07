@@ -15,20 +15,16 @@ int Optimizer::sRows = 0;
 int Optimizer::sCols = 0;
 vector<int> *Optimizer::sIndices = nullptr;
 
-int Optimizer::keyX(XYPt &p) {
-	return static_cast<int>(floor(p.x / sSize));
-}
-
-int Optimizer::keyY(XYPt &p) {
-	return static_cast<int>(floor(p.y / sSize));
+int Optimizer::keyV(double v) {
+	return static_cast<int>(floor(v / sSize));
 }
 
 int Optimizer::key(RefMark *m) {
-	return keyX(m->p) + keyY(m->p) * sCols;
+	return keyV(m->p.x) + keyV(m->p.y) * sCols;
 };
 
 bool Optimizer::operator()(RefMark *m1, RefMark *m2) const {
-	return m1->mScore < m2->mScore;
+	return m1->optKey < m2->optKey;
 };
 
 void Optimizer::OptimizeMarks() {
@@ -46,21 +42,21 @@ void Optimizer::OptimizeMarks() {
 	sRows = static_cast<int>(floor(paper.mHeight / sSize)) + 1;
 
 	// Optimize sBasisMarks
-	for(auto *iter: sBasisMarks) iter->mScore = Optimizer::key(iter);
+	for(auto *iter: sBasisMarks) iter->optKey = Optimizer::key(iter);
 	sort(sBasisMarks.begin(), sBasisMarks.end(), Optimizer());
 
 	// Build index
 	sIndices = new vector<int>(sCols * sRows + 1);
 	int cursor = -1;
 	for(int i = 0; i < sBasisMarks.size(); i++) {
-		while(sBasisMarks[i]->mScore > cursor) (*sIndices)[++cursor] = i;
+		while(sBasisMarks[i]->optKey > cursor) (*sIndices)[++cursor] = i;
 	}
 	(*sIndices)[sCols * sRows] = total;
 }
 
 double Optimizer::GetBestError(XYPt &testPt) {
-	int x = keyX(testPt);
-	int y = keyY(testPt);
+	int x = keyV(testPt.x);
+	int y = keyV(testPt.y);
 
 	// Step 1: Test the exact bucket where testPt is
 	int key = x + y * sCols;

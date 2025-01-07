@@ -23,7 +23,52 @@ creating a couple hundred thousand of them during program initialization.
 **********/
 class RefBase {
   public:
-	std::size_t id{0}; // Unique id for refs that are actually added to the DB
+
+	// We squeeze a few fields into a union to save memory.
+	union {
+		/**
+		 * Used to decide whether to override existing refs.
+		 * Used only when the refs are still in the buffer.
+		 */
+		int mScore;
+
+		/**
+		 * Unique id for refs that are actually added to the DB.
+		 * Used after leaving buffer, and before initialization complete.
+		 */
+		std::size_t id;
+
+		/**
+		 * Key for optimization. Used only for RefMark and after initialization.
+		 * Technically we could use `unsigned int` for this,
+		 * but since we may need to manipulate it with negative numbers,
+		 * we use `int` instead.
+		 */
+		int optKey;
+
+		/**
+		 * A none-null value indicating that this line is used only for creating an intersection.
+		 * Used only for RefLine and after initialization.
+		 */
+		RefBase *mForMark{nullptr};
+	};
+
+	/**
+	 * A unique key that is used to efficiently store and search over marks and lines.
+	 * mKey is initialized to 0. If the object has been successfully constructed,
+	 * it will be set to an integer greater than 0,
+	 * so `mKey == 0` is used as a test for successful construction.
+	 *
+	 * Note that this is used even after the ref left the buffer,
+	 * so currently there's no way to reuse this memory space.
+	 */
+	key_t mKey{0};
+
+	// These two fields are used only in some RefLine classes.
+	// Since we have space left in RefBase, we squeeze them here.
+	// This can save us 8 bytes for those RefLine classes.
+	unsigned char mWhoMoves;
+	unsigned char mRoot;
 
 	enum RefType : std::uint8_t {
 		LINE_ORIGINAL,
@@ -37,16 +82,6 @@ class RefBase {
 		MARK_ORIGINAL,
 		MARK_INTERSECTION
 	};
-
-	// A unique key that is used to efficiently store and search over marks and lines.
-	// mKey is initialized to 0. If the object has been successfully constructed,
-	// it will be set to an integer greater than 0,
-	// so `mKey == 0` is used as a test for successful construction.
-	key_t mKey{0};
-
-	// Used to decide whether to override existing refs.
-	// After initialization, this field is re-used for optimization.
-	int mScore{0};
 
 	static std::vector<RefBase *> sSequence; // a sequence of refs that fully define a ref
 

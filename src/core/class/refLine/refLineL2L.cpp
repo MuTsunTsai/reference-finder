@@ -18,8 +18,9 @@ Bring line l1 to line l2.
 Constructor. iroot = 0 or 1.
 *****/
 
-RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot): rl1(arl1), rl2(arl2), mRoot(iroot) {
+RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot): rl1(arl1), rl2(arl2) {
 
+	mRoot = iroot;
 	mScore = rl1->mScore + rl2->mScore + Shared::sAxiomWeights[2];
 
 	// Get references to lines
