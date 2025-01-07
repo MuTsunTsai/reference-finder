@@ -111,7 +111,10 @@
 		"findLine": "find a line",
 		"findPoint": "find a point",
 		"referenceFinder": "ReferenceFinder",
-		"coreVer": "Core version"
+		"coreVer": "Core version",
+		"acceptThisSolution": "accept this solution",
+		"editInput": "edit input",
+		"findSolutions": "find solutions"
 	},
 	"invalid": {
 		"exp": "Should be a number at least 0, or an equivalent expression",

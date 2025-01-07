@@ -44,7 +44,10 @@
 		"referenceFinder": "ReferenceFinder",
 		"settings": "настройки",
 		"initializing": "Инициализация...",
-		"coreVer": "Базовая версия"
+		"coreVer": "Базовая версия",
+		"acceptThisSolution": "Принять это решение",
+		"editInput": "Редактировать ввод",
+		"findSolutions": "Найти решения"
 	},
 	"settings": {
 		"reset": "Сбросить настройки по умолчанию",

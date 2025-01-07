@@ -44,7 +44,10 @@
 		"referenceFinder": "Buscador de Referencias",
 		"settings": "ajustes",
 		"initializing": "Inicializando...",
-		"coreVer": "Versión principal"
+		"coreVer": "Versión principal",
+		"acceptThisSolution": "aceptar esta solución",
+		"editInput": "editar entrada",
+		"findSolutions": "encontrar soluciones"
 	},
 	"settings": {
 		"reset": "Restablecer los valores predeterminados",

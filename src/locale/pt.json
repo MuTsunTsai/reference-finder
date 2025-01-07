@@ -44,7 +44,10 @@
 		"referenceFinder": "Localizador de Referência",
 		"settings": "configurações",
 		"initializing": "Inicializando...",
-		"coreVer": "Versão principal"
+		"coreVer": "Versão principal",
+		"acceptThisSolution": "aceitar esta soluçăo",
+		"editInput": "editar entrada",
+		"findSolutions": "encontrar soluçőes"
 	},
 	"settings": {
 		"reset": "Redefinir para os padrões",
