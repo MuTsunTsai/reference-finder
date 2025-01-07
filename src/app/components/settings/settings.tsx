@@ -102,12 +102,13 @@ export function Settings() {
 }
 
 function hasChanged<T extends object>(oldV: T, newV: T): boolean { // Was causing problems, so I just commented it out lol TODO: FIX THIS!
-	// for(const key in oldV) {
-	// 	if(Array.isArray(oldV[key])) {
-	// 		if(hasChanged(oldV[key] as unknown[], newV[key] as unknown[])) return true;
-	// 	} else {
-	// 		if(oldV[key] !== newV[key]) return true;
-	// 	}
-	// }
+	for(const key in oldV) {
+		if(!newV[key]) return true;
+		if(Array.isArray(oldV[key])) {
+			if(hasChanged(oldV[key] as unknown[], newV[key] as unknown[])) return true;
+		} else {
+			if(oldV[key] !== newV[key]) return true;
+		}
+	}
 	return false;
 }
