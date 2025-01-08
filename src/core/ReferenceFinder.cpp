@@ -285,11 +285,11 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	sBasisMarks.Add(new RefMark_Original(sPaper.mTopLeft, 0, string("nw")));
 	sBasisMarks.Add(new RefMark_Original(sPaper.mTopRight, 0, string("ne")));
 
-	// Rank 0: Add existing auxiliary points and lines
-	for(const auto &mark: Shared::existingAuxiliaryMarks) {
+	// Rank 0: Add existing points and lines
+	for(const auto &mark: Shared::existingMarks) {
 		sBasisMarks.Add(new RefMark_Original(mark, 0, string(""))); // TODO: Figure out naming
 	}
-	for(const auto &line: Shared::existingAuxiliaryLines) {
+	for(const auto &line: Shared::existingLines) {
 		sBasisLines.Add(new RefLine_Original(line, 0, string(""))); // TODO: Figure out naming
 	}
 

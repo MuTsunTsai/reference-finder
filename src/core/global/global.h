@@ -76,7 +76,7 @@ class Shared {
 
 	static CheckDatabaseStatusFn CheckDatabaseStatus;
 
-	// Existing auxiliary marks and lines
-	static std::vector<XYPt> existingAuxiliaryMarks;
-	static std::vector<XYLine> existingAuxiliaryLines;
+	// Existing marks and lines
+	static std::vector<XYPt> existingMarks;
+	static std::vector<XYLine> existingLines;
 };

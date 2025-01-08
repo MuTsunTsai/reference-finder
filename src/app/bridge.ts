@@ -60,14 +60,14 @@ export function resetWorker(db: DbSettings) {
 		db.minAspectRatio,
 		db.minAngleSine,
 		db.visibility,
-		// Pass in existing auxiliary lines and marks
-		db.existingAuxiliaryMarks.length, // equivalent to db.existingAuxiliaryMarks.flat()
-		...db.existingAuxiliaryMarks.reduce((acc, e: IPoint) => {
+		// Pass in existing lines and marks
+		db.existingMarks.length, // equivalent to db.existingMarks.flat()
+		...db.existingMarks.reduce((acc, e: IPoint) => {
 			acc.push(e[0], e[1]);
 			return acc;
 		}, [] as number[]),
-		db.existingAuxiliaryLines.length,
-		...db.existingAuxiliaryLines.reduce((acc, e: ISegment) => { // equivalent to db.existingAuxiliaryLines.flat(2)
+		db.existingLines.length,
+		...db.existingLines.reduce((acc, e: ISegment) => { // equivalent to db.existingLines.flat(2)
 			acc.push(e[0][0], e[0][1], e[1][0], e[1][1]);
 			return acc;
 		}, [] as number[]),

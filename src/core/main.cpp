@@ -126,28 +126,28 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *_, bo
 }
 
 /******************************
-Reads existing auxiliary marks and lines from the console,
-and returns them via existingAuxiliaryMarks and existingAuxiliaryLines respectively
+Reads existing marks and lines from the console,
+and returns them via existingMarks and existingLines respectively
 ******************************/
-void readExistingAuxiliaryPointsAndLines(vector<XYPt>* existingAuxiliaryMarks, vector<XYLine>* existingAuxiliaryLines) {
-	// Read existing auxiliary marks
-	int existingAuxiliaryMarksCount = ReadNumber();
+void readExistingPointsAndLines(vector<XYPt>* existingMarks, vector<XYLine>* existingLines) {
+	// Read existing marks
+	int existingMarksCount = ReadNumber();
 	XYPt p;
-	for(int i = 0; i < existingAuxiliaryMarksCount; i++) {
+	for(int i = 0; i < existingMarksCount; i++) {
 		p = XYPt(ReadNumber(), ReadNumber());
-		existingAuxiliaryMarks->push_back(p);
+		existingMarks->push_back(p);
 	}
 
-	// Read existing auxiliary lines
-	int existingAuxiliaryLinesCount = ReadNumber();
+	// Read existing lines
+	int existingLinesCount = ReadNumber();
 	XYPt p1;
 	XYPt p2;
 	XYLine line;
-	for(int i = 0; i < existingAuxiliaryLinesCount; i++) {
+	for(int i = 0; i < existingLinesCount; i++) {
 		p1 = XYPt(ReadNumber(), ReadNumber());
 		p2 = XYPt(ReadNumber(), ReadNumber());
 		line = XYLine(p1, p2);
-		existingAuxiliaryLines->push_back(line);
+		existingLines->push_back(line);
 	}
 }
 
@@ -189,12 +189,12 @@ void readDbSettings() {
 	Shared::sMinAngleSine = ReadNumber();
 	Shared::sVisibilityMatters = ReadNumber();
 
-	// Read existing auxiliary marks and lines
-	vector<XYPt> existingAuxiliaryMarks;
-	vector<XYLine> existingAuxiliaryLines;
-	readExistingAuxiliaryPointsAndLines(&existingAuxiliaryMarks, &existingAuxiliaryLines);
-	Shared::existingAuxiliaryMarks = existingAuxiliaryMarks;
-	Shared::existingAuxiliaryLines = existingAuxiliaryLines;
+	// Read existing marks and lines
+	vector<XYPt> existingMarks;
+	vector<XYLine> existingLines;
+	readExistingPointsAndLines(&existingMarks, &existingLines);
+	Shared::existingMarks = existingMarks;
+	Shared::existingLines = existingLines;
 }
 
 /******************************
@@ -216,13 +216,13 @@ int main() {
 
 	readDbSettings();
 
-	// print out existing auxiliary marks and lines that the core recieved (uncomment for debugging)
-	cout << "existing auxiliary marks: " << endl;
-	for(const auto &mark: Shared::existingAuxiliaryMarks) {
+	// print out existing marks and lines that the core recieved (uncomment for debugging)
+	cout << "existing marks: " << endl;
+	for(const auto &mark: Shared::existingMarks) {
 		cout << "    " << mark << endl;
 	}
-	cout << "existing auxiliary lines: " << endl;
-	for(const auto &line: Shared::existingAuxiliaryLines) {
+	cout << "existing lines: " << endl;
+	for(const auto &line: Shared::existingLines) {
 		cout << "    " << line << endl;
 	}
 
