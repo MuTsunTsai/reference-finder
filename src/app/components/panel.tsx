@@ -46,35 +46,12 @@ export function Panel({ onSubmit }: PanelProps) {
 		useWorker().postMessage(query.map(Number));
 	}
 
-	function editInput(e: FormEvent) {
-		e.preventDefault(); // prevent page refresh
-		// set store.solutions to empty (this will re-enable the input fields)
-		useStore.setState({ solutions: [] });
-	}
-
-	function determineSubmitButton() {
-		// The last button in this forum is either "Initializing...", "Find Solutions" or "Edit input"
-		if (store.solutions.length > 0) { // "Edit input" (in case the user made a mistake)
-			return <button className="btn btn-secondary" onClick={editInput}>
-				<i className="fas fa-undo"></i>&nbsp;<span className="capitalize">{t("phrase.editInput")}</span>
-			</button>;
-		} else if (store.running && !store.ready) { // "Initializing..."
-			return <button className="btn btn-primary" disabled>
-				<span className="capitalize">{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
-			</button>;
-		}
-		// "Find Solutions"
-		return <button className="btn btn-primary" onClick={find}>
-			<i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.findSolutions")}</span>
-		</button>;
-	}
-
 	return (
 		<div className="row mt-3 justify-content-center">
 			<div className="col mb-3" style={{ flex: "0 1 12rem" }}>
 				<Preview cp={cp} points={points} existingCreases={useStore.getState().existingCreaseLines} />
 			</div>
-			<form className="col mb-3" style={{ flex: "1 0 36rem" }}>
+			<form className="col mb-3" style={{ flex: "1 0 36rem" }} onSubmit={find}>
 				<div className="row mb-2 pb-1">
 					<div className="col-auto">
 						<div className="form-check">
@@ -85,7 +62,6 @@ export function Panel({ onSubmit }: PanelProps) {
 								id="m1"
 								checked={mode == Mode.point}
 								onChange={() => setMode(Mode.point)}
-								disabled={store.solutions.length > 0}
 							/>
 							<label className="form-check-label capitalize" htmlFor="m1">
 								{t("phrase.findPoint")}
@@ -101,7 +77,6 @@ export function Panel({ onSubmit }: PanelProps) {
 								id="m2"
 								checked={mode == Mode.line}
 								onChange={() => setMode(Mode.line)}
-								disabled={store.solutions.length > 0}
 							/>
 							<label className="form-check-label capitalize" htmlFor="m2">
 								{t("phrase.findLine")}
@@ -118,7 +93,15 @@ export function Panel({ onSubmit }: PanelProps) {
 						<Settings /> <Statistics />
 					</div>
 					<div className="col-auto text-end">
-						{determineSubmitButton()}
+						{
+							(store.running && !store.ready) ?
+								<button type="submit" className="btn btn-primary" disabled>
+									<span className="capitalize">{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
+								</button> :
+								<button type="submit" className="btn btn-primary">
+									<i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.findSolutions")}</span>
+								</button>
+						}
 					</div>
 				</div>
 			</form>

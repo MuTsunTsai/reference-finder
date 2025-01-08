@@ -94,7 +94,6 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 					value={temp}
 					onInput={e => input(e.currentTarget.value)}
 					onBlur={blur}
-					disabled={store.solutions.length > 0}
 				/>
 				<div className="suffix-container d-none d-sm-block">
 					<span className="exp-suffix" ref={suffix}>

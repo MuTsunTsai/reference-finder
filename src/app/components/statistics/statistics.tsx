@@ -75,7 +75,7 @@ export function Statistics() {
 
 	return (
 		<>
-			<button type="button" className="btn btn-secondary" disabled={store.solutions.length > 0} onClick={handleShow}>
+			<button type="button" className="btn btn-secondary" onClick={handleShow}>
 				<i className="fa-solid fa-chart-simple" />
 				<span className="d-none d-sm-inline-block">&nbsp;{t("statistics._")}</span>
 			</button>

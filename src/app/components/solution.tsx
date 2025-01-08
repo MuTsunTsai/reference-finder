@@ -4,6 +4,7 @@ import { StepComponent } from "./step";
 import { DIAGRAM_ZOOM, Diagram } from "./svg/diagram";
 import { useRef } from "react";
 import { Exact } from "./exact";
+import { resetWorker } from "../bridge";
 
 interface SolutionComponentProps {
 	data: Solution;
