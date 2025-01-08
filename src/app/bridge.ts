@@ -61,10 +61,16 @@ export function resetWorker(db: DbSettings) {
 		db.minAngleSine,
 		db.visibility,
 		// Pass in existing auxiliary lines and marks
-		db.existingAuxiliaryMarks.length,
-		...db.existingAuxiliaryMarks.flat(),
+		db.existingAuxiliaryMarks.length, // equivalent to db.existingAuxiliaryMarks.flat()
+		...db.existingAuxiliaryMarks.reduce((acc, e: IPoint) => {
+			acc.push(e[0], e[1]);
+			return acc;
+		}, [] as number[]),
 		db.existingAuxiliaryLines.length,
-		...db.existingAuxiliaryLines.flat(2),
+		...db.existingAuxiliaryLines.reduce((acc, e: ISegment) => { // equivalent to db.existingAuxiliaryLines.flat(2)
+			acc.push(e[0][0], e[0][1], e[1][0], e[1][1]);
+			return acc;
+		}, [] as number[]),
 	]);
 	worker.onmessage = e => {
 		const msg = e.data;
