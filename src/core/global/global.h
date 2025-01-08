@@ -12,11 +12,11 @@
 Globals
 **********/
 
-const double EPS = 1.0e-8; // used for equality of XYPts, parallelness of XYLines
+const double EPS = 1.0e-12; // used for equality of XYPts, parallelness of XYLines
 
 // Type definitions
 using rank_t = unsigned short;
-using key_t = int;
+using key_t = unsigned int;
 
 /*****
 Utilities
@@ -49,6 +49,7 @@ class Shared {
 	static std::size_t sMaxLines; // maximum number of lines to create
 	static std::size_t sMaxMarks; // maximum number of marks to create
 
+	static bool use_division;
 	static key_t sNumX;
 	static key_t sNumY;
 	static key_t sNumA;

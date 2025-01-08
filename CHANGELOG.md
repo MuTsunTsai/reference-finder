@@ -1,6 +1,15 @@
 
 # Change log
 
+## v4.5
+
+- Allowing disabling divisions to generate all references found (up to rank 5).
+- Add (probably) exact folding sequence indicator.
+
+#### Patches
+
+- v4.5.1: Improve memory efficiency and performance.
+
 ## v4.4
 
 - Caching the generated database to the device, allowing much faster startup afterwards.
@@ -10,6 +19,7 @@
 - v4.4.2: Further improve memory efficiency.
 - v4.4.3: Add random seed to the statistics.
 - v4.4.4: Codebase refactoring.
+- v4.4.5: Filter out essentially identical solutions (fixes issue [#1](https://github.com/MuTsunTsai/reference-finder/issues/1)).
 
 ## v4.3
 

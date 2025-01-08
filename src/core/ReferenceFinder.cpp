@@ -68,6 +68,20 @@ bool ReferenceFinder::ShowProgress(DatabaseStatus status, rank_t rank) {
 	return haltFlag;
 }
 
+void ReferenceFinder::print_ref_sizes() {
+	cout << "RefBase: " << sizeof(RefBase) << endl;
+	cout << "RefMark: " << sizeof(RefMark) << endl;
+	cout << "RefMark_Intersection: " << sizeof(RefMark_Intersection) << endl;
+	cout << "RefLine: " << sizeof(RefLine) << endl;
+	cout << "RefLine_C2P_C2P: " << sizeof(RefLine_C2P_C2P) << endl;
+	cout << "RefLine_P2P: " << sizeof(RefLine_P2P) << endl;
+	cout << "RefLine_L2L: " << sizeof(RefLine_L2L) << endl;
+	cout << "RefLine_L2L_C2P: " << sizeof(RefLine_L2L_C2P) << endl;
+	cout << "RefLine_P2L_C2P: " << sizeof(RefLine_P2L_C2P) << endl;
+	cout << "RefLine_P2L_P2L: " << sizeof(RefLine_P2L_P2L) << endl;
+	cout << "RefLine_L2L_P2L: " << sizeof(RefLine_L2L_P2L) << endl;
+}
+
 /*****
 Routine called by RefContainer<R> to report progress during the time-consuming
 process of initialization. This routine updates our private counter each time
@@ -227,6 +241,11 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	Shared::sDatabaseStatusSkip = 800000;
 	Shared::CheckDatabaseStatus = &CheckDatabaseStatus;
 
+	if(!Shared::use_division) {
+		ptrToHash = &RefBase::hash;
+		ptrToEquals = &RefBase::equals;
+	}
+
 	ofstream *outFile = nullptr;
 	if(Shared::useDatabase) {
 		outFile = new ofstream(string("/data/db"));
@@ -321,21 +340,45 @@ void ReferenceFinder::BuildAndExportDatabase() {
 }
 
 /*****
-Find the best marks closest to a given point ap, storing the results in the
-vector vm.
+In some cases, it is possible for essentially identical solutions to show up,
+because they are numerically different due to floating error,
+and are coincidentally placed in different buckets in the container.
+We use this function to perform a quick checking for such cases,
+to ensure the displayed solutions are all essentially different.
 *****/
-void ReferenceFinder::FindBestMarks(const XYPt &ap, vector<RefMark *> &vm, short numMarks) {
-	vm.resize(numMarks);
-	partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), vm.begin(), vm.end(), CompareRankAndError<RefMark>(ap));
+template <class T>
+void fillBestSolutions(vector<T *> &v, vector<T *> &temp, short num) {
+	v.resize(0);
+	v.reserve(num);
+	for(auto &ref: temp) {
+		int i = 0;
+		for(; i < v.size(); i++) {
+			if(ref->DistanceTo(v[i]) < EPS) break;
+		}
+		if(i == v.size()) {
+			if(i < num) v.push_back(ref);
+		} else {
+			if(ref->mScore < v[i]->mScore) v[i] = ref;
+		}
+	}
 }
 
 /*****
-Find the best lines closest to a given line al, storing the results in the
-vector vl.
+Find the best marks closest to a given point ap, storing the results in the vector vm.
+*****/
+void ReferenceFinder::FindBestMarks(const XYPt &ap, vector<RefMark *> &vm, short numMarks) {
+	vector<RefMark *> temp(numMarks * 3);
+	partial_sort_copy(sBasisMarks.begin(), sBasisMarks.end(), temp.begin(), temp.end(), CompareRankAndError<RefMark>(ap));
+	fillBestSolutions(vm, temp, numMarks);
+}
+
+/*****
+Find the best lines closest to a given line al, storing the results in the vector vl.
 *****/
 void ReferenceFinder::FindBestLines(const XYLine &al, vector<RefLine *> &vl, short numLines) {
-	vl.resize(numLines);
-	partial_sort_copy(sBasisLines.begin(), sBasisLines.end(), vl.begin(), vl.end(), CompareRankAndError<RefLine>(al));
+	vector<RefLine *> temp(numLines * 3);
+	partial_sort_copy(sBasisLines.begin(), sBasisLines.end(), temp.begin(), temp.end(), CompareRankAndError<RefLine>(al));
+	fillBestSolutions(vl, temp, numLines);
 }
 
 /*****

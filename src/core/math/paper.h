@@ -11,6 +11,7 @@ class Paper: public XYRect {
   public:
 	double mWidth;			  // width of the paper
 	double mHeight;			  // height of the paper
+	double mDmax;			  // used in refLine
 	XYPt mBotLeft;			  // only used by BuildAndExportDatabase
 	XYPt mBotRight;			  // ditto
 	XYPt mTopLeft;			  // ditto

@@ -16,12 +16,13 @@ NOTE: Do not edit these directly, as these values now sync with package.json aut
 *****/
 
 #define APP_FAMILY ReferenceFinder
-enum {
-	VERSION_MAJOR = 4,
-	VERSION_MINOR = 4,
-	VERSION_BUGFIX = 4,
-	VERSION_BUILD = 20241216
-};
+
+// NOLINTBEGIN(modernize-macro-to-enum)
+#define VERSION_MAJOR 4
+#define VERSION_MINOR 5
+#define VERSION_BUGFIX 0
+#define VERSION_BUILD 20250106
+// NOLINTEND(modernize-macro-to-enum)
 
 /******************************************************************************/
 

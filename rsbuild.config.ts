@@ -36,6 +36,7 @@ export default defineConfig({
 	},
 	server: {
 		port: 31213,
+		base: "/reference-finder",
 		publicDir: {
 			name: "src/public",
 			copyOnBuild: true,
@@ -79,7 +80,6 @@ export default defineConfig({
 		],
 		dataUriLimit: 100,
 		legalComments: "none",
-		assetPrefix: "/reference-finder/",
 		polyfill: "off",
 		minify: {
 			jsOptions: {
@@ -108,6 +108,7 @@ export default defineConfig({
 		}),
 		pluginAssetsRetry({
 			addQuery: true,
+			test: url => !url.includes("gtag"),
 		}),
 		pluginHtmlMinifierTerser({
 			removeComments: true,

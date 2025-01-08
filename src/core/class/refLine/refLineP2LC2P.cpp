@@ -16,8 +16,9 @@ Bring point p1 to line l1 so that the crease passes through point p2.
 Constructor. iroot can be 0 or 1.
 *****/
 RefLine_P2L_C2P::RefLine_P2L_C2P(RefMark *arm1, RefLine *arl1, RefMark *arm2, unsigned char iroot)
-	: rm1(arm1), rl1(arl1), rm2(arm2), mRoot(iroot) {
+	: rm1(arm1), rl1(arl1), rm2(arm2) {
 
+	mRoot = iroot;
 	mScore = rm1->mScore + rl1->mScore + rm2->mScore + Shared::sAxiomWeights[4];
 
 	// Get references to the points and lines.

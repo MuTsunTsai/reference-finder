@@ -22,6 +22,7 @@ void Paper::SetSize(double aWidth, double aHeight) {
 	tr = XYPt(aWidth, aHeight);
 	mWidth = aWidth;
 	mHeight = aHeight;
+	mDmax = sqrt(aWidth * aWidth + aHeight * aHeight);
 	mBotLeft = XYPt(0, 0);
 	mBotRight = XYPt(aWidth, 0);
 	mTopLeft = XYPt(0, aHeight);

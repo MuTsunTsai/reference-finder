@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 export interface InputProps<T> {
 	max?: number;
+	disabled?: boolean;
 	value: T;
 	onInput: (v: T) => void;
 }
@@ -11,7 +12,7 @@ export interface IntInputProps extends InputProps<number> {
 	min?: number;
 }
 
-export function IntInput({ max, min, value, onInput }: IntInputProps) {
+export function IntInput({ max, min, value, disabled, onInput }: IntInputProps) {
 	const { t } = useTranslation();
 	if(min === undefined) min = 0;
 	const [temp, setTemp] = useState(value.toString());
@@ -42,9 +43,12 @@ export function IntInput({ max, min, value, onInput }: IntInputProps) {
 					type="number"
 					aria-label="Integer"
 					className={"form-control exp-input " + (isValid() ? "" : "is-invalid")}
+					disabled={disabled}
 					value={temp}
 					onInput={e => input(e.currentTarget.value)}
 					onBlur={blur}
+					min={min}
+					max={max}
 				/>
 			</div>
 			{!isValid() &&

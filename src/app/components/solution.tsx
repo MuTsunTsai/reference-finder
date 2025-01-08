@@ -3,7 +3,7 @@ import { ElementType, LineStyle, Solution, useDB, useSettings, useStore } from "
 import { StepComponent } from "./step";
 import { DIAGRAM_ZOOM, Diagram } from "./svg/diagram";
 import { useRef } from "react";
-import { resetWorker } from "../bridge";
+import { Exact } from "./exact";
 
 interface SolutionComponentProps {
 	data: Solution;
@@ -83,6 +83,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 	return (
 		<div className={"card mt-3 " + (show ? "" : "d-sm-none")} style={{ overflow: "hidden" }}>
 			<div className="card-header d-none d-sm-block">
+				<Exact err={data.err} />
 				<div className="d-flex">
 					<span className="d-inline-block capitalize m-1">{t("phrase.solution")} {solution},</span>
 					<span className="d-inline-block m-1">{t("phrase.error")} {err},</span>

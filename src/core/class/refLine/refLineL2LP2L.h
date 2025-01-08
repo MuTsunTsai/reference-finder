@@ -19,7 +19,6 @@ class RefLine_L2L_P2L: public RefLine {
 		WHOMOVES_P1,
 		WHOMOVES_L1
 	};
-	WhoMoves mWhoMoves;
 
   public:
 	RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2);

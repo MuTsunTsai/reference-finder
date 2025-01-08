@@ -15,8 +15,8 @@ class RefLine: public RefBase {
 	using bare_t = XYLine; // type of bare object that a RefLine represents
 	bare_t l;			   // the line this contains
 
-	/* A none-null value indicating that this line is used only for creating an intersection. */
-	RefBase *mForMark;
+	size_t hash() const override;
+	bool equals(const RefBase *other) const override;
 
   private:
 	static index_t sCount;					   // class index, used for numbering sequences of lines
@@ -25,11 +25,12 @@ class RefLine: public RefBase {
 	static void moveCloser(XYPt &from, const XYPt &to, double dist);
 
   public:
-	RefLine(): mForMark(nullptr) {}
-	RefLine(const XYLine &al): l(al), mForMark(nullptr) {}
+	RefLine() = default;
+	RefLine(const XYLine &al): l(al) {}
 
 	void FinishConstructor();
 	double DistanceTo(const XYLine &al) const;
+	double DistanceTo(const RefLine *ref) const;
 	bool IsOnEdge() const;
 	bool IsLine() const override;
 	bool IsActionLine() const override;

@@ -18,8 +18,9 @@ Bring line l1 to line l2.
 Constructor. iroot = 0 or 1.
 *****/
 
-RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot): rl1(arl1), rl2(arl2), mRoot(iroot) {
+RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot): rl1(arl1), rl2(arl2) {
 
+	mRoot = iroot;
 	mScore = rl1->mScore + rl2->mScore + Shared::sAxiomWeights[2];
 
 	// Get references to lines
@@ -152,7 +153,7 @@ JsonObject RefLine_L2L::Serialize() const {
 
 	// Return the first point of intersection between the fold line and the edge of the
 	// paper that _isn't_ the intersection of the two bisectors.
-	if(p == pa) {
+	if(p.equals(pa)) {
 		step.add("p0", pb.Chop());
 	} else {
 		step.add("p0", pa.Chop());

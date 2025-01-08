@@ -19,8 +19,6 @@ class RefLine_L2L: public RefLine {
 		WHOMOVES_L1,
 		WHOMOVES_L2
 	};
-	WhoMoves mWhoMoves;
-	unsigned char mRoot;
 
   public:
 	RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot);

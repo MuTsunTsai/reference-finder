@@ -83,7 +83,8 @@
 	"tip": {
 		"title": "Dica:",
 		"exp": "Você pode usar expressões matemáticas como {{exp}} (funções trigonométricas usam graus).",
-		"origin": "A origem das coordenadas está no canto inferior esquerdo."
+		"origin": "A origem das coordenadas está no canto inferior esquerdo.",
+		"exact": "Esta solução está dentro do erro de ponto flutuante e provavelmente é uma sequência de dobramento exata."
 	},
 	"statistics": {
 		"_": "Estatisticas",

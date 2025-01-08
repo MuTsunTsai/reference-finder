@@ -21,6 +21,11 @@ Calculate the key value used for distinguishing RefMarks. This should be called
 at the end of every constructor if the mark is valid (and not if it isn't).
 *****/
 void RefMark::FinishConstructor() {
+	if(!Shared::use_division) {
+		mKey = 1;
+		return;
+	}
+
 	const double fx = p.x / Shared::sPaper.mWidth;	// fx is between 0 and 1
 	const double fy = p.y / Shared::sPaper.mHeight; // fy is between 0 and 1
 
@@ -29,12 +34,25 @@ void RefMark::FinishConstructor() {
 	mKey = 1 + nx * Shared::sNumY + ny;
 }
 
+size_t RefMark::hash() const {
+	return std::hash<double>()(p.x) ^ (std::hash<double>()(p.y) << 1);
+}
+
+bool RefMark::equals(const RefBase *other) const {
+	const auto *o = static_cast<const RefMark *>(other);
+	return p.x == o->p.x && p.y == o->p.y;
+}
+
 /*****
 Return the distance to a point ap. This is used when sorting marks by their
 distance from a given mark.
 *****/
 double RefMark::DistanceTo(const XYPt &ap) const {
 	return (p - ap).Mag();
+}
+
+double RefMark::DistanceTo(const RefMark *ref) const {
+	return DistanceTo(ref->p);
 }
 
 /*****

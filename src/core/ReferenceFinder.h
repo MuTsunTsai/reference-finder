@@ -83,6 +83,8 @@ class ReferenceFinder {
 	// Import database previously exported
 	static bool ImportDatabase();
 
+	static void print_ref_sizes();
+
 	// Functions for searching for the best marks and/or lines
 	static void FindBestMarks(const XYPt &ap, std::vector<RefMark *> &vm, short numMarks);
 	static void FindBestLines(const XYLine &al, std::vector<RefLine *> &vl, short numLines);

@@ -25,7 +25,7 @@ void JsonStreamDgmr::PutRefList(const typename R::bare_t &ar, vector<R *> &vr) {
 		JsonObject solution;
 		vr[i]->PutDistanceAndRank(solution, ar);
 		vr[i]->BuildAndNumberSequence();
-		vr[i]->BuildDiagrams();
+		RefBase::BuildDiagrams();
 		RefBase::PutHowtoSequence(solution);
 
 		JsonArray diagrams;

@@ -39,8 +39,9 @@ double CubeRoot(double x) {
 Constructor. Variable iroot can be 0, 1, or 2.
 *****/
 RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, RefLine *arl2, unsigned char iroot)
-	: rm1(arm1), rl1(arl1), rm2(arm2), rl2(arl2), mRoot(iroot) {
+	: rm1(arm1), rl1(arl1), rm2(arm2), rl2(arl2) {
 
+	mRoot = iroot;
 	mScore = rm1->mScore + rl1->mScore + rm2->mScore + rl2->mScore + Shared::sAxiomWeights[5];
 
 	// Get references to the points and lines involved in the construction
@@ -64,7 +65,7 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 	if(l2.Intersects(p2)) return;
 
 	// Also make sure we're using distinct points and lines.
-	if((p1 == p2) || (l1 == l2)) return;
+	if(p1.equals(p2) || l1.equals(l2)) return;
 
 	// Now construct the terms of the cubic equation. These are stored in static
 	// member variables during the iroot==0 construction; if iroot==1 or 2, we
@@ -199,7 +200,7 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 	// If we're here, rc contains a root of the equation, which must still be validated.
 	XYPt p1p = d1 * u1 + rc * u1p; // image of p1 in fold line
 
-	if(p1p == p1) return; // we only consider p1 off of the fold line
+	if(p1p.equals(p1)) return; // we only consider p1 off of the fold line
 
 	l.u = (p1p - p1).Normalize();				   // normal to fold line
 	l.d = l.u.Dot(MidPoint(p1p, p1));			   // d-parameter of fold line

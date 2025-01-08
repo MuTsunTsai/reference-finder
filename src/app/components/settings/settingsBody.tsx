@@ -21,6 +21,15 @@ export default function SettingsBody() {
 		if(!settings.useDB) deleteDB("/data");
 	}, [settings.useDB]);
 
+	const MAX_DIV = 65_000; // About the sqrt of max unsigned int
+	const MIN_OBJ = 10_000;
+	const MAX_OBJ = 17_000_000; // This is roughly the max number of references that can be generated under the 4GB limit
+
+	// Disabling divisions works very poorly for ranks >= 6 in general,
+	// so we place this restriction to save our users the trouble of finding that fact themselves.
+	const mustUseDivision = tempDb.maxRank > 5;
+	const disableDivisions = !mustUseDivision && !tempDb.useDivision;
+
 	return (
 		<div className="modal-body">
 			<ul className="nav nav-tabs mb-3">
@@ -60,12 +69,16 @@ export default function SettingsBody() {
 					<SettingsRow label="Max lines" help={t("help.maxLines")}>
 						<IntInput
 							value={tempDb.maxLinesV1}
+							min={MIN_OBJ}
+							max={MAX_OBJ}
 							onInput={v => setTempDb({ ...tempDb, maxLinesV1: v })}
 						/>
 					</SettingsRow>
 					<SettingsRow label="Max marks" help={t("help.maxMarks")}>
 						<IntInput
 							value={tempDb.maxMarksV1}
+							min={MIN_OBJ}
+							max={MAX_OBJ}
 							onInput={v => setTempDb({ ...tempDb, maxMarksV1: v })}
 						/>
 					</SettingsRow>
@@ -74,11 +87,20 @@ export default function SettingsBody() {
 				<Axioms />
 			</div>
 			<div className={"grid " + (tab == 1 ? "" : "d-none")}>
+				<SettingsRow label="Use divisions" help={t("help.useDivision")}>
+					<Checkbox
+						className="col-form-label"
+						value={mustUseDivision || tempDb.useDivision}
+						disabled={mustUseDivision}
+						onInput={v => setTempDb({ ...tempDb, useDivision: v })}
+					/>
+				</SettingsRow>
 				<SettingsRow label="X divisions" help={t("help.divisions")}>
 					<IntInput
 						value={tempDb.numX}
 						min={100}
-						max={46000}
+						max={MAX_DIV}
+						disabled={disableDivisions}
 						onInput={v => setTempDb({ ...tempDb, numX: v })}
 					/>
 				</SettingsRow>
@@ -86,7 +108,8 @@ export default function SettingsBody() {
 					<IntInput
 						value={tempDb.numY}
 						min={100}
-						max={46000}
+						max={MAX_DIV}
+						disabled={disableDivisions}
 						onInput={v => setTempDb({ ...tempDb, numY: v })}
 					/>
 				</SettingsRow>
@@ -94,7 +117,8 @@ export default function SettingsBody() {
 					<IntInput
 						value={tempDb.numA}
 						min={100}
-						max={46000}
+						max={MAX_DIV}
+						disabled={disableDivisions}
 						onInput={v => setTempDb({ ...tempDb, numA: v })}
 					/>
 				</SettingsRow>
@@ -102,7 +126,8 @@ export default function SettingsBody() {
 					<IntInput
 						value={tempDb.numD}
 						min={100}
-						max={46000}
+						max={MAX_DIV}
+						disabled={disableDivisions}
 						onInput={v => setTempDb({ ...tempDb, numD: v })}
 					/>
 				</SettingsRow>

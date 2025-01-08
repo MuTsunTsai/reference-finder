@@ -86,7 +86,8 @@
 		"maxLines": "This sets an absolute upper bound on the number of lines to calculate. Even if you are only searching for points, ReferenceFinder needs to calculate a large number of lines since points are defined by the intersections of existing lines.",
 		"maxMarks": "This sets a absolute upper bound on the number of marks to calculate. As a rough estimate, if this setting is N, the average error in any given point is proportional to 1/(2*sqrt(N)). This is not exact, since points tend to cluster along low-rank lines, but as a good rule of thumb, half a million to a million points will give a good error performance.",
 		"axioms": "The Huzita-Hatori Axioms group lets you choose which of the 7 axioms to include in the database, and in which order of priority. The default is to include all 7, but you can exclude one or more. Of course, the more axioms you exclude, the higher the rank you'll need to allow to obtain a given level of accuracy. You can also changed the order of priority. The axioms that come first in the list will be prioritized, so that when multiple sequences of the same rank give equivalent references (in terms of division settings), it will prefer the sequence using the prioritized axioms.",
-		"divisions": "To avoid duplicates, ReferenceFinder keeps the lowest-rank sequence for any given mark or line. To specifically test for equivalence, the paper is divided up into a fine grid, according to the divisions settings. Two marks are considered equivalent if they fall within the same grid square, and only one of them will be kept.",
+		"useDivision": "To save memory and allow searching deeper ranks, ReferenceFinder keeps only the lowest-rank sequence among equivalent marks or lines, where equivalence is determined by division settings. Disabling this will keep all references found (requires max rank to be at most 5).",
+		"divisions": "To specifically test for equivalence, the paper is divided up into a fine grid, according to the divisions settings. Two marks are considered equivalent if they fall within the same grid square, and only one of them will be kept.",
 		"lineDivisions": "Lines are characterized by their angle and distance of closest approach to the origin, and so these two settings are similarly quantized.",
 		"goodEnoughError": "When a search is performed, ReferenceFinder finds all marks (or lines) whose distance error (or an analogous quantity for lines) is better than this value. Essentially, this value is the error that you're willing to tolerate. Within this error, low-rank marks are considered more desirable (easier to fold) and so they will be displayed before higher-rank marks, even if the latter have lower errors.",
 		"minAspectRatio": "As a practical matter, it is very difficult to fold a long, skinny corner so that the resulting crease is straight; it is very easy for the crease to wander. If a given sequence requires the folding of a triangular flap with an aspect ratio smaller than this, it is not accepted into the database. If you don't care about this issue, you can set the value to zero.",
@@ -98,7 +99,8 @@
 	"tip": {
 		"title": "Tip:",
 		"origin": "The origin of coordinates is at the lower left corner.",
-		"exp": "You can use math expression such as {{exp}} (trigonometry functions uses degrees)."
+		"exp": "You can use math expression such as {{exp}} (trigonometry functions uses degrees).",
+		"exact": "This solution is within floating error, and probably is an exact folding sequence."
 	},
 	"phrase": {
 		"settings": "settings",

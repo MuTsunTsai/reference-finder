@@ -20,8 +20,6 @@ class RefLine_P2L_C2P: public RefLine {
 		WHOMOVES_P1,
 		WHOMOVES_L1
 	};
-	WhoMoves mWhoMoves;
-	unsigned char mRoot;
 
   public:
 	RefLine_P2L_C2P(RefMark *arm1, RefLine *arl1, RefMark *arm2, unsigned char iroot);
