@@ -45,9 +45,8 @@
 		"settings": "настройки",
 		"initializing": "Инициализация...",
 		"coreVer": "Базовая версия",
-		"findSolutions": "Найти решения",
-		"addAsExistingCreases": "Добавить как существующие складки",
-		"clearExistingCreases": "Очистить существующие складки"
+		"clearExistingRefs": "Сбросить ссылки",
+		"addAsExistingRefs": "добавить как существующие ссылки"
 	},
 	"settings": {
 		"reset": "Сбросить настройки по умолчанию",

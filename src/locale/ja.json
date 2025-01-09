@@ -45,9 +45,8 @@
 		"solution": "解答",
 		"initializing": "初期化中...",
 		"coreVer": "コアバージョン",
-		"findSolutions": "解答を見つける",
-		"addAsExistingCreases": "既存の折り目として追加",
-		"clearExistingCreases": "既存の折り目を削除"
+		"clearExistingRefs": "参照をリセット",
+		"addAsExistingRefs": "既存の参照として追加"
 	},
 	"settings": {
 		"reset": "デフォルト値にリセット",

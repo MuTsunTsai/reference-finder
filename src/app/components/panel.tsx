@@ -94,7 +94,12 @@ export function Panel({ onSubmit }: PanelProps) {
 				}
 				<div className="row mt-2 gx-2">
 					<div className="col">
-						<Settings /> <Statistics />
+						<Settings /> <Statistics />	{
+							(store.existingMarks.length > 0 || store.existingLines.length > 0) &&
+							<button type="button" className="btn btn-secondary me-1" onClick={clearExistingCreases}>
+								<i className="fa-solid fa-trash"></i><span className="d-none d-sm-inline">&nbsp;<span className="capitalize">{t("phrase.clearExistingRefs")}</span></span>
+							</button>
+						}
 					</div>
 					<div className="col-auto text-end">
 						{
@@ -103,22 +108,11 @@ export function Panel({ onSubmit }: PanelProps) {
 									<span className="capitalize">{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
 								</button> :
 								<button type="submit" className="btn btn-primary">
-									<i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.findSolutions")}</span>
+									<i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span>
 								</button>
 						}
 					</div>
 				</div>
-				{
-					(store.existingMarks.length > 0 || store.existingLines.length > 0) ?
-						<div className="row mt-2 gx-2">
-							<div className="col text-end">
-								<button type="button" className="btn btn-danger" onClick={clearExistingCreases}>
-									<i className="fa-solid fa-trash"></i>&nbsp;<span className="capitalize">{t("phrase.clearExistingCreases")}</span>
-								</button>
-							</div>
-						</div> :
-						<></>
-				}
 			</form>
 		</div>
 	);

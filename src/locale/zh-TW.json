@@ -45,9 +45,8 @@
 		"solution": "解答",
 		"initializing": "正在初始化...",
 		"coreVer": "核心版本",
-		"findSolutions": "找解答",
-		"addAsExistingCreases": "添加為現有摺痕",
-		"clearExistingCreases": "清除現有摺痕"
+		"clearExistingRefs": "重置參考",
+		"addAsExistingRefs": "新增為現有參考"
 	},
 	"settings": {
 		"reset": "重設為預設值",

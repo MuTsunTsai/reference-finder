@@ -45,9 +45,8 @@
 		"settings": "configurações",
 		"initializing": "Inicializando...",
 		"coreVer": "Versão principal",
-		"findSolutions": "encontrar soluçőes",
-		"addAsExistingCreases": "adicionar como creases existentes",
-		"clearExistingCreases": "limpar creases existentes"
+		"clearExistingRefs": "Redefinir refs",
+		"addAsExistingRefs": "adicionar como refs existentes"
 	},
 	"settings": {
 		"reset": "Redefinir para os padrões",

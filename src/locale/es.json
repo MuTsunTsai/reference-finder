@@ -45,9 +45,8 @@
 		"findPoint": "encuentre un punto",
 		"referenceFinder": "Buscador de Referencias",
 		"coreVer": "Versión principal",
-		"findSolutions": "encontrar soluciones",
-		"addAsExistingCreases": "añadir como creases existentes",
-		"clearExistingCreases": "borrar creases existentes"
+		"clearExistingRefs": "Restablecer refs",
+		"addAsExistingRefs": "agregar como refs existentes"
 	},
 	"settings": {
 		"reset": "Restablecer los valores predeterminados",
