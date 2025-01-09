@@ -300,6 +300,10 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	// Report our status for rank 0.
 	ShowProgress(DATABASE_RANK_COMPLETE, 0);
 
+	// Rank 1: Construct the two diagonals.
+	sBasisLines.Add(new RefLine_Original(sPaper.mUpwardDiagonal, 1, string("sw_ne")));
+	sBasisLines.Add(new RefLine_Original(sPaper.mDownwardDiagonal, 1, string("nw_se")));
+
 	// Flush the buffers.
 	sBasisLines.FlushBuffer(1);
 	sBasisMarks.FlushBuffer(1);
