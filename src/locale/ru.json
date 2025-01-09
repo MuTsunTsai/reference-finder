@@ -44,7 +44,10 @@
 		"referenceFinder": "ReferenceFinder",
 		"settings": "настройки",
 		"initializing": "Инициализация...",
-		"coreVer": "Базовая версия"
+		"coreVer": "Базовая версия",
+		"findSolutions": "Найти решения",
+		"addAsExistingCreases": "Добавить как существующие складки",
+		"clearExistingCreases": "Очистить существующие складки"
 	},
 	"settings": {
 		"reset": "Сбросить настройки по умолчанию",

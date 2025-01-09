@@ -3,3 +3,4 @@ interface Fold {
 }
 
 type IPoint = [number, number];
+type ISegment = [IPoint, IPoint];

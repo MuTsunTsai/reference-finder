@@ -44,7 +44,10 @@
 		"settings": "設定",
 		"solution": "解答",
 		"initializing": "初期化中...",
-		"coreVer": "コアバージョン"
+		"coreVer": "コアバージョン",
+		"findSolutions": "解答を見つける",
+		"addAsExistingCreases": "既存の折り目として追加",
+		"clearExistingCreases": "既存の折り目を削除"
 	},
 	"settings": {
 		"reset": "デフォルト値にリセット",

@@ -46,12 +46,16 @@ export function Panel({ onSubmit }: PanelProps) {
 		useWorker().postMessage(query.map(Number));
 	}
 
+	function clearExistingCreases() {
+		useStore.setState({ existingCreaseLines: [], existingLines: [], existingMarks: [] });
+	}
+
 	return (
 		<div className="row mt-3 justify-content-center">
 			<div className="col mb-3" style={{ flex: "0 1 12rem" }}>
-				<Preview cp={cp} points={points} />
+				<Preview cp={cp} points={points} existingCreases={useStore.getState().existingCreaseLines} />
 			</div>
-			<form className="col mb-3" onSubmit={find} style={{ flex: "1 0 36rem" }}>
+			<form className="col mb-3" style={{ flex: "1 0 36rem" }} onSubmit={find}>
 				<div className="row mb-2 pb-1">
 					<div className="col-auto">
 						<div className="form-check">
@@ -93,16 +97,28 @@ export function Panel({ onSubmit }: PanelProps) {
 						<Settings /> <Statistics />
 					</div>
 					<div className="col-auto text-end">
-						<button type="submit" className="btn btn-primary" disabled={store.running}>
-							{store.running && !store.ready ?
-								<span className="capitalize">
-									{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
-								</span> :
-								<><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></>
-							}
-						</button>
+						{
+							(store.running && !store.ready) ?
+								<button type="submit" className="btn btn-primary" disabled>
+									<span className="capitalize">{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
+								</button> :
+								<button type="submit" className="btn btn-primary">
+									<i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.findSolutions")}</span>
+								</button>
+						}
 					</div>
 				</div>
+				{
+					(store.existingMarks.length > 0 || store.existingLines.length > 0) ?
+						<div className="row mt-2 gx-2">
+							<div className="col text-end">
+								<button type="button" className="btn btn-danger" onClick={clearExistingCreases}>
+									<i className="fa-solid fa-trash"></i>&nbsp;<span className="capitalize">{t("phrase.clearExistingCreases")}</span>
+								</button>
+							</div>
+						</div> :
+						<></>
+				}
 			</form>
 		</div>
 	);

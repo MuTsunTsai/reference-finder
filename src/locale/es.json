@@ -34,17 +34,20 @@
 		"nw_se": "la diagonal que va hacia abajo"
 	},
 	"phrase": {
+		"settings": "ajustes",
 		"point": "punto",
 		"line": "línea",
 		"error": "error",
 		"solution": "solución",
 		"go": "ir",
+		"initializing": "Inicializando...",
 		"findLine": "encuentre una línea",
 		"findPoint": "encuentre un punto",
 		"referenceFinder": "Buscador de Referencias",
-		"settings": "ajustes",
-		"initializing": "Inicializando...",
-		"coreVer": "Versión principal"
+		"coreVer": "Versión principal",
+		"findSolutions": "encontrar soluciones",
+		"addAsExistingCreases": "añadir como creases existentes",
+		"clearExistingCreases": "borrar creases existentes"
 	},
 	"settings": {
 		"reset": "Restablecer los valores predeterminados",
