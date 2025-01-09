@@ -29,11 +29,11 @@ function parseSolution(text: string) {
 	return solution;
 }
 
-export function resetWorker(db: DbSettings) {
+export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
 	let forceRebuild = false;
 	if(worker) {
 		worker.terminate();
-		forceRebuild = true;
+		if(forceRebuildIfInitialized) forceRebuild = true;
 		useStore.setState({ running: false, ready: false, progress: null, coreError: null });
 		console.log("Reset worker");
 	}

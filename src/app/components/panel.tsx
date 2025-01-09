@@ -4,7 +4,7 @@ import { Preview } from "./svg/preview";
 import { FormEvent, useMemo, useState } from "react";
 import { PointInput } from "./form/point-input";
 import { useDB, useSettings, useStore } from "../store";
-import { useWorker } from "../bridge";
+import { resetWorker, useWorker } from "../bridge";
 import { Settings } from "./settings/settings";
 import { Statistics } from "./statistics/statistics";
 import { useTranslation } from "react-i18next";
@@ -48,6 +48,7 @@ export function Panel({ onSubmit }: PanelProps) {
 
 	function clearExistingCreases() {
 		useStore.setState({ existingCreaseLines: [], existingLines: [], existingMarks: [] });
+		resetWorker(useDB.getState(), false);
 	}
 
 	return (
