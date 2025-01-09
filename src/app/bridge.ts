@@ -60,7 +60,7 @@ export function resetWorker(db: DbSettings) {
 
 	// Send the message to the worker
 	worker.postMessage([
-		idbSupported && useDB,
+		idbSupported && useDB && existingMarks.length === 0 && existingLines.length === 0,
 		forceRebuild,
 		db.width,
 		db.height,
