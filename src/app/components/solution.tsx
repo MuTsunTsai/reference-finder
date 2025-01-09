@@ -12,6 +12,10 @@ interface SolutionComponentProps {
 	onSelect: () => void;
 }
 
+interface AddButtonProps {
+	data: Solution;
+}
+
 const DIAGRAM_PADDING = 0.18;
 const DIAGRAM_SIZE = `${12 * DIAGRAM_ZOOM}rem`;
 
@@ -43,9 +47,9 @@ function addAsExistingCreases(data: Solution) {
 	// Add the creases from the last diagram of the accepted solution to the store (to render on the preview paper)
 	const existingCreaseLines = useStore.getState().existingCreaseLines;
 	const lastDiagram = data.diagrams[data.diagrams.length - 1];
-	for (const el of lastDiagram) {
-		if (!el) continue;
-		if (el.type != ElementType.line) continue;
+	for(const el of lastDiagram) {
+		if(!el) continue;
+		if(el.type != ElementType.line) continue;
 		el.style = LineStyle.crease;
 		existingCreaseLines.push(el);
 	}
@@ -58,12 +62,12 @@ function addAsExistingCreases(data: Solution) {
 	const store = useStore.getState();
 	const existingMarks = store.existingMarks;
 	const existingLines = store.existingLines;
-	for (const el of lastDiagram) {
-		if (!el) continue;
-		if (el.type == ElementType.point) {
+	for(const el of lastDiagram) {
+		if(!el) continue;
+		if(el.type == ElementType.point) {
 			existingMarks.push(el.pt);
 		}
-		if (el.type == ElementType.line) {
+		if(el.type == ElementType.line) {
 			existingLines.push([el.from, el.to]);
 		}
 	}
@@ -71,6 +75,16 @@ function addAsExistingCreases(data: Solution) {
 
 	// Recreate the database
 	resetWorker(useDB.getState());
+}
+
+function AddButton({ data }: AddButtonProps) {
+	const { t } = useTranslation();
+	return (
+		<button className="btn btn-success py-0" onClick={() => addAsExistingCreases(data)}>
+			<i className="fa-solid fa-circle-plus"></i>
+			<span className="d-inline-block capitalize m-1">&nbsp;{t("phrase.addAsExistingCreases")}</span>
+		</button>
+	);
 }
 
 export function SolutionComponent({ data, show, onSelect }: SolutionComponentProps) {
@@ -88,21 +102,26 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 	return (
 		<div className={"card mt-3 " + (show ? "" : "d-sm-none")} style={{ overflow: "hidden" }}>
 			<div className="card-header d-none d-sm-block">
-				<Exact err={data.err} />
-				<div className="d-flex">
-					<span className="d-inline-block capitalize m-1">{t("phrase.solution")} {solution},</span>
-					<span className="d-inline-block m-1">{t("phrase.error")} {err},</span>
-					<span className="d-inline-block m-1">rank {data.rank}</span>
-					<span className="d-inline-block ms-auto">
-						<button className="btn btn-large btn-success" onClick={() => addAsExistingCreases(data)}>
-							<i className="fa-solid fa-circle-plus"></i>&nbsp;<span className="d-inline-block capitalize m-1">{t("phrase.addAsExistingCreases")}</span>
-						</button>
-					</span>
+				<div className="row align-items-center gx-1 gy-2">
+					<div className="col-auto">
+						<Exact err={data.err} />&nbsp;<span className="capitalize">{t("phrase.solution")} {solution},</span>
+					</div>
+					<div className="col-auto">{t("phrase.error")} {err},</div>
+					<div className="col-auto">rank {data.rank}</div>
+					<div className="col d-none d-md-block text-end" style={{ flex: "1 0 max-content" }}>
+						<AddButton data={data} />
+					</div>
 				</div>
 			</div>
 			{show ?
 				<div ref={ref} className="card-header d-sm-none text-bg-primary">
-					<span className="d-inline-block capitalize">{t("phrase.solution")} {solution},</span> <span className="d-inline-block">{t("phrase.error")} {err},</span> <span className="d-inline-block">rank {data.rank}</span>
+					<div className="row align-items-center gx-1">
+						<div className="col-auto">
+							<Exact err={data.err} />&nbsp;<span className="capitalize">{t("phrase.solution")} {solution},</span>
+						</div>
+						<div className="col-auto">{t("phrase.error")} {err},</div>
+						<div className="col-auto">rank {data.rank}</div>
+					</div>
 				</div> :
 				<div ref={ref} className="card-header d-sm-none" onClick={handleSelect} style={{ cursor: "pointer" }}>
 					<div className="row gx-0 justify-content-center align-items-top">
@@ -146,6 +165,9 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 							</div>
 						</div>
 					)}
+				</div>
+				<div className="text-end d-md-none mt-2">
+					<AddButton data={data} />
 				</div>
 			</div>
 		</div>
