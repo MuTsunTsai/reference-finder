@@ -45,9 +45,9 @@
 		"settings": "настройки",
 		"initializing": "Инициализация...",
 		"coreVer": "Базовая версия",
-		"acceptThisSolution": "Принять это решение",
-		"editInput": "Редактировать ввод",
-		"findSolutions": "Найти решения"
+		"findSolutions": "Найти решения",
+		"addAsExistingCreases": "Добавить как существующие складки",
+		"clearExistingCreases": "Очистить существующие складки"
 	},
 	"settings": {
 		"reset": "Сбросить настройки по умолчанию",

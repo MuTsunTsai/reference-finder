@@ -114,9 +114,9 @@
 		"findPoint": "find a point",
 		"referenceFinder": "ReferenceFinder",
 		"coreVer": "Core version",
-		"acceptThisSolution": "accept this solution",
-		"editInput": "edit input",
-		"findSolutions": "find solutions"
+		"findSolutions": "find solutions",
+		"addAsExistingCreases": "add as existing creases",
+		"clearExistingCreases": "clear existing creases"
 	},
 	"invalid": {
 		"exp": "Should be a number at least 0, or an equivalent expression",

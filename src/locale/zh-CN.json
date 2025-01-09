@@ -45,9 +45,9 @@
 		"solution": "解答",
 		"initializing": "正在初始化...",
 		"coreVer": "核心版本",
-		"acceptThisSolution": "接受这个解答",
-		"editInput": "编辑输入",
-		"findSolutions": "找解答"
+		"findSolutions": "找解答",
+		"addAsExistingCreases": "添加为现有折痕",
+		"clearExistingCreases": "清除现有折痕"
 	},
 	"settings": {
 		"reset": "重设为默认值",

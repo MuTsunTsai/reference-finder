@@ -45,9 +45,9 @@
 		"settings": "configurações",
 		"initializing": "Inicializando...",
 		"coreVer": "Versão principal",
-		"acceptThisSolution": "aceitar esta soluçăo",
-		"editInput": "editar entrada",
-		"findSolutions": "encontrar soluçőes"
+		"findSolutions": "encontrar soluçőes",
+		"addAsExistingCreases": "adicionar como creases existentes",
+		"clearExistingCreases": "limpar creases existentes"
 	},
 	"settings": {
 		"reset": "Redefinir para os padrões",
