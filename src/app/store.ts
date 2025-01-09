@@ -60,6 +60,8 @@ const defaultStore = {
 	statisticsRunning: false,
 	computedTheme: Theme.light,
 	existingCreaseLines: [] as LineElement[], // for rendering on the preview paper
+	existingMarks: [] as IPoint[], // for computing new solutions from previous ones
+	existingLines: [] as ISegment[], // for computing new solutions from previous ones
 };
 
 export const defaultDB = {
@@ -82,8 +84,6 @@ export const defaultDB = {
 	visibility: true,
 	axioms: [true, true, true, true, true, true, true],
 	axiomPriority: [2, 3, 7, 6, 5, 4, 1], // The default priority
-	existingAuxiliaryMarks: [] as IPoint[], // for computing solutions
-	existingAuxiliaryLines: [] as ISegment[], // for computing solutions
 };
 export type DbSettings = typeof defaultDB;
 

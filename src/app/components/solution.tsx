@@ -51,22 +51,26 @@ function acceptSolution(data: Solution) {
 	}
 	useStore.setState({ existingCreaseLines: existingCreaseLines });
 
-	// Now we get rid of all solutions so that the panel elements are re-enabled and the user can find more references
-	// TODO: we should probably find a better way to do this
+	// Empty out the list of solutions so the user notices that the input mark/line is solved
 	useStore.setState({ solutions: [] as Solution[] });
 
-	// Finally, we add the auxiliary marks and lines from this selected solution to the db and recreate it
-	const db = useDB.getState();
+	// Add the existing marks and lines to the store
+	const store = useStore.getState();
+	const existingMarks = store.existingMarks;
+	const existingLines = store.existingLines;
 	for (const el of lastDiagram) {
 		if (!el) continue;
 		if (el.type == ElementType.point) {
-			db.existingAuxiliaryMarks.push(el.pt);
+			existingMarks.push(el.pt);
 		}
 		if (el.type == ElementType.line) {
-			db.existingAuxiliaryLines.push([el.from, el.to]);
+			existingLines.push([el.from, el.to]);
 		}
 	}
-	resetWorker(db);
+	useStore.setState({ existingMarks: existingMarks, existingLines: existingLines });
+
+	// Recreate the database
+	resetWorker(useDB.getState());
 }
 
 export function SolutionComponent({ data, show, onSelect }: SolutionComponentProps) {
