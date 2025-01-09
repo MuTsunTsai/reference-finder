@@ -1,0 +1,20 @@
+name: Reject PR to main
+on:
+  pull_request_target:
+    branches:
+      - main
+jobs:
+  reject-pr:
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh pr close "$NUMBER" --comment "$COMMENT"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.number }}
+          COMMENT: >
+            Do not submit PR against the main branch directly.
+            See [Contributing Guidelines](../blob/main/CONTRIBUTING.md#submitting-pull-requests).
+

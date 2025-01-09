@@ -28,7 +28,21 @@ All source codes are located in the `src` folder, in which you'll find:
 
 - `app`: User interface, written in [React](https://react.dev/) (I usually use Vue, but I decided to give it a try for this project).
 - `core`: The C++ part. See [change log](./CHANGELOG.md) for the changes made to the original source code of ReferenceFinder.
-- `icon`: This folder contains the pre-built Font Awesome subset.
+- `icon`: This folder contains the pre-built Font Awesome subset.\
+  If you add more icons and need to rebuild this folder, execute `pnpm gulp`.
 - `lib`: Compiled WebAssembly of ReferenceFinder.
 - `locale`: All locale files, based on the previous work by [Maya Kraft](https://github.com/mayakraft/ReferenceFinder) etc.
 - `public`: The HTML file and other unbundled assets.
+
+## How to contribute new ideas/features
+
+Always talk to me first! Just to avoid wasting time working on something that I'm also working on. A good place to reach me will be the [BP Studio Discord server](https://discord.gg/HkcdTDS4zZ).
+
+
+### Submitting pull requests
+
+Because merging to the main branch will directly publish the changes,
+do not directly submit a PR against the main branch.
+Instead, contact me and I will create a new branch for you to submit your PR.
+After I merge the PR and make sure that everything is ready,
+it will be merged into the main branch.
