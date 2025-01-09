@@ -31,7 +31,9 @@
 		"s": "el borde inferior",
 		"w": "el borde izquierdo",
 		"sw_ne": "la diagonal que va hacia arriba",
-		"nw_se": "la diagonal que va hacia abajo"
+		"nw_se": "la diagonal que va hacia abajo",
+		"existingMark": "marca existente",
+		"existingLine": "línea existente"
 	},
 	"phrase": {
 		"settings": "ajustes",

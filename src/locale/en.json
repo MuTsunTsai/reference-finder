@@ -32,7 +32,9 @@
 		"s": "the bottom edge",
 		"w": "the left edge",
 		"sw_ne": "the upward diagonal",
-		"nw_se": "the downward diagonal"
+		"nw_se": "the downward diagonal",
+		"existingMark": "existing mark",
+		"existingLine": "existing line"
 	},
 	"statistics": {
 		"_": "Statistics",

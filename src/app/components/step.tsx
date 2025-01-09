@@ -22,7 +22,9 @@ export function StepComponent({ data, last }: StepComponentProps) {
 
 	function format(v: string | undefined, point?: boolean): string | undefined {
 		if(typeof v !== "string") return v;
-		if(v == v.toLowerCase()) {
+		if(v === "_") {
+			v = point ? t("paper.existingMark") : t("paper.existingLine");
+		} else if(v == v.toLowerCase()) {
 			v = t("paper." + v);
 		} else if(point) {
 			v = t("phrase.point") + " " + v;
@@ -55,13 +57,13 @@ export function StepComponent({ data, last }: StepComponentProps) {
 						<span> </span>
 					</div>
 					{step.intersection &&
-					<div>
-						{purge((last ?
-							t(`intersection_solution`, { ...step.intersection }) :
-							t(`intersection`, { ...step.intersection })) +
+						<div>
+							{purge((last ?
+								t(`intersection_solution`, { ...step.intersection }) :
+								t(`intersection`, { ...step.intersection })) +
 								(step.pinch ? " " + t("pinch") : "")
-						)}
-					</div>
+							)}
+						</div>
 					}
 				</>
 			}

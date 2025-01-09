@@ -31,7 +31,9 @@
 		"se": "右下角",
 		"sw": "左下角",
 		"sw_ne": "向上的对角线",
-		"w": "左边缘"
+		"w": "左边缘",
+		"existingMark": "已有的标记",
+		"existingLine": "已有的线条"
 	},
 	"phrase": {
 		"error": "误差",

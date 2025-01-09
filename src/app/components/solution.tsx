@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { ElementType, LineStyle, Solution, useDB, useSettings, useStore } from "../store";
+import { ElementType, LineStyle, PointStyle, Solution, useDB, useSettings, useStore } from "../store";
 import { StepComponent } from "./step";
 import { DIAGRAM_ZOOM, Diagram } from "./svg/diagram";
 import { useRef } from "react";
@@ -45,33 +45,37 @@ export function formatSolution(data: Solution, precision: number): string {
  */
 function addAsExistingCreases(data: Solution) {
 	// Add the creases from the last diagram of the accepted solution to the store (to render on the preview paper)
-	const existingCreaseLines = useStore.getState().existingCreaseLines;
-	const lastDiagram = data.diagrams[data.diagrams.length - 1];
-	for(const el of lastDiagram) {
-		if(!el) continue;
-		if(el.type != ElementType.line) continue;
-		el.style = LineStyle.crease;
-		existingCreaseLines.push(el);
-	}
-	useStore.setState({ existingCreaseLines: existingCreaseLines });
-
-	// Empty out the list of solutions so the user notices that the input mark/line is solved
-	useStore.setState({ solutions: [] as Solution[] });
-
-	// Add the existing marks and lines to the store
-	const store = useStore.getState();
-	const existingMarks = store.existingMarks;
-	const existingLines = store.existingLines;
-	for(const el of lastDiagram) {
-		if(!el) continue;
-		if(el.type == ElementType.point) {
-			existingMarks.push(el.pt);
+	const { existingMarks, existingLines, existingRefs } = useStore.getState();
+	for(let i = 0; i < data.steps.length; i++) {
+		let step = data.steps[i];
+		const diag = data.diagrams[i];
+		if(step.axiom != 0) { // line
+			const lookFor = step.pinch ? LineStyle.pinch : LineStyle.valley;
+			for(const el of diag) {
+				if(el && el.type == ElementType.line && el.style == lookFor) {
+					el.style = LineStyle.crease;
+					existingRefs.push(el);
+					if(!step.pinch) existingLines.push([el.from, el.to]);
+					break;
+				}
+			}
+			if(step.intersection) step = step.intersection; // continue with the next part
 		}
-		if(el.type == ElementType.line) {
-			existingLines.push([el.from, el.to]);
+		if(step.axiom == 0) { // point
+			for(const el of diag) {
+				if(el && el.type == ElementType.point && el.style == PointStyle.action) {
+					el.style = PointStyle.normal;
+					existingRefs.push(el);
+					existingMarks.push(el.pt);
+					break;
+				}
+			}
 		}
 	}
-	useStore.setState({ existingMarks: existingMarks, existingLines: existingLines });
+	useStore.setState({
+		existingRefs, existingMarks, existingLines, // Add the existing marks and lines to the store
+		solutions: [], // Empty out the list of solutions so the user notices that the input mark/line is solved
+	});
 
 	// Recreate the database
 	resetWorker(useDB.getState());

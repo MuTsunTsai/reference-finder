@@ -1,17 +1,15 @@
 import ear from "rabbit-ear";
 import { useDB } from "../../store";
-import { Svg } from "./svg";
-import { LineElement } from "../../store";
+import { drawExistingRefs, Svg } from "./svg";
 
 import type { RabbitEarSVG } from "rabbit-ear";
 
 interface PreviewProps {
 	cp: Fold;
 	points?: IPoint[];
-	existingCreases?: LineElement[];
 }
 
-export function Preview({ cp, points, existingCreases }: PreviewProps) {
+export function Preview({ cp, points }: PreviewProps) {
 	const { width, height } = useDB();
 	const boundary = ear.rect(0, 0, width, height);
 
@@ -23,6 +21,9 @@ export function Preview({ cp, points, existingCreases }: PreviewProps) {
 
 		const root = svg.origami(cp);
 		root.setAttribute("transform", `translate(0 ${height}) scale(1 -1)`); // lower-left origin
+
+		drawExistingRefs(root);
+
 		if(points) {
 			for(const pt of points) {
 				const circle = root.vertices.circle(pt, 0.03);
@@ -36,14 +37,6 @@ export function Preview({ cp, points, existingCreases }: PreviewProps) {
 				} catch {
 					// Ignore error if the two points are identical
 				}
-			}
-		}
-
-		// Add existing creases from previous solutions to the preview
-		if(existingCreases) {
-			for(const el of existingCreases) {
-				const line = root.edges.line(el.from, el.to);
-				line.classList.add("line-crease");
 			}
 		}
 	}

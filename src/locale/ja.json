@@ -31,7 +31,9 @@
 		"se": "右下隅",
 		"sw": "左下隅",
 		"sw_ne": "上向き対角線",
-		"w": "左端"
+		"w": "左端",
+		"existingMark": "既存の印",
+		"existingLine": "既存の線"
 	},
 	"phrase": {
 		"error": "エラー",

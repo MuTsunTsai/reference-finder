@@ -31,7 +31,9 @@
 		"s": "aresta inferior",
 		"w": "aresta esquerda",
 		"sw_ne": "diagonal ascendente",
-		"nw_se": "diagonal descendente"
+		"nw_se": "diagonal descendente",
+		"existingMark": "marca existente",
+		"existingLine": "linha existente"
 	},
 	"phrase": {
 		"point": "ponto",

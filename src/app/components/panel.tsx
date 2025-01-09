@@ -46,15 +46,15 @@ export function Panel({ onSubmit }: PanelProps) {
 		useWorker().postMessage(query.map(Number));
 	}
 
-	function clearExistingCreases() {
-		useStore.setState({ existingCreaseLines: [], existingLines: [], existingMarks: [] });
+	function clearExistingRefs() {
+		useStore.setState({ existingRefs: [], existingLines: [], existingMarks: [], solutions: [] });
 		resetWorker(useDB.getState(), false);
 	}
 
 	return (
 		<div className="row mt-3 justify-content-center">
 			<div className="col mb-3" style={{ flex: "0 1 12rem" }}>
-				<Preview cp={cp} points={points} existingCreases={useStore.getState().existingCreaseLines} />
+				<Preview cp={cp} points={points} />
 			</div>
 			<form className="col mb-3" style={{ flex: "1 0 36rem" }} onSubmit={find}>
 				<div className="row mb-2 pb-1">
@@ -97,7 +97,7 @@ export function Panel({ onSubmit }: PanelProps) {
 					<div className="col">
 						<Settings /> <Statistics />	{
 							(store.existingMarks.length > 0 || store.existingLines.length > 0) &&
-							<button type="button" className="btn btn-secondary me-1" onClick={clearExistingCreases}>
+							<button type="button" className="btn btn-secondary me-1" onClick={clearExistingRefs}>
 								<i className="fa-solid fa-trash"></i><span className="d-none d-sm-inline">&nbsp;<span className="capitalize">{t("phrase.clearExistingRefs")}</span></span>
 							</button>
 						}

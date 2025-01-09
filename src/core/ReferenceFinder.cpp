@@ -287,10 +287,10 @@ void ReferenceFinder::BuildAndExportDatabase() {
 
 	// Rank 0: Add existing points and lines
 	for(const auto &mark: Shared::existingMarks) {
-		sBasisMarks.Add(new RefMark_Original(mark, 0, string(""))); // TODO: Figure out naming
+		sBasisMarks.Add(new RefMark_Original(mark, 0, string("_")));
 	}
 	for(const auto &line: Shared::existingLines) {
-		sBasisLines.Add(new RefLine_Original(line, 0, string(""))); // TODO: Figure out naming
+		sBasisLines.Add(new RefLine_Original(line, 0, string("_")));
 	}
 
 	// Flush the buffers.
