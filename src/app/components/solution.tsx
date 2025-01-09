@@ -94,7 +94,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 					<span className="d-inline-block m-1">{t("phrase.error")} {err},</span>
 					<span className="d-inline-block m-1">rank {data.rank}</span>
 					<span className="d-inline-block ms-auto">
-						<button className="btn btn-large btn-success" onClick={() => acceptSolution(data)}><i className="fa-solid fa-check"></i>&nbsp;<span className="d-inline-block capitalize m-1">{t("phrase.acceptThisSolution")}</span></button>
+						<button className="btn btn-large btn-success" onClick={() => acceptSolution(data)}><i className="fa-solid fa-check"></i>&nbsp;<span className="d-inline-block capitalize m-1">{t("phrase.addAsExistingCreases")}</span></button>
 					</span>
 				</div>
 			</div>

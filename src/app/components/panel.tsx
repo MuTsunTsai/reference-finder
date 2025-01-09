@@ -46,6 +46,10 @@ export function Panel({ onSubmit }: PanelProps) {
 		useWorker().postMessage(query.map(Number));
 	}
 
+	function clearExistingCreases() {
+		useStore.setState({ existingCreaseLines: [], existingLines: [], existingMarks: [] });
+	}
+
 	return (
 		<div className="row mt-3 justify-content-center">
 			<div className="col mb-3" style={{ flex: "0 1 12rem" }}>
@@ -104,6 +108,17 @@ export function Panel({ onSubmit }: PanelProps) {
 						}
 					</div>
 				</div>
+				{
+					(store.existingMarks.length > 0 || store.existingLines.length > 0) ?
+						<div className="row mt-2 gx-2">
+							<div className="col text-end">
+								<button type="button" className="btn btn-danger" onClick={clearExistingCreases}>
+									<i className="fa-solid fa-trash"></i>&nbsp;<span className="capitalize">{t("phrase.clearExistingCreases")}</span>
+								</button>
+							</div>
+						</div> :
+						<></>
+				}
 			</form>
 		</div>
 	);
