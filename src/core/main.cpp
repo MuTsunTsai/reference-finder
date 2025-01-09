@@ -216,15 +216,15 @@ int main() {
 
 	readDbSettings();
 
-	// print out existing marks and lines that the core recieved (uncomment for debugging)
-	cout << "existing marks: " << endl;
-	for(const auto &mark: Shared::existingMarks) {
-		cout << "    " << mark << endl;
-	}
-	cout << "existing lines: " << endl;
-	for(const auto &line: Shared::existingLines) {
-		cout << "    " << line << endl;
-	}
+	// // print out existing marks and lines that the core recieved (uncomment for debugging)
+	// cout << "existing marks: " << endl;
+	// for(const auto &mark: Shared::existingMarks) {
+	// 	cout << "    " << mark << endl;
+	// }
+	// cout << "existing lines: " << endl;
+	// for(const auto &line: Shared::existingLines) {
+	// 	cout << "    " << line << endl;
+	// }
 
 	JsonStreamDgmr jsonDgmr(cout);
 	ReferenceFinder::SetDatabaseFn(&ConsoleDatabaseProgress);

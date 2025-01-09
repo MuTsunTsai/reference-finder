@@ -39,7 +39,7 @@ export function formatSolution(data: Solution, precision: number): string {
  * Function that runs when the user accepts a specific solution.
  * Adds the creases from the last diagram of the accepted solution and recreates the database.
  */
-function acceptSolution(data: Solution) {
+function addAsExistingCreases(data: Solution) {
 	// Add the creases from the last diagram of the accepted solution to the store (to render on the preview paper)
 	const existingCreaseLines = useStore.getState().existingCreaseLines;
 	const lastDiagram = data.diagrams[data.diagrams.length - 1];
@@ -94,7 +94,9 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 					<span className="d-inline-block m-1">{t("phrase.error")} {err},</span>
 					<span className="d-inline-block m-1">rank {data.rank}</span>
 					<span className="d-inline-block ms-auto">
-						<button className="btn btn-large btn-success" onClick={() => acceptSolution(data)}><i className="fa-solid fa-check"></i>&nbsp;<span className="d-inline-block capitalize m-1">{t("phrase.addAsExistingCreases")}</span></button>
+						<button className="btn btn-large btn-success" onClick={() => addAsExistingCreases(data)}>
+							<i className="fa-solid fa-circle-plus"></i>&nbsp;<span className="d-inline-block capitalize m-1">{t("phrase.addAsExistingCreases")}</span>
+						</button>
 					</span>
 				</div>
 			</div>
