@@ -44,6 +44,8 @@ export function formatSolution(data: Solution, precision: number): string {
  * Adds the creases from the last diagram of the accepted solution and recreates the database.
  */
 function addAsExistingCreases(data: Solution) {
+	gtag("event", "ref_add_existing_refs");
+
 	// Add the creases from the last diagram of the accepted solution to the store (to render on the preview paper)
 	const { existingMarks, existingLines, existingRefs } = useStore.getState();
 	for(let i = 0; i < data.steps.length; i++) {
