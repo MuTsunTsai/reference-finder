@@ -33,6 +33,7 @@
 		"eslint": "^9.17.0",
 		"eslint-import-resolver-typescript": "^3.7.0",
 		"eslint-plugin-import": "^2.31.0",
+		"eslint-plugin-react": "^7.37.3",
 		"glob": "^11.0.0",
 		"globals": "^15.14.0",
 		"gulp": "^5.0.0",

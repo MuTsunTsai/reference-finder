@@ -86,7 +86,7 @@ function addAsExistingCreases(data: Solution) {
 function AddButton({ data }: AddButtonProps) {
 	const { t } = useTranslation();
 	return (
-		<button className="btn btn-success py-0" onClick={() => addAsExistingCreases(data)}>
+		<button type="button" className="btn btn-success py-0" onClick={() => addAsExistingCreases(data)}>
 			<i className="fa-solid fa-circle-plus"></i>
 			<span className="d-inline-block capitalize m-1">&nbsp;{t("phrase.addAsExistingRefs")}</span>
 		</button>

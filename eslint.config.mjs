@@ -2,6 +2,7 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 import pluginTs from "typescript-eslint";
 import pluginImport from "eslint-plugin-import";
+import pluginReact from "eslint-plugin-react";
 import stylistic from "@mutsuntsai/stylistic";
 
 export default [
@@ -37,6 +38,19 @@ export default [
 					args: "none",
 				},
 			],
+		},
+	},
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+	// React
+	/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	{
+		...pluginReact.configs.flat.all,
+		...pluginReact.configs.flat["jsx-runtime"],
+		files: ["**/*.tsx"],
+		plugins: {
+			react: pluginReact,
 		},
 	},
 
