@@ -1,7 +1,7 @@
 import { Suspense, lazy, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { defaultDB, defaultSettings, useDB, useSettings, useStore } from "../../store";
+import { defaultDB, defaultSettings, useDB, useSettings } from "../../store";
 import { resetWorker } from "../../bridge";
 import { SettingsContext } from "./context";
 
@@ -28,7 +28,7 @@ export function Settings() {
 	const [cacheSettings, cacheTempSettings] = useState(structuredClone(settings));
 	const [tempDb, setTempDb] = useState(structuredClone(db));
 	const ref = useRef(null);
-	const store = useStore();
+
 	const handleShow = async () => {
 		setOpen(true);
 		gtag("event", "ref_show_settings");

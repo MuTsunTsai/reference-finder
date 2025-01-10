@@ -1,7 +1,8 @@
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Chart, LinearScale, BarElement, CategoryScale, Legend } from "chart.js";
-import { Theme, useStore } from "../../store";
 import { color } from "chart.js/helpers";
+
+import { Theme, useStore } from "../../store";
 
 Chart.register(CategoryScale, LinearScale, BarElement, Legend, ChartDataLabels);
 
