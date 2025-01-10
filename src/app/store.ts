@@ -19,6 +19,10 @@ export interface StepBase {
 	l0?: string;
 	l1?: string;
 	x: string;
+	order?: string;
+
+	/** Generated in UI, if {@link order} is given. */
+	n?: string[];
 }
 
 export interface Step extends StepBase {

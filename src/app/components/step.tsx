@@ -18,6 +18,7 @@ export function StepComponent({ data, last }: StepComponentProps) {
 		s.p1 = format(s.p1, true);
 		s.l0 = format(s.l0);
 		s.l1 = format(s.l1);
+		if(s.order) s.n = s.order.split(",").map(v => s[v as keyof StepBase]) as string[];
 	}
 
 	function format(v: string | undefined, point?: boolean): string | undefined {

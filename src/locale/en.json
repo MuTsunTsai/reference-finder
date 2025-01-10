@@ -6,18 +6,18 @@
 		"Make crease {{x}} by bringing {{p0}} to {{p1}}.",
 		"Make crease {{x}} by bringing {{l0}} to {{l1}}.",
 		"Make crease {{x}} by bringing {{l0}} onto itself, passing through {{p0}}.",
-		"Make crease {{x}} by bringing {{p0}} to {{l0}}, passing through {{p1}}.",
-		"Make crease {{x}} by bringing {{p0}} to {{l0}} and {{p1}} to {{l1}}.",
-		"Make crease {{x}} by bringing {{l1}} onto itself and bringing {{p0}} to {{l0}}."
+		"Make crease {{x}} by bringing {{n.0}} to {{n.1}}, passing through {{p1}}.",
+		"Make crease {{x}} by bringing {{n.0}} to {{n.1}} and {{n.2}} to {{n.3}}.",
+		"Make crease {{x}} by bringing {{l1}} onto itself and bringing {{n.0}} to {{n.1}}."
 	],
 	"axiom_solution": [
 		"The solution is made by folding through {{p0}} and {{p1}}.",
 		"The solution is made by bringing {{p0}} to {{p1}}.",
 		"The solution is made by bringing {{l0}} to {{l1}}.",
 		"The solution is made by bringing {{l0}} onto itself, passing through {{p0}}.",
-		"The solution is made by bringing {{p0}} to {{l0}}, passing through {{p1}}.",
-		"The solution is made by bringing {{p0}} to {{l0}} and {{p1}} to {{l1}}.",
-		"The solution is made by bringing {{l1}} onto itself and bringing {{p0}} to {{l0}}."
+		"The solution is made by bringing {{n.0}} to {{n.1}}, passing through {{p1}}.",
+		"The solution is made by bringing {{n.0}} to {{n.1}} and {{n.2}} to {{n.3}}.",
+		"The solution is made by bringing {{l1}} onto itself and bringing {{n.0}} to {{n.1}}."
 	],
 	"pinch": "Pinch only at the intersection.",
 	"intersection": "Point {{x}} is at the intersection of {{l0}} and {{l1}}.",
