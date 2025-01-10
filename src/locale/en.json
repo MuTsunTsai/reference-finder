@@ -116,7 +116,7 @@
 		"findPoint": "find a point",
 		"referenceFinder": "ReferenceFinder",
 		"coreVer": "Core version",
-		"clearExistingRefs": "Reset refs",
+		"clearExistingRefs": "Clear refs",
 		"addAsExistingRefs": "add as existing refs"
 	},
 	"invalid": {

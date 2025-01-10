@@ -47,7 +47,7 @@
 		"settings": "configurações",
 		"initializing": "Inicializando...",
 		"coreVer": "Versão principal",
-		"clearExistingRefs": "Redefinir refs",
+		"clearExistingRefs": "Limpar refs",
 		"addAsExistingRefs": "adicionar como refs existentes"
 	},
 	"settings": {

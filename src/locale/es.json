@@ -47,7 +47,7 @@
 		"findPoint": "encuentre un punto",
 		"referenceFinder": "Buscador de Referencias",
 		"coreVer": "Versión principal",
-		"clearExistingRefs": "Restablecer refs",
+		"clearExistingRefs": "Limpiar refs",
 		"addAsExistingRefs": "agregar como refs existentes"
 	},
 	"settings": {
