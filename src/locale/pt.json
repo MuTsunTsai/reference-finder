@@ -6,18 +6,18 @@
 		"Faça o vinco {{x}} trazendo {{p0}} para {{p1}}.",
 		"Faça o vinco {{x}} trazendo {{l0}} para {{l1}}.",
 		"Faça o vinco {{x}} colocando {{l0}} em si mesmo, passando por {{p0}}.",
-		"Faça o vinco {{x}} trazendo {{p0}} para {{l0}}, passando por {{p1}}.",
-		"Faça o vinco {{x}} trazendo {{p0}} para {{l0}} e {{p1}} para {{l1}}.",
-		"Faça o vinco {{x}} colocando {{l1}} em si mesmo e levando {{p0}} para {{l0}}."
+		"Faça o vinco {{x}} trazendo {{n.0}} para {{n.1}}, passando por {{p1}}.",
+		"Faça o vinco {{x}} trazendo {{n.0}} para {{n.1}} e {{n.2}} para {{n.3}}.",
+		"Faça o vinco {{x}} colocando {{l1}} em si mesmo e levando {{n.0}} para {{n.1}}."
 	],
 	"axiom_solution": [
 		"A soluçăo é feita dobrando através da {{p0}} e {{p1}}.",
 		"A soluçăo é feita trazendo {{p0}} para {{p1}}.",
 		"A soluçăo é feita trazendo {{l0}} para {{l1}}.",
 		"A soluçăo é feita trazendo {{l0}} para si mesmo, passando por {{p0}}.",
-		"A soluçăo é feita trazendo {{p0}} para {{l0}}, passando por {{p1}}.",
-		"A soluçăo é feita trazendo {{p0}} para {{l0}} e {{p1}} para {{l1}}.",
-		"A soluçăo é feita trazendo {{l1}} para si mesmo e trazendo {{p0}} para {{l0}}."
+		"A soluçăo é feita trazendo {{n.0}} para {{n.1}}, passando por {{p1}}.",
+		"A soluçăo é feita trazendo {{n.0}} para {{n.1}} e {{n.2}} para {{n.3}}.",
+		"A soluçăo é feita trazendo {{l1}} para si mesmo e trazendo {{n.0}} para {{n.1}}."
 	],
 	"intersection": "O ponto {{x}} está na interseçăo da {{l0}} e {{l1}}.",
 	"intersection_solution": "A soluçăo está na interseçăo da {{l0}} e {{l1}}.",
@@ -31,7 +31,9 @@
 		"s": "aresta inferior",
 		"w": "aresta esquerda",
 		"sw_ne": "diagonal ascendente",
-		"nw_se": "diagonal descendente"
+		"nw_se": "diagonal descendente",
+		"existingMark": "marca existente",
+		"existingLine": "linha existente"
 	},
 	"phrase": {
 		"point": "ponto",
@@ -44,7 +46,9 @@
 		"referenceFinder": "Localizador de Referência",
 		"settings": "configurações",
 		"initializing": "Inicializando...",
-		"coreVer": "Versão principal"
+		"coreVer": "Versão principal",
+		"clearExistingRefs": "Limpar refs",
+		"addAsExistingRefs": "adicionar como refs existentes"
 	},
 	"settings": {
 		"reset": "Redefinir para os padrões",

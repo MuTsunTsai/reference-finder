@@ -6,18 +6,18 @@
 		"Haga el pliegue {{x}} llevando {{p0}} a {{p1}}.",
 		"Haga el pliegue {{x}} llevando {{l0}} a {{l1}}.",
 		"Haga el pliegue {{x}} que pasa por {{p0}} llevando {{l0}} sobre ella misma.",
-		"Haga que el pliegue {{x}} pase por {{p1}} llevando {{p0}} a {{l0}}.",
-		"Haga el pliegue {{x}} llevando {{p0}} a {{l0}} y {{p1}} a {{l1}}.",
-		"Haga el pliegue {{x}} que lleva {{p0}} a {{l0}} llevando {{l1}} sobre ella misma."
+		"Haga que el pliegue {{x}} pase por {{p1}} llevando {{n.0}} a {{n.1}}.",
+		"Haga el pliegue {{x}} llevando {{n.0}} a {{n.1}} y {{n.2}} a {{n.3}}.",
+		"Haga el pliegue {{x}} que lleva {{n.0}} a {{n.1}} llevando {{l1}} sobre ella misma."
 	],
 	"axiom_solution": [
 		"La solución se logra plegando entre {{p0}} y {{p1}}.",
 		"La solución se logra llevando {{p0}} a {{p1}}.",
 		"La solución se logra llevando {{l0}} a {{l1}}.",
 		"La solución se logra llevando {{l0}} sobre ella misma, pasando por {{p0}}.",
-		"La solución se logra llevando {{p0}} a {{l0}}, pasando por {{p1}}.",
-		"La solución se logra llevando {{p0}} a {{l0}} y {{p1}} a {{l1}}.",
-		"La solución se logra llevando {{l1}} sobre ella misma y llevando {{p0}} a {{l0}}."
+		"La solución se logra llevando {{n.0}} a {{n.1}}, pasando por {{p1}}.",
+		"La solución se logra llevando {{n.0}} a {{n.1}} y {{n.2}} a {{n.3}}.",
+		"La solución se logra llevando {{l1}} sobre ella misma y llevando {{n.0}} a {{n.1}}."
 	],
 	"intersection": "{{x}} es la intersección de {{l0}} y {{l1}}.",
 	"intersection_solution": "La solución es la intersección de {{l0}} y {{l1}}.",
@@ -31,20 +31,24 @@
 		"s": "el borde inferior",
 		"w": "el borde izquierdo",
 		"sw_ne": "la diagonal que va hacia arriba",
-		"nw_se": "la diagonal que va hacia abajo"
+		"nw_se": "la diagonal que va hacia abajo",
+		"existingMark": "marca existente",
+		"existingLine": "línea existente"
 	},
 	"phrase": {
+		"settings": "ajustes",
 		"point": "punto",
 		"line": "línea",
 		"error": "error",
 		"solution": "solución",
 		"go": "ir",
+		"initializing": "Inicializando...",
 		"findLine": "encuentre una línea",
 		"findPoint": "encuentre un punto",
 		"referenceFinder": "Buscador de Referencias",
-		"settings": "ajustes",
-		"initializing": "Inicializando...",
-		"coreVer": "Versión principal"
+		"coreVer": "Versión principal",
+		"clearExistingRefs": "Limpiar refs",
+		"addAsExistingRefs": "agregar como refs existentes"
 	},
 	"settings": {
 		"reset": "Restablecer los valores predeterminados",

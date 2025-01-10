@@ -120,18 +120,17 @@ Export the construction of this line.
 JsonObject RefLine_P2L_C2P::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 5);
+	rm1->PutName("p0", step);
+	rl1->PutName("l0", step);
+	rm2->PutName("p1", step);
 	switch(mWhoMoves) {
 	case WHOMOVES_P1:
-		rm1->PutName("p0", step);
-		rl1->PutName("l0", step);
+		step.add("order", "p0,l0");
 		break;
-
 	case WHOMOVES_L1:
-		rl1->PutName("p0", step);
-		rm1->PutName("l0", step);
+		step.add("order", "l0,p0");
 		break;
 	};
-	rm2->PutName("p1", step);
 	PutName("x", step);
 
 	if(mForMark != nullptr) step.add("pinch", 1);

@@ -4,7 +4,7 @@ import { Preview } from "./svg/preview";
 import { FormEvent, useMemo, useState } from "react";
 import { PointInput } from "./form/point-input";
 import { useDB, useSettings, useStore } from "../store";
-import { useWorker } from "../bridge";
+import { resetWorker, useWorker } from "../bridge";
 import { Settings } from "./settings/settings";
 import { Statistics } from "./statistics/statistics";
 import { useTranslation } from "react-i18next";
@@ -46,12 +46,17 @@ export function Panel({ onSubmit }: PanelProps) {
 		useWorker().postMessage(query.map(Number));
 	}
 
+	function clearExistingRefs() {
+		useStore.setState({ existingRefs: [], existingLines: [], existingMarks: [], solutions: [] });
+		resetWorker(useDB.getState(), false);
+	}
+
 	return (
 		<div className="row mt-3 justify-content-center">
 			<div className="col mb-3" style={{ flex: "0 1 12rem" }}>
 				<Preview cp={cp} points={points} />
 			</div>
-			<form className="col mb-3" onSubmit={find} style={{ flex: "1 0 36rem" }}>
+			<form className="col mb-3" style={{ flex: "1 0 36rem" }} onSubmit={find}>
 				<div className="row mb-2 pb-1">
 					<div className="col-auto">
 						<div className="form-check">
@@ -90,17 +95,23 @@ export function Panel({ onSubmit }: PanelProps) {
 				}
 				<div className="row mt-2 gx-2">
 					<div className="col">
-						<Settings /> <Statistics />
+						<Settings /> <Statistics />	{
+							(store.existingMarks.length > 0 || store.existingLines.length > 0) &&
+							<button type="button" className="btn btn-secondary me-1" onClick={clearExistingRefs}>
+								<i className="fa-solid fa-trash"></i><span className="d-none d-sm-inline">&nbsp;<span className="capitalize">{t("phrase.clearExistingRefs")}</span></span>
+							</button>
+						}
 					</div>
 					<div className="col-auto text-end">
-						<button type="submit" className="btn btn-primary" disabled={store.running}>
-							{store.running && !store.ready ?
-								<span className="capitalize">
-									{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
-								</span> :
-								<><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></>
-							}
-						</button>
+						{
+							(store.running && !store.ready) ?
+								<button type="submit" className="btn btn-primary" disabled>
+									<span className="capitalize">{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i></span>
+								</button> :
+								<button type="submit" className="btn btn-primary">
+									<i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span>
+								</button>
+						}
 					</div>
 				</div>
 			</form>

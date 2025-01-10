@@ -313,33 +313,22 @@ Export the construction of this line.
 JsonObject RefLine_P2L_P2L::Serialize() const {
 	JsonObject step;
 	step.add("axiom", 6);
+	rm1->PutName("p0", step);
+	rl1->PutName("l0", step);
+	rm2->PutName("p1", step);
+	rl2->PutName("l1", step);
 	switch(mWhoMoves) {
 	case WHOMOVES_P1P2:
-		rm1->PutName("p0", step);
-		rl1->PutName("l0", step);
-		rm2->PutName("p1", step);
-		rl2->PutName("l1", step);
+		step.add("order", "p0,l0,p1,l1");
 		break;
-
 	case WHOMOVES_L1L2:
-		rl1->PutName("l0", step);
-		rm1->PutName("p0", step);
-		rl2->PutName("l1", step);
-		rm2->PutName("p1", step);
+		step.add("order", "l0,p0,l1,p1");
 		break;
-
 	case WHOMOVES_P1L2:
-		rm1->PutName("p0", step);
-		rl1->PutName("l0", step);
-		rl2->PutName("l1", step);
-		rm2->PutName("p1", step);
+		step.add("order", "p0,l0,l1,p1");
 		break;
-
 	case WHOMOVES_P2L1:
-		rl1->PutName("l0", step);
-		rm1->PutName("p0", step);
-		rm2->PutName("p1", step);
-		rl2->PutName("l1", step);
+		step.add("order", "l0,p0,p1,l1");
 		break;
 	};
 	PutName("x", step);

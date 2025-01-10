@@ -1,9 +1,10 @@
 import ear from "rabbit-ear";
 import { useEffect, useRef, useState } from "react";
+import { ElementType, useStore } from "../../store";
 
 import "./svg.scss";
 
-import type { RabbitEarSVG } from "rabbit-ear";
+import type { RabbitEarOrigami, RabbitEarSVG } from "rabbit-ear";
 
 function createRabbitEar(width: number, height: number, padding: number) {
 	const svg = ear.svg();
@@ -45,4 +46,23 @@ export function Svg({ render, width, height, padding }: SvgProps) {
 	});
 
 	return <div ref={ref}></div>;
+}
+
+type Transform = (pt: IPoint) => IPoint;
+
+/**
+ * Add existing creases from previous solutions to the preview.
+ */
+export function drawExistingRefs(root: RabbitEarOrigami, transform: Transform = p => p) {
+	const { existingRefs } = useStore.getState();
+	for(const ref of existingRefs) {
+		if(ref.type == ElementType.line) {
+			const line = root.edges.line(transform(ref.from), transform(ref.to));
+			line.classList.add("line-crease");
+		}
+		if(ref.type == ElementType.point) {
+			const circle = root.vertices.circle(transform(ref.pt), 0.02);
+			circle.classList.add("point-normal");
+		}
+	}
 }

@@ -1,6 +1,11 @@
 
 # Change log
 
+## v4.6
+
+- One can add all references in a solution as existing references, and continue the search from there.
+- Fixes descriptions in axioms 5, 6, and 7.
+
 ## v4.5
 
 - Allowing disabling divisions to generate all references found (up to rank 5).

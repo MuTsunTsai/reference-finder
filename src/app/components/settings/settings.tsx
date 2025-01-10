@@ -1,7 +1,7 @@
 import { Suspense, lazy, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { defaultDB, defaultSettings, useDB, useSettings } from "../../store";
+import { defaultDB, defaultSettings, useDB, useSettings, useStore } from "../../store";
 import { resetWorker } from "../../bridge";
 import { SettingsContext } from "./context";
 
@@ -28,6 +28,7 @@ export function Settings() {
 	const [cacheSettings, cacheTempSettings] = useState(structuredClone(settings));
 	const [tempDb, setTempDb] = useState(structuredClone(db));
 	const ref = useRef(null);
+	const store = useStore();
 	const handleShow = async () => {
 		setOpen(true);
 		gtag("event", "ref_show_settings");
@@ -102,6 +103,7 @@ export function Settings() {
 
 function hasChanged<T extends object>(oldV: T, newV: T): boolean {
 	for(const key in oldV) {
+		if(!newV[key]) return true; // check if newV has attribute key; if not, return true (db has changed)
 		if(Array.isArray(oldV[key])) {
 			if(hasChanged(oldV[key] as unknown[], newV[key] as unknown[])) return true;
 		} else {

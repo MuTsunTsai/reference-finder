@@ -3,7 +3,7 @@ File:         ReferenceFinder.cpp
 Project:      ReferenceFinder 4.x
 Purpose:      Implementation for ReferenceFinder generic model
 Author:       Robert J. Lang
-Modified by:  Mu-Tsun Tsai
+Modified by:  Mu-Tsun Tsai, Omri Shavit
 Created:      2006-04-22
 Copyright:    ©1999-2007 Robert J. Lang. All Rights Reserved.
 ******************************************************************************/
@@ -258,8 +258,8 @@ void ReferenceFinder::BuildAndExportDatabase() {
 		}
 	}
 
-	// Start by clearing out any old marks or lines; this is so we can restart if
-	// we want.
+	// Start by clearing out any old marks or lines; this is so we can restart if we want.
+	// Edit: We add the old marks and lines back in when the user requests additional reference points/lines.
 	sBasisLines.Rebuild();
 	sBasisMarks.Rebuild();
 
@@ -272,32 +272,63 @@ void ReferenceFinder::BuildAndExportDatabase() {
 
 	Paper &sPaper = Shared::sPaper;
 
-	// Rank 0: Construct the four edges of the square.
-	sBasisLines.Add(new RefLine_Original(sPaper.mBottomEdge, 0, string("s")));
-	sBasisLines.Add(new RefLine_Original(sPaper.mLeftEdge, 0, string("w")));
-	sBasisLines.Add(new RefLine_Original(sPaper.mRightEdge, 0, string("e")));
-	sBasisLines.Add(new RefLine_Original(sPaper.mTopEdge, 0, string("n")));
+	// Rank 0: Original references and existing ones
+	{
+		// Construct the four edges of the square.
+		vector<RefLine *> orgLines; // To avoid accessing the buffer of sBasisLines
+		orgLines.push_back(new RefLine_Original(sPaper.mBottomEdge, 0, string("s")));
+		orgLines.push_back(new RefLine_Original(sPaper.mLeftEdge, 0, string("w")));
+		orgLines.push_back(new RefLine_Original(sPaper.mRightEdge, 0, string("e")));
+		orgLines.push_back(new RefLine_Original(sPaper.mTopEdge, 0, string("n")));
 
-	// Rank 0: Construct the four corners of the square.
-	sBasisMarks.Add(new RefMark_Original(sPaper.mBotLeft, 0, string("sw")));
-	sBasisMarks.Add(new RefMark_Original(sPaper.mBotRight, 0, string("se")));
-	sBasisMarks.Add(new RefMark_Original(sPaper.mTopLeft, 0, string("nw")));
-	sBasisMarks.Add(new RefMark_Original(sPaper.mTopRight, 0, string("ne")));
+		// Construct the four corners of the square.
+		sBasisMarks.Add(new RefMark_Original(sPaper.mBotLeft, 0, string("sw")));
+		sBasisMarks.Add(new RefMark_Original(sPaper.mBotRight, 0, string("se")));
+		sBasisMarks.Add(new RefMark_Original(sPaper.mTopLeft, 0, string("nw")));
+		sBasisMarks.Add(new RefMark_Original(sPaper.mTopRight, 0, string("ne")));
 
-	// Flush the buffers.
-	sBasisLines.FlushBuffer(0);
-	sBasisMarks.FlushBuffer(0);
+		// Add existing points and lines
+		for(const auto &mark: Shared::existingMarks) {
+			sBasisMarks.Add(new RefMark_Original(mark, 0, string("_")));
+		}
+		for(const auto &line: Shared::existingLines) {
+			// In theory, these won't be the sheet boundaries
+			orgLines.push_back(new RefLine_Original(line, 0, string("_")));
+		}
+
+		for(auto &l: orgLines) sBasisLines.Add(l); // Add to buffer
+
+		// Also add all intersections of existing lines
+		const int n = orgLines.size();
+		for(int i = 4; i < n; i++) { // At least one of the lines must be from user input
+			for(int j = 0; j < i; j++) {
+				RefMark_Intersection rmi(orgLines[i], orgLines[j]);
+				if(rmi.mKey == 0) continue; // no intersection
+				RefMark_Original rmo(rmi.p, 0, string("_"));
+				sBasisMarks.AddCopyIfValidAndUnique(rmo);
+			}
+		}
+
+		// Flush the buffers.
+		sBasisLines.FlushBuffer(0);
+		sBasisMarks.FlushBuffer(0);
+	}
 
 	// Report our status for rank 0.
 	ShowProgress(DATABASE_RANK_COMPLETE, 0);
 
 	// Rank 1: Construct the two diagonals.
-	sBasisLines.Add(new RefLine_Original(sPaper.mUpwardDiagonal, 1, string("sw_ne")));
-	sBasisLines.Add(new RefLine_Original(sPaper.mDownwardDiagonal, 1, string("nw_se")));
+	{
+		// We need to pay attention that existing lines may already include them
+		RefLine_Original d1(sPaper.mUpwardDiagonal, 1, string("sw_ne"));
+		RefLine_Original d2(sPaper.mDownwardDiagonal, 1, string("nw_se"));
+		sBasisLines.AddCopyIfValidAndUnique(d1);
+		sBasisLines.AddCopyIfValidAndUnique(d2);
 
-	// Flush the buffers.
-	sBasisLines.FlushBuffer(1);
-	sBasisMarks.FlushBuffer(1);
+		// Flush the buffers.
+		sBasisLines.FlushBuffer(1);
+		sBasisMarks.FlushBuffer(1);
+	}
 
 	// Now build the rest, one rank at a time, starting with rank 1. This can
 	// be terminated by a EXC_HALT if the user cancelled during the callback.

@@ -18,11 +18,14 @@ export function StepComponent({ data, last }: StepComponentProps) {
 		s.p1 = format(s.p1, true);
 		s.l0 = format(s.l0);
 		s.l1 = format(s.l1);
+		if(s.order) s.n = s.order.split(",").map(v => s[v as keyof StepBase]) as string[];
 	}
 
 	function format(v: string | undefined, point?: boolean): string | undefined {
 		if(typeof v !== "string") return v;
-		if(v == v.toLowerCase()) {
+		if(v === "_") {
+			v = point ? t("paper.existingMark") : t("paper.existingLine");
+		} else if(v == v.toLowerCase()) {
 			v = t("paper." + v);
 		} else if(point) {
 			v = t("phrase.point") + " " + v;
@@ -55,13 +58,13 @@ export function StepComponent({ data, last }: StepComponentProps) {
 						<span> </span>
 					</div>
 					{step.intersection &&
-					<div>
-						{purge((last ?
-							t(`intersection_solution`, { ...step.intersection }) :
-							t(`intersection`, { ...step.intersection })) +
+						<div>
+							{purge((last ?
+								t(`intersection_solution`, { ...step.intersection }) :
+								t(`intersection`, { ...step.intersection })) +
 								(step.pinch ? " " + t("pinch") : "")
-						)}
-					</div>
+							)}
+						</div>
 					}
 				</>
 			}

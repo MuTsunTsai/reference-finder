@@ -20,7 +20,6 @@ export function startStatistics(trials: number, callback: typeof statisticsCallb
 
 function parseSolution(text: string) {
 	const solution = JSON.parse(text) as Solution;
-	console.log(solution);
 	const steps = solution.steps;
 	solution.steps = [];
 	for(const step of steps) {
@@ -30,11 +29,11 @@ function parseSolution(text: string) {
 	return solution;
 }
 
-export function resetWorker(db: DbSettings) {
+export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
 	let forceRebuild = false;
 	if(worker) {
 		worker.terminate();
-		forceRebuild = true;
+		if(forceRebuildIfInitialized) forceRebuild = true;
 		useStore.setState({ running: false, ready: false, progress: null, coreError: null });
 		console.log("Reset worker");
 	}
@@ -43,8 +42,25 @@ export function resetWorker(db: DbSettings) {
 		/* webpackChunkName: "ref" */ new URL("./worker.ts", import.meta.url)
 	);
 	const { useDB } = useSettings.getState();
+
+	// Get existing marks and lines from the store
+	const store = useStore.getState();
+	const existingMarks = store.existingMarks;
+	const existingLines = store.existingLines;
+
+	// Flatten existingMarks and existingLines into lists of numbers for sending to the core
+	const existingMarksFlat = existingMarks.reduce((acc, e: IPoint) => {
+		acc.push(e[0], e[1]);
+		return acc;
+	}, [] as number[]);
+	const existingLinesFlat = existingLines.reduce((acc, e: ISegment) => {
+		acc.push(e[0][0], e[0][1], e[1][0], e[1][1]);
+		return acc;
+	}, [] as number[]);
+
+	// Send the message to the worker
 	worker.postMessage([
-		idbSupported && useDB,
+		idbSupported && useDB && existingMarks.length === 0 && existingLines.length === 0,
 		forceRebuild,
 		db.width,
 		db.height,
@@ -60,6 +76,11 @@ export function resetWorker(db: DbSettings) {
 		db.minAspectRatio,
 		db.minAngleSine,
 		db.visibility,
+		// Pass in existing lines and marks
+		existingMarks.length,
+		...existingMarksFlat,
+		existingLines.length,
+		...existingLinesFlat,
 	]);
 	worker.onmessage = e => {
 		const msg = e.data;

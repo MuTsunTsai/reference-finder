@@ -1,6 +1,6 @@
 import ear from "rabbit-ear";
 import { useDB } from "../../store";
-import { Svg } from "./svg";
+import { drawExistingRefs, Svg } from "./svg";
 
 import type { RabbitEarSVG } from "rabbit-ear";
 
@@ -21,6 +21,9 @@ export function Preview({ cp, points }: PreviewProps) {
 
 		const root = svg.origami(cp);
 		root.setAttribute("transform", `translate(0 ${height}) scale(1 -1)`); // lower-left origin
+
+		drawExistingRefs(root);
+
 		if(points) {
 			for(const pt of points) {
 				const circle = root.vertices.circle(pt, 0.03);

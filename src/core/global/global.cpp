@@ -66,3 +66,8 @@ int Shared::sDatabaseStatusSkip = 800000;
 
 // Variables used when we calculate statistics on the database
 int Shared::sNumTrials = 1000; // number of test cases total
+
+// Existing marks and lines
+std::vector<XYPt> Shared::existingMarks;
+std::vector<XYLine> Shared::existingLines;
+

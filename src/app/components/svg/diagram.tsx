@@ -1,5 +1,5 @@
 import ear from "rabbit-ear";
-import { Svg } from "./svg";
+import { drawExistingRefs, Svg } from "./svg";
 
 import "./diagram.scss";
 
@@ -54,10 +54,13 @@ export function Diagram({ data, last, padding }: DiagramProps) {
 	function render(svg: RabbitEarSVG) {
 		const root = svg.origami(ear.cp.rectangle(width, height));
 		root.setAttribute("transform", `translate(0 ${height}) scale(1 -1)`); // lower-left origin
+
+		drawExistingRefs(root, scale);
+
 		for(const el of data) {
 			if(!el) continue;
 			if(el.type == ElementType.point) {
-				const pt = root.edges.circle(scale(el.pt), el.style == PointStyle.normal ? 0.02 : 0.03);
+				const pt = root.vertices.circle(scale(el.pt), el.style == PointStyle.normal ? 0.02 : 0.03);
 				pt.classList.add("point-" + PointStyle[el.style]);
 			}
 			if(el.type == ElementType.line) {

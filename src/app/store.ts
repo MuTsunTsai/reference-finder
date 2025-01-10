@@ -9,7 +9,8 @@ export interface Solution {
 	diagrams: DiagramElement[][];
 }
 
-export type DiagramElement = PointElement | LineElement | ArcElement | PolyElement | LabelElement | null;
+export type RefElement = PointElement | LineElement;
+export type DiagramElement = RefElement | ArcElement | PolyElement | LabelElement | null;
 
 export interface StepBase {
 	axiom: number;
@@ -18,6 +19,10 @@ export interface StepBase {
 	l0?: string;
 	l1?: string;
 	x: string;
+	order?: string;
+
+	/** Generated in UI, if {@link order} is given. */
+	n?: string[];
 }
 
 export interface Step extends StepBase {
@@ -59,6 +64,9 @@ const defaultStore = {
 	solutions: [] as Solution[],
 	statisticsRunning: false,
 	computedTheme: Theme.light,
+	existingRefs: [] as RefElement[], // for rendering on the preview paper
+	existingMarks: [] as IPoint[], // for computing new solutions from previous ones
+	existingLines: [] as ISegment[], // for computing new solutions from previous ones
 };
 
 export const defaultDB = {
