@@ -1,5 +1,6 @@
 import { Suspense, lazy, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { createPortal } from "react-dom";
 
 import { startStatistics, useWorker } from "../../bridge";
 import { SettingsRow } from "../form/settings-row";
@@ -79,83 +80,86 @@ export function Statistics() {
 				<i className="fa-solid fa-chart-simple" />
 				<span className="d-none d-sm-inline-block">&nbsp;{t("statistics._")}</span>
 			</button>
-			<div className="modal fade" ref={ref}>
-				<div className="modal-dialog modal-dialog-centered">
-					<div className="modal-content">
-						<div className="modal-header">
-							{t("statistics._")}
-							<InfoTooltip title={t("help.statistics")} />
-						</div>
-						<div className="modal-body">
-							<div className="grid">
-								<SettingsRow label={store.statisticsRunning ?
-									(progress < 0 ? "Initializing..." : `${progress} / ${settings.trials}`) :
-									t("statistics.trials")}
-								>
-									<div className="row gx-3 align-items-center">
-										{store.statisticsRunning ?
-											<>
-												<div className="col">
-													<div className="progress">
-														<div
-															className="progress-bar progress-bar-striped progress-bar-animated"
-															style={{ width: percentage + "%" }}
-														>
-															{Math.floor(percentage)}%
+			{createPortal(
+				<div className="modal fade" ref={ref}>
+					<div className="modal-dialog modal-dialog-centered">
+						<div className="modal-content">
+							<div className="modal-header">
+								{t("statistics._")}
+								<InfoTooltip title={t("help.statistics")} />
+							</div>
+							<div className="modal-body">
+								<div className="grid">
+									<SettingsRow label={store.statisticsRunning ?
+										(progress < 0 ? "Initializing..." : `${progress} / ${settings.trials}`) :
+										t("statistics.trials")}
+									>
+										<div className="row gx-3 align-items-center">
+											{store.statisticsRunning ?
+												<>
+													<div className="col">
+														<div className="progress">
+															<div
+																className="progress-bar progress-bar-striped progress-bar-animated"
+																style={{ width: percentage + "%" }}
+															>
+																{Math.floor(percentage)}%
+															</div>
 														</div>
 													</div>
-												</div>
-												<div className="col col-auto">
-													<button
-														className="btn btn-secondary capitalize"
-														type="button"
-														onClick={cancel}
-														disabled={canceling}
-													>
-														{t("keyword.cancel")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
-													</button>
-												</div>
-											</> :
-											<>
-												<div className="col">
-													<IntInput
-														value={settings.trials}
-														min={1}
-														onInput={v => useSettings.setState({ trials: v })}
-													/>
-												</div>
-												<div className="col col-auto">
-													<button
-														className="btn btn-primary"
-														type="button"
-														onClick={run}
-														disabled={!store.ready || store.statisticsRunning}
-													>
-														{!store.ready ?
-															<span className="capitalize">
-																{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
-															</span> :
-															<><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></>
-														}
-													</button>
-												</div>
-											</>
-										}
-									</div>
-								</SettingsRow>
+													<div className="col col-auto">
+														<button
+															className="btn btn-secondary capitalize"
+															type="button"
+															onClick={cancel}
+															disabled={canceling}
+														>
+															{t("keyword.cancel")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
+														</button>
+													</div>
+												</> :
+												<>
+													<div className="col">
+														<IntInput
+															value={settings.trials}
+															min={1}
+															onInput={v => useSettings.setState({ trials: v })}
+														/>
+													</div>
+													<div className="col col-auto">
+														<button
+															className="btn btn-primary"
+															type="button"
+															onClick={run}
+															disabled={!store.ready || store.statisticsRunning}
+														>
+															{!store.ready ?
+																<span className="capitalize">
+																	{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
+																</span> :
+																<><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></>
+															}
+														</button>
+													</div>
+												</>
+											}
+										</div>
+									</SettingsRow>
+								</div>
+								{open &&
+									<Suspense>
+										<StatReport data={data} />
+									</Suspense>
+								}
 							</div>
-							{open &&
-								<Suspense>
-									<StatReport data={data} />
-								</Suspense>
-							}
-						</div>
-						<div className="modal-footer">
-							<button type="button" className="btn btn-secondary" data-bs-dismiss="modal" disabled={store.statisticsRunning}>{t("keyword.ok")}</button>
+							<div className="modal-footer">
+								<button type="button" className="btn btn-secondary" data-bs-dismiss="modal" disabled={store.statisticsRunning}>{t("keyword.ok")}</button>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+				</div>,
+				document.body
+			)}
 		</>
 	);
 }

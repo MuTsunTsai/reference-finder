@@ -1,5 +1,6 @@
 import { Suspense, lazy, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { createPortal } from "react-dom";
 
 import { defaultDB, defaultSettings, useDB, useSettings } from "../../store";
 import { resetWorker } from "../../bridge";
@@ -60,44 +61,48 @@ export function Settings() {
 				&nbsp;<span className="capitalize">{t("phrase.settings")}</span>
 			</span>
 		</button>
-		<div className="modal fade" ref={ref}>
-			<div className="modal-dialog modal-dialog-centered">
-				<div className="modal-content">
-					{open &&
-						<SettingsContext.Provider value={{ tempDb, setTempDb }}>
-							<Suspense fallback={<Loading />}>
-								<SettingsBody />
-							</Suspense>
-						</SettingsContext.Provider>
-					}
-					<div className="modal-footer">
-						<div className="flex-grow-1">
-							<button type="button" className="btn btn-secondary" onClick={reset}>{t("settings.reset")}</button>
-						</div>
-						<div>
-							{hasChanged(db, tempDb) &&
-								<InfoTooltip
-									title={t("settings.reInit")}
-									className="fa-solid fa-triangle-exclamation text-warning me-3"
-								/>
-							}
-							<button
-								type="button"
-								className="btn btn-secondary me-2 capitalize"
-								data-bs-dismiss="modal"
-								onClick={handleCancel}
-							>{t("keyword.cancel")}</button>
-							<button
-								type="button"
-								className="btn btn-primary"
-								data-bs-dismiss="modal"
-								onClick={handleSave}
-							>{t("keyword.ok")}</button>
+		{createPortal(
+			<div className="modal fade" ref={ref}>
+				<div className="modal-dialog modal-dialog-centered">
+					<div className="modal-content">
+						{open &&
+							<SettingsContext.Provider value={{ tempDb, setTempDb }}>
+								<Suspense fallback={<Loading />}>
+									<SettingsBody />
+								</Suspense>
+							</SettingsContext.Provider>
+						}
+						<div className="modal-footer">
+							<div className="flex-grow-1">
+								<button type="button" className="btn btn-secondary" onClick={reset}>{t("settings.reset")}</button>
+							</div>
+							<div>
+								{hasChanged(db, tempDb) &&
+									<InfoTooltip
+										title={t("settings.reInit")}
+										className="fa-solid fa-triangle-exclamation text-warning me-3"
+									/>
+								}
+								<button
+									type="button"
+									className="btn btn-secondary me-2 capitalize"
+									data-bs-dismiss="modal"
+									onClick={handleCancel}
+								>{t("keyword.cancel")}</button>
+								<button
+									type="button"
+									className="btn btn-primary"
+									data-bs-dismiss="modal"
+									onClick={handleSave}
+								>{t("keyword.ok")}</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+			</div>,
+			document.body
+		)}
+
 	</>;
 }
 
