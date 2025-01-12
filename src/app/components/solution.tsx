@@ -3,7 +3,7 @@ import { useRef } from "react";
 
 import { ElementType, LineStyle, PointStyle, useDB, useSettings, useStore } from "../store";
 import { StepComponent } from "./step";
-import { DIAGRAM_ZOOM, Diagram } from "./svg/diagram";
+import { Diagram } from "./svg/diagram";
 import { Exact } from "./exact";
 import { resetWorker } from "../bridge";
 
@@ -19,6 +19,7 @@ interface AddButtonProps {
 	data: Solution;
 }
 
+const DIAGRAM_ZOOM = 1.15;
 const DIAGRAM_PADDING = 0.18;
 const DIAGRAM_SIZE = `${12 * DIAGRAM_ZOOM}rem`;
 
@@ -135,7 +136,11 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 				<div ref={ref} className="card-header d-sm-none" onClick={handleSelect} style={{ cursor: "pointer" }}>
 					<div className="row gx-0 justify-content-center align-items-top">
 						<div className="col solution-preview" style={{ flex: "0 1 9rem" }}>
-							<Diagram data={data.diagrams[data.diagrams.length - 1]} padding={DIAGRAM_PADDING} />
+							<Diagram
+								zoom={DIAGRAM_ZOOM}
+								data={data.diagrams[data.diagrams.length - 1]}
+								padding={DIAGRAM_PADDING}
+							/>
 						</div>
 						<div className="col mb-2 ps-3 mt-2" style={{ flex: "1 0 8rem" }}>
 							<div>{solution}</div>
@@ -161,6 +166,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 							<div className="row justify-content-center">
 								<div className="col" style={{ flex: `0 1 ${DIAGRAM_SIZE}` }}>
 									<Diagram
+										zoom={DIAGRAM_ZOOM}
 										data={data.diagrams[i]}
 										last={i == data.steps.length - 1}
 										padding={DIAGRAM_PADDING}
