@@ -61,7 +61,7 @@ export default [
 	{
 		name: "Plugin:import",
 		...pluginImport.flatConfigs.typescript,
-		files: ["**/*.ts", "eslint.config.mjs"],
+		files: ["**/*.{ts,tsx}", "eslint.config.mjs"],
 		plugins: {
 			import: pluginImport,
 		},

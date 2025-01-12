@@ -1,10 +1,12 @@
 import ear from "rabbit-ear";
+
 import { drawExistingRefs, Svg } from "./svg";
+import { ElementType, LabelStyle, LineStyle, PointStyle } from "../../store";
 
 import "./diagram.scss";
 
+import type { LabelElement, DiagramElement, PolyElement } from "../../store";
 import type { RabbitEarOrigami, RabbitEarSVG } from "rabbit-ear";
-import { ElementType, LabelElement, LabelStyle, LineStyle, PointStyle, type DiagramElement, type PolyElement } from "../../store";
 
 interface DiagramProps {
 	data: DiagramElement[];

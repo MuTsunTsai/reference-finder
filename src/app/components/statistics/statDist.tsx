@@ -1,12 +1,12 @@
 import { Bar } from "react-chartjs-2";
 import { color } from "chart.js/helpers";
+import { useState } from "react";
+
 import { Theme, useSettings } from "../../store";
-import { getMinMax, usePrimary, useTheme } from "./chart";
-import { BUCKET_COUNT } from "./chart";
+import { getMinMax, usePrimary, useTheme, BUCKET_COUNT } from "./chart";
 
 import type { ChartData, ChartOptions } from "chart.js";
 import type { StatData } from "./chart";
-import { useState } from "react";
 
 function getCounts(data: number[], buckets: number[]): number[] {
 	const counts: number[] = [];

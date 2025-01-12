@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { supportedLngs } from "../../locale";
 import { useEffect } from "react";
+
+import { supportedLngs } from "../../locale";
 
 export function Locale() {
 	const { t, i18n } = useTranslation();

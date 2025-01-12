@@ -1,7 +1,9 @@
 import { useTranslation } from "react-i18next";
+
 import { useDB } from "../../store";
 import { ExpInput } from "./exp-input";
-import { InputProps } from "./int-input";
+
+import type { InputProps } from "./int-input";
 
 interface ICoordinates {
 	x: number;

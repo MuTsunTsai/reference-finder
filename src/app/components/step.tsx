@@ -1,5 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Step, StepBase, useSettings } from "../store";
+
+import { useSettings } from "../store";
+
+import type { Step, StepBase } from "../store";
 
 interface StepComponentProps {
 	data: Step;

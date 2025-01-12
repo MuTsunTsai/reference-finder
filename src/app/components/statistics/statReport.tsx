@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { StatDist } from "./statDist";
 import { useState } from "react";
 
-import type { StatData } from "./chart";
+import { StatDist } from "./statDist";
 import { StatSummary } from "./statSummary";
+
+import type { StatData } from "./chart";
 
 interface StatReportProps {
 	data: StatData | null;

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useContext } from "react";
 import {
-	DndContext, DragEndEvent,
+	DndContext,
 	useSensor, useSensors, MouseSensor, TouchSensor, // Needed to work properly on mobile devices
 	closestCenter // This helps prevent weird behavior near the boundary of the parent container
 } from "@dnd-kit/core";
@@ -11,6 +11,8 @@ import { CSS } from "@dnd-kit/utilities";
 import { InfoTooltip } from "../tooltip";
 import { Checkbox } from "../form/checkbox";
 import { SettingsContext } from "./context";
+
+import type { DragEndEvent } from "@dnd-kit/core";
 
 interface AxiomProps {
 	axiom: number;

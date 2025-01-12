@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 import { defaultDB, defaultSettings, useDB, useSettings } from "../../store";
 import { resetWorker } from "../../bridge";
 import { SettingsContext } from "./context";
+import { InfoTooltip } from "../tooltip";
 
 import "./settings.scss";
 import "./axioms.scss";
 import "../form/checkbox.scss";
-import { InfoTooltip } from "../tooltip";
 
 const SettingsBody = lazy(() => import("./settingsBody"));
 

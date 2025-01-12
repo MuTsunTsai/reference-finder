@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./app";
 import structuredClone from "@ungap/structured-clone";
+
+import App from "./app";
 
 import "./locale";
 import "./style.scss";

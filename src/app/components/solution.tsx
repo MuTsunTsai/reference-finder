@@ -1,10 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { ElementType, LineStyle, PointStyle, Solution, useDB, useSettings, useStore } from "../store";
+import { useRef } from "react";
+
+import { ElementType, LineStyle, PointStyle, useDB, useSettings, useStore } from "../store";
 import { StepComponent } from "./step";
 import { DIAGRAM_ZOOM, Diagram } from "./svg/diagram";
-import { useRef } from "react";
 import { Exact } from "./exact";
 import { resetWorker } from "../bridge";
+
+import type { Solution } from "../store";
 
 interface SolutionComponentProps {
 	data: Solution;
