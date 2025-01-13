@@ -24,6 +24,13 @@ void JsonObject::add(char const *key, int value) {
 	mStream << value;
 }
 
+#ifdef _DEBUG_DB_
+void JsonObject::add(char const *key, unsigned int value) {
+	addKey(key);
+	mStream << value;
+}
+#endif
+
 void JsonObject::add(char const *key, double value) {
 	addKey(key);
 	mStream << value;

@@ -20,6 +20,10 @@ class JsonObject {
 	void add(char const *key, const JsonObject &obj);
 	void add(char const *key, const JsonArray &array);
 
+#ifdef _DEBUG_DB_
+	void add(char const *key, unsigned int value);
+#endif
+
   private:
 	std::stringstream mStream;
 	bool mStarted{false};
