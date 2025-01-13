@@ -4,6 +4,8 @@ import { ElementType, useStore } from "../../store";
 
 const MAX_ANGLE_OFFSET = Math.PI / 24; // 7.5 degree
 
+export type RenderFunc = (svg: Renderer) => void;
+
 /**
  * A wrapper class around {@link ear.RabbitEarSVG}.
  */
@@ -16,12 +18,13 @@ export class Renderer {
 	private height: number;
 	private root!: ear.RabbitEarOrigami;
 
-	constructor(width: number, height: number, padding: number) {
+	constructor(width: number, height: number, zoom: number, padding: number) {
 		const svg = ear.svg();
-		svg.size(width, height)
+		svg.size(width * zoom, height * zoom)
 			.padding(padding)
 			.strokeWidth(0.01);
 		this.svg = svg;
+		this.zoom = zoom;
 		this.width = width;
 		this.height = height;
 	}
@@ -30,10 +33,9 @@ export class Renderer {
 		this.svg.innerHTML = `<defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="3" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M 0 0 L 6 3 L 0 6 L 2 3 z" /></marker></defs>`;
 	}
 
-	public init(zoom?: number) {
-		if(zoom !== undefined) this.zoom = zoom;
+	public init() {
 		this.root = this.svg.origami(ear.cp.rectangle(this.width * this.zoom, this.height * this.zoom));
-		this.root.setAttribute("transform", `translate(0 ${this.height}) scale(1 -1)`); // lower-left origin
+		this.root.setAttribute("transform", `translate(0 ${this.height * this.zoom}) scale(1 -1)`); // lower-left origin
 
 		// Draw existing references
 		const { existingRefs } = useStore.getState();
@@ -73,8 +75,9 @@ export class Renderer {
 		if(!ccw) [from, to] = [to, from];
 
 		// Apply a slight offset to the arrow to make it look better
-		from += Math.min(0.075 / radius, MAX_ANGLE_OFFSET);
-		to -= Math.min(0.075 / radius, MAX_ANGLE_OFFSET);
+		const factor = Math.pow(this.zoom, 1.2);
+		from += Math.min(0.075 / factor / radius, MAX_ANGLE_OFFSET);
+		to -= Math.min(0.075 / factor / radius, MAX_ANGLE_OFFSET);
 
 		const arc = this.root.edges.arc(
 			center[0] * this.zoom, center[1] * this.zoom,
@@ -90,7 +93,7 @@ export class Renderer {
 
 	public text(text: string, pt: IPoint, offset: IPoint, className: string): void {
 		const label = this.root.edges.text(text, scale(pt, this.zoom));
-		label.setAttribute("transform", `translate(${offset[0] * this.zoom} ${(2 * pt[1] - 0.05 + offset[1]) * this.zoom}) scale(1 -1)`);
+		label.setAttribute("transform", `translate(${offset[0]} ${(2 * pt[1] * this.zoom - 0.05 + offset[1])}) scale(1 -1)`);
 		label.classList.add(className);
 	}
 }

@@ -166,6 +166,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 							<div className="row justify-content-center">
 								<div className="col" style={{ flex: `0 1 ${DIAGRAM_SIZE}` }}>
 									<Diagram
+										lightbox={true}
 										zoom={DIAGRAM_ZOOM}
 										data={data.diagrams[i]}
 										last={i == data.steps.length - 1}

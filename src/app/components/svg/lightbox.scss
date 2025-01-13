@@ -1,0 +1,13 @@
+.lightbox .modal-dialog {
+	max-width: unset;
+	min-height: unset;
+	justify-content: center;
+	margin: 0;
+	height: 100%;
+
+	.modal-content {
+		width: min(100%, 95vh);
+		border: none;
+		background: none;
+	}
+}
