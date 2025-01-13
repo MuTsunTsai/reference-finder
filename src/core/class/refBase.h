@@ -25,15 +25,6 @@ class RefBase {
   public:
 	// We squeeze a few fields into a union to save memory.
 	union {
-
-#ifndef _DEBUG_DB_
-		/**
-		 * Used to decide whether to override existing refs.
-		 * Used only when the refs are still in the buffer.
-		 */
-		int mScore;
-#endif
-
 		/**
 		 * Unique id for refs that are actually added to the DB.
 		 * Used after leaving buffer, and before initialization complete.
@@ -55,10 +46,11 @@ class RefBase {
 		RefBase *mForMark{nullptr};
 	};
 
-#ifdef _DEBUG_DB_
-	// In debug mode we need to separate this for later printing.
+	/**
+	 * Used to decide whether to override existing refs.
+	 * This is used throughout the initialization, so we cannot put this in the union.
+	 */
 	int mScore;
-#endif
 
 	/**
 	 * A unique key that is used to efficiently store and search over marks and lines.

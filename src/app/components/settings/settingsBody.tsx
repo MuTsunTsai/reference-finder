@@ -23,7 +23,7 @@ export default function SettingsBody() {
 
 	const MAX_DIV = 65_000; // About the sqrt of max unsigned int
 	const MIN_OBJ = 10_000;
-	const MAX_OBJ = 17_000_000; // This is roughly the max number of references that can be generated under the 4GB limit
+	const MAX_OBJ = 16_000_000; // This is roughly the max number of references that can be generated under the 4GB limit
 
 	// Disabling divisions works very poorly for ranks >= 6 in general,
 	// so we place this restriction to save our users the trouble of finding that fact themselves.

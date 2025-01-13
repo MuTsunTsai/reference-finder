@@ -5,6 +5,10 @@
 
 - Add lightbox to the preview and diagram images.
 
+#### Patches
+
+- v4.7.1: Fix scoring system.
+
 ## v4.6
 
 - One can add all references in a solution as existing references, and continue the search from there.
