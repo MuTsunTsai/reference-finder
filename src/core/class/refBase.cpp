@@ -262,7 +262,6 @@ bool RefBase::simple_equals(const RefBase *other) const {
 void RefBase::PutDebug(JsonObject &step) const {
 	step.add("key", mKey);
 	step.add("score", mScore);
-	step.add("rank", mRank);
 }
 #endif
 

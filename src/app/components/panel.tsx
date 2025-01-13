@@ -1,4 +1,3 @@
-import ear from "rabbit-ear";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -24,12 +23,10 @@ export function Panel({ onSubmit }: PanelProps) {
 	const { t } = useTranslation();
 	const store = useStore();
 	const settings = useSettings();
-	const db = useDB();
 	const [mode, setMode] = useState(Mode.point);
 	const [p1, setP1] = useState({ x: 0, y: 0 });
 	const [p2, setP2] = useState({ x: 1, y: 1 });
 
-	const cp = useMemo(() => ear.cp.rectangle(db.width, db.height), [db.width, db.height]);
 	const points = useMemo(() => {
 		const results: IPoint[] = [
 			[p1.x, p1.y],
@@ -56,7 +53,7 @@ export function Panel({ onSubmit }: PanelProps) {
 	return (
 		<div className="row mt-3 justify-content-center">
 			<div className="col mb-3" style={{ flex: "0 1 12rem" }}>
-				<Preview cp={cp} points={points} />
+				<Preview points={points} />
 			</div>
 			<form className="col mb-3" style={{ flex: "1 0 36rem" }} onSubmit={find}>
 				<div className="row mb-2 pb-1">

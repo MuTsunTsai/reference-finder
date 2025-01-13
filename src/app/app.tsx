@@ -8,6 +8,7 @@ import { Panel } from "./components/panel";
 import { Footer } from "./components/footer";
 import { Locale } from "./components/form/locale";
 import { Exact } from "./components/exact";
+import { Lightbox } from "./components/svg/lightbox";
 
 function App() {
 	const { t } = useTranslation();
@@ -86,6 +87,7 @@ function App() {
 				<SolutionComponent key={i} data={s} show={sol == i} onSelect={() => setSol(i)} />
 			)}
 		</div>
+		<Lightbox />
 		<Footer />
 	</>;
 }

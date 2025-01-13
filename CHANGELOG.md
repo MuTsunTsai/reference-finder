@@ -1,6 +1,10 @@
 
 # Change log
 
+## v4.7
+
+- Add lightbox to the preview and diagram images.
+
 ## v4.6
 
 - One can add all references in a solution as existing references, and continue the search from there.
