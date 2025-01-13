@@ -30,6 +30,17 @@ function App() {
 
 	return <>
 		<div className="container px-4">
+			{
+				// We only need to define markers once in the entire application,
+				// and the container SVG needs to be visible all the time.
+			}
+			<svg className="markers">
+				<defs>
+					<marker id="arrow" viewBox="0 0 10 10" refX="5" refY="3" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+						<path d="M 0 0 L 6 3 L 0 6 L 2 3 z" />
+					</marker>
+				</defs>
+			</svg>
 			<div className="row gx-0 py-2">
 				<div className="col small text-muted">
 					{store.progress && settings.showInit && <>

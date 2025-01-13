@@ -49,6 +49,11 @@ span.capitalize {
 	display: inline-block;
 }
 
+svg.markers {
+	position: absolute;
+	pointer-events: none;
+}
+
 .capitalize::first-letter {
 	text-transform: uppercase;
 }

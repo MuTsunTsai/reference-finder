@@ -29,10 +29,6 @@ export class Renderer {
 		this.height = height;
 	}
 
-	public setMarker() {
-		this.svg.innerHTML = `<defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="3" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M 0 0 L 6 3 L 0 6 L 2 3 z" /></marker></defs>`;
-	}
-
 	public init() {
 		this.root = this.svg.origami(ear.cp.rectangle(this.width * this.zoom, this.height * this.zoom));
 		this.root.setAttribute("transform", `translate(0 ${this.height * this.zoom}) scale(1 -1)`); // lower-left origin

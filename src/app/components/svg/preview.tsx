@@ -11,11 +11,6 @@ export function Preview({ points }: PreviewProps) {
 	const { width, height } = useDB();
 
 	function render(svg: Renderer) {
-		// We only need to define markers once in the entire application,
-		// and the container SVG needs to be visible all the time.
-		// The preview SVG is then the most suitable for this.
-		svg.setMarker();
-
 		svg.init();
 		if(points) {
 			for(const pt of points) {
