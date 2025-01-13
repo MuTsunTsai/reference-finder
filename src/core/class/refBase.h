@@ -50,7 +50,7 @@ class RefBase {
 	 * Used to decide whether to override existing refs.
 	 * This is used throughout the initialization, so we cannot put this in the union.
 	 */
-	int mScore;
+	int mScore{0};
 
 	/**
 	 * A unique key that is used to efficiently store and search over marks and lines.
