@@ -16,7 +16,8 @@ const isProduction = process.env.NODE_ENV === "production";
 export default defineConfig({
 	dev: {
 		progressBar: true,
-		lazyCompilation: true,
+		// See https://github.com/web-infra-dev/rspack/issues/8503
+		// lazyCompilation: true,
 	},
 	source: {
 		include: [
