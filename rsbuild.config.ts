@@ -17,7 +17,7 @@ export default defineConfig({
 	dev: {
 		progressBar: true,
 		// See https://github.com/web-infra-dev/rspack/issues/8503
-		// lazyCompilation: true,
+		lazyCompilation: { entries: false, imports: true },
 	},
 	source: {
 		include: [
