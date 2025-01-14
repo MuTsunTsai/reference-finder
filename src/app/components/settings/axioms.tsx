@@ -46,7 +46,7 @@ const Item = (props: AxiomProps) => {
 		transition,
 	};
 
-	return <div ref={setNodeRef} style={style} className="d-flex align-items-baseline">
+	return <div ref={setNodeRef} style={style} className="d-flex align-items-top">
 		<div className="me-3 handle" {...attributes} {...listeners}>
 			<i className="fa-solid fa-grip-lines"></i>
 		</div>
@@ -90,7 +90,7 @@ export function Axioms() {
 			{legacyBrowser ?
 				<div>
 					{tempDb.axiomPriority.map((a, i) =>
-						<div className="d-flex align-items-baseline" key={a}>
+						<div className="d-flex align-items-top" key={a}>
 							<div className="me-3">
 								<button
 									type="button"
