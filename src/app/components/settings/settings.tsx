@@ -35,8 +35,8 @@ export function Settings() {
 		gtag("event", "ref_show_settings");
 		cacheTempSettings(structuredClone(settings));
 		setTempDb(structuredClone(db));
-		const bs = await import("bootstrap");
-		bs.Modal.getOrCreateInstance(ref.current!, { backdrop: "static" }).show();
+		const Modal = (await import("bootstrap/js/dist/modal")).default;
+		Modal.getOrCreateInstance(ref.current!, { backdrop: "static" }).show();
 	};
 	const handleSave = () => {
 		if(hasChanged(db, tempDb)) {

@@ -7,6 +7,7 @@ import { PurgeCSSPlugin } from "purgecss-webpack-plugin";
 import { pluginAssetsRetry } from "@rsbuild/plugin-assets-retry";
 import { pluginSass } from "@rsbuild/plugin-sass";
 import { pluginHtmlMinifierTerser } from "rsbuild-plugin-html-minifier-terser";
+import { createDescendantRegExp, makeTest } from "@mutsuntsai/rsbuild-utils";
 
 import * as pkg from "./package.json";
 
@@ -62,6 +63,17 @@ export default defineConfig({
 						name: "vendor",
 						chunks: "initial",
 						priority: -1,
+					},
+					ui: {
+						test: makeTest(/src[\\/]app[\\/]components/, /node_modules/),
+						name: "ui",
+						chunks: "async",
+						priority: -1,
+					},
+					chart: {
+						test: createDescendantRegExp("chart.js", "chartjs-plugin-datalabels", "react-chartjs-2"),
+						name: "chart",
+						chunks: "async",
 					},
 				},
 			},

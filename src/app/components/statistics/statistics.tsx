@@ -31,8 +31,8 @@ export function Statistics() {
 
 	const handleShow = async () => {
 		setOpen(true);
-		const bs = await import("bootstrap");
-		modal = bs.Modal.getOrCreateInstance(ref.current!, { backdrop: "static" });
+		const Modal = (await import("bootstrap/js/dist/modal")).default;
+		modal = Modal.getOrCreateInstance(ref.current!, { backdrop: "static" });
 		modal.show();
 	};
 

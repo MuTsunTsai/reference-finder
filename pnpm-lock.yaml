@@ -73,6 +73,9 @@ importers:
       '@eslint/js':
         specifier: ^9.17.0
         version: 9.17.0
+      '@mutsuntsai/rsbuild-utils':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@mutsuntsai/stylistic':
         specifier: ^1.0.3
         version: 1.0.3(eslint@9.17.0)(typescript@5.7.3)
@@ -782,6 +785,9 @@ packages:
 
   '@module-federation/webpack-bundler-runtime@0.5.1':
     resolution: {integrity: sha512-mMhRFH0k2VjwHt3Jol9JkUsmI/4XlrAoBG3E0o7HoyoPYv1UFOWyqAflfANcUPgbYpvqmyLzDcO+3IT36LXnrA==}
+
+  '@mutsuntsai/rsbuild-utils@1.0.1':
+    resolution: {integrity: sha512-YthD1g1sNATukcwoNDN3pRbIMrzX3Nplsgw5TahVgVoMW10Zw7FAGB4iAGDJRCmMGfmc6TtqB4IG+Wo7bAgndQ==}
 
   '@mutsuntsai/stylistic@1.0.3':
     resolution: {integrity: sha512-CX8MlmkZtmc5xugM7a2N9aPM67lCMdNLvYXZ62bjS74rbckx8Vww4j5z5PfFKsoF19xZWadyu9FarMHGVOWnpQ==}
@@ -4259,6 +4265,10 @@ snapshots:
     dependencies:
       '@module-federation/runtime': 0.5.1
       '@module-federation/sdk': 0.5.1
+
+  '@mutsuntsai/rsbuild-utils@1.0.1':
+    dependencies:
+      yaml: 2.7.0
 
   '@mutsuntsai/stylistic@1.0.3(eslint@9.17.0)(typescript@5.7.3)':
     dependencies:

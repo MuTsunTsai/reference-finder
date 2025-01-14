@@ -47,9 +47,7 @@ export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
 		console.log("Reset worker");
 	}
 	const startTime = performance.now();
-	worker = new Worker(
-		/* webpackChunkName: "ref" */ new URL("./worker.ts", import.meta.url)
-	);
+	worker = new Worker(new URL("./worker.ts", import.meta.url), { name: "ref" });
 	const settings = useSettings.getState();
 
 	// Get existing marks and lines from the store

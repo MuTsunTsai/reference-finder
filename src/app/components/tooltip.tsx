@@ -12,7 +12,7 @@ export function InfoTooltip({ title, className }: TooltipProps) {
 
 	useEffect(() => {
 		const el = tooltip.current;
-		if(el) import("bootstrap").then(bs => bs.Tooltip.getOrCreateInstance(el));
+		if(el) import("bootstrap/js/dist/tooltip").then(tp => tp.default.getOrCreateInstance(el));
 	});
 
 	return (
