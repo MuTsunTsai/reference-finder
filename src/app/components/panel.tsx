@@ -4,16 +4,11 @@ import { useTranslation } from "react-i18next";
 import { Preview } from "./svg/preview";
 import { PointInput } from "./form/point-input";
 import { useDB, useSettings, useStore } from "../store";
-import { resetWorker, useWorker } from "../bridge";
+import { Command, resetWorker, useWorker } from "../bridge";
 import { Settings } from "./settings/settings";
 import { Statistics } from "./statistics/statistics";
 
 import type { FormEvent } from "react";
-
-enum Mode {
-	point = 1,
-	line = 2,
-}
 
 interface PanelProps {
 	onSubmit: () => void;
@@ -23,7 +18,7 @@ export function Panel({ onSubmit }: PanelProps) {
 	const { t } = useTranslation();
 	const store = useStore();
 	const settings = useSettings();
-	const [mode, setMode] = useState(Mode.point);
+	const [mode, setMode] = useState(Command.mark);
 	const [p1, setP1] = useState({ x: 0, y: 0 });
 	const [p2, setP2] = useState({ x: 1, y: 1 });
 
@@ -31,15 +26,15 @@ export function Panel({ onSubmit }: PanelProps) {
 		const results: IPoint[] = [
 			[p1.x, p1.y],
 		];
-		if(mode == Mode.line) results.push([p2.x, p2.y]);
+		if(mode == Command.line) results.push([p2.x, p2.y]);
 		return results;
 	}, [mode, p1.x, p1.y, p2.x, p2.y]);
 
 	function find(e: FormEvent) {
 		e.preventDefault();
-		gtag("event", mode == Mode.point ? "ref_find_point" : "ref_find_line");
+		gtag("event", mode == Command.mark ? "ref_find_point" : "ref_find_line");
 		const query = [mode, settings.error, settings.count, settings.worstCaseError, p1.x, p1.y];
-		if(mode == Mode.line) query.push(p2.x, p2.y);
+		if(mode == Command.line) query.push(p2.x, p2.y);
 		useStore.setState({ running: true, solutions: [], coreError: null });
 		onSubmit();
 		useWorker().postMessage(query.map(Number));
@@ -64,8 +59,8 @@ export function Panel({ onSubmit }: PanelProps) {
 								type="radio"
 								name="mode"
 								id="m1"
-								checked={mode == Mode.point}
-								onChange={() => setMode(Mode.point)}
+								checked={mode == Command.mark}
+								onChange={() => setMode(Command.mark)}
 							/>
 							<label className="form-check-label capitalize" htmlFor="m1">
 								{t("phrase.findPoint")}
@@ -79,8 +74,8 @@ export function Panel({ onSubmit }: PanelProps) {
 								type="radio"
 								name="mode"
 								id="m2"
-								checked={mode == Mode.line}
-								onChange={() => setMode(Mode.line)}
+								checked={mode == Command.line}
+								onChange={() => setMode(Command.line)}
 							/>
 							<label className="form-check-label capitalize" htmlFor="m2">
 								{t("phrase.findLine")}
@@ -88,8 +83,8 @@ export function Panel({ onSubmit }: PanelProps) {
 						</div>
 					</div>
 				</div>
-				<PointInput label={mode == Mode.line ? " 1" : ""} value={p1} onInput={p => setP1(p)} />
-				{mode == Mode.line &&
+				<PointInput label={mode == Command.line ? " 1" : ""} value={p1} onInput={p => setP1(p)} />
+				{mode == Command.line &&
 					<PointInput label=" 2" value={p2} onInput={p => setP2(p)} />
 				}
 				<div className="row mt-2 gx-2">

@@ -2,6 +2,9 @@ import ear from "rabbit-ear";
 
 import { ElementType, useStore } from "../../store";
 
+export const DOT_SM = 0.02;
+export const DOT_LG = 0.03;
+
 const MAX_ANGLE_OFFSET = Math.PI / 24; // 7.5 degree
 
 export type RenderFunc = (svg: Renderer) => void;
@@ -37,7 +40,7 @@ export class Renderer {
 		const { existingRefs } = useStore.getState();
 		for(const ref of existingRefs) {
 			if(ref.type == ElementType.line) this.line(ref.from, ref.to, "line-crease");
-			if(ref.type == ElementType.point) this.dot(ref.pt, 0.02, "point-normal");
+			if(ref.type == ElementType.point) this.dot(ref.pt, DOT_SM, "point-normal");
 		}
 	}
 

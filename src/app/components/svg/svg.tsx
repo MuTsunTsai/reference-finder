@@ -17,7 +17,7 @@ interface SvgProps {
 
 export function Svg({ render, width, height, zoom, padding, lightbox }: SvgProps) {
 	const ref = useRef<HTMLDivElement>(null);
-	const [svg, setSvg] = useState<Renderer | null>(null);
+	const [renderer, setRenderer] = useState<Renderer | null>(null);
 
 	const handleClick = () => {
 		if(lightbox) svgHandler.showLightbox(render);
@@ -28,13 +28,13 @@ export function Svg({ render, width, height, zoom, padding, lightbox }: SvgProps
 		clear(ref.current);
 		const result = new Renderer(width, height, zoom, padding);
 		result.addTo(ref.current);
-		setSvg(result);
+		setRenderer(result);
 	}, [ref.current, width, height]);
 
 	useEffect(() => {
-		if(!svg) return;
-		svg.clear();
-		render(svg);
+		if(!renderer) return;
+		renderer.clear();
+		render(renderer);
 	});
 
 	return <div style={{ cursor: lightbox ? "zoom-in" : "unset" }} ref={ref} onClick={handleClick}></div>;

@@ -43,13 +43,13 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 		return !isNaN(v) && v >= 0 && (max === undefined || v <= max);
 	}
 
-	function input(exp: string): void {
-		setTemp(exp);
-		const v = parse(exp);
+	function input(str: string): void {
+		setTemp(str);
+		const v = parse(str);
 		setTempValue(v);
 		if(isValid(v)) {
-			setCache(exp);
-			onInput(v, exp);
+			setCache(str);
+			onInput(v, str);
 		}
 	}
 

@@ -25,6 +25,29 @@ export default [
 		},
 	},
 	{
+		name: "General:TypeScript",
+		files: ["**/*.{ts,tsx}"],
+		rules: {
+			"@typescript-eslint/class-methods-use-this": ["warn", {
+				ignoreOverrideMethods: true,
+				ignoreClassesThatImplementAnInterface: "public-fields",
+			}],
+			"@typescript-eslint/no-empty-object-type": ["warn", { allowInterfaces: "always" }],
+			"@typescript-eslint/no-explicit-any": ["warn", { ignoreRestArgs: true }],
+			"@typescript-eslint/no-invalid-this": "error",
+			"@typescript-eslint/no-loop-func": ["warn"],
+			"@typescript-eslint/no-shadow": "warn",
+			"@typescript-eslint/no-this-alias": ["warn", {
+				allowDestructuring: true,
+				allowedNames: ["cursor"],
+			}],
+			"@typescript-eslint/no-unsafe-declaration-merging": "off",
+			"@typescript-eslint/no-unused-expressions": "warn",
+			"@typescript-eslint/no-useless-constructor": ["warn"],
+			"no-undef": "off", // This is redundant as TypeScript catches things that are really undefined
+		},
+	},
+	{
 		files: ["*.js"],
 		languageOptions: {
 			globals: globals.node,

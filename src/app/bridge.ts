@@ -13,9 +13,15 @@ export function useWorker() {
 
 const UINT_MAX = 4294967295; // Max value of unsigned int
 
+export enum Command {
+	mark = 1,
+	line = 2,
+	statistics = 99,
+}
+
 export function startStatistics(trials: number, callback: typeof statisticsCallback) {
 	statisticsCallback = callback;
-	worker.postMessage([99, trials, Math.floor(Math.random() * UINT_MAX)]);
+	worker.postMessage([Command.statistics, trials, Math.floor(Math.random() * UINT_MAX)]);
 }
 
 function parseSolution(text: string) {
@@ -44,7 +50,7 @@ export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
 	worker = new Worker(
 		/* webpackChunkName: "ref" */ new URL("./worker.ts", import.meta.url)
 	);
-	const { useDB } = useSettings.getState();
+	const settings = useSettings.getState();
 
 	// Get existing marks and lines from the store
 	const store = useStore.getState();
@@ -63,7 +69,7 @@ export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
 
 	// Send the message to the worker
 	worker.postMessage([
-		idbSupported && useDB && existingMarks.length === 0 && existingLines.length === 0,
+		idbSupported && settings.useDB && existingMarks.length === 0 && existingLines.length === 0,
 		forceRebuild,
 		db.width,
 		db.height,
