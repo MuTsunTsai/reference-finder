@@ -125,7 +125,7 @@ importers:
         specifier: ^7.37.4
         version: 7.37.4(eslint@9.18.0)
       glob:
-        specifier: ^11.0.1
+        specifier: ^11.0.0
         version: 11.0.1
       globals:
         specifier: ^15.14.0

@@ -22,6 +22,9 @@ pnpm start
 
 This will build the project and start the development server.
 
+**Note: The latest Emscripten v4 seems rather unstable for the moment.
+If you encounter errors during building, try downgrade to v3.1.64.**
+
 ## Project structure
 
 All source codes are located in the `src` folder, in which you'll find:
