@@ -42,7 +42,7 @@ ref({
 
 	/////////////////////////////////////////////////////////////////////////
 
-	checkCancel: () => new Promise(function(resolve) {
+	checkCancel: () => new Promise<boolean>(resolve => {
 		cancelResolve = resolve;
 
 		// if any message comes in when the thread is blocked,
