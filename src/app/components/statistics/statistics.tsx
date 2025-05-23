@@ -74,6 +74,12 @@ export function Statistics() {
 		useWorker().postMessage("cancel");
 	}
 
+	function label(): string {
+		if(!store.statisticsRunning) return t("statistics.trials");
+		if(progress < 0) return "Initializing...";
+		return `${progress} / ${settings.trials}`;
+	}
+
 	return (
 		<>
 			<button type="button" className="btn btn-secondary" onClick={handleShow}>
@@ -90,10 +96,7 @@ export function Statistics() {
 							</div>
 							<div className="modal-body">
 								<div className="grid">
-									<SettingsRow label={store.statisticsRunning ?
-										(progress < 0 ? "Initializing..." : `${progress} / ${settings.trials}`) :
-										t("statistics.trials")}
-									>
+									<SettingsRow label={label()}>
 										<div className="row gx-3 align-items-center">
 											{store.statisticsRunning ?
 												<>

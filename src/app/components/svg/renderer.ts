@@ -74,7 +74,7 @@ export class Renderer {
 		if(!ccw) [from, to] = [to, from];
 
 		// Apply a slight offset to the arrow to make it look better
-		const factor = Math.pow(this.zoom, 1.2);
+		const factor = this.zoom ** 1.2;
 		from += Math.min(0.075 / factor / radius, MAX_ANGLE_OFFSET);
 		to -= Math.min(0.075 / factor / radius, MAX_ANGLE_OFFSET);
 

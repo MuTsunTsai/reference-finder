@@ -41,5 +41,5 @@ export function Svg({ render, width, height, zoom, padding, lightbox }: SvgProps
 }
 
 export const svgHandler = {
-	showLightbox: async (func: RenderFunc) => { },
+	showLightbox: async (func: RenderFunc) => { /* Nothing by default */ },
 };

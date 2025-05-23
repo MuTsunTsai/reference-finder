@@ -89,7 +89,11 @@ export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
 		existingLines.length,
 		...existingLinesFlat,
 	]);
-	worker.onmessage = e => {
+	worker.onmessage = createHandler(startTime);
+}
+
+function createHandler(startTime: number) {
+	return (e: MessageEvent) => {
 		const msg = e.data;
 		const { running, ready, solutions, statisticsRunning } = useStore.getState();
 		if(msg.text) {

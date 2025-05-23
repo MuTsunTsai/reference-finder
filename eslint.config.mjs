@@ -1,60 +1,24 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginTs from "typescript-eslint";
-import pluginImport from "eslint-plugin-import";
 import pluginReact from "eslint-plugin-react";
-import stylistic from "@mutsuntsai/stylistic";
+import { createConfig } from "@mutsuntsai/eslint";
 
 export default [
-	{
+	...createConfig({
 		ignores: [
-			"docs/**/*",
-			"node_modules/**/*",
-			"src/lib/**/*",
+			"docs/**",
+			"node_modules/**",
+			"src/lib/**",
 		],
-	},
-	pluginJs.configs.recommended,
-	...pluginTs.configs.recommended,
-	...stylistic,
-	{
-		languageOptions: {
-			globals: globals.browser,
+		import: ["**/*.{ts,tsx}", "eslint.config.mjs"],
+		project: ["src/app"],
+		globals: {
+			cjs: ["gulpfile.js"],
+			browser: ["src/**"],
 		},
+	}),
+	{
+		name: "TypeScript override",
 		rules: {
-			"prefer-const": "warn",
-		},
-	},
-	{
-		name: "General:TypeScript",
-		files: ["**/*.{ts,tsx}"],
-		rules: {
-			"@typescript-eslint/class-methods-use-this": ["warn", {
-				ignoreOverrideMethods: true,
-				ignoreClassesThatImplementAnInterface: "public-fields",
-			}],
-			"@typescript-eslint/no-empty-object-type": ["warn", { allowInterfaces: "always" }],
-			"@typescript-eslint/no-explicit-any": ["warn", { ignoreRestArgs: true }],
-			"@typescript-eslint/no-invalid-this": "error",
-			"@typescript-eslint/no-loop-func": ["warn"],
-			"@typescript-eslint/no-shadow": "warn",
-			"@typescript-eslint/no-this-alias": ["warn", {
-				allowDestructuring: true,
-				allowedNames: ["cursor"],
-			}],
-			"@typescript-eslint/no-unsafe-declaration-merging": "off",
-			"@typescript-eslint/no-unused-expressions": "warn",
-			"@typescript-eslint/no-useless-constructor": ["warn"],
-			"no-undef": "off", // This is redundant as TypeScript catches things that are really undefined
-		},
-	},
-	{
-		files: ["*.js"],
-		languageOptions: {
-			globals: globals.node,
-		},
-	},
-	{
-		rules: {
+			"@typescript-eslint/no-magic-numbers": "off", // Too many for this project
 			"@typescript-eslint/no-unused-vars": [
 				"warn",
 				{
@@ -72,55 +36,13 @@ export default [
 		...pluginReact.configs.flat.all,
 		...pluginReact.configs.flat["jsx-runtime"],
 		files: ["**/*.tsx"],
+		name: "React",
 		plugins: {
 			react: pluginReact,
 		},
-	},
-
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Import
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	{
-		name: "Plugin:import",
-		...pluginImport.flatConfigs.typescript,
-		files: ["**/*.{ts,tsx}", "eslint.config.mjs"],
-		plugins: {
-			import: pluginImport,
-		},
 		rules: {
-			"@typescript-eslint/consistent-type-imports": ["warn", { prefer: "type-imports" }],
-			"import/consistent-type-specifier-style": ["warn", "prefer-top-level"],
-			"import/newline-after-import": "warn",
-			"import/no-cycle": ["warn", { ignoreExternal: true }],
-			"import/no-duplicates": "warn",
-			"import/no-unresolved": "error",
-			"import/order": ["warn", {
-				"groups": [
-					[
-						"builtin",
-						"external",
-					],
-					[
-						"internal",
-						"parent",
-						"sibling",
-						"index",
-						"object",
-					],
-					"type",
-				],
-				"newlines-between": "always",
-			}],
-			"no-duplicate-imports": "off",
-			"sort-imports": "off",
-		},
-		settings: {
-			"import/resolver": {
-				typescript: {
-					project: ["src/app"],
-				},
-			},
+			"max-lines-per-function": "off",
+			"new-cap": "off",
 		},
 	},
 
@@ -129,6 +51,7 @@ export default [
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	{
+		name: "Gulp",
 		files: ["gulpfile.js"],
 		rules: {
 			"@typescript-eslint/no-var-requires": "off",

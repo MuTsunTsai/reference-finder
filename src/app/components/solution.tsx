@@ -7,7 +7,7 @@ import { Diagram } from "./svg/diagram";
 import { Exact } from "./exact";
 import { resetWorker } from "../bridge";
 
-import type { Solution } from "../store";
+import type { LineElement, PointElement, Solution } from "../store";
 
 interface SolutionComponentProps {
 	data: Solution;
@@ -57,24 +57,24 @@ function addAsExistingCreases(data: Solution) {
 		const diag = data.diagrams[i];
 		if(step.axiom != 0) { // line
 			const lookFor = step.pinch ? LineStyle.pinch : LineStyle.valley;
-			for(const el of diag) {
-				if(el && el.type == ElementType.line && el.style == lookFor) {
-					el.style = LineStyle.crease;
-					existingRefs.push(el);
-					if(!step.pinch) existingLines.push([el.from, el.to]);
-					break;
-				}
+			const el = diag.find(e =>
+				e && e.type == ElementType.line && e.style == lookFor
+			) as LineElement | undefined;
+			if(el) {
+				el.style = LineStyle.crease;
+				existingRefs.push(el);
+				if(!step.pinch) existingLines.push([el.from, el.to]);
 			}
 			if(step.intersection) step = step.intersection; // continue with the next part
 		}
 		if(step.axiom == 0) { // point
-			for(const el of diag) {
-				if(el && el.type == ElementType.point && el.style == PointStyle.action) {
-					el.style = PointStyle.normal;
-					existingRefs.push(el);
-					existingMarks.push(el.pt);
-					break;
-				}
+			const el = diag.find(e =>
+				e && e.type == ElementType.point && e.style == PointStyle.action
+			) as PointElement | undefined;
+			if(el) {
+				el.style = PointStyle.normal;
+				existingRefs.push(el);
+				existingMarks.push(el.pt);
 			}
 		}
 	}

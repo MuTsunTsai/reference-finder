@@ -6,7 +6,7 @@ import ref from "../lib/ref";
 type Action = (...args: unknown[]) => void;
 
 let initialized = false;
-let cancelResolve = (_: boolean) => { };
+let cancelResolve = (_: boolean) => { /* Intentionally empty */ };
 let readyResolve: Action;
 let valueResolve: Action | null = null;
 const ready = new Promise(resolve => readyResolve = resolve);
@@ -53,9 +53,7 @@ ref({
 		if(queue.length > 0) {
 			return queue.shift();
 		}
-		return await new Promise(resolve => {
-			return valueResolve = resolve;
-		});
+		return await new Promise(resolve => { valueResolve = resolve; });
 	},
 	clear() {
 		queue.length = 0;

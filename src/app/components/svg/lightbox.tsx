@@ -10,7 +10,7 @@ import type { Renderer, RenderFunc } from "./renderer";
 
 export function Lightbox() {
 	const { height, width } = useDB();
-	const [render, setRender] = useState<RenderFunc>(() => (renderer: Renderer) => { });
+	const [render, setRender] = useState<RenderFunc>(() => (renderer: Renderer) => { /* */ });
 	const ref = useRef(null);
 
 	const show = async (func: RenderFunc) => {

@@ -14,9 +14,9 @@
 		// This part is kept in debug because app_config is also used elsewhere
 		window.dataLayer = window.dataLayer || [];
 		function gtag() { dataLayer.push(arguments); }
-		gtag('js', new Date());
+		gtag("js", new Date());
 		if(location.hostname != "localhost") {
-			gtag('config', 'G-GG1TEZGBCQ', {
+			gtag("config", "G-GG1TEZGBCQ", {
 				page_title: document.title,
 				page_path: "<%= assetPrefix %>/",
 			});
@@ -30,7 +30,7 @@
 
 		// Service worker registration
 		// workbox-webpack-plugin doesn't do that automatically for us; we need to do it here.
-		if('serviceWorker' in navigator && location.port != "31213") {
+		if("serviceWorker" in navigator && location.port != "31213") {
 			navigator.serviceWorker.register("<%= assetPrefix %>/service-worker.js", { scope: "<%= assetPrefix %>/" });
 		}
 	</script>
