@@ -8,7 +8,7 @@ export default [
 			"node_modules/**",
 			"src/lib/**",
 		],
-		import: ["**/*.{ts,tsx}", "eslint.config.mjs"],
+		import: ["**/*.{ts,tsx}", "eslint.config.js", "gulpfile.js"],
 		project: ["src/app"],
 		globals: {
 			cjs: ["gulpfile.js"],

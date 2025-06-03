@@ -1,20 +1,19 @@
-const gulp = require("gulp");
-const fontAwesome = require("gulp-fontawesome");
-const through2 = require("gulp-through2");
+import gulp from "gulp";
+import fontAwesome from "gulp-fontawesome";
+import through2 from "gulp-through2";
 
-gulp.task("default", () =>
+export default () =>
 	gulp.src("src/app/**/*.tsx")
 		.pipe(fontAwesome())
-		.pipe(gulp.dest("src/icon"))
-);
+		.pipe(gulp.dest("src/icon"));
 
 function pad(n) {
 	return (n < 10 ? "0" : "") + n;
 }
 
-gulp.task("syncVer", async () => {
-	const pkg = await require("./package.json");
-	const match = pkg.version.match(/\d+/g);
+export const syncVer = async () => {
+	const pkg = await import("./package.json", { with: { type: "json" } });
+	const match = pkg.default.version.match(/\d+/g);
 	return gulp.src("src/core/RFVersion.h")
 		.pipe(through2(content => {
 			const newContent = content
@@ -28,4 +27,4 @@ gulp.task("syncVer", async () => {
 			return newContent.replace(/(?<=VERSION_BUILD )\d+/, today);
 		}))
 		.pipe(gulp.dest("src/core"));
-});
+};

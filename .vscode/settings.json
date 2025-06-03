@@ -19,7 +19,7 @@
 	"explorer.fileNesting.expand": false,
 	"explorer.fileNesting.patterns": {
 		".gitignore": ".gitattributes",
-		"eslint.config.mjs": ".editorconfig",
+		"eslint.config.js": ".editorconfig",
 		"makefile": ".clang-*",
 		"package.json": ".browserslistrc, pnpm-lock.yaml",
 		"README.md": "LICENSE, CONTRIBUTING.md, CHANGELOG.md"
