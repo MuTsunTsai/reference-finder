@@ -11,7 +11,7 @@ export default [
 		import: ["**/*.{ts,tsx}", "eslint.config.js", "gulpfile.js"],
 		project: ["src/app"],
 		globals: {
-			cjs: ["gulpfile.js"],
+			esm: ["./*.{js,ts}"],
 			browser: ["src/**"],
 		},
 	}),
