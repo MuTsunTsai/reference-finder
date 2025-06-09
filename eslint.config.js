@@ -8,8 +8,10 @@ export default [
 			"node_modules/**",
 			"src/lib/**",
 		],
-		import: ["**/*.{ts,tsx}", "eslint.config.js", "gulpfile.js"],
-		project: ["src/app"],
+		import: {
+			files: ["**/*.{ts,tsx}", "eslint.config.js", "gulpfile.js"],
+			project: ["src/app"],
+		},
 		globals: {
 			esm: ["./*.{js,ts}"],
 			browser: ["src/**"],
@@ -17,6 +19,7 @@ export default [
 	}),
 	{
 		name: "TypeScript override",
+		files: ["**/*.{ts,tsx}"],
 		rules: {
 			"@typescript-eslint/no-magic-numbers": "off", // Too many for this project
 			"@typescript-eslint/no-unused-vars": [
@@ -46,16 +49,4 @@ export default [
 		},
 	},
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Specific scopes
-	/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	{
-		name: "Gulp",
-		files: ["gulpfile.js"],
-		rules: {
-			"@typescript-eslint/no-var-requires": "off",
-			"@typescript-eslint/no-require-imports": "off",
-		},
-	},
 ];

@@ -1,49 +1,24 @@
 {
 	"name": "reference-finder",
 	"version": "4.7.1",
-	"type": "module",
 	"description": "Find reference points and lines in crease patterns.",
-	"scripts": {
-		"start": "make && rsbuild dev -o",
-		"build": "make && rsbuild build",
-		"preview": "rsbuild preview --port 31214 --open http://localhost:31214/reference-finder",
-		"lint": "eslint",
-		"lint:inspect": "pnpx @eslint/config-inspector@latest"
-	},
 	"keywords": [
 		"origami"
 	],
+	"license": "GPL-2.0",
+	"author": "Mu-Tsun Tsai <don.m.t.tsai@gmail.com> (https://github.com/MuTsunTsai)",
 	"contributors": [
 		"Robert J. Lang <robert@langorigami.com>",
-		"Mu-Tsun Tsai <don.m.t.tsai@gmail.com>"
+		"Mu-Tsun Tsai <don.m.t.tsai@gmail.com> (https://github.com/MuTsunTsai)",
+		"Omri Shavit (https://github.com/Omri-Shavit)"
 	],
-	"license": "GPL-2.0",
-	"devDependencies": {
-		"@mutsuntsai/eslint": "^1.0.0",
-		"@mutsuntsai/rsbuild-utils": "^1.0.1",
-		"@rsbuild/core": "^1.3.22",
-		"@rsbuild/plugin-assets-retry": "^1.2.1",
-		"@rsbuild/plugin-check-syntax": "^1.3.0",
-		"@rsbuild/plugin-react": "^1.3.1",
-		"@rsbuild/plugin-sass": "^1.3.1",
-		"@types/bootstrap": "^5.2.10",
-		"@types/emscripten": "^1.40.1",
-		"@types/gtag.js": "^0.0.20",
-		"@types/gulp": "^4.0.17",
-		"@types/react": "^19.1.6",
-		"@types/react-dom": "^19.1.5",
-		"@types/ungap__structured-clone": "^1.2.0",
-		"eslint": "^9.28.0",
-		"eslint-plugin-react": "^7.37.5",
-		"glob": "^11.0.2",
-		"gulp": "^5.0.1",
-		"gulp-fontawesome": "^1.0.4",
-		"gulp-through2": "^1.1.0",
-		"postcss": "^8.5.4",
-		"purgecss-webpack-plugin": "^7.0.2",
-		"rsbuild-plugin-html-minifier-terser": "^1.1.1",
-		"typescript": "^5.8.3",
-		"workbox-webpack-plugin": "^7.3.0"
+	"type": "module",
+	"scripts": {
+		"build": "make && rsbuild build",
+		"lint": "eslint",
+		"lint:inspect": "pnpx @eslint/config-inspector@latest",
+		"preview": "rsbuild preview --port 31214 --open http://localhost:31214/reference-finder",
+		"start": "make && rsbuild dev -o"
 	},
 	"dependencies": {
 		"@dnd-kit/core": "^6.3.1",
@@ -57,7 +32,7 @@
 		"i18next": "^25.2.1",
 		"i18next-browser-languagedetector": "^8.1.0",
 		"idb": "^8.0.3",
-		"math-expression-evaluator": "^2.0.6",
+		"math-expression-evaluator": "^2.0.7",
 		"probably-china": "^1.1.0",
 		"rabbit-ear": "^0.9.32",
 		"react": "^19.1.0",
@@ -65,6 +40,33 @@
 		"react-dom": "^19.1.0",
 		"react-i18next": "^15.5.2",
 		"zustand": "^5.0.5"
+	},
+	"devDependencies": {
+		"@mutsuntsai/eslint": "^1.2.6",
+		"@mutsuntsai/rsbuild-utils": "^1.0.1",
+		"@rsbuild/core": "^1.3.22",
+		"@rsbuild/plugin-assets-retry": "^1.2.1",
+		"@rsbuild/plugin-check-syntax": "^1.3.0",
+		"@rsbuild/plugin-react": "^1.3.2",
+		"@rsbuild/plugin-sass": "^1.3.2",
+		"@types/bootstrap": "^5.2.10",
+		"@types/emscripten": "^1.40.1",
+		"@types/gtag.js": "^0.0.20",
+		"@types/gulp": "^4.0.17",
+		"@types/react": "^19.1.6",
+		"@types/react-dom": "^19.1.6",
+		"@types/ungap__structured-clone": "^1.2.0",
+		"eslint": "^9.28.0",
+		"eslint-plugin-react": "^7.37.5",
+		"glob": "^11.0.2",
+		"gulp": "^5.0.1",
+		"gulp-fontawesome": "^1.0.4",
+		"gulp-through2": "^1.1.0",
+		"postcss": "^8.5.4",
+		"purgecss-webpack-plugin": "^7.0.2",
+		"rsbuild-plugin-html-minifier-terser": "^1.1.1",
+		"typescript": "^5.8.3",
+		"workbox-webpack-plugin": "^7.3.0"
 	},
 	"pnpm": {
 		"overrides": {
