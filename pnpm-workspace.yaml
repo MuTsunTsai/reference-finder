@@ -1,0 +1,13 @@
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - "@mutsuntsai/*"
+onlyBuiltDependencies:
+  - core-js
+  - unrs-resolver
+overrides:
+  glob: ^11.0.0
+  magic-string: ^0.30.0
+peerDependencyRules:
+  allowAny:
+    - eslint
+    - react

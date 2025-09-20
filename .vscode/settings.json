@@ -21,7 +21,7 @@
 		".gitignore": ".gitattributes",
 		"eslint.config.js": ".editorconfig",
 		"makefile": ".clang-*",
-		"package.json": ".browserslistrc, pnpm-lock.yaml",
+		"package.json": ".browserslistrc, pnpm-*.yaml",
 		"README.md": "LICENSE, CONTRIBUTING.md, CHANGELOG.md"
 	},
 	"files.exclude": {
