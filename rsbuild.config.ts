@@ -111,7 +111,7 @@ export default defineConfig({
 		pluginSass({
 			sassLoaderOptions: {
 				sassOptions: {
-					silenceDeprecations: ["mixed-decls", "color-functions", "import", "global-builtin"],
+					silenceDeprecations: ["color-functions", "import", "global-builtin"],
 				},
 			},
 		}),
