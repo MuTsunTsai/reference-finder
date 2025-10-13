@@ -8,9 +8,9 @@
 #include <array>
 
 /**********
-class RefMark - base class for a mark on the paper.
+struct RefMark - base class for a mark on the paper.
 **********/
-class RefMark: public RefBase {
+struct RefMark: RefBase {
   public:
 	using bare_t = XYPt; // type of bare object a RefMark represents
 	bare_t p;			 // coordinates of the mark

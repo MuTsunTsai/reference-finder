@@ -5,10 +5,9 @@
 #include "xyrect.h"
 
 /**********
-class Paper - specialization of XYRect for representing the paper
+struct Paper - specialization of XYRect for representing the paper
 **********/
-class Paper: public XYRect {
-  public:
+struct Paper: XYRect {
 	double mWidth;			  // width of the paper
 	double mHeight;			  // height of the paper
 	double mDmax;			  // used in refLine

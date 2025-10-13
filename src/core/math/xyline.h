@@ -5,11 +5,10 @@
 #include "xypt.h"
 
 /**********
-class XYLine - a class for representing a line by a scalar and the normal to
+struct XYLine - a class for representing a line by a scalar and the normal to
 the line.
 **********/
-class XYLine {
-  public:
+struct XYLine {
 	double d; // d*u is the point on the line closest to the origin
 	XYPt u;	  // a unit normal vector to the line
 

@@ -6,11 +6,10 @@
 #include "json/jsonArray.h"
 
 /**********
-class RefLine_L2L_C2P - Huzita-Hatori Axiom O4.
+struct RefLine_L2L_C2P - Huzita-Hatori Axiom O4.
 Bring line l1 to itself so that the crease passes through point p1.
 **********/
-class RefLine_L2L_C2P: public RefLine {
-  public:
+struct RefLine_L2L_C2P: RefLine {
 	RefLine *rl1; // bring line l1 to itself
 	RefMark *rm1; // so that the crease runs through another point.
 

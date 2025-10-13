@@ -6,11 +6,10 @@
 #include "json/jsonArray.h"
 
 /**********
-class RefLine_P2P - Huzita-Hatori Axiom O2
+struct RefLine_P2P - Huzita-Hatori Axiom O2
 Bring p1 to p2.
 **********/
-class RefLine_P2P: public RefLine {
-  public:
+struct RefLine_P2P: RefLine {
 	RefMark *rm1; // bring one mark...
 	RefMark *rm2; // to another mark, and form a crease.
 

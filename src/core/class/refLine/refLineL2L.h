@@ -6,11 +6,10 @@
 #include "json/jsonArray.h"
 
 /**********
-class RefLine_L2L - Huzita-Hatori Axiom O3
+struct RefLine_L2L - Huzita-Hatori Axiom O3
 Bring line l1 to line l2.
 **********/
-class RefLine_L2L: public RefLine {
-  public:
+struct RefLine_L2L: RefLine {
 	RefLine *rl1; // make a crease by bringing one line...
 	RefLine *rl2; // to another line
 

@@ -5,11 +5,10 @@
 #include "refLine.h"
 
 /**********
-class RefLine_C2P_C2P - Huzita-Hatori Axiom O1
+struct RefLine_C2P_C2P - Huzita-Hatori Axiom O1
 Make a crease through two points p1 and p2.
 **********/
-class RefLine_C2P_C2P: public RefLine {
-  public:
+struct RefLine_C2P_C2P: RefLine {
 	RefMark *rm1; // make a crease from one mark...
 	RefMark *rm2; // to another mark
 

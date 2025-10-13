@@ -6,11 +6,10 @@
 #include "json/jsonArray.h"
 
 /**********
-class RefLine_P2L_P2L - Huzita-Hatori Axiom O6 (the cubic!)
+struct RefLine_P2L_P2L - Huzita-Hatori Axiom O6 (the cubic!)
 Bring point p1 to line l1 and point p2 to line l2
 **********/
-class RefLine_P2L_P2L: public RefLine {
-  public:
+struct RefLine_P2L_P2L: RefLine {
 	RefMark *rm1; // bring a point...
 	RefLine *rl1; // to a line...
 	RefMark *rm2; // and another point...

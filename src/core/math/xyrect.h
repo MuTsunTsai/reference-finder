@@ -4,11 +4,10 @@
 #include "xypt.h"
 
 /**********
-class XYRect - a class for representing rectangles by two points, the bottom
+struct XYRect - a struct for representing rectangles by two points, the bottom
 left and top right corners.
 **********/
-class XYRect {
-  public:
+struct XYRect {
 	XYPt bl; // bottom left corner
 	XYPt tr; // top right corner
 

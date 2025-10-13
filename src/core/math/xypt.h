@@ -8,10 +8,9 @@
 #include "global/global.h"
 
 /**********
-class XYPt - a 2-vector that represents a point or a direction.
+struct XYPt - a 2-vector that represents a point or a direction.
 **********/
-class XYPt {
-  public:
+struct XYPt {
 	double x; // x coordinate
 	double y; // y coordinate
 

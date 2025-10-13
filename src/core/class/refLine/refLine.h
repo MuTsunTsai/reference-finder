@@ -8,15 +8,15 @@
 #include <array>
 
 /**********
-class RefLine - base class for a reference line.
+struct RefLine - base struct for a reference line.
 **********/
-class RefLine: public RefBase {
+struct RefLine: RefBase {
   public:
 	using bare_t = XYLine; // type of bare object that a RefLine represents
 	bare_t l;			   // the line this contains
 
   private:
-	static RefBaseLogic::index_t sCount;					   // class index, used for numbering sequences of lines
+	static RefBaseLogic::index_t sCount;	   // class index, used for numbering sequences of lines
 	static std::array<const char, 10> sLabels; // labels for lines, indexed by sCount
 
   public:
@@ -32,7 +32,7 @@ class RefLine: public RefBase {
 
   private:
 	static void ResetCount();
-	friend class RefBase;
+	friend struct RefBase;
 	friend class RefLineLogic;
 };
 

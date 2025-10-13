@@ -4,13 +4,13 @@
 #include "refMark.h"
 #include "json/jsonArray.h"
 
-class RefLine; // forward declaration needed by RefMark_Intersection
+struct RefLine; // forward declaration needed by RefMark_Intersection
 
 /**********
-class RefMark_Intersection - Specialization of a RefMark for a mark defined by
+struct RefMark_Intersection - Specialization of a RefMark for a mark defined by
 the intersection of 2 lines.
 **********/
-class RefMark_Intersection: public RefMark {
+struct RefMark_Intersection: RefMark {
   public:
 	RefLine *rl1; // first line
 	RefLine *rl2; // second line

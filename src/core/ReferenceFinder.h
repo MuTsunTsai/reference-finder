@@ -140,10 +140,10 @@ class ReferenceFinder {
 	static void MakeAllMarksAndLinesOfRank(rank_t arank);
 
 	friend class Optimizer;
-	friend class RefBase;
-	friend class RefMark;
+	friend struct RefBase;
+	friend struct RefMark;
 	friend class RefMark_IntersectionLogic;
-	friend class RefLine;
+	friend struct RefLine;
 	friend class RefLine_C2P_C2P_Logic;
 	friend class RefLine_P2P_Logic;
 	friend class RefLine_L2L_Logic;

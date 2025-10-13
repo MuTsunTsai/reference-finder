@@ -70,12 +70,12 @@ class RefBaseLogic {
 };
 
 /**********
-class RefBase - base class for a mark or line.
+struct RefBase - base class for a mark or line.
 
 Any subclasses of RefBase should be fairly lightweight because we'll be
 creating a couple hundred thousand of them during program initialization.
 **********/
-class RefBase {
+struct RefBase {
   public:
 	static const std::array<RefBaseLogic *, 10> logics;
 

@@ -6,11 +6,10 @@
 #include "json/jsonArray.h"
 
 /**********
-class RefLine_L2L_P2L - Huzita-Hatori Axiom O7 (Hatori's Axiom).
+struct RefLine_L2L_P2L - Huzita-Hatori Axiom O7 (Hatori's Axiom).
 Bring line l1 to itself so that the point p1 goes on line l2.
 **********/
-class RefLine_L2L_P2L: public RefLine {
-  public:
+struct RefLine_L2L_P2L: RefLine {
 	RefLine *rl1; // bring line l1 onto itself
 	RefMark *rm1; // so that point p1
 	RefLine *rl2; // falls on line l2.
