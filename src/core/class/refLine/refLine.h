@@ -15,35 +15,36 @@ class RefLine: public RefBase {
 	using bare_t = XYLine; // type of bare object that a RefLine represents
 	bare_t l;			   // the line this contains
 
-	size_t hash() const override;
-	bool equals(const RefBase *other) const override;
-
   private:
-	static index_t sCount;					   // class index, used for numbering sequences of lines
+	static RefBaseLogic::index_t sCount;					   // class index, used for numbering sequences of lines
 	static std::array<const char, 10> sLabels; // labels for lines, indexed by sCount
 
-	static void moveCloser(XYPt &from, const XYPt &to, double dist);
-
   public:
-	RefLine() = default;
-	RefLine(const XYLine &al): l(al) {}
+	RefLine() = delete;
+	RefLine(const RefType atype): RefBase(atype) {}
+	RefLine(const XYLine &al, const RefType atype): RefBase(atype), l(al) {}
 
 	void FinishConstructor();
 	double DistanceTo(const XYLine &al) const;
 	double DistanceTo(const RefLine *ref) const;
 	bool IsOnEdge() const;
-	bool IsLine() const override;
-	bool IsActionLine() const override;
-
-	char GetLabel() const override;
-	void PutName(char const *key, JsonObject &obj) const override;
 	void PutDistanceAndRank(JsonObject &solution, const XYLine &al) const;
-	void DrawSelf(RefStyle rstyle, short ipass) const override;
-
-  protected:
-	void SetIndex() override;
 
   private:
 	static void ResetCount();
 	friend class RefBase;
+	friend class RefLineLogic;
+};
+
+class RefLineLogic: public RefBaseLogic {
+  public:
+	size_t hash(const RefBase *self) const override;
+	bool equals(const RefBase *self, const RefBase *other) const override;
+	char GetLabel(const RefBase *self) const override;
+	void PutName(const RefBase *self, char const *key, JsonObject &obj) const override;
+	void DrawSelf(const RefBase *self, RefStyle rstyle, short ipass) const override;
+	void SetIndex(const RefBase *self) const override;
+
+  private:
+	static void moveCloser(XYPt &from, const XYPt &to, double dist);
 };

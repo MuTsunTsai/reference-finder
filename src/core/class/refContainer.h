@@ -20,7 +20,7 @@ struct RefHash {
 // Custom equality comparison
 struct RefEqual {
 	template <typename T>
-	size_t operator()(T *a, T *b) const {
+	bool operator()(T *a, T *b) const {
 		return (a->*ptrToEquals)(b);
 	}
 };

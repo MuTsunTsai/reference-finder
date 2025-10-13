@@ -14,7 +14,7 @@ class RefMark - base class for a mark on the paper.
 /*****
 RefMark static member initialization
 *****/
-RefBase::index_t RefMark::sCount = 0; // Initialize class index
+RefBaseLogic::index_t RefMark::sCount = 0; // Initialize class index
 
 /*****
 Calculate the key value used for distinguishing RefMarks. This should be called
@@ -32,15 +32,6 @@ void RefMark::FinishConstructor() {
 	auto nx = static_cast<key_t>(floor(0.5 + fx * (Shared::sNumX - 1)));
 	auto ny = static_cast<key_t>(floor(0.5 + fy * (Shared::sNumY - 1)));
 	mKey = 1 + nx * Shared::sNumY + ny;
-}
-
-size_t RefMark::hash() const {
-	return std::hash<double>()(p.x) ^ (std::hash<double>()(p.y) << 1);
-}
-
-bool RefMark::equals(const RefBase *other) const {
-	const auto *o = static_cast<const RefMark *>(other);
-	return p.x == o->p.x && p.y == o->p.y;
 }
 
 /*****
@@ -62,35 +53,6 @@ bool RefMark::IsOnEdge() const {
 	return (Shared::sPaper.mLeftEdge.Intersects(p) || Shared::sPaper.mRightEdge.Intersects(p) || Shared::sPaper.mTopEdge.Intersects(p) || Shared::sPaper.mBottomEdge.Intersects(p));
 }
 
-bool RefMark::IsLine() const {
-	return false;
-}
-
-/*****
-Return false, since marks can never be actions
-*****/
-bool RefMark::IsActionLine() const {
-	return false;
-}
-
-/*****
-Return the label for this mark.
-*****/
-char RefMark::GetLabel() const {
-	index_t mIndex = sIndices[this];
-	if(mIndex == 0) return ' ';
-	return sLabels.at(mIndex - 1);
-}
-
-/*****
-Put the name of this mark to a stream. Default behavior gives this mark a
-letter. Return true if we used a letter, false if something else (i.e., the
-name of a RefMark_Original).
-*****/
-void RefMark::PutName(char const *key, JsonObject &obj) const {
-	obj.add(key, GetLabel());
-}
-
 /*****
 Put the distance from this mark to point ap to a stream.
 *****/
@@ -101,36 +63,74 @@ void RefMark::PutDistanceAndRank(JsonObject &solution, const XYPt &ap) const {
 }
 
 /*****
+Reset the counter used for indexing marks in a sequence.
+*****/
+void RefMark::ResetCount() {
+	sCount = 0;
+}
+
+size_t RefMarkLogic::hash(const RefBase *self) const {
+	const auto *s = static_cast<const RefMark *>(self);
+	return std::hash<double>()(s->p.x) ^ (std::hash<double>()(s->p.y) << 1);
+}
+
+bool RefMarkLogic::equals(const RefBase *self, const RefBase *other) const {
+	const auto *s = static_cast<const RefMark *>(self);
+	const auto *o = static_cast<const RefMark *>(other);
+	return s->p.x == o->p.x && s->p.y == o->p.y;
+}
+
+/*****
+Return the label for this mark.
+*****/
+char RefMarkLogic::GetLabel(const RefBase *self) const {
+	const auto *s = static_cast<const RefMark *>(self);
+	index_t mIndex = sIndices[self];
+	if(mIndex == 0) return ' ';
+	return RefMark::sLabels.at(mIndex - 1);
+}
+
+/*****
+Put the name of this mark to a stream. Default behavior gives this mark a
+letter. Return true if we used a letter, false if something else (i.e., the
+name of a RefMark_Original).
+*****/
+void RefMarkLogic::PutName(const RefBase *self, char const *key, JsonObject &obj) const {
+	obj.add(key, GetLabel(self));
+}
+
+/*****
 Draw a RefMark in the indicated style
 *****/
-void RefMark::DrawSelf(RefStyle rstyle, short ipass) const {
+void RefMarkLogic::DrawSelf(const RefBase *self, RefStyle rstyle, short ipass) const {
+	const auto *s = static_cast<const RefMark *>(self);
 	switch(ipass) {
 	case PASS_POINTS: {
 		switch(rstyle) {
 		case REFSTYLE_NORMAL:
-			sDgmr->DrawPt(p, RefDgmr::POINTSTYLE_NORMAL);
+			sDgmr->DrawPt(s->p, RefDgmr::POINTSTYLE_NORMAL);
 			break;
 		case REFSTYLE_HILITE:
-			sDgmr->DrawPt(p, RefDgmr::POINTSTYLE_HILITE);
+			sDgmr->DrawPt(s->p, RefDgmr::POINTSTYLE_HILITE);
 			break;
 		case REFSTYLE_ACTION:
-			sDgmr->DrawPt(p, RefDgmr::POINTSTYLE_ACTION);
+			sDgmr->DrawPt(s->p, RefDgmr::POINTSTYLE_ACTION);
 			break;
 		}
 	};
 		break;
 
 	case PASS_LABELS: {
-		string sm(1, GetLabel());
+		string sm(1, GetLabel(self));
 		switch(rstyle) {
 		case REFSTYLE_NORMAL:
 			// Normal points don't get labels drawn
 			break;
 		case REFSTYLE_HILITE:
-			sDgmr->DrawLabel(p, sm, RefDgmr::LABELSTYLE_HILITE);
+			sDgmr->DrawLabel(s->p, sm, RefDgmr::LABELSTYLE_HILITE);
 			break;
 		case REFSTYLE_ACTION:
-			sDgmr->DrawLabel(p, sm, RefDgmr::LABELSTYLE_ACTION);
+			sDgmr->DrawLabel(s->p, sm, RefDgmr::LABELSTYLE_ACTION);
 			break;
 		};
 		break;
@@ -142,13 +142,6 @@ void RefMark::DrawSelf(RefStyle rstyle, short ipass) const {
 Most types of RefMark use the default method, which gives the mark an index
 from the class variable sCount and then bumps up the class variable.
 *****/
-void RefMark::SetIndex() {
-	sIndices[this] = ++sCount;
-}
-
-/*****
-Reset the counter used for indexing marks in a sequence.
-*****/
-void RefMark::ResetCount() {
-	sCount = 0;
+void RefMarkLogic::SetIndex(const RefBase *self) const {
+	sIndices[self] = ++RefMark::sCount;
 }

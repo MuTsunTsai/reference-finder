@@ -17,17 +17,16 @@ class RefMark_Original: public RefMark {
   public:
 	RefMark_Original(const XYPt &ap, rank_t arank, std::string aName);
 
-	type_t GetType() const override;
-	rank_t GetRank() const override;
+	friend class RefMark_OriginalLogic;
+};
 
-	char GetLabel() const override;
-	void PutName(char const *key, JsonObject &obj) const override;
-	void DrawSelf(RefStyle rstyle, short ipass) const override;
-	void Export(BinaryOutputStream &os) const override;
-
-	static RefMark *Import(BinaryInputStream &is);
-
-  protected:
-	bool IsDerived() const override;
-	void SetIndex() override;
+class RefMark_OriginalLogic: public RefMarkLogic {
+	rank_t GetRank(const RefBase* self) const override;
+	char GetLabel(const RefBase* self) const override;
+	void PutName(const RefBase* self, char const *key, JsonObject &obj) const override;
+	void DrawSelf(const RefBase* self, RefStyle rstyle, short ipass) const override;
+	RefBase *Import(BinaryInputStream &is) const override;
+	void Export(const RefBase* self, BinaryOutputStream &os) const override;
+	bool IsDerived(const RefBase* self) const override;
+	void SetIndex(const RefBase* self) const override;
 };

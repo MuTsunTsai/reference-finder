@@ -7,6 +7,7 @@
 #include "json/jsonArray.h"
 #include "json/jsonObject.h"
 
+#include <array>
 #include <iostream>
 #include <unordered_map>
 #include <vector>
@@ -14,6 +15,59 @@
 class BinaryInputStream;
 class BinaryOutputStream;
 class RefDgmr;
+class RefBase;
+
+/**********
+class RefBaseLogic - base class for processing logic.
+
+Originally, the methods defined in this class are virtual methods of
+the RefBase class. However, doing so adds the vtable pointer (vptr)
+to all the hundreds of thousands of RefBase instances, thereby wasting
+significant amount of memory. Since v4.8, we separate the processing
+logic to their associated logic classes, eliminating vptr from the
+RefBase and its derived classes. There will be a very slight overhead
+for looking up the methods, but in practice the overhead can be ignored.
+**********/
+class RefBaseLogic {
+  public:
+	enum RefStyle : std::uint8_t {
+		REFSTYLE_NORMAL,
+		REFSTYLE_HILITE,
+		REFSTYLE_ACTION
+	};
+
+	virtual void MakeAll(rank_t arank) const;
+	virtual rank_t GetRank(const RefBase *self) const = 0;
+	virtual size_t hash(const RefBase *self) const = 0;
+	virtual bool equals(const RefBase *self, const RefBase *other) const = 0;
+	virtual void SequencePushSelf(RefBase *self) const;
+	virtual char GetLabel(const RefBase *self) const = 0;
+	virtual void PutName(const RefBase *self, char const *key, JsonObject &obj) const;
+	virtual JsonObject Serialize(const RefBase *self) const;
+	virtual RefBase *Import(BinaryInputStream &is) const = 0;
+	virtual void Export(const RefBase *self, BinaryOutputStream &os) const;
+	virtual bool UsesImmediate(const RefBase *self, RefBase *rb) const;
+	virtual bool IsDerived(const RefBase *self) const;
+	virtual void SetIndex(const RefBase *self) const = 0;
+	virtual void DrawSelf(const RefBase *self, RefStyle rstyle, short ipass) const = 0;
+
+	using index_t = short; // type for indices
+
+	// A counter used in constructing the verbal sequence;
+	// basically, it's the order in which the object is created for a given folding sequence.
+	static std::unordered_map<const RefBase *, index_t> sIndices;
+
+	static RefDgmr *sDgmr; // object that draws diagrams
+	enum : std::uint8_t {
+		// Drawing happens in multiple passes to get the stacking order correct
+		PASS_LINES,
+		PASS_HLINES,
+		PASS_POINTS,
+		PASS_ARROWS,
+		PASS_LABELS,
+		NUM_PASSES
+	}; // drawing order
+};
 
 /**********
 class RefBase - base class for a mark or line.
@@ -23,6 +77,10 @@ creating a couple hundred thousand of them during program initialization.
 **********/
 class RefBase {
   public:
+	static const std::array<RefBaseLogic *, 10> logics;
+
+	friend class RefBaseLogic;
+
 	// We squeeze a few fields into a union to save memory.
 	union {
 		/**
@@ -63,12 +121,6 @@ class RefBase {
 	 */
 	key_t mKey{0};
 
-	// These two fields are used only in some RefLine classes.
-	// Since we have space left in RefBase, we squeeze them here.
-	// This can save us 8 bytes for those RefLine classes.
-	unsigned char mWhoMoves;
-	unsigned char mRoot;
-
 	enum RefType : std::uint8_t {
 		LINE_ORIGINAL,
 		LINE_C2P_C2P,
@@ -82,6 +134,16 @@ class RefBase {
 		MARK_INTERSECTION
 	};
 
+  private:
+	const RefType mType;
+
+  public:
+	// These two fields are used only in some RefLine classes.
+	// Since we have space left in RefBase, we squeeze them here.
+	// This can save us 8 bytes for those RefLine classes.
+	unsigned char mWhoMoves;
+	unsigned char mRoot;
+
 	static std::vector<RefBase *> sSequence; // a sequence of refs that fully define a ref
 
 	struct DgmInfo {	  // information that encodes a diagram description
@@ -91,51 +153,28 @@ class RefBase {
 	};
 	static std::vector<DgmInfo> sDgms; // a list of diagrams that describe a given ref
 
-  protected:
-	using index_t = short; // type for indices
-
-	// A counter used in constructing the verbal sequence;
-	// basically, it's the order in which the object is created for a given folding sequence.
-	static std::unordered_map<const RefBase *, index_t> sIndices;
-
-	static RefDgmr *sDgmr; // object that draws diagrams
-	enum : std::uint8_t {
-		// Drawing happens in multiple passes to get the stacking order correct
-		PASS_LINES,
-		PASS_HLINES,
-		PASS_POINTS,
-		PASS_ARROWS,
-		PASS_LABELS,
-		NUM_PASSES
-	}; // drawing order
-
-  public:
-	RefBase() = default;
-	virtual ~RefBase() = default;
-
-	using type_t = unsigned char;
-	virtual type_t GetType() const = 0;
+	RefBase() = delete;
+	RefBase(const RefType atype): mType(atype) {};
 
 	// Rank of this mark or line, which is the number of creases that need to be made to define it.
 	// We only need this info in edge cases during CompareRankAndError and in exporting,
 	// so calculate its value as needed recursively does not significantly bring down performance,
 	// and we can save quite some memory usage by eliminating one field.
-	virtual rank_t GetRank() const = 0;
+	rank_t GetRank() const;
 
 	size_t simple_hash() const;
-	virtual size_t hash() const = 0;
+	size_t hash() const;
 	bool simple_equals(const RefBase *other) const;
-	virtual bool equals(const RefBase *other) const = 0;
+	bool equals(const RefBase *other) const;
 
 	// routines for building a sequence of refs
-	virtual void SequencePushSelf();
+	void SequencePushSelf();
 	void BuildAndNumberSequence();
 
 	// routine for creating a text description of how to fold a ref
-	virtual char GetLabel() const = 0;
-	virtual void PutName(char const *key, JsonObject &obj) const;
-	virtual JsonObject Serialize() const;
-	virtual void Export(BinaryOutputStream &os) const;
+	void PutName(char const *key, JsonObject &obj) const;
+	JsonObject Serialize() const;
+	void Export(BinaryOutputStream &os) const;
 	static void PutHowtoSequence(JsonObject &solution);
 
 	// routines for drawing diagrams
@@ -143,19 +182,15 @@ class RefBase {
 	static void DrawPaper();
 	static void DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm);
 
+	bool IsLine() const;
+
   protected:
-	virtual bool UsesImmediate(RefBase *rb) const;
-	virtual bool IsLine() const = 0;
-	virtual bool IsActionLine() const = 0;
-	virtual bool IsDerived() const;
-	virtual void SetIndex() = 0;
+	bool UsesImmediate(RefBase *rb) const;
+	bool IsActionLine() const;
+	bool IsDerived() const;
+	void SetIndex() const;
 	static void SequencePushUnique(RefBase *rb);
-	enum RefStyle : std::uint8_t {
-		REFSTYLE_NORMAL,
-		REFSTYLE_HILITE,
-		REFSTYLE_ACTION
-	};
-	virtual void DrawSelf(RefStyle rstyle, short ipass) const = 0;
+	void DrawSelf(RefBaseLogic::RefStyle rstyle, short ipass) const;
 
 #ifdef _DEBUG_DB_
 	void PutDebug(JsonObject &step) const;

@@ -71,4 +71,4 @@ clean:
 # Print memory layout of RefLine_P2L_P2L, the largest class
 .PHONY: layout
 layout:
-	$(CXX) $(CPPFLAGS) -Xclang -fdump-record-layouts src\core\class\refLine\refLineP2LP2L.h
+	$(CXX) $(CPPFLAGS) -Xclang -fdump-record-layouts -fsyntax-only src\core\class\refLine\refLineP2LP2L.cpp >> dump.txt

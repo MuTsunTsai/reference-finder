@@ -8,6 +8,7 @@
 #### Patches
 
 - v4.7.1: Fix scoring system.
+- v4.7.2: Improve memory efficiency.
 
 ## v4.6
 

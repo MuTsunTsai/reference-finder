@@ -142,15 +142,15 @@ class ReferenceFinder {
 	friend class Optimizer;
 	friend class RefBase;
 	friend class RefMark;
-	friend class RefMark_Intersection;
+	friend class RefMark_IntersectionLogic;
 	friend class RefLine;
-	friend class RefLine_C2P_C2P;
-	friend class RefLine_P2P;
-	friend class RefLine_L2L;
-	friend class RefLine_L2L_C2P;
-	friend class RefLine_P2L_C2P;
-	friend class RefLine_P2L_P2L;
-	friend class RefLine_L2L_P2L;
+	friend class RefLine_C2P_C2P_Logic;
+	friend class RefLine_P2P_Logic;
+	friend class RefLine_L2L_Logic;
+	friend class RefLine_L2L_C2P_Logic;
+	friend class RefLine_P2L_C2P_Logic;
+	friend class RefLine_P2L_P2L_Logic;
+	friend class RefLine_L2L_P2L_Logic;
 
 	friend class RefContainer<RefLine>;
 	friend class RefContainer<RefMark>;

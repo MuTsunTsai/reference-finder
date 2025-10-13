@@ -2,6 +2,8 @@ node_modules/
 obj/
 
 *.pch
+dump.txt
 
 # My own notes
 NOTE.md
+CLAUDE.md

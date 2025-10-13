@@ -14,16 +14,16 @@ class RefLine_C2P_C2P: public RefLine {
 	RefMark *rm2; // to another mark
 
 	RefLine_C2P_C2P(RefMark *arm1, RefMark *arm2);
+};
 
-	type_t GetType() const override;
-	rank_t GetRank() const override;
-
-	bool UsesImmediate(RefBase *rb) const override;
-	void SequencePushSelf() override;
-	JsonObject Serialize() const override;
-	void DrawSelf(RefStyle rstyle, short ipass) const override;
-	void Export(BinaryOutputStream &os) const override;
-
-	static RefLine *Import(BinaryInputStream &is);
-	static void MakeAll(rank_t arank);
+class RefLine_C2P_C2P_Logic: public RefLineLogic {
+  public:
+	void MakeAll(rank_t arank) const override;
+	rank_t GetRank(const RefBase *self) const override;
+	bool UsesImmediate(const RefBase *self, RefBase *rb) const override;
+	void SequencePushSelf(RefBase *self) const override;
+	JsonObject Serialize(const RefBase *self) const override;
+	void DrawSelf(const RefBase *self, RefStyle rstyle, short ipass) const override;
+	RefBase *Import(BinaryInputStream &is) const override;
+	void Export(const RefBase *self, BinaryOutputStream &os) const override;
 };

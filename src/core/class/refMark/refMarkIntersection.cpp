@@ -18,7 +18,7 @@ the intersection of 2 lines.
 /*****
 Constructor.
 *****/
-RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2): rl1(arl1), rl2(arl2) {
+RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2): RefMark(RefType::MARK_INTERSECTION), rl1(arl1), rl2(arl2) {
 	// Get references to constituent math types
 
 	mScore = rl1->mScore + rl2->mScore;
@@ -48,51 +48,11 @@ RefMark_Intersection::RefMark_Intersection(RefLine *arl1, RefLine *arl2): rl1(ar
 	FinishConstructor();
 }
 
-RefBase::type_t RefMark_Intersection::GetType() const {
-	return RefType::MARK_INTERSECTION;
-}
-
-rank_t RefMark_Intersection::GetRank() const {
-	return rl1->GetRank() + rl2->GetRank();
-}
-
-/*****
-Return true if this mark uses rb for immediate reference.
-*****/
-bool RefMark_Intersection::UsesImmediate(RefBase *rb) const {
-	return (rb == rl1 || rb == rl2);
-}
-
-/*****
-Build the folding sequence that constructs this object.
-*****/
-void RefMark_Intersection::SequencePushSelf() {
-	rl1->SequencePushSelf();
-	rl2->SequencePushSelf();
-	RefBase::SequencePushSelf();
-}
-
-/*****
-Export a description of how to construct this mark.
-*****/
-JsonObject RefMark_Intersection::Serialize() const {
-	JsonObject step;
-	step.add("axiom", 0);
-	rl1->PutName("l0", step);
-	rl2->PutName("l1", step);
-	PutName("x", step);
-
-#ifdef _DEBUG_DB_
-	PutDebug(step);
-#endif
-	return step;
-}
-
 /*****
 Go through existing lines and create RefMark_Intersections with rank equal to
 arank, up to a cumulative total of sMaxMarks.
 *****/
-void RefMark_Intersection::MakeAll(rank_t arank) {
+void RefMark_IntersectionLogic::MakeAll(rank_t arank) const {
 	for(rank_t irank = 0; irank <= arank / 2; irank++) {
 		rank_t jrank = arank - irank;
 		bool sameRank = (irank == jrank);
@@ -108,12 +68,47 @@ void RefMark_Intersection::MakeAll(rank_t arank) {
 	}
 }
 
-void RefMark_Intersection::Export(BinaryOutputStream &os) const {
-	RefBase::Export(os);
-	os << rl1->id << rl2->id;
+rank_t RefMark_IntersectionLogic::GetRank(const RefBase *self) const {
+	const auto *s = static_cast<const RefMark_Intersection *>(self);
+	return s->rl1->GetRank() + s->rl2->GetRank();
 }
 
-RefMark *RefMark_Intersection::Import(BinaryInputStream &is) {
+/*****
+Return true if this mark uses rb for immediate reference.
+*****/
+bool RefMark_IntersectionLogic::UsesImmediate(const RefBase *self, RefBase *rb) const {
+	const auto *s = static_cast<const RefMark_Intersection *>(self);
+	return (rb == s->rl1 || rb == s->rl2);
+}
+
+/*****
+Build the folding sequence that constructs this object.
+*****/
+void RefMark_IntersectionLogic::SequencePushSelf(RefBase *self) const {
+	const auto *s = static_cast<const RefMark_Intersection *>(self);
+	s->rl1->SequencePushSelf();
+	s->rl2->SequencePushSelf();
+	RefBaseLogic::SequencePushSelf(self);
+}
+
+/*****
+Export a description of how to construct this mark.
+*****/
+JsonObject RefMark_IntersectionLogic::Serialize(const RefBase *self) const {
+	const auto *s = static_cast<const RefMark_Intersection *>(self);
+	JsonObject step;
+	step.add("axiom", 0);
+	s->rl1->PutName("l0", step);
+	s->rl2->PutName("l1", step);
+	PutName(self, "x", step);
+
+#ifdef _DEBUG_DB_
+	PutDebug(step);
+#endif
+	return step;
+}
+
+RefBase *RefMark_IntersectionLogic::Import(BinaryInputStream &is) const {
 	size_t id1;
 	size_t id2;
 	is.read(id1).read(id2);
@@ -122,4 +117,10 @@ RefMark *RefMark_Intersection::Import(BinaryInputStream &is) {
 	RefLine *rl1 = ReferenceFinder::sBasisLines[id1];
 	RefLine *rl2 = ReferenceFinder::sBasisLines[id2];
 	return new RefMark_Intersection(rl1, rl2);
+}
+
+void RefMark_IntersectionLogic::Export(const RefBase *self, BinaryOutputStream &os) const {
+	RefBaseLogic::Export(self, os);
+	const auto *s = static_cast<const RefMark_Intersection *>(self);
+	os << s->rl1->id << s->rl2->id;
 }

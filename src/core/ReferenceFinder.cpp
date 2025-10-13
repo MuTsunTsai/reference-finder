@@ -122,38 +122,15 @@ void ReferenceFinder::MakeAllMarksAndLinesOfRank(rank_t arank) {
 	// (2) It is more likely to come up with traditionally known folding sequences.
 
 	for(int sAxiom: Shared::sAxioms) {
-		switch(sAxiom) {
-		case 1:
-			RefLine_C2P_C2P::MakeAll(arank);
-			break;
-		case 2:
-			RefLine_P2P::MakeAll(arank);
-			break;
-		case 3:
-			RefLine_L2L::MakeAll(arank);
-			break;
-		case 4:
-			RefLine_L2L_C2P::MakeAll(arank);
-			break;
-		case 5:
-			RefLine_P2L_C2P::MakeAll(arank);
-			break;
-		case 6:
-			RefLine_P2L_P2L::MakeAll(arank);
-			break;
-		case 7:
-			RefLine_L2L_P2L::MakeAll(arank);
-			break;
-		default:
-			break;
-		}
+		if(sAxiom == 0 || sAxiom > 7) continue; // skip
+		RefBase::logics[sAxiom]->MakeAll(arank);
 	}
 
 	// Having constructed all lines in the buffer, add them to the main collection.
 	sBasisLines.FlushBuffer(arank);
 
 	// construct all types of marks of the given rank
-	RefMark_Intersection::MakeAll(arank);
+	RefBase::logics[RefBase::RefType::MARK_INTERSECTION]->MakeAll(arank);
 	sBasisMarks.FlushBuffer(arank);
 
 	// if we're reporting status, say how many we constructed.
@@ -185,48 +162,16 @@ bool ReferenceFinder::ImportDatabase() {
 		unsigned char type;
 		is.read(type);
 
-		RefBase *ref;
-		bool isLine = true;
-		switch(type) {
-		case RefBase::RefType::LINE_ORIGINAL:
-			ref = RefLine_Original::Import(is);
-			break;
-		case RefBase::RefType::LINE_C2P_C2P:
-			ref = RefLine_C2P_C2P::Import(is);
-			break;
-		case RefBase::RefType::LINE_P2P:
-			ref = RefLine_P2P::Import(is);
-			break;
-		case RefBase::RefType::LINE_L2L:
-			ref = RefLine_L2L::Import(is);
-			break;
-		case RefBase::RefType::LINE_L2L_C2P:
-			ref = RefLine_L2L_C2P::Import(is);
-			break;
-		case RefBase::RefType::LINE_P2L_C2P:
-			ref = RefLine_P2L_C2P::Import(is);
-			break;
-		case RefBase::RefType::LINE_P2L_P2L:
-			ref = RefLine_P2L_P2L::Import(is);
-			break;
-		case RefBase::RefType::LINE_L2L_P2L:
-			ref = RefLine_L2L_P2L::Import(is);
-			break;
-		case RefBase::RefType::MARK_ORIGINAL:
-			ref = RefMark_Original::Import(is);
-			isLine = false;
-			break;
-		case RefBase::RefType::MARK_INTERSECTION:
-			ref = RefMark_Intersection::Import(is);
-			isLine = false;
-			break;
-		default:
+		if(type > RefBase::RefType::MARK_INTERSECTION) {
 			cout << "Error importing database. Data corrupted." << endl;
 			return false;
 		}
-
-		if(isLine) sBasisLines.push_back((RefLine *)ref);
-		else sBasisMarks.push_back((RefMark *)ref);
+		RefBase *ref = RefBase::logics[type]->Import(is);
+		if(ref->IsLine()) {
+			sBasisLines.push_back((RefLine *)ref);
+		} else {
+			sBasisMarks.push_back((RefMark *)ref);
+		}
 		CheckDatabaseStatus();
 	}
 	ShowProgress(DATABASE_READY, sCurRank);

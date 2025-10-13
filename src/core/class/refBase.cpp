@@ -5,7 +5,16 @@
 #include "math/xypt.h"
 #include "refDgmr.h"
 #include "refLine/refLine.h"
+#include "refLine/refLineC2PC2P.h"
+#include "refLine/refLineL2L.h"
+#include "refLine/refLineL2LC2P.h"
+#include "refLine/refLineL2LP2L.h"
+#include "refLine/refLineOriginal.h"
+#include "refLine/refLineP2LC2P.h"
+#include "refLine/refLineP2LP2L.h"
+#include "refLine/refLineP2P.h"
 #include "refMark/refMark.h"
+#include "refMark/refMarkOriginal.h"
 #include "refMark/refMarkIntersection.h"
 #include "json/jsonArray.h"
 
@@ -20,10 +29,20 @@ class RefBase - base class for a mark or line.
 /*****
 RefBase static member initialization
 *****/
-RefDgmr *RefBase::sDgmr;
-unordered_map<const RefBase *, RefBase::index_t> RefBase::sIndices;
 vector<RefBase *> RefBase::sSequence;
 vector<RefBase::DgmInfo> RefBase::sDgms;
+const std::array<RefBaseLogic *, 10> RefBase::logics = {
+	new RefLine_OriginalLogic(),
+	new RefLine_C2P_C2P_Logic(),
+	new RefLine_P2P_Logic(),
+	new RefLine_L2L_Logic(),
+	new RefLine_L2L_C2P_Logic(),
+	new RefLine_P2L_C2P_Logic(),
+	new RefLine_P2L_P2L_Logic(),
+	new RefLine_L2L_P2L_Logic(),
+	new RefMark_OriginalLogic(),
+	new RefMark_IntersectionLogic()
+};
 
 /*  Notes on Sequences.
 A ref (RefMark or RefLine) is typically defined in terms of other refs, going
@@ -49,7 +68,7 @@ each of the elements that define it, and then call the RefBase method for
 itself.
 *****/
 void RefBase::SequencePushSelf() {
-	SequencePushUnique(this);
+	logics[mType]->SequencePushSelf(this);
 }
 
 /*****
@@ -70,19 +89,20 @@ void RefBase::BuildAndNumberSequence() {
 
 	RefMark::ResetCount();
 	RefLine::ResetCount();
-	sIndices.clear();
+	RefBaseLogic::sIndices.clear();
 	for(auto &i: sSequence) i->SetIndex();
 }
 
-void RefBase::PutName(char const *key, JsonObject &obj) const {}
+void RefBase::PutName(char const *key, JsonObject &obj) const {
+	logics[mType]->PutName(this, key, obj);
+}
 
 /*****
 Create a JSON object about how to make this mark from its constituents.
 Overridden by most subclasses. Default behavior is returning an empty object.
 *****/
 JsonObject RefBase::Serialize() const {
-	JsonObject step;
-	return step;
+	return logics[mType]->Serialize(this);
 }
 
 /*****
@@ -173,7 +193,7 @@ void RefBase::DrawPaper() {
 	corners.push_back(Shared::sPaper.mBotRight);
 	corners.push_back(Shared::sPaper.mTopRight);
 	corners.push_back(Shared::sPaper.mTopLeft);
-	sDgmr->DrawPoly(corners, RefDgmr::POLYSTYLE_WHITE);
+	RefBaseLogic::sDgmr->DrawPoly(corners, RefDgmr::POLYSTYLE_WHITE);
 }
 
 /*****
@@ -181,7 +201,7 @@ Draw the given diagram using the RefDgmr aDgmr.
 *****/
 void RefBase::DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm) {
 	// Set the current RefDgmr to be aDgmr.
-	sDgmr = &aDgmr;
+	RefBaseLogic::sDgmr = &aDgmr;
 	const int act = aDgm.iact;
 
 	// always draw the paper
@@ -196,22 +216,22 @@ void RefBase::DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm) {
 	// action style. Any refs that are used immediately by the action line get
 	// drawn in hilite style. Drawing for each diagram is done in multiple passes
 	// so that, for examples, labels end up on top of everything else.
-	for(short ipass = 0; ipass < NUM_PASSES; ipass++) {
+	for(short ipass = 0; ipass < RefBaseLogic::NUM_PASSES; ipass++) {
 		for(size_t i = 0; i < act; i++) {
 			RefBase *rb = sSequence[i];
 			bool shouldHighlight = (i >= aDgm.idef && rb->IsDerived()) || ral->UsesImmediate(rb);
-			RefStyle style = shouldHighlight ? REFSTYLE_HILITE : REFSTYLE_NORMAL;
+			RefBaseLogic::RefStyle style = shouldHighlight ? RefBaseLogic::REFSTYLE_HILITE : RefBaseLogic::REFSTYLE_NORMAL;
 			rb->DrawSelf(style, ipass);
 		};
 		if(act < ss) {
-			sSequence[act]->DrawSelf(REFSTYLE_ACTION, ipass);
+			sSequence[act]->DrawSelf(RefBaseLogic::REFSTYLE_ACTION, ipass);
 
 			// When the next thing in the sequence is a mark, we also include it in the current diagram.
 			if(
 				act < ss - 2 &&				  // unless it's the very last one, which will be a standalone diagram.
 				!sSequence[act + 1]->IsLine() // the next one is a mark
 			) {
-				sSequence[act + 1]->DrawSelf(REFSTYLE_ACTION, ipass);
+				sSequence[act + 1]->DrawSelf(RefBaseLogic::REFSTYLE_ACTION, ipass);
 			}
 		}
 	}
@@ -223,8 +243,8 @@ means that if A uses B and B uses C, A->UsesImmediate(B) returns true but
 A->UsesImmediate(C) returns false. Default returns false; this will be used by
 original marks and lines.
 *****/
-bool RefBase::UsesImmediate(RefBase * /* rb */) const {
-	return false;
+bool RefBase::UsesImmediate(RefBase *rb) const {
+	return logics[mType]->UsesImmediate(this, rb);
 }
 
 /*****
@@ -234,7 +254,7 @@ are still considered original. Default is true since most objects will be
 derived.
 *****/
 bool RefBase::IsDerived() const {
-	return true;
+	return logics[mType]->IsDerived(this);
 }
 
 /*****
@@ -247,7 +267,7 @@ void RefBase::SequencePushUnique(RefBase *rb) {
 }
 
 void RefBase::Export(BinaryOutputStream &os) const {
-	os << GetType();
+	logics[mType]->Export(this, os);
 }
 
 size_t RefBase::simple_hash() const {
@@ -256,6 +276,28 @@ size_t RefBase::simple_hash() const {
 
 bool RefBase::simple_equals(const RefBase *other) const {
 	return mKey == other->mKey;
+}
+
+rank_t RefBase::GetRank() const {
+	return logics[mType]->GetRank(this);
+}
+size_t RefBase::hash() const {
+	return logics[mType]->hash(this);
+}
+bool RefBase::equals(const RefBase *other) const {
+	return logics[mType]->equals(this, other);
+}
+bool RefBase::IsLine() const {
+	return mType < RefType::MARK_ORIGINAL;
+}
+bool RefBase::IsActionLine() const {
+	return RefType::LINE_ORIGINAL < mType && mType < RefType::MARK_ORIGINAL;
+}
+void RefBase::SetIndex() const {
+	logics[mType]->SetIndex(this);
+}
+void RefBase::DrawSelf(RefBaseLogic::RefStyle rstyle, short ipass) const {
+	logics[mType]->DrawSelf(this, rstyle, ipass);
 }
 
 #ifdef _DEBUG_DB_
@@ -267,3 +309,39 @@ void RefBase::PutDebug(JsonObject &step) const {
 
 size_t (RefBase::*ptrToHash)() const = &RefBase::simple_hash;
 bool (RefBase::*ptrToEquals)(const RefBase *other) const = &RefBase::simple_equals;
+
+/**********
+class RefBaseLogic
+**********/
+
+RefDgmr *RefBaseLogic::sDgmr;
+unordered_map<const RefBase *, RefBaseLogic::index_t> RefBaseLogic::sIndices;
+
+void RefBaseLogic::MakeAll(rank_t arank) const {
+	// Do nothing by default
+}
+
+void RefBaseLogic::SequencePushSelf(RefBase *self) const {
+	RefBase::SequencePushUnique(self);
+}
+
+void RefBaseLogic::PutName(const RefBase *self, char const *key, JsonObject &obj) const {
+	// Do nothing by default
+}
+
+JsonObject RefBaseLogic::Serialize(const RefBase *self) const {
+	JsonObject step;
+	return step;
+}
+
+void RefBaseLogic::Export(const RefBase *self, BinaryOutputStream &os) const {
+	os << self->mType;
+}
+
+bool RefBaseLogic::UsesImmediate(const RefBase *self, RefBase *rb) const {
+	return false;
+}
+
+bool RefBaseLogic::IsDerived(const RefBase *self) const {
+	return true;
+}

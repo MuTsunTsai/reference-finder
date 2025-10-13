@@ -16,33 +16,34 @@ class RefMark: public RefBase {
 	bare_t p;			 // coordinates of the mark
 
   private:
-	static index_t sCount;					   // class index, used for numbering sequences of marks
+	static RefBaseLogic::index_t sCount;					   // class index, used for numbering sequences of marks
 	static std::array<const char, 11> sLabels; // labels for marks, indexed by sCount
 
   public:
-	RefMark() = default;
-	RefMark(const XYPt &ap): p(ap) {}
-
-	size_t hash() const override;
-	bool equals(const RefBase *other) const override;
+	RefMark() = delete;
+	RefMark(const RefType atype): RefBase(atype) {}
+	RefMark(const XYPt &ap, const RefType atype): RefBase(atype), p(ap) {}
 
 	void FinishConstructor();
 
 	double DistanceTo(const XYPt &ap) const;
 	double DistanceTo(const RefMark *ref) const;
 	bool IsOnEdge() const;
-	bool IsLine() const override;
-	bool IsActionLine() const override;
 
-	char GetLabel() const override;
-	void PutName(char const *key, JsonObject &obj) const override;
 	void PutDistanceAndRank(JsonObject &solution, const XYPt &ap) const;
-	void DrawSelf(RefStyle rstyle, short ipass) const override;
-
-  protected:
-	void SetIndex() override;
 
   private:
 	static void ResetCount();
 	friend class RefBase;
+	friend class RefMarkLogic;
+};
+
+class RefMarkLogic: public RefBaseLogic {
+  public:
+	size_t hash(const RefBase *self) const override;
+	bool equals(const RefBase *self, const RefBase *other) const override;
+	char GetLabel(const RefBase *self) const override;
+	void PutName(const RefBase *self, char const *key, JsonObject &obj) const override;
+	void DrawSelf(const RefBase *self, RefStyle rstyle, short ipass) const override;
+	void SetIndex(const RefBase *self) const override;
 };

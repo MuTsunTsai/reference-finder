@@ -15,7 +15,8 @@ Bring line l1 onto itself so that point p1 falls on line l2.
 /*****
 Constructor. iroot can be 0 or 1.
 *****/
-RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2): rl1(arl1), rm1(arm1), rl2(arl2) {
+RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2)
+	: RefLine(RefType::LINE_L2L_P2L), rl1(arl1), rm1(arm1), rl2(arl2) {
 
 	mScore = rl1->mScore + rm1->mScore + rl2->mScore + Shared::sAxiomWeights[6];
 
@@ -64,13 +65,13 @@ RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2): r
 			t1 = ti;
 		}; // now t1 is the parameter for the endpoint on the p1 side of l2.
 		if(p1edge && (abs(t1) <= abs(t2)))
-			mWhoMoves = WHOMOVES_P1;
+			mWhoMoves = RefLine_L2L_P2L_Logic::WHOMOVES_P1;
 		else if(l1edge && (abs(t1) >= abs(t2)))
-			mWhoMoves = WHOMOVES_L1;
+			mWhoMoves = RefLine_L2L_P2L_Logic::WHOMOVES_L1;
 		else
 			return;
 	} else {
-		mWhoMoves = WHOMOVES_P1;
+		mWhoMoves = RefLine_L2L_P2L_Logic::WHOMOVES_P1;
 	};
 
 	// If this line creates a skinny flap, we won't use it.
@@ -80,107 +81,11 @@ RefLine_L2L_P2L::RefLine_L2L_P2L(RefLine *arl1, RefMark *arm1, RefLine *arl2): r
 	FinishConstructor();
 }
 
-RefBase::type_t RefLine_L2L_P2L::GetType() const {
-	return RefType::LINE_L2L_P2L;
-}
-
-rank_t RefLine_L2L_P2L::GetRank() const {
-	return 1 + rl1->GetRank() + rm1->GetRank() + rl2->GetRank();
-}
-
-/*****
-Return true if this line uses rb for immediate reference.
-*****/
-bool RefLine_L2L_P2L::UsesImmediate(RefBase *rb) const {
-	return (rb == rl1 || rb == rm1 || rb == rl2);
-}
-
-/*****
-Build the folding sequence that constructs this object.
-*****/
-void RefLine_L2L_P2L::SequencePushSelf() {
-	switch(mWhoMoves) {
-	case WHOMOVES_P1:
-		rl1->SequencePushSelf();
-		rm1->SequencePushSelf();
-		break;
-
-	case WHOMOVES_L1:
-		rm1->SequencePushSelf();
-		rl1->SequencePushSelf();
-		break;
-	};
-	rl2->SequencePushSelf();
-	RefBase::SequencePushSelf();
-}
-
-/*****
-Export the construction of this line.
-*****/
-JsonObject RefLine_L2L_P2L::Serialize() const {
-	JsonObject step;
-	step.add("axiom", 7);
-	rl2->PutName("l1", step);
-	rm1->PutName("p0", step);
-	rl1->PutName("l0", step);
-	switch(mWhoMoves) {
-	case WHOMOVES_P1:
-		step.add("order", "p0,l0");
-		break;
-	case WHOMOVES_L1:
-		step.add("order", "l0,p0");
-		break;
-	};
-	PutName("x", step);
-
-	if(mForMark != nullptr) step.add("pinch", 1);
-#ifdef _DEBUG_DB_
-	PutDebug(step);
-#endif
-	return step;
-}
-
-/*****
-Draw this line, adding arrows if appropriate
-*****/
-void RefLine_L2L_P2L::DrawSelf(RefStyle rstyle, short ipass) const {
-	// Call inherited method to draw the lines
-	RefLine::DrawSelf(rstyle, ipass);
-
-	// If we're moving, we need an arrow
-	if((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
-
-		// Draw line-to-itself arrow
-		XYPt p1;
-		XYPt p2;
-		XYLine &l2 = rl2->l;
-		Shared::sPaper.ClipLine(l2, p1, p2); // get endpts of the reference line
-		XYPt pi = Intersection(l, l2);		 // intersection w/ fold line
-		XYPt u1p = l2.u.Rotate90();			 // tangent to reference line
-		double t1 = abs((p1 - pi).Dot(u1p));
-		double t2 = abs((p2 - pi).Dot(u1p));
-		double tmin = t1 < t2 ? t1 : t2;
-		sDgmr->DrawArrow(pi + tmin * u1p, pi - tmin * u1p);
-
-		// Draw point-to-line arrow
-		XYPt &p3 = rm1->p;
-		XYPt p3p = l.Fold(p3);
-		switch(mWhoMoves) {
-		case WHOMOVES_P1:
-			sDgmr->DrawArrow(p3, p3p);
-			break;
-		case WHOMOVES_L1:
-			sDgmr->DrawArrow(p3p, p3);
-			break;
-		}
-	}
-}
-
 /*****
 Go through existing lines and marks and create RefLine_L2L_P2Ls with rank equal
 arank up to a cumulative total of sMaxLines.
 *****/
-void RefLine_L2L_P2L::MakeAll(rank_t arank) {
+void RefLine_L2L_P2L_Logic::MakeAll(rank_t arank) const {
 	for(rank_t irank = 0; irank <= (arank - 1); irank++) {
 		for(rank_t jrank = 0; jrank <= (arank - 1 - irank); jrank++) {
 			rank_t krank = arank - irank - jrank - 1;
@@ -199,12 +104,104 @@ void RefLine_L2L_P2L::MakeAll(rank_t arank) {
 	}
 }
 
-void RefLine_L2L_P2L::Export(BinaryOutputStream &os) const {
-	RefBase::Export(os);
-	os << rl1->id << rm1->id << rl2->id;
+rank_t RefLine_L2L_P2L_Logic::GetRank(const RefBase *self) const {
+	const auto *s = static_cast<const RefLine_L2L_P2L *>(self);
+	return 1 + s->rl1->GetRank() + s->rm1->GetRank() + s->rl2->GetRank();
 }
 
-RefLine *RefLine_L2L_P2L::Import(BinaryInputStream &is) {
+/*****
+Return true if this line uses rb for immediate reference.
+*****/
+bool RefLine_L2L_P2L_Logic::UsesImmediate(const RefBase *self, RefBase *rb) const {
+	const auto *s = static_cast<const RefLine_L2L_P2L *>(self);
+	return (rb == s->rl1 || rb == s->rm1 || rb == s->rl2);
+}
+
+/*****
+Build the folding sequence that constructs this object.
+*****/
+void RefLine_L2L_P2L_Logic::SequencePushSelf(RefBase *self) const {
+	const auto *s = static_cast<const RefLine_L2L_P2L *>(self);
+	switch(s->mWhoMoves) {
+	case WHOMOVES_P1:
+		s->rl1->SequencePushSelf();
+		s->rm1->SequencePushSelf();
+		break;
+
+	case WHOMOVES_L1:
+		s->rm1->SequencePushSelf();
+		s->rl1->SequencePushSelf();
+		break;
+	};
+	s->rl2->SequencePushSelf();
+	RefBaseLogic::SequencePushSelf(self);
+}
+
+/*****
+Export the construction of this line.
+*****/
+JsonObject RefLine_L2L_P2L_Logic::Serialize(const RefBase *self) const {
+	const auto *s = static_cast<const RefLine_L2L_P2L *>(self);
+	JsonObject step;
+	step.add("axiom", 7);
+	s->rl2->PutName("l1", step);
+	s->rm1->PutName("p0", step);
+	s->rl1->PutName("l0", step);
+	switch(s->mWhoMoves) {
+	case WHOMOVES_P1:
+		step.add("order", "p0,l0");
+		break;
+	case WHOMOVES_L1:
+		step.add("order", "l0,p0");
+		break;
+	};
+	PutName(self, "x", step);
+
+	if(s->mForMark != nullptr) step.add("pinch", 1);
+#ifdef _DEBUG_DB_
+	PutDebug(step);
+#endif
+	return step;
+}
+
+/*****
+Draw this line, adding arrows if appropriate
+*****/
+void RefLine_L2L_P2L_Logic::DrawSelf(const RefBase *self, RefStyle rstyle, short ipass) const {
+	const auto *s = static_cast<const RefLine_L2L_P2L *>(self);
+	// Call inherited method to draw the lines
+	RefLineLogic::DrawSelf(self, rstyle, ipass);
+
+	// If we're moving, we need an arrow
+	if((ipass == PASS_ARROWS) && (rstyle == REFSTYLE_ACTION)) {
+
+		// Draw line-to-itself arrow
+		XYPt p1;
+		XYPt p2;
+		XYLine &l2 = s->rl2->l;
+		Shared::sPaper.ClipLine(l2, p1, p2); // get endpts of the reference line
+		XYPt pi = Intersection(s->l, l2);	 // intersection w/ fold line
+		XYPt u1p = l2.u.Rotate90();			 // tangent to reference line
+		double t1 = abs((p1 - pi).Dot(u1p));
+		double t2 = abs((p2 - pi).Dot(u1p));
+		double tmin = t1 < t2 ? t1 : t2;
+		sDgmr->DrawArrow(pi + tmin * u1p, pi - tmin * u1p);
+
+		// Draw point-to-line arrow
+		XYPt &p3 = s->rm1->p;
+		XYPt p3p = s->l.Fold(p3);
+		switch(s->mWhoMoves) {
+		case WHOMOVES_P1:
+			sDgmr->DrawArrow(p3, p3p);
+			break;
+		case WHOMOVES_L1:
+			sDgmr->DrawArrow(p3p, p3);
+			break;
+		}
+	}
+}
+
+RefBase *RefLine_L2L_P2L_Logic::Import(BinaryInputStream &is) const {
 	size_t id1;
 	size_t id2;
 	size_t id3;
@@ -213,4 +210,10 @@ RefLine *RefLine_L2L_P2L::Import(BinaryInputStream &is) {
 	RefMark *rm1 = ReferenceFinder::sBasisMarks[id2];
 	RefLine *rl2 = ReferenceFinder::sBasisLines[id3];
 	return new RefLine_L2L_P2L(rl1, rm1, rl2);
+}
+
+void RefLine_L2L_P2L_Logic::Export(const RefBase *self, BinaryOutputStream &os) const {
+	const auto *s = static_cast<const RefLine_L2L_P2L *>(self);
+	RefBaseLogic::Export(self, os);
+	os << s->rl1->id << s->rm1->id << s->rl2->id;
 }
