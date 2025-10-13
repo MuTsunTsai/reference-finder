@@ -25,7 +25,8 @@
 		"README.md": "LICENSE, CONTRIBUTING.md, CHANGELOG.md"
 	},
 	"files.exclude": {
-		"obj/": true
+		"obj/": true,
+		"**/*.pch": true
 	},
 	"i18n-ally.keystyle": "nested",
 	"i18n-ally.localesPaths": [

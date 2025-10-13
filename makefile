@@ -67,3 +67,8 @@ $(SRCF)/RFVersion.h: package.json
 .PHONY: clean
 clean:
 	@$(RM) $(TEMP)
+
+# Print memory layout of RefLine_P2L_P2L, the largest class
+.PHONY: layout
+layout:
+	$(CXX) $(CPPFLAGS) -Xclang -fdump-record-layouts src\core\class\refLine\refLineP2LP2L.h

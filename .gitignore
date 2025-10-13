@@ -1,5 +1,7 @@
 node_modules/
 obj/
 
+*.pch
+
 # My own notes
 NOTE.md
