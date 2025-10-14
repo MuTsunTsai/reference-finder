@@ -96,8 +96,8 @@ void RefLine::ResetCount() {
 }
 
 size_t RefLineLogic::hash(const RefBase *self) const {
-	const auto *line = static_cast<const RefLine *>(self);
-	return std::hash<double>()(line->l.d) ^ (std::hash<double>()(line->l.u.x) << 1) ^ (std::hash<double>()(line->l.u.y) << 2);
+	const auto *s = static_cast<const RefLine *>(self);
+	return std::hash<double>()(s->l.d) ^ (std::hash<double>()(s->l.u.x) << 1) ^ (std::hash<double>()(s->l.u.y) << 2);
 }
 
 bool RefLineLogic::equals(const RefBase *self, const RefBase *other) const {

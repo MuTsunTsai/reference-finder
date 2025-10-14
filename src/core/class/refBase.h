@@ -142,6 +142,12 @@ struct RefBase {
 	unsigned char mWhoMoves;
 	unsigned char mRoot;
 
+	// Define two method pointers.
+	// This allow us to dynamically change the implementation of the methods,
+	// without any overhead of conditional statements.
+	static size_t (RefBase::*ptrToHash)() const;
+	static bool (RefBase::*ptrToEquals)(const RefBase *other) const;
+
 	static std::vector<RefBase *> sSequence; // a sequence of refs that fully define a ref
 
 	struct DgmInfo {	  // information that encodes a diagram description
@@ -194,6 +200,3 @@ struct RefBase {
 	void PutDebug(JsonObject &step) const;
 #endif
 };
-
-extern size_t (RefBase::*ptrToHash)() const;
-extern bool (RefBase::*ptrToEquals)(const RefBase *other) const;

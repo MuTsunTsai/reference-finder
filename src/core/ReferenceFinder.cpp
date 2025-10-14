@@ -180,16 +180,15 @@ bool ReferenceFinder::ImportDatabase() {
 }
 
 /*****
-Create all marks and lines sequentially. you should have previously verified
-that LineKeySizeOK() and MarkKeySizeOK() return true.
+Create all marks and lines sequentially.
 *****/
 void ReferenceFinder::BuildAndExportDatabase() {
 	Shared::sDatabaseStatusSkip = 800000;
 	Shared::CheckDatabaseStatus = &CheckDatabaseStatus;
 
 	if(!Shared::use_division) {
-		ptrToHash = &RefBase::hash;
-		ptrToEquals = &RefBase::equals;
+		RefBase::ptrToHash = &RefBase::hash;
+		RefBase::ptrToEquals = &RefBase::equals;
 	}
 
 	ofstream *outFile = nullptr;

@@ -14,8 +14,8 @@
 #include "refLine/refLineP2LP2L.h"
 #include "refLine/refLineP2P.h"
 #include "refMark/refMark.h"
-#include "refMark/refMarkOriginal.h"
 #include "refMark/refMarkIntersection.h"
+#include "refMark/refMarkOriginal.h"
 #include "json/jsonArray.h"
 
 #include <algorithm>
@@ -271,6 +271,7 @@ void RefBase::Export(BinaryOutputStream &os) const {
 }
 
 size_t RefBase::simple_hash() const {
+	// In practice, this line is implemented by the compiler as directly returning mKey.
 	return std::hash<key_t>()(mKey);
 }
 
@@ -307,8 +308,8 @@ void RefBase::PutDebug(JsonObject &step) const {
 }
 #endif
 
-size_t (RefBase::*ptrToHash)() const = &RefBase::simple_hash;
-bool (RefBase::*ptrToEquals)(const RefBase *other) const = &RefBase::simple_equals;
+size_t (RefBase::*RefBase::ptrToHash)() const = &RefBase::simple_hash;
+bool (RefBase::*RefBase::ptrToEquals)(const RefBase *other) const = &RefBase::simple_equals;
 
 /**********
 class RefBaseLogic

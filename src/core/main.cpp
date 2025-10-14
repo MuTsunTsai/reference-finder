@@ -89,7 +89,7 @@ void ConsoleStatisticsProgress(ReferenceFinder::StatisticsInfo info, void *_, bo
 	}
 	case ReferenceFinder::STATISTICS_WORKING: {
 		progress.add(info.mError);
-		int index = (int)info.mIndex + 1;
+		int index = info.mIndex + 1;
 
 		// Use the execution time of the first trial to estimate intervals.
 		if(index == lapToTime) {

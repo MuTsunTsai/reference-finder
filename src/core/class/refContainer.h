@@ -13,7 +13,7 @@
 struct RefHash {
 	template <typename T>
 	size_t operator()(T *ptr) const {
-		return (ptr->*ptrToHash)();
+		return (ptr->*RefBase::ptrToHash)();
 	}
 };
 
@@ -21,7 +21,7 @@ struct RefHash {
 struct RefEqual {
 	template <typename T>
 	bool operator()(T *a, T *b) const {
-		return (a->*ptrToEquals)(b);
+		return (a->*RefBase::ptrToEquals)(b);
 	}
 };
 
