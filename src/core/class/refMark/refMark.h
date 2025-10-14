@@ -16,7 +16,7 @@ struct RefMark: RefBase {
 	bare_t p;			 // coordinates of the mark
 
   private:
-	static RefBaseLogic::index_t sCount;					   // class index, used for numbering sequences of marks
+	static step_t sCount;					   // class index, used for numbering sequences of marks
 	static std::array<const char, 11> sLabels; // labels for marks, indexed by sCount
 
   public:

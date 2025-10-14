@@ -40,10 +40,10 @@ class ReferenceFinder {
 	ReferenceFinder(const ReferenceFinder &) = delete;
 
 	// Getters
-	static std::size_t GetNumLines() {
+	static index_t GetNumLines() {
 		return sBasisLines.GetTotalSize();
 	};
-	static std::size_t GetNumMarks() {
+	static index_t GetNumMarks() {
 		return sBasisMarks.GetTotalSize();
 	};
 
@@ -58,10 +58,10 @@ class ReferenceFinder {
 	struct DatabaseInfo {
 		DatabaseStatus mStatus;
 		rank_t mRank;
-		std::size_t mNumLines;
-		std::size_t mNumMarks;
+		index_t mNumLines;
+		index_t mNumMarks;
 
-		DatabaseInfo(DatabaseStatus status = DATABASE_EMPTY, rank_t rank = 0, std::size_t numLines = 0, std::size_t numMarks = 0)
+		DatabaseInfo(DatabaseStatus status = DATABASE_EMPTY, rank_t rank = 0, index_t numLines = 0, index_t numMarks = 0)
 			: mStatus(status), mRank(rank), mNumLines(numLines), mNumMarks(numMarks) {};
 		bool operator==(const DatabaseInfo &info) const {
 			return mStatus == info.mStatus && mRank == info.mRank &&
@@ -101,10 +101,10 @@ class ReferenceFinder {
 	};
 	struct StatisticsInfo {
 		StatisticsStatus mStatus;
-		std::size_t mIndex;
+		int mIndex;
 		double mError;
 
-		StatisticsInfo(StatisticsStatus status = STATISTICS_DONE, std::size_t index = std::size_t(-1), double error = 0.0)
+		StatisticsInfo(StatisticsStatus status = STATISTICS_DONE, int index = -1, double error = 0.0)
 			: mStatus(status), mIndex(index), mError(error) {};
 		bool operator==(const StatisticsInfo &info) const {
 			return mStatus == info.mStatus && mIndex == info.mIndex &&
@@ -126,6 +126,9 @@ class ReferenceFinder {
   private:
 	static RefContainer<RefLine> sBasisLines; // all lines
 	static RefContainer<RefMark> sBasisMarks; // all marks
+
+	/** Path for the database file. */
+	static const char* db_path;
 
 	class EXC_HALT {};				// exception for user cancellation
 	static rank_t sCurRank;			// the rank that we're currently working on

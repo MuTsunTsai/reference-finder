@@ -202,9 +202,9 @@ void RefLine_L2L_P2L_Logic::DrawSelf(const RefBase *self, RefStyle rstyle, short
 }
 
 RefBase *RefLine_L2L_P2L_Logic::Import(BinaryInputStream &is) const {
-	size_t id1;
-	size_t id2;
-	size_t id3;
+	index_t id1;
+	index_t id2;
+	index_t id3;
 	is.read(id1).read(id2).read(id3);
 	RefLine *rl1 = ReferenceFinder::sBasisLines[id1];
 	RefMark *rm1 = ReferenceFinder::sBasisMarks[id2];

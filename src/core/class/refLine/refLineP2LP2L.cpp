@@ -311,10 +311,10 @@ void RefLine_P2L_P2L_Logic::MakeAllCore(rank_t irank, rank_t jrank, rank_t krank
 }
 
 RefBase *RefLine_P2L_P2L_Logic::Import(BinaryInputStream &is) const {
-	size_t id1;
-	size_t id2;
-	size_t id3;
-	size_t id4;
+	index_t id1;
+	index_t id2;
+	index_t id3;
+	index_t id4;
 	unsigned char root;
 	is.read(id1).read(id2).read(id3).read(id4).read(root);
 	RefMark *rm1 = ReferenceFinder::sBasisMarks[id1];

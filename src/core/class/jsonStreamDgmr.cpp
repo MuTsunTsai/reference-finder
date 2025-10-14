@@ -21,7 +21,7 @@ routines that follow.
 *****/
 template <class R>
 void JsonStreamDgmr::PutRefList(const typename R::bare_t &ar, vector<R *> &vr) {
-	for(size_t i = 0; i < vr.size(); i++) {
+	for(step_t i = 0; i < vr.size(); i++) {
 		JsonObject solution;
 		vr[i]->PutDistanceAndRank(solution, ar);
 		vr[i]->BuildAndNumberSequence();

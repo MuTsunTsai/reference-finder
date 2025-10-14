@@ -56,6 +56,7 @@ ReferenceFinder::StatisticsFn ReferenceFinder::sStatisticsFn = nullptr;
 void *ReferenceFinder::sStatisticsUserData = nullptr;
 int ReferenceFinder::sStatusCount = 0;
 rank_t ReferenceFinder::sCurRank = 0;
+const char *ReferenceFinder::db_path = "/data/db";
 
 bool ReferenceFinder::ShowProgress(DatabaseStatus status, rank_t rank) {
 	bool haltFlag = false;
@@ -141,7 +142,7 @@ bool ReferenceFinder::ImportDatabase() {
 	if(!Shared::useDatabase || Shared::forceRebuild) return false;
 	Shared::sDatabaseStatusSkip = 100000;
 
-	ifstream inFile(string("/data/db"));
+	ifstream inFile(db_path);
 	if(!inFile) return false;
 
 	BinaryInputStream is(inFile);
@@ -150,8 +151,8 @@ bool ReferenceFinder::ImportDatabase() {
 	sBasisMarks.Rebuild();
 	sCurRank = Shared::sMaxRank;
 
-	size_t lines;
-	size_t marks;
+	index_t lines;
+	index_t marks;
 	is.read(lines).read(marks);
 	cout << "lines: " << lines << ", marks: " << marks << endl;
 
@@ -193,13 +194,13 @@ void ReferenceFinder::BuildAndExportDatabase() {
 
 	ofstream *outFile = nullptr;
 	if(Shared::useDatabase) {
-		outFile = new ofstream(string("/data/db"));
+		outFile = new ofstream(db_path);
 		if(!*outFile) {
 			Shared::useDatabase = false;
 			outFile = nullptr;
 		} else {
 			Shared::dbStream = new BinaryOutputStream(*outFile);
-			*Shared::dbStream << (size_t)0 << (size_t)0;
+			*Shared::dbStream << (index_t)0 << (index_t)0;
 		}
 	}
 
@@ -295,7 +296,7 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	// Conclude database exporting
 	if(Shared::useDatabase) {
 		outFile->seekp(0, ios::beg);
-		*Shared::dbStream << sBasisLines.size() << sBasisMarks.size();
+		*Shared::dbStream << (index_t)sBasisLines.size() << (index_t)sBasisMarks.size();
 		outFile->close();
 	}
 	delete Shared::dbStream;
@@ -400,7 +401,7 @@ void ReferenceFinder::CalcStatistics() {
 	Paper &sPaper = Shared::sPaper;
 
 	// Run a bunch of test cases on random points.
-	for(size_t i = 0; i < size_t(Shared::sNumTrials); i++) {
+	for(int i = 0; i < Shared::sNumTrials; i++) {
 		XYPt testPt((double(rand()) / RAND_MAX * sPaper.mWidth), double(rand()) / RAND_MAX * sPaper.mHeight);
 		double error = Optimizer::GetBestError(testPt);
 

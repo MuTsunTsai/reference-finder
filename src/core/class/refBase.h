@@ -51,11 +51,9 @@ class RefBaseLogic {
 	virtual void SetIndex(const RefBase *self) const = 0;
 	virtual void DrawSelf(const RefBase *self, RefStyle rstyle, short ipass) const = 0;
 
-	using index_t = short; // type for indices
-
 	// A counter used in constructing the verbal sequence;
 	// basically, it's the order in which the object is created for a given folding sequence.
-	static std::unordered_map<const RefBase *, index_t> sIndices;
+	static std::unordered_map<const RefBase *, step_t> sIndices;
 
 	static RefDgmr *sDgmr; // object that draws diagrams
 	enum : std::uint8_t {
@@ -87,7 +85,7 @@ struct RefBase {
 		 * Unique id for refs that are actually added to the DB.
 		 * Used after leaving buffer, and before initialization complete.
 		 */
-		std::size_t id;
+		index_t id;
 
 		/**
 		 * Key for optimization. Used only for RefMark and after initialization.
@@ -147,9 +145,9 @@ struct RefBase {
 	static std::vector<RefBase *> sSequence; // a sequence of refs that fully define a ref
 
 	struct DgmInfo {	  // information that encodes a diagram description
-		std::size_t idef; // first ref that's defined in this diagram
-		std::size_t iact; // ref that terminates this diagram
-		DgmInfo(std::size_t adef, std::size_t aact): idef(adef), iact(aact) {}
+		step_t idef; // first ref that's defined in this diagram
+		step_t iact; // ref that terminates this diagram
+		DgmInfo(step_t adef, step_t aact): idef(adef), iact(aact) {}
 	};
 	static std::vector<DgmInfo> sDgms; // a list of diagrams that describe a given ref
 

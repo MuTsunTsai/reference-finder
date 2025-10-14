@@ -14,7 +14,16 @@ Globals
 
 const double EPS = 1.0e-12; // used for equality of XYPts, parallelness of XYLines
 
-// Type definitions
+/** Type for step indices (we won't have a lot of them) */
+using step_t = short;
+
+/**
+ * Type for indices of the Refs in their container.
+ * We limit this to `unsigned int` (max 4,294,967,295),
+ * which is very much enough.
+ */
+using index_t = unsigned int;
+
 using rank_t = unsigned short;
 using key_t = unsigned int;
 
@@ -39,15 +48,22 @@ class Shared {
 
 	static bool useDatabase;  // Save the database to device
 	static bool forceRebuild; // Rebuild the database regardless of the saved one
-	static int sizeBytes;
+
+	/**
+	 * The number of bytes to import/export for `index_t` values.
+	 * Its value is dynamically decided based on the total number of refs,
+	 * in order to fully optimize storage.
+	 */
+	static int indexBytes;
+
 	static BinaryOutputStream *dbStream;
 
 	static std::array<int, 7> sAxioms;
 	static std::array<int, 7> sAxiomWeights;
 
 	static rank_t sMaxRank;		  // maximum rank to create
-	static std::size_t sMaxLines; // maximum number of lines to create
-	static std::size_t sMaxMarks; // maximum number of marks to create
+	static index_t sMaxLines; // maximum number of lines to create
+	static index_t sMaxMarks; // maximum number of marks to create
 
 	static bool use_division;
 	static key_t sNumX;

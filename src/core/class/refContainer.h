@@ -41,7 +41,7 @@ class RefContainer: public std::vector<R *> {
 	// to reduce the stress of copying data from the buffer to the main container.
 	std::vector<set_t> buffer;
 
-	std::size_t GetTotalSize() const {
+	index_t GetTotalSize() const {
 		// Total number of elements, all ranks
 		return this->size() + mBufferSize;
 	};
@@ -56,7 +56,7 @@ class RefContainer: public std::vector<R *> {
 
 	RefContainer(); // Constructor
 
-	size_t nextId{0};
+	index_t nextId{0};
 	set_t set; // A centralized set for checking duplication
 	int mBufferSize{0};
 	void Rebuild();					// Re-initialize with new values

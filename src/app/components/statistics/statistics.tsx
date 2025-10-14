@@ -67,6 +67,7 @@ export function Statistics() {
 	}
 
 	const percentage = progress < 0 ? 0 : progress / settings.trials * 100;
+	const MAX_TRIALS = 2_147_483_647; // max int
 
 	function cancel() {
 		gtag("event", "ref_statistics_cancel");
@@ -126,6 +127,7 @@ export function Statistics() {
 														<IntInput
 															value={settings.trials}
 															min={1}
+															max={MAX_TRIALS}
 															onInput={v => useSettings.setState({ trials: v })}
 														/>
 													</div>

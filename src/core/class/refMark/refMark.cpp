@@ -14,7 +14,7 @@ class RefMark - base class for a mark on the paper.
 /*****
 RefMark static member initialization
 *****/
-RefBaseLogic::index_t RefMark::sCount = 0; // Initialize class index
+step_t RefMark::sCount = 0; // Initialize class index
 
 /*****
 Calculate the key value used for distinguishing RefMarks. This should be called
@@ -85,7 +85,7 @@ Return the label for this mark.
 *****/
 char RefMarkLogic::GetLabel(const RefBase *self) const {
 	const auto *s = static_cast<const RefMark *>(self);
-	index_t mIndex = sIndices[self];
+	step_t mIndex = sIndices[self];
 	if(mIndex == 0) return ' ';
 	return RefMark::sLabels.at(mIndex - 1);
 }

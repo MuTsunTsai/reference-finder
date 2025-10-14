@@ -109,8 +109,8 @@ JsonObject RefMark_IntersectionLogic::Serialize(const RefBase *self) const {
 }
 
 RefBase *RefMark_IntersectionLogic::Import(BinaryInputStream &is) const {
-	size_t id1;
-	size_t id2;
+	index_t id1;
+	index_t id2;
 	is.read(id1).read(id2);
 	// auto size = ReferenceFinder::sBasisLines.size();
 	// if (id1 >= size || id2 >= size) cout << "lines: " << size << ", id1: " << id1 << ", id2: " << id2 << ", marks: " << ReferenceFinder::sBasisMarks.size() << endl;

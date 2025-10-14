@@ -141,15 +141,15 @@ void RefBase::BuildDiagrams() {
 
 	// Now, we need to note which elements of the sequence are action lines;
 	// there will be a diagram for each one of these.
-	size_t ss = sSequence.size();
-	for(size_t i = 0; i < ss; i++) {
+	step_t ss = sSequence.size();
+	for(step_t i = 0; i < ss; i++) {
 		if(sSequence[i]->IsActionLine()) {
 			sDgms.emplace_back(i, i);
 
 			// For each line, check if it is only used to create one intersection and nothing more.
 			// If so, it suffices to pinch only near the corresponding mark, and not the entire line.
 			RefBase *mark = nullptr;
-			for(size_t j = 0; j < ss; j++) {
+			for(step_t j = 0; j < ss; j++) {
 				if(sSequence[j]->UsesImmediate(sSequence[i])) {
 					if(sSequence[j]->IsLine() || mark != nullptr) {
 						mark = nullptr;
@@ -177,7 +177,7 @@ void RefBase::BuildDiagrams() {
 	if(sDgms[sDgms.size() - 1].iact < ss - 1) sDgms.emplace_back(0, ss - 1);
 
 	// Now we go through and set the idef fields of each DgmInfo record.
-	size_t id = 0;
+	step_t id = 0;
 	for(auto &sDgm: sDgms) {
 		sDgm.idef = id;
 		id = sDgm.iact + 1;
@@ -217,7 +217,7 @@ void RefBase::DrawDiagram(RefDgmr &aDgmr, const DgmInfo &aDgm) {
 	// drawn in hilite style. Drawing for each diagram is done in multiple passes
 	// so that, for examples, labels end up on top of everything else.
 	for(short ipass = 0; ipass < RefBaseLogic::NUM_PASSES; ipass++) {
-		for(size_t i = 0; i < act; i++) {
+		for(step_t i = 0; i < act; i++) {
 			RefBase *rb = sSequence[i];
 			bool shouldHighlight = (i >= aDgm.idef && rb->IsDerived()) || ral->UsesImmediate(rb);
 			RefBaseLogic::RefStyle style = shouldHighlight ? RefBaseLogic::REFSTYLE_HILITE : RefBaseLogic::REFSTYLE_NORMAL;
@@ -315,7 +315,7 @@ class RefBaseLogic
 **********/
 
 RefDgmr *RefBaseLogic::sDgmr;
-unordered_map<const RefBase *, RefBaseLogic::index_t> RefBaseLogic::sIndices;
+unordered_map<const RefBase *, step_t> RefBaseLogic::sIndices;
 
 void RefBaseLogic::MakeAll(rank_t arank) const {
 	// Do nothing by default

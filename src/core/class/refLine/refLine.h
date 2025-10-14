@@ -16,7 +16,7 @@ struct RefLine: RefBase {
 	bare_t l;			   // the line this contains
 
   private:
-	static RefBaseLogic::index_t sCount;	   // class index, used for numbering sequences of lines
+	static step_t sCount;	   // class index, used for numbering sequences of lines
 	static std::array<const char, 10> sLabels; // labels for lines, indexed by sCount
 
   public:

@@ -27,6 +27,10 @@ LDFLAGS :=\
 	-sEXPORTED_RUNTIME_METHODS=wasmMemory\
 	-sENVIRONMENT=worker
 
+ifeq ($(DEBUG),1)
+	CXXFLAGS = -g3 -sNO_DISABLE_EXCEPTION_CATCHING
+endif
+
 WASM := $(TARGET)/$(OUT).wasm
 
 ifeq ($(OS),Windows_NT)

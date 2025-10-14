@@ -15,14 +15,17 @@ class BinaryInputStream {
 		return *this;
 	}
 
-	BinaryInputStream &read(size_t &value) {
-		value = 0;
-		is_.read(reinterpret_cast<char *>(&value), Shared::sizeBytes);
+	/** Values of type `index_t` are imported in a special way. */
+	BinaryInputStream &read(index_t &value) {
+		value = 0; // Clear all bytes first
+		is_.read(reinterpret_cast<char *>(&value), Shared::indexBytes);
 		return *this;
 	}
 
 	BinaryInputStream &read(std::string &str) {
-		size_t size;
+		// See BinaryOutputStream for a comment on this.
+		index_t size;
+
 		read(size);
 		str.resize(size);
 		is_.read(str.data(), size);

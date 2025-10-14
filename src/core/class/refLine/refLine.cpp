@@ -14,7 +14,7 @@ class RefLine - base class for a reference line.
 /*****
 RefLine static member initialization
 *****/
-RefBaseLogic::index_t RefLine::sCount = 0; // Initialize class index
+step_t RefLine::sCount = 0; // Initialize class index
 
 /*****
 Calculate the key values used for sorting RefLines. Like its RefMark
@@ -110,7 +110,7 @@ bool RefLineLogic::equals(const RefBase *self, const RefBase *other) const {
 Return the label for this line.
 *****/
 char RefLineLogic::GetLabel(const RefBase *self) const {
-	index_t mIndex = sIndices[self];
+	step_t mIndex = sIndices[self];
 	if(mIndex == 0) return ' ';
 	return RefLine::sLabels.at(mIndex - 1);
 }

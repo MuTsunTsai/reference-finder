@@ -14,7 +14,7 @@ Paper Shared::sPaper(1.0, 1.0);
 
 bool Shared::useDatabase = true;
 bool Shared::forceRebuild = false;
-int Shared::sizeBytes = 8;
+int Shared::indexBytes = 8; // This is just the initial value.
 BinaryOutputStream *Shared::dbStream = nullptr;
 
 // The axioms to use, in the order of priority. A value of 0 means skipping.
@@ -26,8 +26,8 @@ std::array<int, 7> Shared::sAxiomWeights = {0, 0, 0, 0, 0, 0, 0};
 // Maximum rank and number of marks and lines to collect. These can be tweaked
 // up or down to trade off accuracy versus memory and initialization time.
 rank_t Shared::sMaxRank = 6;
-size_t Shared::sMaxLines = 500000;
-size_t Shared::sMaxMarks = 500000;
+index_t Shared::sMaxLines = 500000;
+index_t Shared::sMaxMarks = 500000;
 
 bool Shared::use_division = true;
 

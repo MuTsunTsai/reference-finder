@@ -153,8 +153,8 @@ void RefLine_P2P_Logic::DrawSelf(const RefBase *self, RefStyle rstyle, short ipa
 }
 
 RefBase *RefLine_P2P_Logic::Import(BinaryInputStream &is) const {
-	size_t id1;
-	size_t id2;
+	index_t id1;
+	index_t id2;
 	is.read(id1).read(id2);
 	RefMark *rm1 = ReferenceFinder::sBasisMarks[id1];
 	RefMark *rm2 = ReferenceFinder::sBasisMarks[id2];

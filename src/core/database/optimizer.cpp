@@ -32,7 +32,7 @@ void Optimizer::OptimizeMarks() {
 
 	auto &paper = Shared::sPaper;
 	auto &sBasisMarks = ReferenceFinder::sBasisMarks;
-	size_t total = sBasisMarks.size();
+	index_t total = sBasisMarks.size();
 
 	// Make each bucket holding about 100 marks on average
 	int bucketCount = static_cast<int>(ceil((double)total / 100));

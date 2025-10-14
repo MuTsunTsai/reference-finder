@@ -164,13 +164,14 @@ void readDbSettings() {
 	Shared::sMaxLines = ReadNumber();
 	Shared::sMaxMarks = ReadNumber();
 
+	// Dynamically decide the import/export size for index_t.
 	int b = 1;
 	while(b < 4) {
-		size_t t = 1 << (8 * b);
+		index_t t = 1 << (8 * b);
 		if(t > Shared::sMaxLines && t > Shared::sMaxMarks) break;
 		b++;
 	}
-	Shared::sizeBytes = b;
+	Shared::indexBytes = b;
 
 	for(int i = 0, j = 0; i < 7; i++) {
 		int a = ReadNumber();
