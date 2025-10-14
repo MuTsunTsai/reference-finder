@@ -113,30 +113,37 @@ R), and if it passes, add it to the container. Used by all the MakeAll()
 functions. Note that we use the default (compiler-generated) copy constructor,
 which is OK since our objects only contain POD, pointers that we WANT
 blind-copied, and/or strings (which know how to copy themselves).
+
+New in v4.7.3: We call `new Rs(ars)` only when needed.
+This significantly reduces total memory usage when building database.
 *****/
 template <class R>
 template <class Rs>
 void RefContainer<R>::AddCopyIfValidAndUnique(const Rs &ars) {
 	if(
-		ars.mKey != 0 &&	  // The ref is valid (fully constructed) if its key is something other than 0.
-		!set.count((R *)&ars) // If the main set already has one with the same key,
-							  // it must be of a lower rank and we can safely ignore the current one.
+		// The ref is valid (fully constructed) if its key is something other than 0.
+		ars.mKey != 0 &&
+		// If the main set already has one with the same key,
+		// it must be of a lower rank and we can safely ignore the current one.
+		!set.count((R *)&ars)
 	) {
-		Rs *ref = new Rs(ars);
+		// See if any buffer has an entry with the same key
 		bool found = false;
 		for(set_t &buf: buffer) {
 			auto iter = buf.find((R *)&ars);
 			if(iter != buf.end()) {
 				found = true;
-				if(ars.mScore < (*iter)->mScore) { // see if the current one has a lower score
-					delete *iter;				   // don't forget to release memory
+				// see if the current one has a lower score (otherwise ignore)
+				if(ars.mScore < (*iter)->mScore) {
+					delete *iter; // don't forget to release memory
 					buf.erase(iter);
-					buf.insert(ref);
+					buf.insert(new Rs(ars));
 				}
 				break;
 			}
 		}
-		if(!found) Add(ref); // if the buffer doesn't have the same key, add the ref directly
+		// if the buffer doesn't have the same key, add the ref directly
+		if(!found) Add(new Rs(ars));
 	}
 	Shared::CheckDatabaseStatus(); // report progress if appropriate
 }
@@ -156,8 +163,10 @@ void RefContainer<R>::FlushBuffer(rank_t arank) {
 			ranks[arank].push_back(ar); // add to appropriate rank
 			this->push_back(ar);		// also add to our sortable list
 			if(Shared::useDatabase) {
-				ar->id = nextId++; // assign a new id
-				ar->Export(*Shared::dbStream);
+				// We do a cast here for intellisense
+				auto *ref = static_cast<RefBase *>(ar);
+				ref->id = nextId++; // assign a new id
+				ref->Export(*Shared::dbStream);
 			}
 		}
 		buf.clear();   // clear the buffer

@@ -23,7 +23,7 @@ class RefBaseLogic - base class for processing logic.
 Originally, the methods defined in this class are virtual methods of
 the RefBase class. However, doing so adds the vtable pointer (vptr)
 to all the hundreds of thousands of RefBase instances, thereby wasting
-significant amount of memory. Since v4.8, we separate the processing
+significant amount of memory. Since v4.7.2, we separate the processing
 logic to their associated logic classes, eliminating vptr from the
 RefBase and its derived classes. There will be a very slight overhead
 for looking up the methods, but in practice the overhead can be ignored.

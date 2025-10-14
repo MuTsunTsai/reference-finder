@@ -3,6 +3,11 @@
 
 import ref from "../lib/ref";
 
+// Type patch
+interface EmscriptenModule {
+	wasmMemory: WebAssembly.Memory;
+}
+
 type Action = (...args: unknown[]) => void;
 
 let initialized = false;
@@ -33,9 +38,12 @@ addEventListener("message", async e => {
 	}
 });
 
-ref({
+const module = {
 	print: (text: string) => {
-		if(text == "Ready") readyResolve();
+		if(text == "Ready") {
+			console.log("Memory: " + module.wasmMemory!.buffer.byteLength);
+			readyResolve();
+		}
 		postMessage({ text });
 	},
 	printErr: (err: string) => postMessage({ err }),
@@ -58,4 +66,6 @@ ref({
 	clear() {
 		queue.length = 0;
 	},
-} as Partial<EmscriptenModule>);
+} as Partial<EmscriptenModule>;
+
+ref(module);

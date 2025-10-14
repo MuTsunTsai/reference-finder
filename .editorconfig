@@ -8,10 +8,10 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[{*.json,src/lib/*}]
+[{**/*.json,src/lib/*}]
 insert_final_newline = false
 
-[*.md]
+[**/*.md]
 trim_trailing_whitespace = false
 
 [{.clang-*,*.{yml,yaml}}]
