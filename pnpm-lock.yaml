@@ -119,7 +119,7 @@ importers:
         specifier: ^7.37.5
         version: 7.37.5(eslint@9.37.0(jiti@2.6.1))
       glob:
-        specifier: ^11.0.3
+        specifier: ^11.0.0
         version: 11.0.3
       gulp:
         specifier: ^5.0.1
