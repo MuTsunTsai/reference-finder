@@ -14,7 +14,7 @@ DEP := $(patsubst $(SRCF)/%.cpp,$(TEMP)/%.d,$(SRC))
 OUT := ref
 
 CPPFLAGS := -I$(SRCF) -std=c++17
-CXXFLAGS :=	-O3
+CXXFLAGS :=	-O3 -flto
 LDFLAGS :=\
 	-lidbfs.js\
 	-sINITIAL_MEMORY=50MB\
