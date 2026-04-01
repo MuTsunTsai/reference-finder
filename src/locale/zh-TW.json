@@ -48,7 +48,8 @@
 		"initializing": "正在初始化...",
 		"coreVer": "核心版本",
 		"clearExistingRefs": "清除參考",
-		"addAsExistingRefs": "新增為現有參考"
+		"addAsExistingRefs": "新增為現有參考",
+		"export": "匯出"
 	},
 	"settings": {
 		"reset": "重設為預設值",

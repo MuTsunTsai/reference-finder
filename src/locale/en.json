@@ -110,6 +110,7 @@
 		"line": "line",
 		"error": "error",
 		"solution": "solution",
+		"export": "export",
 		"go": "go",
 		"initializing": "Initializing...",
 		"findLine": "find a line",

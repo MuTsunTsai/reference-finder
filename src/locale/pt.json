@@ -48,7 +48,8 @@
 		"initializing": "Inicializando...",
 		"coreVer": "Versão principal",
 		"clearExistingRefs": "Limpar refs",
-		"addAsExistingRefs": "adicionar como refs existentes"
+		"addAsExistingRefs": "adicionar como refs existentes",
+		"export": "exportar"
 	},
 	"settings": {
 		"reset": "Redefinir para os padrões",

@@ -48,7 +48,8 @@
 		"initializing": "初期化中...",
 		"coreVer": "コアバージョン",
 		"clearExistingRefs": "参照をクリア",
-		"addAsExistingRefs": "既存の参照として追加"
+		"addAsExistingRefs": "既存の参照として追加",
+		"export": "エクスポート"
 	},
 	"settings": {
 		"reset": "デフォルト値にリセット",

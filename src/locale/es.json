@@ -48,7 +48,8 @@
 		"referenceFinder": "Buscador de Referencias",
 		"coreVer": "Versión principal",
 		"clearExistingRefs": "Limpiar refs",
-		"addAsExistingRefs": "agregar como refs existentes"
+		"addAsExistingRefs": "agregar como refs existentes",
+		"export": "exportar"
 	},
 	"settings": {
 		"reset": "Restablecer los valores predeterminados",

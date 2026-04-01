@@ -48,7 +48,8 @@
 		"initializing": "Инициализация...",
 		"coreVer": "Базовая версия",
 		"clearExistingRefs": "Очистить ссылки",
-		"addAsExistingRefs": "добавить как существующие ссылки"
+		"addAsExistingRefs": "добавить как существующие ссылки",
+		"export": "экспорт"
 	},
 	"settings": {
 		"reset": "Сбросить настройки по умолчанию",

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useRef } from "react";
+import "bootstrap/js/dist/dropdown";
 
 import { ElementType, LineStyle, PointStyle, useDB, useSettings, useStore } from "../store";
 import { StepComponent } from "./step";
@@ -97,6 +98,23 @@ function AddButton({ data }: AddButtonProps) {
 	);
 }
 
+function ExportButton() {
+	const { t } = useTranslation();
+	return (
+		<div className="btn-group">
+			<button type="button" className="btn btn-secondary py-0 dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
+				<i className="fa-solid fa-file-export"></i>
+				<span className="d-inline-block capitalize m-1">&nbsp;{t("phrase.export")}</span>
+			</button>
+			<ul className="dropdown-menu dropdown-menu-end" style={{ minWidth: "unset" }}>
+				<li><button type="button" className="dropdown-item">PNG</button></li>
+				<li><button type="button" className="dropdown-item">SVG</button></li>
+				<li><button type="button" className="dropdown-item">PDF</button></li>
+			</ul>
+		</div>
+	);
+}
+
 export function SolutionComponent({ data, show, onSelect }: SolutionComponentProps) {
 	const { t } = useTranslation();
 	const settings = useSettings();
@@ -120,6 +138,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 					<div className="col-auto">rank {data.rank}</div>
 					<div className="col d-none d-md-block text-end" style={{ flex: "1 0 max-content" }}>
 						<AddButton data={data} />
+						<ExportButton />
 					</div>
 				</div>
 			</div>
@@ -184,6 +203,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 				</div>
 				<div className="text-end d-md-none mt-2">
 					<AddButton data={data} />
+					<ExportButton />
 				</div>
 			</div>
 		</div>
