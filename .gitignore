@@ -3,6 +3,7 @@ obj/
 
 *.pch
 dump.txt
+docs/
 
 # My own notes
 NOTE.md
