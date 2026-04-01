@@ -2,9 +2,7 @@ import { inlineStyles } from "./svgUtils";
 
 // Layout constants (px)
 const DIAGRAM_PX = 240;
-const TEXT_H = 80;
 const CELL_W = DIAGRAM_PX;
-const CELL_H = DIAGRAM_PX + TEXT_H;
 const GRID_COLS = 3;
 const GAP_PX = 16;
 const FONT = "13px sans-serif";
@@ -50,10 +48,14 @@ function getStepText(div: HTMLDivElement): string {
 export function collectSteps(cardBody: HTMLDivElement): StepUnit[] {
 	const stepDivs = Array.from(cardBody.querySelectorAll<HTMLDivElement>(".col-12.col-md-4"));
 	if(stepDivs.length > 0) {
-		return stepDivs.map(div => ({
-			svg: div.querySelector<SVGSVGElement>("svg")!,
-			text: getStepText(div),
-		})).filter(u => u.svg);
+		return stepDivs
+			.map(
+				div => ({
+					svg: div.querySelector<SVGSVGElement>("svg")!,
+					text: getStepText(div),
+				})
+			)
+			.filter(u => u.svg);
 	}
 	// Fallback: solution with no steps (single diagram, no text)
 	return Array.from(cardBody.querySelectorAll<SVGSVGElement>("svg")).map(svg => ({ svg, text: "" }));
@@ -94,44 +96,64 @@ interface WrappedLine {
  * The very first line (the one with "N. " prefix) starts at x=0;
  * all subsequent lines (including first lines of continuation paragraphs) start at x=indent.
  */
+/** Splits a paragraph into tokens: each CJK char is its own token; Latin words carry a leading space. */
+function tokenize(paragraph: string): string[] {
+	const tokens: string[] = [];
+	let latin = "";
+	let afterCJK = false;
+	for(const ch of paragraph) {
+		if(isCJK(ch)) {
+			if(latin) {
+				tokens.push(latin);
+				latin = "";
+			}
+			tokens.push(ch);
+			afterCJK = true;
+		} else if(ch === " ") {
+			if(latin) {
+				tokens.push(latin);
+				latin = "";
+			}
+			if(!afterCJK) latin = " "; // attach space to next Latin word
+			afterCJK = false;
+		} else {
+			latin += ch;
+			afterCJK = false;
+		}
+	}
+	if(latin.trim()) tokens.push(latin);
+	return tokens;
+}
+
 function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, indent: number): WrappedLine[] {
 	const lines: WrappedLine[] = [];
 	const contWidth = maxWidth - indent;
 	let isVeryFirst = true;
 
 	for(const paragraph of text.split("\n")) {
-		// Split into tokens: each CJK char is its own token, Latin words are tokens separated by spaces
-		// Tokenize: CJK chars are individual tokens; Latin runs (including spaces) are kept together.
-		// This preserves "1. " so the space before CJK text is not lost.
-		const tokens: string[] = [];
-		let latin = "";
-		for(const ch of paragraph) {
-			if(isCJK(ch)) {
-				if(latin) { tokens.push(latin); }
-				latin = "";
-				tokens.push(ch);
-			} else {
-				latin += ch;
-			}
-		}
-		if(latin.trim()) tokens.push(latin);
-
+		const tokens = tokenize(paragraph);
 		let current = "";
 		for(const token of tokens) {
-			// CJK->Latin needs a space; Latin tokens already carry their own trailing spaces
-			const sep = current && isCJK(current.slice(-1)) && !isCJK(token[0]) ? " " : "";
+			// Between CJK and Latin, insert a space separator
+			const sep = current && isCJK(current.slice(-1)) && !isCJK(token[0]) && token[0] !== " " ? " " : "";
 			const candidate = current + sep + token;
 			const limit = isVeryFirst ? maxWidth : contWidth;
 			if(ctx.measureText(candidate).width > limit && current) {
-				lines.push({ text: current, x: isVeryFirst ? 0 : indent });
+				lines.push({
+					text: current.trimEnd(),
+					x: isVeryFirst ? 0 : indent,
+				});
 				isVeryFirst = false;
-				current = token;
+				current = token.trimStart();
 			} else {
 				current = candidate;
 			}
 		}
-		if(current) {
-			lines.push({ text: current, x: isVeryFirst ? 0 : indent });
+		if(current.trim()) {
+			lines.push({
+				text: current.trimEnd(),
+				x: isVeryFirst ? 0 : indent,
+			});
 			isVeryFirst = false;
 		}
 	}
@@ -140,9 +162,23 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number,
 
 async function stepToCanvas(unit: StepUnit, transparent: boolean, theme?: "light"): Promise<HTMLCanvasElement> {
 	const img = await svgToImage(unit.svg, theme);
+
+	// Pre-measure text to determine canvas height
+	const measureCanvas = document.createElement("canvas");
+	const measureCtx = measureCanvas.getContext("2d")!;
+	measureCtx.font = FONT;
+	let lines: ReturnType<typeof wrapText> = [];
+	if(unit.text) {
+		const prefixMatch = unit.text.match(/^(\d+\.\s)/);
+		const indent = prefixMatch ?
+			measureCtx.measureText(prefixMatch[1]).width : 0;
+		lines = wrapText(measureCtx, unit.text, CELL_W - TEXT_PAD * 2, indent);
+	}
+	const textH = lines.length > 0 ? TEXT_PAD + lines.length * LINE_H + TEXT_PAD : 0;
+
 	const canvas = document.createElement("canvas");
 	canvas.width = CELL_W;
-	canvas.height = unit.text ? CELL_H : DIAGRAM_PX;
+	canvas.height = DIAGRAM_PX + textH;
 	const ctx = canvas.getContext("2d")!;
 
 	if(!transparent) {
@@ -152,13 +188,9 @@ async function stepToCanvas(unit: StepUnit, transparent: boolean, theme?: "light
 
 	ctx.drawImage(img, 0, 0, DIAGRAM_PX, DIAGRAM_PX);
 
-	if(unit.text) {
+	if(lines.length > 0) {
 		ctx.font = FONT;
 		ctx.fillStyle = theme === "light" ? "#212529" : getComputedStyle(document.body).color || "#212529";
-		// Measure the widest possible prefix "N. " (assume up to 2-digit step numbers)
-		const prefixMatch = unit.text.match(/^(\d+\.\s)/);
-		const indent = prefixMatch ? ctx.measureText(prefixMatch[1]).width : 0;
-		const lines = wrapText(ctx, unit.text, CELL_W - TEXT_PAD * 2, indent);
 		lines.forEach((line, i) => {
 			ctx.fillText(line.text, TEXT_PAD + line.x, DIAGRAM_PX + TEXT_PAD + (i + 1) * LINE_H);
 		});
@@ -170,7 +202,7 @@ async function stepToCanvas(unit: StepUnit, transparent: boolean, theme?: "light
 function compositeGrid(cells: HTMLCanvasElement[], transparent: boolean): HTMLCanvasElement {
 	const cols = Math.min(GRID_COLS, cells.length);
 	const rows = Math.ceil(cells.length / cols);
-	const cellH = cells[0]?.height ?? CELL_H;
+	const cellH = Math.max(...cells.map(c => c.height));
 	const w = cols * CELL_W + (cols - 1) * GAP_PX;
 	const h = rows * cellH + (rows - 1) * GAP_PX;
 
@@ -202,7 +234,10 @@ export async function exportAsPng(cardBody: HTMLDivElement): Promise<Blob> {
 	const cells = await Promise.all(steps.map(u => stepToCanvas(u, true)));
 	const canvas = compositeGrid(cells, true);
 	return new Promise((resolve, reject) => {
-		canvas.toBlob(b => b ? resolve(b) : reject(new Error("Canvas toBlob failed")), "image/png");
+		canvas.toBlob(
+			b => b ? resolve(b) : reject(new Error("Canvas toBlob failed")),
+			"image/png"
+		);
 	});
 }
 
@@ -298,8 +333,16 @@ export async function exportAsPdf(cardBody: HTMLDivElement): Promise<Blob> {
 	const ratio = Math.min(availW / grid.width, availH / grid.height);
 
 	// eslint-disable-next-line new-cap
-	const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-	pdf.addImage(grid.toDataURL("image/png"), "PNG", MARGIN, MARGIN, grid.width * ratio, grid.height * ratio);
+	const pdf = new jsPDF({
+		orientation: "portrait",
+		unit: "mm",
+		format: "a4",
+	});
+	pdf.addImage(
+		grid.toDataURL("image/png"), "PNG",
+		MARGIN, MARGIN,
+		grid.width * ratio, grid.height * ratio
+	);
 
 	return pdf.output("blob");
 }
