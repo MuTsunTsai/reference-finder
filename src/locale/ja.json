@@ -94,7 +94,8 @@
 	},
 	"keyword": {
 		"cancel": "キャンセル",
-		"ok": "OK"
+		"ok": "OK",
+		"download": "ダウンロード"
 	},
 	"pinch": "交差点のみピンチ。"
 }

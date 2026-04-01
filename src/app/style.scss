@@ -62,7 +62,7 @@ svg.markers {
 	@extend .btn-light;
 }
 
-[data-bs-theme="dark"] {
+[data-bs-theme="dark"] #root {
 	.btn-ld {
 		@extend .btn-dark;
 	}
@@ -89,69 +89,88 @@ svg.markers {
 }
 
 [data-bs-theme="rabbit"] {
-	--sheet-bg: var(--bs-gray-200);
-	--bs-body-color: var(--bs-white);
 	--bs-body-bg: #145686;
-	--bs-light: #145686;
-	--bs-form-invalid-border-color: red;
-	--bs-danger: red;
-	--bs-emphasis-color: white;
 
-	.table {
-		--bs-table-striped-bg: rgba(0, 0, 0, 0.2);
-	}
+	#root {
+		--sheet-bg: var(--bs-gray-200);
+		--bs-heading-color: var(--bs-white);
+		--bs-body-color: var(--bs-white);
+		--bs-light: #145686;
+		--bs-form-invalid-border-color: red;
+		--bs-danger: red;
+		--bs-emphasis-color: white;
 
-	--boundary: black;
-	--highlight: var(--bs-warning);
-	--valley: #4466aa;
-	--action-line: #e64e1e;
+		.dropdown-menu .dropdown-item {
+			--bs-dropdown-link-hover-bg: var(--bs-primary);
+		}
 
-	.form-check-input:checked {
-		background-color: $success;
-		border-color: $success;
-	}
+		color: var(--bs-white);
 
-	.solutions {
-		border-top: 3px solid #ed9d20;
-		border-bottom: 3px solid #ed9d20;
-		background-color: #d63e0f;
+		.table {
+			--bs-table-striped-bg: rgba(0, 0, 0, 0.2);
+		}
 
-		.container {
-			padding-top: 0.5rem;
+		--boundary: black;
+		--highlight: var(--bs-warning);
+		--valley: #4466aa;
+		--action-line: #e64e1e;
+
+		.form-check-input:checked {
+			background-color: $success;
+			border-color: $success;
+		}
+
+		.solutions {
+			border-top: 3px solid #ed9d20;
+			border-bottom: 3px solid #ed9d20;
+			background-color: #d63e0f;
+
+			.container {
+				padding-top: 0.5rem;
+			}
+		}
+
+		.btn-primary {
+			@include button-variant(
+				$success,
+				$success,
+				$hover-background: shade-color($success, $btn-hover-bg-shade-amount),
+				$hover-border: shade-color($success, $btn-hover-border-shade-amount),
+				$active-background: shade-color($success, $btn-active-bg-shade-amount),
+				$active-border: shade-color($success, $btn-active-border-shade-amount)
+			);
+		}
+
+		.btn-ld {
+			@extend .btn-danger;
+		}
+
+		.text-muted {
+			color: var(--bs-white) !important;
+			opacity: 0.5;
+		}
+
+		.card {
+			--bs-card-border-color: var(--bs-gray-500);
+		}
+
+		.form-select {
+			--bs-form-select-bg-img: #{escape-svg($form-select-indicator-dark)};
 		}
 	}
 
-	.btn-primary {
-		@include button-variant(
-			$success,
-			$success,
-			$hover-background: shade-color($success, $btn-hover-bg-shade-amount),
-			$hover-border: shade-color($success, $btn-hover-border-shade-amount),
-			$active-background: shade-color($success, $btn-active-bg-shade-amount),
-			$active-border: shade-color($success, $btn-active-border-shade-amount)
-		);
-	}
+	.modal {
+		--bs-modal-color: var(--bs-white);
+		--bs-body-color: var(--bs-white);
 
-	.btn-ld {
-		@extend .btn-danger;
-	}
+		.form-select {
+			--bs-form-select-bg-img: #{escape-svg($form-select-indicator-dark)};
+		}
 
-	.nav-tabs {
-		--bs-nav-tabs-link-active-color: var(--bs-white);
-		--bs-nav-link-color: var(--bs-gray-500);
-		--bs-nav-link-hover-color: var(--bs-gray-300);
-	}
-
-	.text-muted {
-		color: var(--bs-white) !important;
-		opacity: 0.5;
-	}
-
-	.card {
-		--bs-card-border-color: var(--bs-gray-500);
-	}
-
-	.form-select {
-		--bs-form-select-bg-img: #{escape-svg($form-select-indicator-dark)};
+		.nav-tabs {
+			--bs-nav-tabs-link-active-color: var(--bs-white);
+			--bs-nav-link-color: var(--bs-gray-500);
+			--bs-nav-link-hover-color: var(--bs-gray-300);
+		}
 	}
 }

@@ -19,9 +19,9 @@ NOTE: Do not edit these directly, as these values now sync with package.json aut
 
 // NOLINTBEGIN(modernize-macro-to-enum)
 #define VERSION_MAJOR 4
-#define VERSION_MINOR 7
-#define VERSION_BUGFIX 3
-#define VERSION_BUILD 20251014
+#define VERSION_MINOR 8
+#define VERSION_BUGFIX 0
+#define VERSION_BUILD 20260401
 // NOLINTEND(modernize-macro-to-enum)
 
 /******************************************************************************/

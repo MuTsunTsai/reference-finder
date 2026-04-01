@@ -7,6 +7,8 @@ import { StepComponent } from "./step";
 import { Diagram } from "./svg/diagram";
 import { Exact } from "./exact";
 import { resetWorker } from "../bridge";
+import { ExportButton } from "./export/exportButton";
+import { formatSolution } from "./formatSolution";
 
 import type { LineElement, PointElement, Solution } from "../store";
 
@@ -23,26 +25,6 @@ interface AddButtonProps {
 const DIAGRAM_ZOOM = 1.15;
 const DIAGRAM_PADDING = 0.18;
 const DIAGRAM_SIZE = `${12 * DIAGRAM_ZOOM}rem`;
-
-/**
- * Calculates the degree using the normal vector of a line.
- */
-function getDegree(p: IPoint, precision: number): string {
-	let result = Math.atan2(-p[0], p[1]) / Math.PI * 180;
-	if(result <= -90) result += 180;
-	if(result > 90) result -= 180;
-	return result.toFixed(precision) + "°";
-}
-
-/**
- * Original ReferenceFinder represents a line as (distance to origin, normal unit vector),
- * and I think using (distance to origin, degree of the line) is more intuitive.
- */
-export function formatSolution(data: Solution, precision: number): string {
-	const item = data.solution[1];
-	const text = typeof item == "number" ? item.toFixed(precision) : getDegree(item, precision);
-	return `(${data.solution[0].toFixed(precision)}, ${text})`;
-}
 
 /**
  * Function that runs when the user accepts a specific solution.
@@ -98,27 +80,11 @@ function AddButton({ data }: AddButtonProps) {
 	);
 }
 
-function ExportButton() {
-	const { t } = useTranslation();
-	return (
-		<div className="btn-group">
-			<button type="button" className="btn btn-secondary py-0 dropdown-toggle ms-2" data-bs-toggle="dropdown" aria-expanded="false">
-				<i className="fa-solid fa-file-export"></i>
-				<span className="d-inline-block capitalize m-1">&nbsp;{t("phrase.export")}</span>
-			</button>
-			<ul className="dropdown-menu dropdown-menu-end" style={{ minWidth: "unset" }}>
-				<li><button type="button" className="dropdown-item">PNG</button></li>
-				<li><button type="button" className="dropdown-item">SVG</button></li>
-				<li><button type="button" className="dropdown-item">PDF</button></li>
-			</ul>
-		</div>
-	);
-}
-
 export function SolutionComponent({ data, show, onSelect }: SolutionComponentProps) {
 	const { t } = useTranslation();
 	const settings = useSettings();
 	const ref = useRef<HTMLDivElement>(null);
+	const cardBodyRef = useRef<HTMLDivElement>(null);
 	const handleSelect = () => {
 		onSelect();
 		setTimeout(() => ref.current?.scrollIntoView(), 0);
@@ -138,7 +104,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 					<div className="col-auto">rank {data.rank}</div>
 					<div className="col d-none d-md-block text-end" style={{ flex: "1 0 max-content" }}>
 						<AddButton data={data} />
-						<ExportButton />
+						<ExportButton cardBodyRef={cardBodyRef} solution={data} />
 					</div>
 				</div>
 			</div>
@@ -170,7 +136,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 				</div>
 			}
 
-			<div className={"card-body " + (show ? "" : "d-none")}>
+			<div ref={cardBodyRef} className={"card-body " + (show ? "" : "d-none")}>
 				{data.steps.length == 0 &&
 					<div className="row justify-content-center">
 						<div className="col" style={{ flex: `0 1 ${DIAGRAM_SIZE}` }}>
@@ -203,7 +169,7 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 				</div>
 				<div className="text-end d-md-none mt-2">
 					<AddButton data={data} />
-					<ExportButton />
+					<ExportButton cardBodyRef={cardBodyRef} solution={data} />
 				</div>
 			</div>
 		</div>

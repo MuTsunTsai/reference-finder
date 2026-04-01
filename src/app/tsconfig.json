@@ -19,7 +19,8 @@
 		"noEmit": true,
 		"jsx": "react-jsx",
 		"types": [
-			"gtag.js"
+			"gtag.js",
+			"wicg-file-system-access"
 		]
 	}
 }

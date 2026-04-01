@@ -128,6 +128,7 @@
 	},
 	"keyword": {
 		"cancel": "cancel",
-		"ok": "OK"
+		"ok": "OK",
+		"download": "download"
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"name": "reference-finder",
-	"version": "4.7.3",
+	"version": "4.8.0",
 	"description": "Find reference points and lines in crease patterns.",
 	"keywords": [
 		"origami"
@@ -43,6 +43,7 @@
 		"i18next": "^26.0.3",
 		"i18next-browser-languagedetector": "^8.2.1",
 		"idb": "^8.0.3",
+		"jspdf": "^4.2.1",
 		"math-expression-evaluator": "^2.0.7",
 		"probably-china": "^1.1.0",
 		"rabbit-ear": "^0.9.32",
@@ -50,6 +51,7 @@
 		"react-chartjs-2": "^5.3.1",
 		"react-dom": "^19.2.4",
 		"react-i18next": "^17.0.2",
+		"svg2pdf.js": "^2.7.0",
 		"zustand": "^5.0.12"
 	},
 	"devDependencies": {
@@ -67,6 +69,7 @@
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"@types/ungap__structured-clone": "^1.2.0",
+		"@types/wicg-file-system-access": "^2023.10.7",
 		"eslint": "^10.1.0",
 		"eslint-plugin-react": "^7.37.5",
 		"glob": "^13.0.6",

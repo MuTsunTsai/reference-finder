@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Theme, useSettings, useStore } from "./store";
-import { SolutionComponent, formatSolution } from "./components/solution";
+import { SolutionComponent } from "./components/solution";
+import { formatSolution } from "./components/formatSolution";
 import { Diagram } from "./components/svg/diagram";
 import { Panel } from "./components/panel";
 import { Footer } from "./components/footer";

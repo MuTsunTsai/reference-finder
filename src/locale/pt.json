@@ -94,7 +94,8 @@
 	},
 	"keyword": {
 		"cancel": "cancelar",
-		"ok": "OK"
+		"ok": "OK",
+		"download": "baixar"
 	},
 	"pinch": "Aperte apenas no cruzamento."
 }

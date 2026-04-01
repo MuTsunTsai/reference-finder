@@ -13,6 +13,8 @@ import * as pkg from "./package.json";
 
 const isProduction = process.env.NODE_ENV === "production";
 
+const inspectBuild = process.argv.includes("inspect");
+
 export default defineConfig({
 	dev: {
 		progressBar: true,
@@ -24,6 +26,8 @@ export default defineConfig({
 			// add matcher for packages that needs to be transpiled
 			/i18next/,
 			/chart\.js/,
+			/iobuffer/,
+			/fast-png/,
 		],
 		define: {
 			__VERSION__: `"${pkg.version}"`,
@@ -94,7 +98,7 @@ export default defineConfig({
 		dataUriLimit: 100,
 		legalComments: "none",
 		polyfill: "off",
-		minify: {
+		minify: !inspectBuild && {
 			jsOptions: {
 				minimizerOptions: {
 					format: {

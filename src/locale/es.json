@@ -94,7 +94,8 @@
 	},
 	"keyword": {
 		"cancel": "Cancelar",
-		"ok": "DE ACUERDO"
+		"ok": "DE ACUERDO",
+		"download": "descargar"
 	},
 	"pinch": "Pellizque solo en la intersección."
 }
