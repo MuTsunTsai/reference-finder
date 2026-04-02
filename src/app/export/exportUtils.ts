@@ -1,4 +1,7 @@
+import i18next from "i18next";
+
 import { inlineStyles } from "./svgUtils";
+import { FONT_NAME, registerFont, patchSvgForPdf } from "./pdfFont";
 
 // Layout constants (px)
 const DIAGRAM_PX = 240;
@@ -250,7 +253,7 @@ const SVG_LINE_H = 6.5;
 // Scale factor: map SVG units to canvas px for wrapText measurement
 const SVG_MEASURE_SCALE = 3;
 
-function buildSvgTextLines(unit: StepUnit, g: SVGGElement, NS: string): void {
+function buildSvgTextLines(unit: StepUnit, g: SVGGElement, NS: string, fontFamily = "sans-serif"): void {
 	if(!unit.text) return;
 
 	// Use a temporary canvas to measure text widths in "px" equivalent of SVG units
@@ -268,7 +271,7 @@ function buildSvgTextLines(unit: StepUnit, g: SVGGElement, NS: string): void {
 		t.setAttribute("x", String(line.x / SVG_MEASURE_SCALE));
 		t.setAttribute("y", String(lineY));
 		t.setAttribute("font-size", String(SVG_FONT_SIZE));
-		t.setAttribute("font-family", "sans-serif");
+		t.setAttribute("font-family", fontFamily);
 		t.setAttribute("fill", "#212529");
 		t.textContent = line.text;
 		g.appendChild(t);
@@ -276,7 +279,7 @@ function buildSvgTextLines(unit: StepUnit, g: SVGGElement, NS: string): void {
 	}
 }
 
-export function exportAsSvg(cardBody: HTMLDivElement): Promise<Blob> {
+function buildCompositeSvg(cardBody: HTMLDivElement, theme?: "light", fontFamily = "sans-serif"): SVGSVGElement {
 	const NS = "http://www.w3.org/2000/svg";
 	const steps = collectSteps(cardBody);
 	const cols = Math.min(GRID_COLS, steps.length);
@@ -301,15 +304,20 @@ export function exportAsSvg(cardBody: HTMLDivElement): Promise<Blob> {
 		const g = document.createElementNS(NS, "g");
 		g.setAttribute("transform", `translate(${x}, ${y})`);
 
-		const inlined = inlineStyles(unit.svg);
+		const inlined = inlineStyles(unit.svg, theme);
 		inlined.setAttribute("width", String(CELL_SVG));
 		inlined.setAttribute("height", String(CELL_SVG));
 		g.appendChild(inlined);
 
-		buildSvgTextLines(unit, g, NS);
+		buildSvgTextLines(unit, g, NS, fontFamily);
 		root.appendChild(g);
 	});
 
+	return root;
+}
+
+export function exportAsSvg(cardBody: HTMLDivElement): Promise<Blob> {
+	const root = buildCompositeSvg(cardBody);
 	const serialized = new XMLSerializer().serializeToString(root);
 	return Promise.resolve(new Blob([serialized], { type: "image/svg+xml" }));
 }
@@ -320,17 +328,26 @@ export function exportAsSvg(cardBody: HTMLDivElement): Promise<Blob> {
 
 export async function exportAsPdf(cardBody: HTMLDivElement): Promise<Blob> {
 	const { jsPDF } = await import("jspdf");
+	await import("svg2pdf.js");
 
-	const steps = collectSteps(cardBody);
-	const cells = await Promise.all(steps.map(u => stepToCanvas(u, false, "light")));
-	const grid = compositeGrid(cells, false);
+	const lang = i18next.language;
+	const needFont = ["zh-TW", "zh-CN", "ja", "ru"].includes(lang);
+	const fontFamily = needFont ? FONT_NAME : "sans-serif";
+	const svgEl = buildCompositeSvg(cardBody, "light", fontFamily);
+	patchSvgForPdf(svgEl);
+
+	const svgStr = new XMLSerializer().serializeToString(svgEl);
+	const parsed = new DOMParser()
+		.parseFromString(svgStr, "image/svg+xml")
+		.documentElement;
 
 	const PAGE_W = 210;
-	const PAGE_H = 297;
 	const MARGIN = 10;
 	const availW = PAGE_W - MARGIN * 2;
-	const availH = PAGE_H - MARGIN * 2;
-	const ratio = Math.min(availW / grid.width, availH / grid.height);
+	const availH = 297 - MARGIN * 2;
+	const svgW = parseFloat(parsed.getAttribute("width")!);
+	const svgH = parseFloat(parsed.getAttribute("height")!);
+	const ratio = Math.min(availW / svgW, availH / svgH);
 
 	// eslint-disable-next-line new-cap
 	const pdf = new jsPDF({
@@ -338,11 +355,16 @@ export async function exportAsPdf(cardBody: HTMLDivElement): Promise<Blob> {
 		unit: "mm",
 		format: "a4",
 	});
-	pdf.addImage(
-		grid.toDataURL("image/png"), "PNG",
-		MARGIN, MARGIN,
-		grid.width * ratio, grid.height * ratio
-	);
+
+	// Register subset font so svg2pdf.js can render non-ASCII text
+	if(needFont) await registerFont(pdf, lang);
+
+	await pdf.svg(parsed, {
+		x: MARGIN,
+		y: MARGIN,
+		width: svgW * ratio,
+		height: svgH * ratio,
+	});
 
 	return pdf.output("blob");
 }

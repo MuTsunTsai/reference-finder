@@ -4,6 +4,8 @@ const PROPS = [
 	"stroke-width",
 	"stroke-dasharray",
 	"stroke-linecap",
+	"stroke-linejoin",
+	"paint-order",
 	"marker-start",
 	"marker-end",
 	"font-size",

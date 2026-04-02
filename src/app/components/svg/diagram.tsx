@@ -61,7 +61,6 @@ export function Diagram({ data, last, padding, zoom = 1, lightbox }: DiagramProp
 			}
 			if(el.type == ElementType.label) {
 				const offset = getTextOffset(el, data, zoom);
-				renderer.text(el.text, el.pt, offset, "label-border");
 				renderer.text(el.text, el.pt, offset, "label-" + LabelStyle[el.style]);
 			}
 		}

@@ -73,23 +73,24 @@
 		text-anchor: middle;
 	}
 
-	.label-border {
-		stroke-width: 0.025px;
-		stroke: black;
-		stroke-linejoin: round;
-	}
 }
 
-.label-action,
-.label-highlight {
-	fill: white;
+.creasePattern {
+	.label-action,
+	.label-highlight {
+		fill: white;
+		stroke: black;
+		stroke-width: 0.025px;
+		stroke-linejoin: round;
+		paint-order: stroke fill;
+	}
 }
 
 marker path {
 	fill: var(--action-line);
 }
 
-[data-bs-theme="dark"] #root {
+[data-bs-theme="dark"] #root, [data-bs-theme="dark"] .modal {
 	--sheet-bg: var(--bs-gray-800);
 	--crease-line: var(--bs-gray-500);
 	--action-line: var(--bs-gray-300);

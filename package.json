@@ -1,6 +1,6 @@
 {
 	"name": "reference-finder",
-	"version": "4.8.0",
+	"version": "4.8.1",
 	"description": "Find reference points and lines in crease patterns.",
 	"keywords": [
 		"origami"

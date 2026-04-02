@@ -9,11 +9,11 @@ export default [
 			"src/lib/**",
 		],
 		import: {
-			files: ["**/*.{ts,tsx}", "eslint.config.js", "gulpfile.js"],
+			files: ["**/*.{ts,tsx}", "eslint.config.js", "script/**", "gulpfile.js"],
 			project: ["src/app"],
 		},
 		globals: {
-			esm: ["./*.{js,ts}"],
+			esm: ["./*.{js,ts}", "script/**"],
 			browser: ["src/**"],
 		},
 	}),

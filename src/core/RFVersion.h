@@ -20,8 +20,8 @@ NOTE: Do not edit these directly, as these values now sync with package.json aut
 // NOLINTBEGIN(modernize-macro-to-enum)
 #define VERSION_MAJOR 4
 #define VERSION_MINOR 8
-#define VERSION_BUGFIX 0
-#define VERSION_BUILD 20260401
+#define VERSION_BUGFIX 1
+#define VERSION_BUILD 20260402
 // NOLINTEND(modernize-macro-to-enum)
 
 /******************************************************************************/
