@@ -4,7 +4,7 @@ import { createConfig } from "@mutsuntsai/eslint";
 export default [
 	...createConfig({
 		ignores: [
-			"docs/**",
+			"dist/**",
 			"node_modules/**",
 			"src/lib/**",
 		],

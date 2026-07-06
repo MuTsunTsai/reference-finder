@@ -107,9 +107,6 @@ export default defineConfig({
 				},
 			},
 		},
-		distPath: {
-			root: "docs",
-		},
 	},
 	plugins: [
 		pluginSass({
