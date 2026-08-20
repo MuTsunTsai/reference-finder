@@ -34,7 +34,7 @@ All source codes are located in the `src` folder, in which you'll find:
 - `icon`: This folder contains the pre-built Font Awesome subset.\
   If you add more icons and need to rebuild this folder, execute `pnpm gulp`.
 - `lib`: Compiled WebAssembly of ReferenceFinder.
-- `locale`: All locale files, based on the previous work by [Maya Kraft](https://github.com/mayakraft/ReferenceFinder) etc.
+- `locale`: All locale files, based on the previous work by [Amber Kraft](https://github.com/amkraft/ReferenceFinder) etc.
 - `public`: The HTML file and other unbundled assets.
 
 ## How to contribute new ideas/features
