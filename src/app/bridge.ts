@@ -4,6 +4,9 @@ import type { DbSettings, Solution } from "./store";
 
 export const idbSupported = typeof indexedDB !== "undefined";
 
+/** Name of the IndexedDB used by IDBFS; must match the mount point in core/utils.h. */
+export const IDB_NAME = "/reference-finder";
+
 let worker: Worker;
 let statisticsCallback: (text: string | Error) => void;
 

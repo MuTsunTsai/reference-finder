@@ -56,7 +56,8 @@ ReferenceFinder::StatisticsFn ReferenceFinder::sStatisticsFn = nullptr;
 void *ReferenceFinder::sStatisticsUserData = nullptr;
 int ReferenceFinder::sStatusCount = 0;
 rank_t ReferenceFinder::sCurRank = 0;
-const char *ReferenceFinder::db_path = "/data/db";
+// Must be under the IDBFS mount point in utils.h
+const char *ReferenceFinder::db_path = "/reference-finder/db";
 
 bool ReferenceFinder::ShowProgress(DatabaseStatus status, rank_t rank) {
 	bool haltFlag = false;

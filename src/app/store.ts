@@ -92,9 +92,38 @@ export const defaultDB = {
 };
 export type DbSettings = typeof defaultDB;
 
+// localStorage is shared by all apps on mutsuntsai.github.io, so the keys must be prefixed.
+// (SETTINGS_KEY is also read by an inline script in public/index.html.)
+export const SETTINGS_KEY = "reference-finder:settings";
+const DB_KEY = "reference-finder:db";
+
+/**
+ * Moves the persisted stores from the old unprefixed keys, which collide with other apps on the same origin
+ * (in particular, FEN Tool also used "settings").
+ *
+ * TODO: Migration code; can be removed after 2027-10.
+ */
+function migrateStorage(): void {
+	for(const [oldKey, newKey] of [["settings", SETTINGS_KEY], ["db", DB_KEY]]) {
+		try {
+			const value = localStorage.getItem(oldKey);
+			if(value === null || localStorage.getItem(newKey) !== null) continue;
+			const data = JSON.parse(value);
+			// Only take the value if it's in the shape persisted by zustand; otherwise it belongs to another app.
+			if(data && typeof data == "object" && "state" in data && "version" in data) {
+				localStorage.setItem(newKey, value);
+				localStorage.removeItem(oldKey);
+			}
+		} catch {
+			// Ignore broken data or unavailable storage
+		}
+	}
+}
+migrateStorage();
+
 export const useStore = create(() => defaultStore);
-export const useSettings = create(persist(() => defaultSettings, { name: "settings" }));
-export const useDB = create(persist(() => defaultDB, { name: "db" }));
+export const useSettings = create(persist(() => defaultSettings, { name: SETTINGS_KEY }));
+export const useDB = create(persist(() => defaultDB, { name: DB_KEY }));
 
 export enum ElementType {
 	point,

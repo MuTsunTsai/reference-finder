@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { deleteDB } from "idb";
 
-import { idbSupported } from "../../bridge";
+import { IDB_NAME, idbSupported } from "../../bridge";
 import { ExpInput } from "../form/exp-input";
 import { IntInput } from "../form/int-input";
 import { Theme, useSettings } from "../../store";
@@ -18,7 +18,11 @@ export default function SettingsBody() {
 	const [tab, setTab] = useState(0);
 
 	useEffect(() => {
-		if(!settings.useDB) deleteDB("/data");
+		if(!settings.useDB) {
+			deleteDB(IDB_NAME);
+			// TODO: The old database name; this line can be removed after 2027-10.
+			deleteDB("/data");
+		}
 	}, [settings.useDB]);
 
 	const MAX_DIV = 65_000; // About the sqrt of max unsigned int

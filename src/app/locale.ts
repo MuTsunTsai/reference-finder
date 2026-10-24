@@ -29,6 +29,27 @@ const resources = {
 
 export const supportedLngs = Object.keys(resources);
 
+// localStorage is shared by all apps on mutsuntsai.github.io, so use a prefixed key
+// instead of the default "i18nextLng".
+const LNG_KEY = "reference-finder:lng";
+
+/**
+ * Moves the language from the default key of i18next-browser-languagedetector.
+ *
+ * TODO: Migration code; can be removed after 2027-10.
+ */
+function migrateLanguage(): void {
+	try {
+		const lng = localStorage.getItem("i18nextLng");
+		if(lng === null) return;
+		if(localStorage.getItem(LNG_KEY) === null) localStorage.setItem(LNG_KEY, lng);
+		localStorage.removeItem("i18nextLng");
+	} catch {
+		// Ignore unavailable storage
+	}
+}
+migrateLanguage();
+
 i18n
 	.use(detector)
 	.use(initReactI18next)
@@ -39,6 +60,7 @@ i18n
 		detection: {
 			order: ["querystring", "localStorage", "navigator"],
 			caches: ["localStorage"],
+			lookupLocalStorage: LNG_KEY,
 		},
 	});
 
