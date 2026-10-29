@@ -28,11 +28,13 @@
 			// The key must match SETTINGS_KEY in app/store.ts.
 			// TODO: The fallback to the old "settings" key is for migration; can be removed after 2027-10.
 			const settings = localStorage.getItem("reference-finder:settings") || localStorage.getItem("settings");
-			const theme = settings ? JSON.parse(settings).state?.theme ?? 0 : 0;
+			// Syntax must stay within ES2018 (no optional chaining, nullish coalescing or optional catch binding).
+			const state = settings ? JSON.parse(settings).state : null;
+			const theme = state && state.theme || 0;
 			if(theme == 0 && matchMedia("(prefers-color-scheme: dark)").matches) {
 				document.documentElement.dataset.bsTheme = "dark";
 			}
-		} catch {
+		} catch(e) {
 			// Ignore broken data or unavailable storage
 		}
 
