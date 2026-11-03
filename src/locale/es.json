@@ -50,7 +50,8 @@
 		"clearExistingRefs": "Limpiar refs",
 		"addAsExistingRefs": "agregar como refs existentes",
 		"export": "exportar",
-		"coreError": "Error: {{message}}"
+		"coreError": "Error: {{message}}",
+		"fromCP": "seleccionar del CP"
 	},
 	"settings": {
 		"reset": "Restablecer los valores predeterminados",
@@ -142,7 +143,9 @@
 	"keyword": {
 		"cancel": "Cancelar",
 		"ok": "Aceptar",
-		"download": "descargar"
+		"download": "descargar",
+		"yes": "sí",
+		"no": "no"
 	},
 	"pinch": "Pellizque solo en la intersección.",
 	"help": {
@@ -166,5 +169,21 @@
 		"ready": "{{lines}} líneas y {{marks}} marcas de rango ≤ {{rank}} listas.",
 		"lines": "{{n}} líneas",
 		"marks": "{{n}} marcas"
+	},
+	"cp": {
+		"open": "Abra o suelte un archivo",
+		"formats": "Admite archivos .cp y .fold",
+		"change": "Haga clic o suelte para abrir otro archivo",
+		"select": "seleccionar",
+		"title": "Seleccionar del patrón de pliegues",
+		"hint": "Haga clic para seleccionar un punto o una línea. Use la rueda o pellizque para ampliar y arrastre para desplazarse.",
+		"fit": "Ajustar a la vista",
+		"none": "Nada seleccionado",
+		"point": "Punto ({{x}}, {{y}})",
+		"line": "Línea que pasa por ({{x1}}, {{y1}}) y ({{x2}}, {{y2}})",
+		"lineRestricted": "Solo se pueden seleccionar puntos cuando las marcas están restringidas",
+		"aspect": "La relación de aspecto del patrón de pliegues difiere de la de la hoja, por lo que se ha estirado para ajustarse a la hoja.",
+		"loadError": "No se puede leer el archivo: {{message}}",
+		"aspectConfirm": "La relación de aspecto del patrón de pliegues ({{cp}}) difiere de la de la hoja ({{sheet}}). ¿Cambiar las dimensiones de la hoja y reconstruir la base de datos?"
 	}
 }

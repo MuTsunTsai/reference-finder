@@ -1,0 +1,11 @@
+.cp-drop {
+	border: 2px dashed var(--bs-border-color);
+	cursor: pointer;
+	transition: background-color 0.15s, border-color 0.15s;
+
+	&:hover,
+	&.dragging {
+		border-color: var(--bs-primary);
+		background-color: var(--bs-tertiary-bg);
+	}
+}

@@ -50,7 +50,8 @@
 		"clearExistingRefs": "清除参考",
 		"addAsExistingRefs": "添加为现有参考",
 		"export": "导出",
-		"coreError": "错误：{{message}}"
+		"coreError": "错误：{{message}}",
+		"fromCP": "从 CP 选取"
 	},
 	"settings": {
 		"reset": "重设为默认值",
@@ -142,7 +143,9 @@
 	"keyword": {
 		"cancel": "取消",
 		"ok": "确定",
-		"download": "下载"
+		"download": "下载",
+		"yes": "是",
+		"no": "否"
 	},
 	"pinch": "仅在交叉点处留下折痕。",
 	"help": {
@@ -166,5 +169,21 @@
 		"ready": "等级 ≤ {{rank}} 的 {{lines}} 条线和 {{marks}} 个标记已就绪。",
 		"lines": "{{n}} 条线",
 		"marks": "{{n}} 个标记"
+	},
+	"cp": {
+		"open": "打开或拖放文件",
+		"formats": "支持 .cp 与 .fold 文件",
+		"change": "点击或拖放以打开其它文件",
+		"select": "选取",
+		"title": "从展开图选取",
+		"hint": "点击以选取一个点或一条线。用滚轮或双指缩放，拖拽以平移。",
+		"fit": "适合窗口大小",
+		"none": "尚未选取",
+		"point": "点 ({{x}}, {{y}})",
+		"line": "通过 ({{x1}}, {{y1}}) 与 ({{x2}}, {{y2}}) 的线",
+		"lineRestricted": "限制模式下只能选取点",
+		"aspect": "展开图的长宽比与纸张不同，已将其拉伸至纸张大小。",
+		"loadError": "无法读取文件：{{message}}",
+		"aspectConfirm": "展开图的长宽比（{{cp}}）与纸张设置（{{sheet}}）不同。是否更改纸张的长宽设置并重新建立数据库？"
 	}
 }

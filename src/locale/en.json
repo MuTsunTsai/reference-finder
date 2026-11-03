@@ -147,7 +147,8 @@
 		"coreVer": "Core version",
 		"clearExistingRefs": "Clear refs",
 		"addAsExistingRefs": "add as existing refs",
-		"coreError": "Error: {{message}}"
+		"coreError": "Error: {{message}}",
+		"fromCP": "select from CP"
 	},
 	"invalid": {
 		"exp": "Should be a number at least 0, or an equivalent expression",
@@ -159,12 +160,30 @@
 	"keyword": {
 		"cancel": "cancel",
 		"ok": "OK",
-		"download": "download"
+		"download": "download",
+		"yes": "yes",
+		"no": "no"
 	},
 	"progress": {
 		"initializing": "Initializing {{lines}} lines and {{marks}} marks of rank ≤ {{rank}}...",
 		"ready": "{{lines}} lines and {{marks}} marks of rank ≤ {{rank}} ready.",
 		"lines": "{{n}} lines",
 		"marks": "{{n}} marks"
+	},
+	"cp": {
+		"open": "Open or drop a file",
+		"formats": "Supports .cp and .fold files",
+		"change": "Click or drop to open another file",
+		"select": "select",
+		"title": "Select from crease pattern",
+		"hint": "Click to select a point or a line. Scroll or pinch to zoom, and drag to pan.",
+		"fit": "Fit to view",
+		"none": "Nothing selected",
+		"point": "Point ({{x}}, {{y}})",
+		"line": "Line through ({{x1}}, {{y1}}) and ({{x2}}, {{y2}})",
+		"lineRestricted": "Only points can be selected when marks are restricted",
+		"aspect": "The aspect ratio of the crease pattern differs from that of the sheet, so it has been stretched to fit the sheet.",
+		"loadError": "Cannot read the file: {{message}}",
+		"aspectConfirm": "The aspect ratio of the crease pattern ({{cp}}) differs from that of the sheet ({{sheet}}). Change the sheet dimensions and rebuild the database?"
 	}
 }

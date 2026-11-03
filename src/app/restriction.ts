@@ -39,3 +39,15 @@ export function isOnPinchLine(p: IPoint, db: DbSettings, existingLines: ISegment
 	];
 	return lines.some(([a, b]) => distanceToLine(p, a, b) <= tolerance);
 }
+
+/**
+ * Checks if the target (a point, or a line given by two points) can be searched under the mark restriction.
+ * Returns the i18n key of the error message, or null if it's allowed.
+ */
+export function getTargetError(
+	target: IPoint[], db: DbSettings, existingLines: ISegment[], tolerance: number
+): string | null {
+	if(!db.restrictMarks) return null;
+	if(target.length > 1) return "cp.lineRestricted";
+	return isOnPinchLine(target[0], db, existingLines, tolerance) ? null : "invalid.pointOnPinchLine";
+}

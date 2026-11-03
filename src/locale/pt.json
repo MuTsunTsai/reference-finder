@@ -50,7 +50,8 @@
 		"clearExistingRefs": "Limpar refs",
 		"addAsExistingRefs": "adicionar como refs existentes",
 		"export": "exportar",
-		"coreError": "Erro: {{message}}"
+		"coreError": "Erro: {{message}}",
+		"fromCP": "selecionar do CP"
 	},
 	"settings": {
 		"reset": "Redefinir para os padrões",
@@ -142,7 +143,9 @@
 	"keyword": {
 		"cancel": "cancelar",
 		"ok": "OK",
-		"download": "baixar"
+		"download": "baixar",
+		"yes": "sim",
+		"no": "não"
 	},
 	"pinch": "Aperte apenas no cruzamento.",
 	"help": {
@@ -166,5 +169,21 @@
 		"ready": "{{lines}} linhas e {{marks}} marcas de rank ≤ {{rank}} prontas.",
 		"lines": "{{n}} linhas",
 		"marks": "{{n}} marcas"
+	},
+	"cp": {
+		"open": "Abra ou solte um arquivo",
+		"formats": "Suporta arquivos .cp e .fold",
+		"change": "Clique ou solte para abrir outro arquivo",
+		"select": "selecionar",
+		"title": "Selecionar do padrão de vincos",
+		"hint": "Clique para selecionar um ponto ou uma linha. Use a roda ou faça pinça para ampliar e arraste para mover.",
+		"fit": "Ajustar à tela",
+		"none": "Nada selecionado",
+		"point": "Ponto ({{x}}, {{y}})",
+		"line": "Linha que passa por ({{x1}}, {{y1}}) e ({{x2}}, {{y2}})",
+		"lineRestricted": "Somente pontos podem ser selecionados quando as marcas estão restritas",
+		"aspect": "A proporção do padrão de vincos é diferente da folha, por isso ele foi esticado para caber na folha.",
+		"loadError": "Não foi possível ler o arquivo: {{message}}",
+		"aspectConfirm": "A proporção do padrão de vincos ({{cp}}) é diferente da folha ({{sheet}}). Alterar as dimensões da folha e reconstruir o banco de dados?"
 	}
 }

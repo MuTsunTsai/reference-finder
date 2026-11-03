@@ -1,0 +1,68 @@
+.cp-viewer {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+
+	svg {
+		display: block;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		touch-action: none;
+		cursor: grab;
+
+		&.cp-hovering {
+			cursor: pointer;
+		}
+
+		&:active {
+			cursor: grabbing;
+		}
+	}
+
+	line {
+		vector-effect: non-scaling-stroke;
+		stroke-width: 1;
+		stroke-linecap: round;
+	}
+
+	.cp-sheet {
+		fill: var(--sheet-bg);
+	}
+
+	.cp-border {
+		stroke: var(--boundary);
+		stroke-width: 1.5;
+	}
+
+	.cp-mountain {
+		stroke: var(--bs-danger);
+	}
+
+	.cp-valley {
+		stroke: var(--valley);
+	}
+
+	.cp-aux {
+		stroke: var(--bs-gray-500);
+	}
+
+	line.cp-hover {
+		stroke: var(--highlight);
+		stroke-width: 4;
+	}
+
+	line.cp-selected {
+		stroke: var(--bs-warning);
+		stroke-width: 4;
+	}
+
+	circle.cp-hover {
+		fill: var(--highlight);
+	}
+
+	circle.cp-selected {
+		fill: var(--bs-warning);
+	}
+}
