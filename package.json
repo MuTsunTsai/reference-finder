@@ -10,8 +10,9 @@
 	"author": "Mu-Tsun Tsai <don.m.t.tsai@gmail.com> (https://github.com/MuTsunTsai)",
 	"contributors": [
 		{
-			"name": "Robert J. Lang <>",
-			"email": "robert@langorigami.com"
+			"name": "Robert J. Lang",
+			"email": "robert@langorigami.com",
+			"url": "https://langorigami.com/"
 		},
 		{
 			"name": "Mu-Tsun Tsai",
