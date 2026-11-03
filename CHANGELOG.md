@@ -1,6 +1,20 @@
 
 # Change log
 
+## v4.9
+
+- I18n now covers all messages for all languages.
+- Add mark restriction mode (issue [#6](https://github.com/MuTsunTsai/reference-finder/issues/6)): no crease is left in the interior of the paper, and points are only pinched on the edges, the existing lines, or optionally the diagonals and the horizontal/vertical folds in half.
+- Allowing selecting the target point or line directly from a crease pattern in .cp or .fold format (issue [#8](https://github.com/MuTsunTsai/reference-finder/issues/8)).
+
+## v4.8
+
+- Export folding sequence to PNG, SVG or PDF formats.
+
+#### Patches
+
+- v4.8.1: Fix PDF quality.
+
 ## v4.7
 
 - Add lightbox to the preview and diagram images.

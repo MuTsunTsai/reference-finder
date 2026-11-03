@@ -28,6 +28,7 @@ export default defineConfig({
 			/chart\.js/,
 			/iobuffer/,
 			/fast-png/,
+			/rabbit-ear/,
 		],
 		define: {
 			__VERSION__: `"${pkg.version}"`,
