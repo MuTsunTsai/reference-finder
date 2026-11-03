@@ -10,6 +10,8 @@ import type { InputProps } from "./int-input";
 
 interface ExpInputProps extends Omit<InputProps<number>, "onInput"> {
 	exp?: string;
+	/** Marks the input as invalid due to a condition checked by the parent. */
+	invalid?: boolean;
 	onInput: (v: number, exp: string) => void;
 }
 
@@ -26,7 +28,7 @@ function getTextWidth(input: HTMLInputElement, text: string): number {
 	return metrics.width;
 }
 
-export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
+export function ExpInput({ max, value, exp, invalid, onInput }: ExpInputProps) {
 	const { t } = useTranslation();
 	const el = useRef<HTMLInputElement>(null);
 	const settings = useSettings();
@@ -90,7 +92,7 @@ export function ExpInput({ max, value, exp, onInput }: ExpInputProps) {
 					ref={el}
 					type="text"
 					aria-label="Math expression"
-					className={"form-control exp-input " + (isValid() ? "" : "is-invalid")}
+					className={"form-control exp-input " + (isValid() && !invalid ? "" : "is-invalid")}
 					value={temp}
 					onInput={e => input(e.currentTarget.value)}
 					onBlur={blur}

@@ -12,28 +12,44 @@ interface ICoordinates {
 
 interface PointInputProps extends InputProps<ICoordinates> {
 	label: string;
+	/** Error message for the point as a whole. */
+	error?: string | null;
 }
 
-export function PointInput({ label, value, onInput }: PointInputProps) {
+export function PointInput({ label, value, error, onInput }: PointInputProps) {
 	const { t } = useTranslation();
 	const db = useDB();
+	const invalid = Boolean(error);
 	return (
 		<div className="row gx-2 mt-2">
 			<label className="col-auto col-form-label capitalize">
 				{t("phrase.point")}{label}: (<span className="d-none d-sm-inline"> x =</span>
 			</label>
 			<div className="col">
-				<ExpInput max={db.width} value={value.x} onInput={v => onInput({ ...value, x: v })} />
+				<ExpInput
+					max={db.width}
+					value={value.x}
+					invalid={invalid}
+					onInput={v => onInput({ ...value, x: v })}
+				/>
 			</div>
 			<label className="col-auto col-form-label">
 				,<span className="d-none d-sm-inline"> y =</span>
 			</label>
 			<div className="col">
-				<ExpInput max={db.height} value={value.y} onInput={v => onInput({ ...value, y: v })} />
+				<ExpInput
+					max={db.height}
+					value={value.y}
+					invalid={invalid}
+					onInput={v => onInput({ ...value, y: v })}
+				/>
 			</div>
 			<label className="col-auto col-form-label">
 				)
 			</label>
+			{error &&
+				<div className="col-12 text-danger small mt-1">{error}</div>
+			}
 		</div>
 	);
 }

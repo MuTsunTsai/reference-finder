@@ -120,17 +120,19 @@ This significantly reduces total memory usage when building database.
 template <class R>
 template <class Rs>
 void RefContainer<R>::AddCopyIfValidAndUnique(const Rs &ars) {
+	// The set stores non-const pointers, but ars is only used for lookup here.
+	R *key = const_cast<Rs *>(&ars);
 	if(
 		// The ref is valid (fully constructed) if its key is something other than 0.
 		ars.mKey != 0 &&
 		// If the main set already has one with the same key,
 		// it must be of a lower rank and we can safely ignore the current one.
-		!set.count((R *)&ars)
+		!set.count(key)
 	) {
 		// See if any buffer has an entry with the same key
 		bool found = false;
 		for(set_t &buf: buffer) {
-			auto iter = buf.find((R *)&ars);
+			auto iter = buf.find(key);
 			if(iter != buf.end()) {
 				found = true;
 				// see if the current one has a lower score (otherwise ignore)

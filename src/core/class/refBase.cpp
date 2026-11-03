@@ -41,7 +41,7 @@ const std::array<RefBaseLogic *, 10> RefBase::logics = {
 	new RefLine_P2L_P2L_Logic(),
 	new RefLine_L2L_P2L_Logic(),
 	new RefMark_OriginalLogic(),
-	new RefMark_IntersectionLogic()
+	new RefMark_IntersectionLogic(),
 };
 
 /*  Notes on Sequences.
@@ -158,10 +158,10 @@ void RefBase::BuildDiagrams() {
 					mark = sSequence[j];
 				}
 			}
-			((RefLine *)sSequence[i])->mForMark = mark;
+			static_cast<RefLine *>(sSequence[i])->mForMark = mark;
 		}
 		if(!sSequence[i]->IsLine() && sSequence[i]->IsDerived()) {
-			auto *mark = (RefMark_Intersection *)sSequence[i];
+			auto *mark = static_cast<RefMark_Intersection *>(sSequence[i]);
 			// It won't make sense to have both lines as pinches.
 			if(mark->rl2->mForMark != nullptr) mark->rl1->mForMark = nullptr;
 		}

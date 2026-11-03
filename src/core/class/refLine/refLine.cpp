@@ -138,20 +138,14 @@ void RefLineLogic::DrawSelf(const RefBase *self, RefStyle rstyle, short ipass) c
 
 	if(s->mForMark != nullptr) {
 		pinchLength = std::min(Shared::sPaper.mWidth, Shared::sPaper.mHeight) / 10.0;
-		auto *mark = (RefMark *)s->mForMark;
+		auto *mark = static_cast<RefMark *>(s->mForMark);
 		moveCloser(p1, mark->p, pinchLength);
 		moveCloser(p2, mark->p, pinchLength);
 	}
 
 	switch(ipass) {
-	case PASS_LINES: {
-		switch(rstyle) {
-		case REFSTYLE_NORMAL:
-			sDgmr->DrawLine(p1, p2, RefDgmr::LINESTYLE_CREASE);
-			break;
-		default:; // keep compiler happy
-		}
-	};
+	case PASS_LINES:
+		if(rstyle == REFSTYLE_NORMAL) sDgmr->DrawLine(p1, p2, RefDgmr::LINESTYLE_CREASE);
 		break;
 
 	case PASS_HLINES: // highlighted lines and action lines go on top of others
@@ -187,7 +181,7 @@ void RefLineLogic::DrawSelf(const RefBase *self, RefStyle rstyle, short ipass) c
 			break;
 		case REFSTYLE_HILITE:
 			if(s->mForMark != nullptr) {
-				auto *mark = (RefMark *)s->mForMark;
+				auto *mark = static_cast<RefMark *>(s->mForMark);
 				moveCloser(mp, mark->p, pinchLength * 0.75);
 			}
 			sDgmr->DrawLabel(mp, sl, RefDgmr::LABELSTYLE_HILITE);

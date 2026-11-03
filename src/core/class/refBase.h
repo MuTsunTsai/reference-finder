@@ -33,7 +33,7 @@ class RefBaseLogic {
 	enum RefStyle : std::uint8_t {
 		REFSTYLE_NORMAL,
 		REFSTYLE_HILITE,
-		REFSTYLE_ACTION
+		REFSTYLE_ACTION,
 	};
 
 	virtual void MakeAll(rank_t arank) const;
@@ -63,7 +63,7 @@ class RefBaseLogic {
 		PASS_POINTS,
 		PASS_ARROWS,
 		PASS_LABELS,
-		NUM_PASSES
+		NUM_PASSES,
 	}; // drawing order
 };
 
@@ -129,7 +129,7 @@ struct RefBase {
 		LINE_P2L_P2L,
 		LINE_L2L_P2L,
 		MARK_ORIGINAL,
-		MARK_INTERSECTION
+		MARK_INTERSECTION,
 	};
 
   private:

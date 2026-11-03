@@ -75,6 +75,14 @@ class Shared {
 	static double sMinAspectRatio;	 // minimum aspect ratio for a triangular flap
 	static double sMinAngleSine;	 // minimum line intersection for defining a mark
 	static bool sVisibilityMatters;	 // restrict to what can be made w/ opaque paper
+	/**
+	 * Whether marks are restricted, so that no pinch is left in the interior of the paper
+	 * (for example, on the faces of origami polyhedra). When restricted, only the edges
+	 * and the existing lines are actual creases (the diagonals are not added).
+	 * All other lines are only pinched at their intersections with these,
+	 * so they cannot be used as references for making other lines or marks.
+	 */
+	static bool sMarkRestricted;
 	static bool sLineWorstCaseError; // true = use worst-case error vs Pythagorean
 	static int sDatabaseStatusSkip;	 // frequency that sDatabaseFn gets called
 

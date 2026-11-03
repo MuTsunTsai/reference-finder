@@ -89,9 +89,9 @@ void RefLine_L2L_P2L_Logic::MakeAll(rank_t arank) const {
 	for(rank_t irank = 0; irank <= (arank - 1); irank++) {
 		for(rank_t jrank = 0; jrank <= (arank - 1 - irank); jrank++) {
 			rank_t krank = arank - irank - jrank - 1;
-			for(auto *li: ReferenceFinder::sBasisLines.ranks[irank]) {
+			for(auto *li: ReferenceFinder::RefLinesOfRank(irank)) {
 				for(auto *mj: ReferenceFinder::sBasisMarks.ranks[jrank]) {
-					for(auto *lk: ReferenceFinder::sBasisLines.ranks[krank]) {
+					for(auto *lk: ReferenceFinder::RefLinesOfRank(krank)) {
 						if((irank != krank) || (li != lk)) {
 							if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 							RefLine_L2L_P2L rlh1(li, mj, lk);

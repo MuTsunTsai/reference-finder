@@ -59,7 +59,13 @@
 		"basic": {
 			"_": "基本",
 			"height": "紙張高度",
-			"width": "紙張寬度"
+			"width": "紙張寬度",
+			"markRestriction": {
+				"restrict": "限紙邊上",
+				"diagonals": "對角線",
+				"horizontal": "水平對摺線",
+				"vertical": "垂直對摺線"
+			}
 		},
 		"reInit": "需要重新初始化。",
 		"system": {
@@ -80,7 +86,8 @@
 		"exp": "應該是至少 0 的數字，或等價表達式",
 		"expMax": "應該是 0 到 {{max}} 之間的數字，或等價表達式",
 		"int": "應該是至少 {{min}} 的整數",
-		"intMax": "應該是從 {{min}} 到 {{max}} 的整數"
+		"intMax": "應該是從 {{min}} 到 {{max}} 的整數",
+		"pointOnPinchLine": "點應該位於紙邊、勾選的線或現有的線上"
 	},
 	"tip": {
 		"title": "提示：",

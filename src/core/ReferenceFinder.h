@@ -53,7 +53,7 @@ class ReferenceFinder {
 		DATABASE_INITIALIZING,
 		DATABASE_WORKING,
 		DATABASE_RANK_COMPLETE,
-		DATABASE_READY
+		DATABASE_READY,
 	};
 	struct DatabaseInfo {
 		DatabaseStatus mStatus;
@@ -97,7 +97,7 @@ class ReferenceFinder {
 	enum StatisticsStatus : std::uint8_t {
 		STATISTICS_BEGIN,
 		STATISTICS_WORKING,
-		STATISTICS_DONE
+		STATISTICS_DONE,
 	};
 	struct StatisticsInfo {
 		StatisticsStatus mStatus;
@@ -126,6 +126,17 @@ class ReferenceFinder {
   private:
 	static RefContainer<RefLine> sBasisLines; // all lines
 	static RefContainer<RefMark> sBasisMarks; // all marks
+
+	/**
+	 * Lines of the given rank that can be used as references for making new lines.
+	 * When marks are restricted, only the lines of rank 0 (the edges and the existing lines)
+	 * are actual creases on the paper.
+	 */
+	static const std::vector<RefLine *> &RefLinesOfRank(rank_t arank) {
+		static const std::vector<RefLine *> none;
+		if(Shared::sMarkRestricted && arank > 0) return none;
+		return sBasisLines.ranks[arank];
+	};
 
 	/** Path for the database file. */
 	static const char* db_path;

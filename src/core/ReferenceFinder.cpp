@@ -93,9 +93,9 @@ sDatabaseStatusSkip. If the client DatabaseFn sets the value of haltFlag to
 true, we immediately terminate construction of references.
 *****/
 void ReferenceFinder::CheckDatabaseStatus() {
-	if(sStatusCount < Shared::sDatabaseStatusSkip)
+	if(sStatusCount < Shared::sDatabaseStatusSkip) {
 		sStatusCount++;
-	else {
+	} else {
 		if(ShowProgress(DATABASE_WORKING, sCurRank)) throw EXC_HALT();
 		sStatusCount = 0;
 	}
@@ -170,9 +170,9 @@ bool ReferenceFinder::ImportDatabase() {
 		}
 		RefBase *ref = RefBase::logics[type]->Import(is);
 		if(ref->IsLine()) {
-			sBasisLines.push_back((RefLine *)ref);
+			sBasisLines.push_back(static_cast<RefLine *>(ref));
 		} else {
-			sBasisMarks.push_back((RefMark *)ref);
+			sBasisMarks.push_back(static_cast<RefMark *>(ref));
 		}
 		CheckDatabaseStatus();
 	}
@@ -200,7 +200,7 @@ void ReferenceFinder::BuildAndExportDatabase() {
 			outFile = nullptr;
 		} else {
 			Shared::dbStream = new BinaryOutputStream(*outFile);
-			*Shared::dbStream << (index_t)0 << (index_t)0;
+			*Shared::dbStream << static_cast<index_t>(0) << static_cast<index_t>(0);
 		}
 	}
 
@@ -263,8 +263,9 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	// Report our status for rank 0.
 	ShowProgress(DATABASE_RANK_COMPLETE, 0);
 
-	// Rank 1: Construct the two diagonals.
-	{
+	// Rank 1: Construct the two diagonals, unless marks are restricted
+	// (in which case the frontend decides whether to pass them as existing lines).
+	if(!Shared::sMarkRestricted) {
 		// We need to pay attention that existing lines may already include them
 		RefLine_Original d1(sPaper.mUpwardDiagonal, 1, string("sw_ne"));
 		RefLine_Original d2(sPaper.mDownwardDiagonal, 1, string("nw_se"));
@@ -296,7 +297,7 @@ void ReferenceFinder::BuildAndExportDatabase() {
 	// Conclude database exporting
 	if(Shared::useDatabase) {
 		outFile->seekp(0, ios::beg);
-		*Shared::dbStream << (index_t)sBasisLines.size() << (index_t)sBasisMarks.size();
+		*Shared::dbStream << static_cast<index_t>(sBasisLines.size()) << static_cast<index_t>(sBasisMarks.size());
 		outFile->close();
 	}
 	delete Shared::dbStream;
@@ -371,6 +372,18 @@ bool ReferenceFinder::ValidateMark(const XYPt &ap, string &err) {
 		err = ss.str();
 		return false;
 	}
+
+	if(Shared::sMarkRestricted) {
+		vector<XYLine> lines = {sPaper.mBottomEdge, sPaper.mLeftEdge, sPaper.mRightEdge, sPaper.mTopEdge};
+		lines.insert(lines.end(), Shared::existingLines.begin(), Shared::existingLines.end());
+		bool onLine = any_of(lines.begin(), lines.end(), [&ap](const XYLine &l) {
+			return abs(l.d - ap.Dot(l.u)) <= Shared::sGoodEnoughError;
+		});
+		if(!onLine) {
+			err = "The point should lie on an edge of the paper or an existing line";
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -402,7 +415,7 @@ void ReferenceFinder::CalcStatistics() {
 
 	// Run a bunch of test cases on random points.
 	for(int i = 0; i < Shared::sNumTrials; i++) {
-		XYPt testPt((double(rand()) / RAND_MAX * sPaper.mWidth), double(rand()) / RAND_MAX * sPaper.mHeight);
+		XYPt testPt(static_cast<double>(rand()) / RAND_MAX * sPaper.mWidth, static_cast<double>(rand()) / RAND_MAX * sPaper.mHeight);
 		double error = Optimizer::GetBestError(testPt);
 
 		// Report progress, and check for early termination from user

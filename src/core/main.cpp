@@ -189,13 +189,14 @@ void readDbSettings() {
 	Shared::sMinAspectRatio = ReadNumber();
 	Shared::sMinAngleSine = ReadNumber();
 	Shared::sVisibilityMatters = ReadNumber();
+	Shared::sMarkRestricted = ReadNumber() != 0;
 
 	// Read existing marks and lines
 	vector<XYPt> existingMarks;
 	vector<XYLine> existingLines;
 	readExistingPointsAndLines(&existingMarks, &existingLines);
-	Shared::existingMarks = existingMarks;
-	Shared::existingLines = existingLines;
+	Shared::existingMarks = std::move(existingMarks);
+	Shared::existingLines = std::move(existingLines);
 }
 
 /******************************

@@ -27,4 +27,7 @@ class RefMark_IntersectionLogic: public RefMarkLogic {
 	JsonObject Serialize(const RefBase *self) const override;
 	RefBase *Import(BinaryInputStream &is) const override;
 	void Export(const RefBase *self, BinaryOutputStream &os) const override;
+
+  private:
+	static void MakeAllRestricted(rank_t arank);
 };

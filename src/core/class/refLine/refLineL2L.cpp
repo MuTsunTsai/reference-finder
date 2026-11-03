@@ -38,9 +38,10 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
 		if(iroot == 0) {
 			l.u = u1;
 			l.d = .5 * (d1 + d2 * u2.Dot(u1));
-		} else
+		} else {
 			// NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.UninitializedObject)
 			return; // iroot = 1 for parallel lines isn't a valid solution.
+		}
 	} else {		// nonparallel lines
 
 		// Construct the direction vector for the bisector, depending on the value of iroot.
@@ -60,18 +61,18 @@ RefLine_L2L::RefLine_L2L(RefLine *arl1, RefLine *arl2, unsigned char iroot)
 	bool l2edge = arl2->IsOnEdge();
 
 	if(Shared::sVisibilityMatters) {
-		if(l1edge)
+		if(l1edge) {
 			mWhoMoves = RefLine_L2L_Logic::WHOMOVES_L1;
-		else if(l2edge)
+		} else if(l2edge) {
 			mWhoMoves = RefLine_L2L_Logic::WHOMOVES_L2;
-		else {
+		} else {
 			XYPt lp1;
 			XYPt lp2;
 			Shared::sPaper.ClipLine(l1, lp1, lp2);
 			if(Shared::sPaper.Encloses(l.Fold(lp1)) &&
-			   Shared::sPaper.Encloses(l.Fold(lp2)))
+			   Shared::sPaper.Encloses(l.Fold(lp2))) {
 				mWhoMoves = RefLine_L2L_Logic::WHOMOVES_L1;
-			else {
+			} else {
 				Shared::sPaper.ClipLine(l2, lp1, lp2);
 				if(Shared::sPaper.Encloses(l.Fold(lp1)) &&
 				   Shared::sPaper.Encloses(l.Fold(lp2)))
@@ -99,9 +100,11 @@ void RefLine_L2L_Logic::MakeAll(rank_t arank) const {
 	for(rank_t irank = 0; irank <= (arank - 1) / 2; irank++) {
 		rank_t jrank = arank - irank - 1;
 		bool sameRank = (irank == jrank);
-		auto &imap = ReferenceFinder::sBasisLines.ranks[irank];
+		const auto &imap = ReferenceFinder::RefLinesOfRank(irank);
+		// Must be checked, as begin() + 1 would go past end() (this can happen when marks are restricted)
+		if(imap.empty()) continue;
 		for(auto li = imap.begin() + (sameRank ? 1 : 0); li != imap.end(); li++) {
-			auto &jmap = ReferenceFinder::sBasisLines.ranks[jrank];
+			const auto &jmap = ReferenceFinder::RefLinesOfRank(jrank);
 			for(auto lj = jmap.begin(); lj != (sameRank ? li : jmap.end()); lj++) {
 				if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_L2L rls1(*li, *lj, 0);

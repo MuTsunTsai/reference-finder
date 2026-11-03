@@ -19,7 +19,7 @@ class RefDgmr {
 	enum PointStyle : std::uint8_t {
 		POINTSTYLE_NORMAL,
 		POINTSTYLE_HILITE,
-		POINTSTYLE_ACTION
+		POINTSTYLE_ACTION,
 	};
 	/*****
 	Draw a point in the given style.
@@ -49,7 +49,7 @@ class RefDgmr {
 	enum PolyStyle : std::uint8_t {
 		POLYSTYLE_WHITE,
 		POLYSTYLE_COLORED,
-		POLYSTYLE_ARROW
+		POLYSTYLE_ARROW,
 	};
 	/*****
 	Draw a polygon in the given style.
@@ -59,7 +59,7 @@ class RefDgmr {
 	enum LabelStyle : std::uint8_t {
 		LABELSTYLE_NORMAL,
 		LABELSTYLE_HILITE,
-		LABELSTYLE_ACTION
+		LABELSTYLE_ACTION,
 	};
 	/*****
 	Draw a label at a given point

@@ -23,7 +23,7 @@ struct XYLine {
 
 	XYPt Fold(const XYPt &p1) const {
 		// Fold a point about the line
-		return p1 + 2 * (d - (p1.Dot(u))) * u;
+		return p1 + 2 * (d - p1.Dot(u)) * u;
 	}
 
 	bool IsParallelTo(const XYLine &ll) const {

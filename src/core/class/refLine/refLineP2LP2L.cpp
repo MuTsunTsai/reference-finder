@@ -188,11 +188,7 @@ RefLine_P2L_P2L::RefLine_P2L_P2L(RefMark *arm1, RefLine *arl1, RefMark *arm2, Re
 	case 2: // of iroot, meaning we're looking for the third root
 
 		if(irootMax < 2) return;
-		switch(order) {
-		case 3: // third root of a cubic
-			rc = U - Sr + sqrt(3.) * Si;
-			break;
-		};
+		if(order == 3) rc = U - Sr + sqrt(3.) * Si; // third root of a cubic
 		break; // end of case 2 of iroot
 
 	}; // end of switch(iroot).
@@ -291,8 +287,8 @@ void RefLine_P2L_P2L_Logic::MakeAllCore(rank_t irank, rank_t jrank, rank_t krank
 	for(auto mi = imap.begin() + (psameRank ? 1 : 0); mi != imap.end(); mi++) {
 		auto &jmap = marks.ranks[jrank];
 		for(auto mj = jmap.begin(); mj != (psameRank ? mi : jmap.end()); mj++) {
-			for(auto *lk: lines.ranks[krank]) {
-				for(auto *ll: lines.ranks[lrank]) {
+			for(auto *lk: ReferenceFinder::RefLinesOfRank(krank)) {
+				for(auto *ll: ReferenceFinder::RefLinesOfRank(lrank)) {
 					if((krank != lrank) || (lk != ll)) { // cmpr iterators only if same container
 						if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 						RefLine_P2L_P2L rlp0(*mi, lk, *mj, ll, 0);

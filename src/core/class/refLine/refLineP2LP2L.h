@@ -46,7 +46,7 @@ class RefLine_P2L_P2L_Logic: public RefLineLogic {
 		WHOMOVES_P1P2,
 		WHOMOVES_L1L2,
 		WHOMOVES_P1L2,
-		WHOMOVES_P2L1
+		WHOMOVES_P2L1,
 	};
 
   private:

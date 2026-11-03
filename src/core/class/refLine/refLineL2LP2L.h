@@ -30,6 +30,6 @@ class RefLine_L2L_P2L_Logic: public RefLineLogic {
 
 	enum WhoMoves : std::uint8_t {
 		WHOMOVES_P1,
-		WHOMOVES_L1
+		WHOMOVES_L1,
 	};
 };

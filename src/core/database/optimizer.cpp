@@ -35,7 +35,7 @@ void Optimizer::OptimizeMarks() {
 	index_t total = sBasisMarks.size();
 
 	// Make each bucket holding about 100 marks on average
-	int bucketCount = static_cast<int>(ceil((double)total / 100));
+	int bucketCount = static_cast<int>(ceil(static_cast<double>(total) / 100));
 
 	sSize = sqrt((paper.mWidth * paper.mHeight) / bucketCount);
 	sCols = static_cast<int>(floor(paper.mWidth / sSize)) + 1;
@@ -95,8 +95,8 @@ double Optimizer::GetBestError(XYPt &testPt) {
 			if(sy < 0 || sy >= sRows) continue;
 
 			// Test if the bucket square intersects the error circle
-			double dx = max(sx * sSize, min(testPt.x, (sx + 1) * (sSize))) - testPt.x;
-			double dy = max(sy * sSize, min(testPt.y, (sy + 1) * (sSize))) - testPt.y;
+			double dx = max(sx * sSize, min(testPt.x, (sx + 1) * sSize)) - testPt.x;
+			double dy = max(sy * sSize, min(testPt.y, (sy + 1) * sSize)) - testPt.y;
 			if(dx * dx + dy * dy > error * error) continue;
 
 			key = sx + sy * sCols;

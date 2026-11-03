@@ -57,6 +57,9 @@ double Shared::sMinAngleSine = 0.342; // = sin(20 degrees)
 // translucent paper.
 bool Shared::sVisibilityMatters = true;
 
+// Where intersection marks may be made; see MarkRestriction.
+bool Shared::sMarkRestricted = false;
+
 // If sLineWorstCaseError == true, we use worst-case error to sort lines rather
 // than Pythagorean error. The former is more accurate, but slows searches.
 bool Shared::sLineWorstCaseError = true;

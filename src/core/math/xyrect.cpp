@@ -26,5 +26,5 @@ Stream I/O for a XYRect spits out the values of bl and tr as a
 parenthesis-enclosed, comma-delimited pair, e.g., "((0,0),(1,1))".
 *****/
 ostream &operator<<(ostream &os, const XYRect &r) {
-	return os << "(" << (r.bl) << "," << (r.tr) << ")";
+	return os << "(" << r.bl << "," << r.tr << ")";
 }

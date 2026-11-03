@@ -7,6 +7,7 @@ import { useDB, useSettings, useStore } from "../store";
 import { Command, resetWorker, useWorker } from "../bridge";
 import { Settings } from "./settings/settings";
 import { Statistics } from "./statistics/statistics";
+import { isOnPinchLine } from "../restriction";
 
 import type { FormEvent } from "react";
 
@@ -18,9 +19,18 @@ export function Panel({ onSubmit }: PanelProps) {
 	const { t } = useTranslation();
 	const store = useStore();
 	const settings = useSettings();
-	const [mode, setMode] = useState(Command.mark);
+	const db = useDB();
+	const [selectedMode, setMode] = useState(Command.mark);
+	// When marks are restricted, finding lines doesn't make sense, as lines would require creases in the interior.
+	const lineDisabled = db.restrictMarks;
+	const mode = lineDisabled ? Command.mark : selectedMode;
 	const [p1, setP1] = useState({ x: 0, y: 0 });
 	const [p2, setP2] = useState({ x: 1, y: 1 });
+
+	const pointError = useMemo(() => {
+		if(isOnPinchLine([p1.x, p1.y], db, store.existingLines, settings.error)) return null;
+		return t("invalid.pointOnPinchLine");
+	}, [p1.x, p1.y, db, store.existingLines, settings.error, t]);
 
 	const points = useMemo(() => {
 		const results: IPoint[] = [
@@ -32,6 +42,7 @@ export function Panel({ onSubmit }: PanelProps) {
 
 	function find(e: FormEvent) {
 		e.preventDefault();
+		if(pointError) return;
 		gtag("event", mode == Command.mark ? "ref_find_point" : "ref_find_line");
 		const query = [mode, settings.error, settings.count, settings.worstCaseError, p1.x, p1.y];
 		if(mode == Command.line) query.push(p2.x, p2.y);
@@ -75,6 +86,7 @@ export function Panel({ onSubmit }: PanelProps) {
 								name="mode"
 								id="m2"
 								checked={mode == Command.line}
+								disabled={lineDisabled}
 								onChange={() => setMode(Command.line)}
 							/>
 							<label className="form-check-label capitalize" htmlFor="m2">
@@ -83,7 +95,7 @@ export function Panel({ onSubmit }: PanelProps) {
 						</div>
 					</div>
 				</div>
-				<PointInput label={mode == Command.line ? " 1" : ""} value={p1} onInput={p => setP1(p)} />
+				<PointInput label={mode == Command.line ? " 1" : ""} value={p1} error={pointError} onInput={p => setP1(p)} />
 				{mode == Command.line &&
 					<PointInput label=" 2" value={p2} onInput={p => setP2(p)} />
 				}

@@ -1,3 +1,4 @@
+import { getRestrictionLines } from "./restriction";
 import { useDB, useStore, useSettings } from "./store";
 
 import type { DbSettings, Solution } from "./store";
@@ -57,16 +58,12 @@ export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
 	const store = useStore.getState();
 	const existingMarks = store.existingMarks;
 	const existingLines = store.existingLines;
+	// The restriction lines depend only on the DB settings, so the saved database can still be used
+	const coreLines = existingLines.concat(getRestrictionLines(db));
 
 	// Flatten existingMarks and existingLines into lists of numbers for sending to the core
-	const existingMarksFlat = existingMarks.reduce((acc, e: IPoint) => {
-		acc.push(e[0], e[1]);
-		return acc;
-	}, [] as number[]);
-	const existingLinesFlat = existingLines.reduce((acc, e: ISegment) => {
-		acc.push(e[0][0], e[0][1], e[1][0], e[1][1]);
-		return acc;
-	}, [] as number[]);
+	const existingMarksFlat = existingMarks.flatMap(e => [e[0], e[1]]);
+	const existingLinesFlat = coreLines.flatMap(e => [e[0][0], e[0][1], e[1][0], e[1][1]]);
 
 	// Send the message to the worker
 	worker.postMessage([
@@ -86,10 +83,11 @@ export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
 		db.minAspectRatio,
 		db.minAngleSine,
 		db.visibility,
+		db.restrictMarks,
 		// Pass in existing lines and marks
 		existingMarks.length,
 		...existingMarksFlat,
-		existingLines.length,
+		coreLines.length,
 		...existingLinesFlat,
 	]);
 	worker.onmessage = createHandler(startTime);

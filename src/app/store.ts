@@ -87,6 +87,12 @@ export const defaultDB = {
 	minAngleSine: 0.342,
 	minAngleSineExp: "sin(20)",
 	visibility: true,
+	// When marks are restricted, they may only be made on the edges, the existing lines and the allowed lines below.
+	// The core only knows whether marks are restricted; the allowed lines are passed to it as existing lines (see restriction.ts).
+	restrictMarks: false,
+	allowDiagonals: false,
+	allowHorizontalFold: false,
+	allowVerticalFold: false,
 	axioms: [true, true, true, true, true, true, true],
 	axiomPriority: [2, 3, 7, 6, 5, 4, 1], // The default priority
 };

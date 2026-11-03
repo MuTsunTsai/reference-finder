@@ -54,12 +54,7 @@ void RefLine_OriginalLogic::DrawSelf(const RefBase *self, RefStyle rstyle, short
 	Shared::sPaper.ClipLine(s->l, p1, p2);
 	switch(ipass) {
 	case PASS_LINES:
-		switch(rstyle) {
-		case REFSTYLE_NORMAL:
-			sDgmr->DrawLine(p1, p2, RefDgmr::LINESTYLE_CREASE);
-			break;
-		default:; // keep compiler happy
-		}
+		if(rstyle == REFSTYLE_NORMAL) sDgmr->DrawLine(p1, p2, RefDgmr::LINESTYLE_CREASE);
 		break;
 	case PASS_HLINES:
 		switch(rstyle) {

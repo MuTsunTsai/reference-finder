@@ -31,7 +31,7 @@ RefLine_L2L_C2P::RefLine_L2L_C2P(RefLine *arl1, RefMark *arm1)
 
 	// The intersection of the fold line with line l1 must be enclosed in the paper.
 	// That point is the projection of p1 onto line l1.
-	XYPt p1p = p1 + (d1 - (p1.Dot(u1))) * u1;
+	XYPt p1p = p1 + (d1 - p1.Dot(u1)) * u1;
 	if(!Shared::sPaper.Encloses(p1p)) return;
 
 	// Don't need to check visibility, this kind is always visible.
@@ -49,7 +49,7 @@ to arank up to a cumulative total of sMaxLines.
 void RefLine_L2L_C2P_Logic::MakeAll(rank_t arank) const {
 	for(rank_t irank = 0; irank <= (arank - 1); irank++) {
 		rank_t jrank = arank - irank - 1;
-		for(auto *li: ReferenceFinder::sBasisLines.ranks[irank]) {
+		for(auto *li: ReferenceFinder::RefLinesOfRank(irank)) {
 			for(auto *mj: ReferenceFinder::sBasisMarks.ranks[jrank]) {
 				if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;
 				RefLine_L2L_C2P rls1(li, mj);

@@ -53,6 +53,10 @@ Go through existing lines and create RefMark_Intersections with rank equal to
 arank, up to a cumulative total of sMaxMarks.
 *****/
 void RefMark_IntersectionLogic::MakeAll(rank_t arank) const {
+	if(Shared::sMarkRestricted) {
+		MakeAllRestricted(arank);
+		return;
+	}
 	for(rank_t irank = 0; irank <= arank / 2; irank++) {
 		rank_t jrank = arank - irank;
 		bool sameRank = (irank == jrank);
@@ -64,6 +68,22 @@ void RefMark_IntersectionLogic::MakeAll(rank_t arank) const {
 				RefMark_Intersection rmi(*li, *lj);
 				ReferenceFinder::sBasisMarks.AddCopyIfValidAndUnique(rmi);
 			}
+		}
+	}
+}
+
+/*****
+Same as MakeAll(), except that one of the two lines must be of rank 0
+(an edge or an existing line), so that every mark lies on an actual crease.
+The other line is then only pinched at the intersection.
+*****/
+void RefMark_IntersectionLogic::MakeAllRestricted(rank_t arank) {
+	// arank > 0 here, as the intersections among lines of rank 0 are made during the initialization.
+	for(auto *li: ReferenceFinder::sBasisLines.ranks[0]) {
+		for(auto *lj: ReferenceFinder::sBasisLines.ranks[arank]) {
+			if(ReferenceFinder::GetNumMarks() >= Shared::sMaxMarks) return;
+			RefMark_Intersection rmi(li, lj);
+			ReferenceFinder::sBasisMarks.AddCopyIfValidAndUnique(rmi);
 		}
 	}
 }

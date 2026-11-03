@@ -26,10 +26,10 @@
 	"type": "module",
 	"scripts": {
 		"build": "make && rsbuild build",
+		"dev": "make && rsbuild dev -o",
 		"lint": "eslint",
 		"lint:inspect": "pnpx @eslint/config-inspector@latest",
-		"preview": "rsbuild preview --port 31214 --open http://localhost:31214/reference-finder",
-		"start": "make && rsbuild dev -o"
+		"preview": "rsbuild preview --port 31214 --open http://localhost:31214/reference-finder"
 	},
 	"dependencies": {
 		"@dnd-kit/core": "^6.3.1",

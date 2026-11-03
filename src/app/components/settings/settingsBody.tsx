@@ -86,6 +86,33 @@ export default function SettingsBody() {
 							onInput={v => setTempDb({ ...tempDb, maxMarksV1: v })}
 						/>
 					</SettingsRow>
+					<SettingsRow label="Mark restriction" help={t("help.markRestriction")}>
+						<Checkbox
+							className="col-form-label"
+							value={tempDb.restrictMarks}
+							onInput={v => setTempDb({ ...tempDb, restrictMarks: v })}
+						>{t("settings.basic.markRestriction.restrict")}</Checkbox>
+						<div>
+							<Checkbox
+								className="form-check-inline"
+								value={tempDb.allowDiagonals}
+								disabled={!tempDb.restrictMarks}
+								onInput={v => setTempDb({ ...tempDb, allowDiagonals: v })}
+							>{t("settings.basic.markRestriction.diagonals")}</Checkbox>
+							<Checkbox
+								className="form-check-inline"
+								value={tempDb.allowHorizontalFold}
+								disabled={!tempDb.restrictMarks}
+								onInput={v => setTempDb({ ...tempDb, allowHorizontalFold: v })}
+							>{t("settings.basic.markRestriction.horizontal")}</Checkbox>
+							<Checkbox
+								className="form-check-inline"
+								value={tempDb.allowVerticalFold}
+								disabled={!tempDb.restrictMarks}
+								onInput={v => setTempDb({ ...tempDb, allowVerticalFold: v })}
+							>{t("settings.basic.markRestriction.vertical")}</Checkbox>
+						</div>
+					</SettingsRow>
 				</div>
 				<hr />
 				<Axioms />

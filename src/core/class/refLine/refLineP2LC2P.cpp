@@ -88,7 +88,7 @@ void RefLine_P2L_C2P_Logic::MakeAll(rank_t arank) const {
 		for(rank_t jrank = 0; jrank <= (arank - 1 - irank); jrank++) {
 			rank_t krank = arank - irank - jrank - 1;
 			for(auto *mi: ReferenceFinder::sBasisMarks.ranks[irank]) {
-				for(auto *lj: ReferenceFinder::sBasisLines.ranks[jrank]) {
+				for(auto *lj: ReferenceFinder::RefLinesOfRank(jrank)) {
 					for(auto *mk: ReferenceFinder::sBasisMarks.ranks[krank]) {
 						if((irank != krank) || (mi != mk)) { // only cmpr iterators if same container
 							if(ReferenceFinder::GetNumLines() >= Shared::sMaxLines) return;

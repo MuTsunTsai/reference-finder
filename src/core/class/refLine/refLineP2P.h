@@ -29,6 +29,6 @@ class RefLine_P2P_Logic: public RefLineLogic {
 
 	enum WhoMoves : std::uint8_t {
 		WHOMOVES_P1,
-		WHOMOVES_P2
+		WHOMOVES_P2,
 	};
 };
