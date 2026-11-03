@@ -1,6 +1,7 @@
 import { Bar } from "react-chartjs-2";
 import { color } from "chart.js/helpers";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Theme, useSettings } from "../../store";
 import { getMinMax, usePrimary, useTheme, BUCKET_COUNT } from "./chart";
@@ -32,6 +33,7 @@ function getAggregates(counts: number[]): number[] {
 }
 
 export function StatDist({ data }: StatData) {
+	const { t } = useTranslation();
 	const settings = useSettings();
 	const theme = useTheme();
 	const [padding, setPadding] = useState(0);
@@ -56,14 +58,14 @@ export function StatDist({ data }: StatData) {
 		labels: buckets.map(b => `≤ ${b.toFixed(settings.precision)}`),
 		datasets: [
 			{
-				label: "Bucket count",
+				label: t("statistics.bucketCount"),
 				data: counts,
 				backgroundColor: "#ffc107",
 				borderColor: modify("#ffc107"),
 				borderWidth: 3,
 			},
 			{
-				label: "Aggregate",
+				label: t("statistics.aggregate"),
 				data: aggregates,
 				backgroundColor: primary,
 				borderColor: modify(primary),

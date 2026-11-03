@@ -46,11 +46,11 @@ function App() {
 				<div className="col small text-muted">
 					{store.progress && settings.showInit && <>
 						<span className="d-none d-sm-block">
-							{store.ready ? "" : "Initializing"} {store.progress.lines} lines and {store.progress.marks} marks of rank ≤ {store.progress.rank}{store.ready ? " ready." : "..."}
+							{t(store.ready ? "progress.ready" : "progress.initializing", { ...store.progress })}
 						</span>
 						<div className="d-sm-none" style={{ lineHeight: 1 }}>
-							{store.progress.lines} lines<br />
-							{store.progress.marks} marks{store.ready ? "" : "..."}
+							{t("progress.lines", { n: store.progress.lines })}<br />
+							{t("progress.marks", { n: store.progress.marks })}{store.ready ? "" : "..."}
 						</div>
 					</>}
 				</div>
@@ -61,7 +61,9 @@ function App() {
 			<h1>{t("phrase.referenceFinder")}</h1>
 			<Panel onSubmit={() => setSol(0)} />
 			{store.coreError &&
-				<div className="text-danger mb-3">Error: {store.coreError}</div> ||
+				<div className="text-danger mb-3">
+					{t("phrase.coreError", { message: store.coreError, interpolation: { escapeValue: false } })}
+				</div> ||
 				store.solutions.length == 0 && (!store.ready || !store.running) &&
 				<div className="mb-3">
 					<div>{t("tip.title")}</div>

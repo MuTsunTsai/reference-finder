@@ -11,16 +11,16 @@
 		"Faça o vinco {{x}} colocando {{l1}} em si mesmo e levando {{n.0}} para {{n.1}}."
 	],
 	"axiom_solution": [
-		"A soluçăo é feita dobrando através da {{p0}} e {{p1}}.",
-		"A soluçăo é feita trazendo {{p0}} para {{p1}}.",
-		"A soluçăo é feita trazendo {{l0}} para {{l1}}.",
-		"A soluçăo é feita trazendo {{l0}} para si mesmo, passando por {{p0}}.",
-		"A soluçăo é feita trazendo {{n.0}} para {{n.1}}, passando por {{p1}}.",
-		"A soluçăo é feita trazendo {{n.0}} para {{n.1}} e {{n.2}} para {{n.3}}.",
-		"A soluçăo é feita trazendo {{l1}} para si mesmo e trazendo {{n.0}} para {{n.1}}."
+		"A solução é feita dobrando através da {{p0}} e {{p1}}.",
+		"A solução é feita trazendo {{p0}} para {{p1}}.",
+		"A solução é feita trazendo {{l0}} para {{l1}}.",
+		"A solução é feita trazendo {{l0}} para si mesmo, passando por {{p0}}.",
+		"A solução é feita trazendo {{n.0}} para {{n.1}}, passando por {{p1}}.",
+		"A solução é feita trazendo {{n.0}} para {{n.1}} e {{n.2}} para {{n.3}}.",
+		"A solução é feita trazendo {{l1}} para si mesmo e trazendo {{n.0}} para {{n.1}}."
 	],
-	"intersection": "O ponto {{x}} está na interseçăo da {{l0}} e {{l1}}.",
-	"intersection_solution": "A soluçăo está na interseçăo da {{l0}} e {{l1}}.",
+	"intersection": "O ponto {{x}} está na interseção da {{l0}} e {{l1}}.",
+	"intersection_solution": "A solução está na interseção da {{l0}} e {{l1}}.",
 	"paper": {
 		"ne": "o canto superior direito",
 		"se": "o canto inferior direito",
@@ -39,7 +39,7 @@
 		"point": "ponto",
 		"line": "linha",
 		"error": "erro",
-		"solution": "soluçăo",
+		"solution": "solução",
 		"go": "ir",
 		"findLine": "encontre uma linha",
 		"findPoint": "encontre um ponto",
@@ -49,17 +49,53 @@
 		"coreVer": "Versão principal",
 		"clearExistingRefs": "Limpar refs",
 		"addAsExistingRefs": "adicionar como refs existentes",
-		"export": "exportar"
+		"export": "exportar",
+		"coreError": "Erro: {{message}}"
 	},
 	"settings": {
 		"reset": "Redefinir para os padrões",
 		"advanced": {
-			"_": "Avançado"
+			"_": "Avançado",
+			"useDivision": "Usar divisões",
+			"numX": "Divisões em X",
+			"numY": "Divisões em Y",
+			"numA": "Divisões de ângulo",
+			"numD": "Divisões radiais",
+			"minAspectRatio": "Proporção mínima",
+			"minAngleSine": "Seno do ângulo mínimo",
+			"visibility": "Considerar visibilidade",
+			"lineError": {
+				"_": "Modo de erro de linha",
+				"worstCase": "Erro do pior caso",
+				"pythagorean": "Erro pitagórico"
+			},
+			"goodEnoughError": "Erro aceitável",
+			"count": "Número de soluções"
 		},
 		"basic": {
 			"_": "Básico",
 			"height": "Altura da folha",
-			"width": "Largura da folha"
+			"width": "Largura da folha",
+			"axioms": {
+				"_": "Axiomas de Huzita-Hatori",
+				"O1": "Vinco através de dois pontos.",
+				"O2": "Dois pontos juntos.",
+				"O3": "Linha sobre outra linha.",
+				"O4": "Linha sobre si mesma, vinco através de um ponto.",
+				"O5": "Ponto sobre uma linha, vinco através de um ponto.",
+				"O6": "Dois pontos sobre duas linhas.",
+				"O7": "Linha sobre si mesma, ponto sobre uma linha."
+			},
+			"markRestriction": {
+				"_": "Restrição de marcas",
+				"restrict": "Somente nas arestas",
+				"diagonals": "Diagonais",
+				"horizontal": "Dobra horizontal",
+				"vertical": "Dobra vertical"
+			},
+			"maxRank": "Rank máximo",
+			"maxLines": "Máximo de linhas",
+			"maxMarks": "Máximo de marcas"
 		},
 		"reInit": "Requer reinicialização.",
 		"system": {
@@ -80,7 +116,8 @@
 		"exp": "Deve ser um número pelo menos 0 ou uma expressão equivalente",
 		"expMax": "Deve ser um número de 0 a {{max}} ou uma expressão equivalente",
 		"int": "Deve ser um número inteiro de pelo menos {{min}}",
-		"intMax": "Deve ser um número inteiro de {{min}} a {{max}}"
+		"intMax": "Deve ser um número inteiro de {{min}} a {{max}}",
+		"pointOnPinchLine": "O ponto deve estar em uma aresta do papel, em uma linha escolhida ou em uma linha existente"
 	},
 	"tip": {
 		"title": "Dica:",
@@ -90,12 +127,44 @@
 	},
 	"statistics": {
 		"_": "Estatisticas",
-		"trials": "Ensaios"
+		"trials": "Número de ensaios",
+		"summary": {
+			"_": "Resumo",
+			"total": "Total de ensaios",
+			"average": "Média",
+			"stdDev": "Desvio padrão",
+			"runTime": "Tempo de execução"
+		},
+		"errorDist": "Distribuição do erro",
+		"bucketCount": "Contagem por intervalo",
+		"aggregate": "Acumulado"
 	},
 	"keyword": {
 		"cancel": "cancelar",
 		"ok": "OK",
 		"download": "baixar"
 	},
-	"pinch": "Aperte apenas no cruzamento."
+	"pinch": "Aperte apenas no cruzamento.",
+	"help": {
+		"maxRank": "Define o rank máximo de qualquer sequência, que é o número de dobras envolvidas na sequência. O ReferenceFinder calculará todas as marcas e linhas até o rank máximo, sujeito aos dois limites a seguir. Na prática, raramente será necessário definir um valor maior que 6 ou 7; o rank 6 pode incluir mais de um milhão de linhas distintas.",
+		"maxLines": "Define um limite superior absoluto para o número de linhas a calcular. Mesmo que você esteja procurando apenas pontos, o ReferenceFinder precisa calcular um grande número de linhas, pois os pontos são definidos pelas interseções das linhas existentes.",
+		"maxMarks": "Define um limite superior absoluto para o número de marcas a calcular. Como estimativa aproximada, se este valor for N, o erro médio de qualquer ponto é proporcional a 1/(2*sqrt(N)). Isso não é exato, pois os pontos tendem a se concentrar ao longo das linhas de rank baixo, mas, como regra prática, de meio milhão a um milhão de pontos proporcionam um bom desempenho de erro.",
+		"markRestriction": "Restringe onde os vincos podem ser deixados, para que o interior do papel fique limpo. Com a restrição, os únicos vincos são as arestas do papel (e as diagonais ou as dobras horizontal e vertical ao meio, se escolhidas) junto com as linhas existentes; qualquer outra linha é apenas marcada com um pequeno aperto onde encontra uma delas e não pode ser usada em nenhuma dobra posterior. Neste modo, só podem ser procurados pontos que estejam sobre essas linhas, e a busca de linhas fica desativada.",
+		"axioms": "O grupo de axiomas de Huzita-Hatori permite escolher quais dos 7 axiomas incluir no banco de dados e em que ordem de prioridade. O padrão é incluir todos os 7, mas você pode excluir um ou mais. Claro que, quanto mais axiomas você excluir, maior será o rank necessário para obter uma determinada precisão. Você também pode alterar a ordem de prioridade. Os axiomas que aparecem primeiro na lista terão prioridade, de modo que, quando várias sequências do mesmo rank derem referências equivalentes (segundo as configurações de divisões), será preferida a sequência que usa os axiomas prioritários.",
+		"useDivision": "Para economizar memória e permitir buscas em ranks mais profundos, o ReferenceFinder mantém apenas a sequência de menor rank entre marcas ou linhas equivalentes, sendo a equivalência determinada pelas configurações de divisões. Desativar esta opção manterá todas as referências encontradas (requer que Rank máximo seja no máximo 5).",
+		"divisions": "Para testar a equivalência, o papel é dividido em uma grade fina, de acordo com as configurações de divisões. Duas marcas são consideradas equivalentes se caírem no mesmo quadrado da grade, e apenas uma delas será mantida.",
+		"lineDivisions": "As linhas são caracterizadas pelo seu ângulo e pela sua menor distância até a origem, e por isso estas duas configurações são quantizadas da mesma forma.",
+		"goodEnoughError": "Ao realizar uma busca, o ReferenceFinder encontra todas as marcas (ou linhas) cujo erro de distância (ou uma grandeza análoga para linhas) é menor que este valor. Essencialmente, este valor é o erro que você está disposto a tolerar. Dentro deste erro, as marcas de rank baixo são consideradas mais desejáveis (mais fáceis de dobrar) e, por isso, serão exibidas antes das marcas de rank alto, mesmo que estas tenham erros menores.",
+		"minAspectRatio": "Na prática, é muito difícil dobrar um canto longo e estreito de modo que o vinco resultante fique reto; é muito fácil o vinco desviar. Se uma sequência exigir dobrar uma aba triangular com proporção menor que este valor, ela não será aceita no banco de dados. Se você não se importa com isso, pode definir o valor como zero.",
+		"minAngle": "Da mesma forma, se dois vincos se cruzam em um ângulo muito pequeno, a posição do ponto de interseção é inerentemente imprecisa. Este valor é o seno do ângulo mínimo permitido para essas interseções. Se você não se importa com isso, pode definir o valor como zero.",
+		"visibility": "Se marcado, só são permitidos os alinhamentos em que todos os pontos de referência ficam visíveis com papel opaco. (Em alguns alinhamentos, uma das camadas pode esconder o ponto de referência relevante.) Se você dobra com papel translúcido, pode desmarcar esta opção, o que permitirá considerar um número maior de sequências de dobra.",
+		"lineError": "Se definido como \"Erro do pior caso\", o erro entre duas linhas é calculado como a maior separação entre as duas linhas dentro do papel. Caso contrário, usamos a diferença pitagórica, mais rápida (porém menos precisa), entre os parâmetros que definem a linha.",
+		"statistics": "Realiza uma análise estatística do banco de dados. Este comando executa uma série de ensaios: escolhe pontos aleatórios dentro do papel, encontra a sequência de dobra que dá a marca mais próxima e então calcula o erro entre os dois. Os erros resultantes são agrupados em intervalos e apresentados no final da análise. Este comando é útil principalmente para comparar o desempenho de diferentes configurações do banco de dados; normalmente você não precisará usá-lo."
+	},
+	"progress": {
+		"initializing": "Inicializando {{lines}} linhas e {{marks}} marcas de rank ≤ {{rank}}...",
+		"ready": "{{lines}} linhas e {{marks}} marcas de rank ≤ {{rank}} prontas.",
+		"lines": "{{n}} linhas",
+		"marks": "{{n}} marcas"
+	}
 }

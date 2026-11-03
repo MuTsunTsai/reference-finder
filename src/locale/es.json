@@ -49,17 +49,53 @@
 		"coreVer": "Versión principal",
 		"clearExistingRefs": "Limpiar refs",
 		"addAsExistingRefs": "agregar como refs existentes",
-		"export": "exportar"
+		"export": "exportar",
+		"coreError": "Error: {{message}}"
 	},
 	"settings": {
 		"reset": "Restablecer los valores predeterminados",
 		"advanced": {
-			"_": "Avanzado"
+			"_": "Avanzado",
+			"useDivision": "Usar divisiones",
+			"numX": "Divisiones en X",
+			"numY": "Divisiones en Y",
+			"numA": "Divisiones de ángulo",
+			"numD": "Divisiones radiales",
+			"minAspectRatio": "Relación de aspecto mínima",
+			"minAngleSine": "Seno del ángulo mínimo",
+			"visibility": "Considerar visibilidad",
+			"lineError": {
+				"_": "Modo de error de línea",
+				"worstCase": "Error del peor caso",
+				"pythagorean": "Error pitagórico"
+			},
+			"goodEnoughError": "Error aceptable",
+			"count": "Número de soluciones"
 		},
 		"basic": {
 			"_": "Básico",
 			"height": "Altura de la hoja",
-			"width": "Ancho de hoja"
+			"width": "Ancho de hoja",
+			"axioms": {
+				"_": "Axiomas de Huzita-Hatori",
+				"O1": "Pliegue que pasa por dos puntos.",
+				"O2": "Llevar un punto sobre otro.",
+				"O3": "Llevar una línea sobre otra.",
+				"O4": "Línea sobre sí misma, pliegue por un punto.",
+				"O5": "Punto sobre una línea, pliegue por un punto.",
+				"O6": "Dos puntos sobre dos líneas.",
+				"O7": "Línea sobre sí misma, punto sobre una línea."
+			},
+			"markRestriction": {
+				"_": "Restricción de marcas",
+				"restrict": "Solo en los bordes",
+				"diagonals": "Diagonales",
+				"horizontal": "Pliegue horizontal",
+				"vertical": "Pliegue vertical"
+			},
+			"maxRank": "Rango máximo",
+			"maxLines": "Máximo de líneas",
+			"maxMarks": "Máximo de marcas"
 		},
 		"reInit": "Requiere reinicialización.",
 		"system": {
@@ -80,7 +116,8 @@
 		"exp": "Debe ser un número al menos 0, o una expresión equivalente",
 		"expMax": "Debe ser un número del 0 al {{max}}, o una expresión equivalente",
 		"int": "Debe ser un número entero al menos {{min}}",
-		"intMax": "Debe ser un número entero de {{min}} a {{max}}"
+		"intMax": "Debe ser un número entero de {{min}} a {{max}}",
+		"pointOnPinchLine": "El punto debe estar sobre un borde del papel, una línea elegida o una línea existente"
 	},
 	"tip": {
 		"title": "Consejo:",
@@ -90,12 +127,44 @@
 	},
 	"statistics": {
 		"_": "Estadísticas",
-		"trials": "Ensayos"
+		"trials": "Número de ensayos",
+		"summary": {
+			"_": "Resumen",
+			"total": "Total de ensayos",
+			"average": "Promedio",
+			"stdDev": "Desviación estándar",
+			"runTime": "Tiempo de ejecución"
+		},
+		"errorDist": "Distribución del error",
+		"bucketCount": "Recuento por intervalo",
+		"aggregate": "Acumulado"
 	},
 	"keyword": {
 		"cancel": "Cancelar",
-		"ok": "DE ACUERDO",
+		"ok": "Aceptar",
 		"download": "descargar"
 	},
-	"pinch": "Pellizque solo en la intersección."
+	"pinch": "Pellizque solo en la intersección.",
+	"help": {
+		"maxRank": "Establece el rango máximo de cualquier secuencia, que es el número de pliegues que contiene. ReferenceFinder calculará todas las marcas y líneas hasta el rango máximo, sujeto a los dos límites siguientes. En la práctica, rara vez necesitará un valor mayor que 6 o 7; el rango 6 puede incluir más de un millón de líneas distintas.",
+		"maxLines": "Establece un límite superior absoluto para el número de líneas a calcular. Aunque solo busque puntos, ReferenceFinder necesita calcular un gran número de líneas, ya que los puntos se definen por las intersecciones de las líneas existentes.",
+		"maxMarks": "Establece un límite superior absoluto para el número de marcas a calcular. Como estimación aproximada, si este valor es N, el error promedio de cualquier punto es proporcional a 1/(2*sqrt(N)). No es exacto, ya que los puntos tienden a agruparse a lo largo de las líneas de rango bajo, pero como regla general, entre medio millón y un millón de puntos dan un buen error.",
+		"markRestriction": "Restringe dónde se pueden dejar pliegues, para que el interior del papel quede limpio. Con la restricción, los únicos pliegues son los bordes del papel (y las diagonales o los pliegues horizontal y vertical por la mitad, si se eligen) junto con las líneas existentes; cualquier otra línea solo se pellizca donde se cruza con una de ellas y no puede usarse para ningún pliegue posterior. En este modo solo se pueden buscar puntos que estén sobre esas líneas, y la búsqueda de líneas está desactivada.",
+		"axioms": "El grupo de axiomas de Huzita-Hatori le permite elegir cuáles de los 7 axiomas incluir en la base de datos y en qué orden de prioridad. Por defecto se incluyen los 7, pero puede excluir uno o más. Por supuesto, cuantos más axiomas excluya, mayor será el rango que deberá permitir para obtener una precisión dada. También puede cambiar el orden de prioridad. Los axiomas que aparecen primero en la lista tienen prioridad, de modo que cuando varias secuencias del mismo rango dan referencias equivalentes (según los ajustes de divisiones), se preferirá la secuencia que use los axiomas prioritarios.",
+		"useDivision": "Para ahorrar memoria y permitir búsquedas de rangos más profundos, ReferenceFinder conserva solo la secuencia de menor rango entre marcas o líneas equivalentes, y la equivalencia se determina mediante los ajustes de divisiones. Al desactivar esto se conservarán todas las referencias encontradas (requiere que Rango máximo sea como máximo 5).",
+		"divisions": "Para comprobar la equivalencia, el papel se divide en una cuadrícula fina según los ajustes de divisiones. Dos marcas se consideran equivalentes si caen en la misma celda de la cuadrícula, y solo se conservará una de ellas.",
+		"lineDivisions": "Las líneas se caracterizan por su ángulo y su distancia mínima al origen, por lo que estos dos ajustes se cuantifican de manera similar.",
+		"goodEnoughError": "Al realizar una búsqueda, ReferenceFinder encuentra todas las marcas (o líneas) cuyo error de distancia (o una cantidad análoga para las líneas) es menor que este valor. En esencia, este valor es el error que está dispuesto a tolerar. Dentro de este error, las marcas de rango bajo se consideran más deseables (más fáciles de plegar), por lo que se mostrarán antes que las de rango alto, aunque estas tengan un error menor.",
+		"minAspectRatio": "En la práctica, es muy difícil plegar una esquina larga y estrecha de modo que el pliegue resultante quede recto; es muy fácil que el pliegue se desvíe. Si una secuencia requiere plegar una solapa triangular con una relación de aspecto menor que este valor, no se acepta en la base de datos. Si este problema no le importa, puede establecer el valor en cero.",
+		"minAngle": "De manera similar, si dos pliegues se cruzan con un ángulo muy agudo, la ubicación del punto de intersección es inherentemente imprecisa. Este valor es el seno del ángulo mínimo permitido para tales intersecciones. Si este problema no le importa, puede establecer el valor en cero.",
+		"visibility": "Si está marcado, solo se permiten las alineaciones en las que todos los puntos de referencia son visibles con papel opaco. (En algunas alineaciones, una de las capas puede ocultar el punto de referencia correspondiente.) Si pliega con papel translúcido, puede desmarcar este ajuste, lo que permitirá considerar un mayor número de secuencias de plegado.",
+		"lineError": "Si se establece en \"Error del peor caso\", el error entre dos líneas se calcula como la separación máxima entre ambas líneas dentro del papel. De lo contrario, se usa la diferencia pitagórica, más rápida (pero menos precisa), entre los parámetros que definen la línea.",
+		"statistics": "Realiza un análisis estadístico de la base de datos. Este comando realiza una serie de ensayos: elige puntos aleatorios dentro del papel, encuentra la secuencia de plegado que da la marca más cercana y luego calcula el error entre ambos. Los errores resultantes se agrupan en intervalos y se muestran al final del análisis. Este comando es útil principalmente para comparar el rendimiento de diferentes ajustes de la base de datos; normalmente no lo necesitará."
+	},
+	"progress": {
+		"initializing": "Inicializando {{lines}} líneas y {{marks}} marcas de rango ≤ {{rank}}...",
+		"ready": "{{lines}} líneas y {{marks}} marcas de rango ≤ {{rank}} listas.",
+		"lines": "{{n}} líneas",
+		"marks": "{{n}} marcas"
+	}
 }

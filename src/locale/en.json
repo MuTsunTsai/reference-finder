@@ -46,7 +46,9 @@
 			"stdDev": "Standard deviation",
 			"runTime": "Run time"
 		},
-		"errorDist": "Error distribution"
+		"errorDist": "Error distribution",
+		"bucketCount": "Bucket count",
+		"aggregate": "Aggregate"
 	},
 	"settings": {
 		"reset": "Reset to defaults",
@@ -66,14 +68,33 @@
 				"O7": "Line to self, point to line."
 			},
 			"markRestriction": {
+				"_": "Mark restriction",
 				"restrict": "Only on edges",
 				"diagonals": "Diagonals",
 				"horizontal": "Horizontal fold",
 				"vertical": "Vertical fold"
-			}
+			},
+			"maxRank": "Max rank",
+			"maxLines": "Max lines",
+			"maxMarks": "Max marks"
 		},
 		"advanced": {
-			"_": "Advanced"
+			"_": "Advanced",
+			"useDivision": "Use divisions",
+			"numX": "X divisions",
+			"numY": "Y divisions",
+			"numA": "Angle divisions",
+			"numD": "Radial divisions",
+			"minAspectRatio": "Min aspect ratio",
+			"minAngleSine": "Min angle sine",
+			"visibility": "Visibility matters",
+			"lineError": {
+				"_": "Line error mode",
+				"worstCase": "Worst-case error",
+				"pythagorean": "Pythagorean error"
+			},
+			"goodEnoughError": "Good enough error",
+			"count": "Solution count"
 		},
 		"system": {
 			"_": "System",
@@ -125,7 +146,8 @@
 		"referenceFinder": "ReferenceFinder",
 		"coreVer": "Core version",
 		"clearExistingRefs": "Clear refs",
-		"addAsExistingRefs": "add as existing refs"
+		"addAsExistingRefs": "add as existing refs",
+		"coreError": "Error: {{message}}"
 	},
 	"invalid": {
 		"exp": "Should be a number at least 0, or an equivalent expression",
@@ -138,5 +160,11 @@
 		"cancel": "cancel",
 		"ok": "OK",
 		"download": "download"
+	},
+	"progress": {
+		"initializing": "Initializing {{lines}} lines and {{marks}} marks of rank ≤ {{rank}}...",
+		"ready": "{{lines}} lines and {{marks}} marks of rank ≤ {{rank}} ready.",
+		"lines": "{{n}} lines",
+		"marks": "{{n}} marks"
 	}
 }
