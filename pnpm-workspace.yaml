@@ -2,8 +2,7 @@ minimumReleaseAge: 600
 minimumReleaseAgeExclude:
   - "@mutsuntsai/*"
 allowBuilds:
-  core-js: true
-  unrs-resolver: true
+  core-js: false
 overrides:
   glob: ^13.0.0
   magic-string: ^0.30.0
