@@ -10,7 +10,8 @@ export interface Solution {
 }
 
 export type RefElement = PointElement | LineElement;
-export type DiagramElement = RefElement | ArcElement | PolyElement | LabelElement | null;
+export type DiagramElement =
+	RefElement | ArcElement | PolyElement | LabelElement | null;
 
 export interface StepBase {
 	axiom: number;
@@ -65,8 +66,9 @@ const defaultStore = {
 	statisticsRunning: false,
 	computedTheme: Theme.light,
 	existingRefs: [] as RefElement[], // for rendering on the preview paper
-	existingMarks: [] as IPoint[], // for computing new solutions from previous ones
-	existingLines: [] as ISegment[], // for computing new solutions from previous ones
+	// for computing new solutions from previous ones
+	existingMarks: [] as IPoint[],
+	existingLines: [] as ISegment[],
 };
 
 export const defaultDB = {
@@ -87,8 +89,10 @@ export const defaultDB = {
 	minAngleSine: 0.342,
 	minAngleSineExp: "sin(20)",
 	visibility: true,
-	// When marks are restricted, they may only be made on the edges, the existing lines and the allowed lines below.
-	// The core only knows whether marks are restricted; the allowed lines are passed to it as existing lines (see restriction.ts).
+	// When marks are restricted, they may only be made on the edges,
+	// the existing lines and the allowed lines below.
+	// The core only knows whether marks are restricted; the allowed lines
+	// are passed to it as existing lines (see restriction.ts).
 	restrictMarks: false,
 	allowDiagonals: false,
 	allowHorizontalFold: false,
@@ -98,25 +102,33 @@ export const defaultDB = {
 };
 export type DbSettings = typeof defaultDB;
 
-// localStorage is shared by all apps on mutsuntsai.github.io, so the keys must be prefixed.
+// localStorage is shared by all apps on mutsuntsai.github.io,
+// so the keys must be prefixed.
 // (SETTINGS_KEY is also read by an inline script in public/index.html.)
 export const SETTINGS_KEY = "reference-finder:settings";
 const DB_KEY = "reference-finder:db";
 
 /**
- * Moves the persisted stores from the old unprefixed keys, which collide with other apps on the same origin
+ * Moves the persisted stores from the old unprefixed keys,
+ * which collide with other apps on the same origin
  * (in particular, FEN Tool also used "settings").
  *
  * TODO: Migration code; can be removed after 2027-10.
  */
 function migrateStorage(): void {
-	for(const [oldKey, newKey] of [["settings", SETTINGS_KEY], ["db", DB_KEY]]) {
+	const keys = [["settings", SETTINGS_KEY], ["db", DB_KEY]];
+	for(const [oldKey, newKey] of keys) {
 		try {
 			const value = localStorage.getItem(oldKey);
-			if(value === null || localStorage.getItem(newKey) !== null) continue;
+			if(value === null) continue;
+			if(localStorage.getItem(newKey) !== null) continue;
 			const data = JSON.parse(value);
-			// Only take the value if it's in the shape persisted by zustand; otherwise it belongs to another app.
-			if(data && typeof data == "object" && "state" in data && "version" in data) {
+			// Only take the value if it's in the shape persisted by zustand;
+			// otherwise it belongs to another app.
+			if(
+				data && typeof data == "object" &&
+				"state" in data && "version" in data
+			) {
 				localStorage.setItem(newKey, value);
 				localStorage.removeItem(oldKey);
 			}
@@ -128,7 +140,9 @@ function migrateStorage(): void {
 migrateStorage();
 
 export const useStore = create(() => defaultStore);
-export const useSettings = create(persist(() => defaultSettings, { name: SETTINGS_KEY }));
+export const useSettings = create(
+	persist(() => defaultSettings, { name: SETTINGS_KEY })
+);
 export const useDB = create(persist(() => defaultDB, { name: DB_KEY }));
 
 export enum ElementType {

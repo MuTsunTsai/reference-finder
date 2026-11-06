@@ -24,7 +24,9 @@ export function StepComponent({ data, last }: StepComponentProps) {
 		if(s.order) s.n = s.order.split(",").map(v => s[v as keyof StepBase]) as string[];
 	}
 
-	function format(v: string | undefined, point?: boolean): string | undefined {
+	function format(
+		v: string | undefined, point?: boolean
+	): string | undefined {
 		if(typeof v !== "string") return v;
 		if(v === "_") {
 			v = point ? t("paper.existingMark") : t("paper.existingLine");

@@ -16,7 +16,9 @@ declare module "rabbit-ear" {
 		fromPoints(p1: IPoint, p2: IPoint): RayLine;
 	};
 
-	export function rect(x: number, y: number, width: number, height: number): Rect;
+	export function rect(
+		x: number, y: number, width: number, height: number
+	): Rect;
 
 	interface Rect {
 		clip(line: RayLine): Segment;

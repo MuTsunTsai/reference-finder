@@ -18,7 +18,8 @@ interface ExpInputProps extends Omit<InputProps<number>, "onInput"> {
 const canvas: HTMLCanvasElement = document.createElement("canvas");
 
 /**
- * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
+ * Uses canvas.measureText to compute and return the width of the given text
+ * of given font in pixels.
  * @see https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
  */
 function getTextWidth(input: HTMLInputElement, text: string): number {
@@ -38,7 +39,10 @@ export function ExpInput({ max, value, exp, invalid, onInput }: ExpInputProps) {
 	const [cache, setCache] = useState(exp ?? value.toString());
 
 	function format(v: number): string {
-		return v.toFixed(settings.precision).replace(/0+$/, "").replace(/\.$/, "").replace(/^$/, "0");
+		return v.toFixed(settings.precision)
+			.replace(/0+$/, "")
+			.replace(/\.$/, "")
+			.replace(/^$/, "0");
 	}
 
 	function isValid(v = tempValue): boolean {
@@ -63,7 +67,9 @@ export function ExpInput({ max, value, exp, invalid, onInput }: ExpInputProps) {
 	}
 
 	function shouldShowSuffix() {
-		return isNaN(Number(temp)) && temp != tempValue.toString() && !isNaN(tempValue);
+		return isNaN(Number(temp)) &&
+			temp != tempValue.toString() &&
+			!isNaN(tempValue);
 	}
 
 	useEffect(() => {

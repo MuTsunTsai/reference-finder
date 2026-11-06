@@ -12,12 +12,15 @@ export function getDegree(p: IPoint, precision: number): string {
 }
 
 /**
- * Original ReferenceFinder represents a line as (distance to origin, normal unit vector),
- * and I think using (distance to origin, degree of the line) is more intuitive.
+ * Original ReferenceFinder represents a line as
+ * (distance to origin, normal unit vector), and I think using
+ * (distance to origin, degree of the line) is more intuitive.
  */
 export function formatSolution(data: Solution, precision: number): string {
 	const item = data.solution[1];
-	const text = typeof item == "number" ? item.toFixed(precision) : getDegree(item, precision);
+	const text = typeof item == "number" ?
+		item.toFixed(precision) :
+		getDegree(item, precision);
 	return `(${data.solution[0].toFixed(precision)}, ${text})`;
 }
 

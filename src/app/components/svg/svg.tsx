@@ -15,7 +15,9 @@ interface SvgProps {
 	lightbox?: boolean;
 }
 
-export function Svg({ render, width, height, zoom, padding, lightbox }: SvgProps) {
+export function Svg({
+	render, width, height, zoom, padding, lightbox,
+}: SvgProps) {
 	const ref = useRef<HTMLDivElement>(null);
 	const [renderer, setRenderer] = useState<Renderer | null>(null);
 

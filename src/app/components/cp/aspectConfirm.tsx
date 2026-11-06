@@ -8,12 +8,18 @@ import { useDB, useSettings } from "../../store";
 import type { CreasePattern } from "../../cp/parse";
 
 interface AspectConfirmProps {
-	/** The pattern waiting for confirmation; the dialog is shown when this is set. */
+	/**
+	 * The pattern waiting for confirmation;
+	 * the dialog is shown when this is set.
+	 */
 	cp: CreasePattern | null;
 	onAnswer: (yes: boolean) => void;
 }
 
-/** Asks whether to change the sheet dimensions to match the aspect ratio of the opened pattern. */
+/**
+ * Asks whether to change the sheet dimensions
+ * to match the aspect ratio of the opened pattern.
+ */
 export function AspectConfirm({ cp, onAnswer }: AspectConfirmProps) {
 	const { t } = useTranslation();
 	const db = useDB();

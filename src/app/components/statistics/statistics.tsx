@@ -81,6 +81,59 @@ export function Statistics() {
 		return `${progress} / ${settings.trials}`;
 	}
 
+	const runningControls = (
+		<>
+			<div className="col">
+				<div className="progress">
+					<div
+						className="progress-bar progress-bar-striped progress-bar-animated"
+						style={{ width: percentage + "%" }}
+					>
+						{Math.floor(percentage)}%
+					</div>
+				</div>
+			</div>
+			<div className="col col-auto">
+				<button
+					className="btn btn-secondary capitalize"
+					type="button"
+					onClick={cancel}
+					disabled={canceling}
+				>
+					{t("keyword.cancel")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
+				</button>
+			</div>
+		</>
+	);
+
+	const idleControls = (
+		<>
+			<div className="col">
+				<IntInput
+					value={settings.trials}
+					min={1}
+					max={MAX_TRIALS}
+					onInput={v => useSettings.setState({ trials: v })}
+				/>
+			</div>
+			<div className="col col-auto">
+				<button
+					className="btn btn-primary"
+					type="button"
+					onClick={run}
+					disabled={!store.ready || store.statisticsRunning}
+				>
+					{!store.ready ?
+						<span className="capitalize">
+							{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
+						</span> :
+						<><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></>
+					}
+				</button>
+			</div>
+		</>
+	);
+
 	return (
 		<>
 			<button type="button" className="btn btn-secondary" onClick={handleShow}>
@@ -100,53 +153,8 @@ export function Statistics() {
 									<SettingsRow label={label()}>
 										<div className="row gx-3 align-items-center">
 											{store.statisticsRunning ?
-												<>
-													<div className="col">
-														<div className="progress">
-															<div
-																className="progress-bar progress-bar-striped progress-bar-animated"
-																style={{ width: percentage + "%" }}
-															>
-																{Math.floor(percentage)}%
-															</div>
-														</div>
-													</div>
-													<div className="col col-auto">
-														<button
-															className="btn btn-secondary capitalize"
-															type="button"
-															onClick={cancel}
-															disabled={canceling}
-														>
-															{t("keyword.cancel")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
-														</button>
-													</div>
-												</> :
-												<>
-													<div className="col">
-														<IntInput
-															value={settings.trials}
-															min={1}
-															max={MAX_TRIALS}
-															onInput={v => useSettings.setState({ trials: v })}
-														/>
-													</div>
-													<div className="col col-auto">
-														<button
-															className="btn btn-primary"
-															type="button"
-															onClick={run}
-															disabled={!store.ready || store.statisticsRunning}
-														>
-															{!store.ready ?
-																<span className="capitalize">
-																	{t("phrase.initializing")}&nbsp;<i className="fa-solid fa-spinner fa-spin"></i>
-																</span> :
-																<><i className="fa-solid fa-play"></i>&nbsp;<span className="capitalize">{t("phrase.go")}</span></>
-															}
-														</button>
-													</div>
-												</>
+												runningControls :
+												idleControls
 											}
 										</div>
 									</SettingsRow>

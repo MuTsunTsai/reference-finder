@@ -13,7 +13,8 @@ mExp.addToken([{
 }]);
 
 /**
- * I've tried a few options and math-expression-evaluator seems to be the best expression library.
+ * I've tried a few options and math-expression-evaluator seems to be
+ * the best expression library.
  * Alternatives are:
  * - mathjs: too many unneeded features and thus too heavy
  * - expr-eval: not actively maintained, and inconvenient to use degree units

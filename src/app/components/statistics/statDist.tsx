@@ -41,7 +41,10 @@ export function StatDist({ data }: StatData) {
 	const [min, max] = getMinMax(data);
 	const bucketSize = (max - min) / BUCKET_COUNT;
 
-	const buckets = Array.from({ length: BUCKET_COUNT }, (_, i) => min + (i + 1) * bucketSize);
+	const buckets = Array.from(
+		{ length: BUCKET_COUNT },
+		(_, i) => min + (i + 1) * bucketSize
+	);
 	buckets[buckets.length - 1] = max; // prevent floating error
 	const counts = getCounts(data, buckets);
 
@@ -109,9 +112,11 @@ export function StatDist({ data }: StatData) {
 						value += counts[context.dataIndex];
 					}
 					const result = `${value} (${(value / data.length * 100).toFixed(1)}%)`;
-					if(isAgg && context.dataIndex == context.dataset.data.length - 1) {
+					const lastIndex = context.dataset.data.length - 1;
+					if(isAgg && context.dataIndex == lastIndex) {
 						// Dynamic padding based on text width
-						const width = context.chart.ctx.measureText(result).width;
+						const ctx = context.chart.ctx;
+						const width = ctx.measureText(result).width;
 						setPadding(width);
 					}
 					return result;

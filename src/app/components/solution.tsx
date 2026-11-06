@@ -28,12 +28,14 @@ const DIAGRAM_SIZE = `${12 * DIAGRAM_ZOOM}rem`;
 
 /**
  * Function that runs when the user accepts a specific solution.
- * Adds the creases from the last diagram of the accepted solution and recreates the database.
+ * Adds the creases from the last diagram of the accepted solution
+ * and recreates the database.
  */
 function addAsExistingCreases(data: Solution) {
 	gtag("event", "ref_add_existing_refs");
 
-	// Add the creases from the last diagram of the accepted solution to the store (to render on the preview paper)
+	// Add the creases from the last diagram of the accepted solution
+	// to the store (to render on the preview paper)
 	const { existingMarks, existingLines, existingRefs } = useStore.getState();
 	for(let i = 0; i < data.steps.length; i++) {
 		let step = data.steps[i];
@@ -48,7 +50,8 @@ function addAsExistingCreases(data: Solution) {
 				existingRefs.push(el);
 				if(!step.pinch) existingLines.push([el.from, el.to]);
 			}
-			if(step.intersection) step = step.intersection; // continue with the next part
+			// continue with the next part
+			if(step.intersection) step = step.intersection;
 		}
 		if(step.axiom == 0) { // point
 			const el = diag.find(e =>
@@ -62,8 +65,11 @@ function addAsExistingCreases(data: Solution) {
 		}
 	}
 	useStore.setState({
-		existingRefs, existingMarks, existingLines, // Add the existing marks and lines to the store
-		solutions: [], // Empty out the list of solutions so the user notices that the input mark/line is solved
+		// Add the existing marks and lines to the store
+		existingRefs, existingMarks, existingLines,
+		// Empty out the list of solutions so the user notices
+		// that the input mark/line is solved
+		solutions: [],
 	});
 
 	// Recreate the database
@@ -80,7 +86,9 @@ function AddButton({ data }: AddButtonProps) {
 	);
 }
 
-export function SolutionComponent({ data, show, onSelect }: SolutionComponentProps) {
+export function SolutionComponent({
+	data, show, onSelect,
+}: SolutionComponentProps) {
 	const { t } = useTranslation();
 	const settings = useSettings();
 	const ref = useRef<HTMLDivElement>(null);
@@ -102,9 +110,15 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 					</div>
 					<div className="col-auto">{t("phrase.error")} {err},</div>
 					<div className="col-auto">rank {data.rank}</div>
-					<div className="col d-none d-md-block text-end" style={{ flex: "1 0 max-content" }}>
+					<div
+						className="col d-none d-md-block text-end"
+						style={{ flex: "1 0 max-content" }}
+					>
 						<AddButton data={data} />
-						<ExportButton cardBodyRef={cardBodyRef} solution={data} />
+						<ExportButton
+							cardBodyRef={cardBodyRef}
+							solution={data}
+						/>
 					</div>
 				</div>
 			</div>
@@ -140,7 +154,11 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 				{data.steps.length == 0 &&
 					<div className="row justify-content-center">
 						<div className="col" style={{ flex: `0 1 ${DIAGRAM_SIZE}` }}>
-							<Diagram data={data.diagrams[0]} last={true} padding={DIAGRAM_PADDING} />
+							<Diagram
+								data={data.diagrams[0]}
+								last={true}
+								padding={DIAGRAM_PADDING}
+							/>
 						</div>
 						<div className="col p-2" style={{ flex: `1 1 ${DIAGRAM_SIZE}` }}></div>
 					</div>
@@ -160,7 +178,10 @@ export function SolutionComponent({ data, show, onSelect }: SolutionComponentPro
 								</div>
 								<div className="col p-2" style={{ flex: `1 1 ${DIAGRAM_SIZE}` }}>
 									<ol start={i + 1}>
-										<StepComponent data={step} last={i == data.steps.length - 1} />
+										<StepComponent
+											data={step}
+											last={i == data.steps.length - 1}
+										/>
 									</ol>
 								</div>
 							</div>

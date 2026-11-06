@@ -13,16 +13,25 @@ const PROPS = [
 	"display",
 ] as const;
 
-/**
- * Creates (or reuses) a hidden off-screen container with the given data-bs-theme,
- * appends a clone of the SVG into it to force style resolution, reads computed styles,
- * then removes the container. Returns the styled clone (detached from DOM).
- */
-function resolveComputedStyles(svg: SVGSVGElement, theme: string): SVGSVGElement {
-	const container = document.createElement("div");
-	container.style.cssText = "position:absolute;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;";
+const OFFSCREEN_CSS =
+	"position:absolute;left:-9999px;top:-9999px;" +
+	"visibility:hidden;pointer-events:none;";
 
-	// Wrap in a fake #root so that theme CSS rules (scoped to [data-bs-theme="..."] #root) apply correctly
+/**
+ * Creates (or reuses) a hidden off-screen container
+ * with the given data-bs-theme, appends a clone of the SVG into it
+ * to force style resolution, reads computed styles,
+ * then removes the container.
+ * Returns the styled clone (detached from DOM).
+ */
+function resolveComputedStyles(
+	svg: SVGSVGElement, theme: string
+): SVGSVGElement {
+	const container = document.createElement("div");
+	container.style.cssText = OFFSCREEN_CSS;
+
+	// Wrap in a fake #root so that theme CSS rules
+	// (scoped to [data-bs-theme="..."] #root) apply correctly
 	container.dataset.bsTheme = theme;
 	const fakeRoot = document.createElement("div");
 	if(theme != "light") fakeRoot.id = "root";
@@ -56,29 +65,38 @@ function resolveComputedStyles(svg: SVGSVGElement, theme: string): SVGSVGElement
 }
 
 /**
- * Inlines computed styles of an SVG element so it renders correctly as a standalone file.
- * Returns a deep clone; the original DOM is not modified and the page never visually flickers.
+ * Inlines computed styles of an SVG element
+ * so it renders correctly as a standalone file.
+ * Returns a deep clone; the original DOM is not modified
+ * and the page never visually flickers.
  *
  * @param svg    The live SVG element in the document.
- * @param theme  The data-bs-theme value to use when resolving styles. Defaults to the current theme.
+ * @param theme  The data-bs-theme value to use when resolving styles.
+ *               Defaults to the current theme.
  */
-export function inlineStyles(svg: SVGSVGElement, theme?: "light"): SVGSVGElement {
-	const resolvedTheme = theme ?? document.documentElement.dataset.bsTheme ?? "light";
+export function inlineStyles(
+	svg: SVGSVGElement, theme?: "light"
+): SVGSVGElement {
+	const resolvedTheme =
+		theme ?? document.documentElement.dataset.bsTheme ?? "light";
 	const clone = resolveComputedStyles(svg, resolvedTheme);
 	inlineMarkers(clone, resolvedTheme);
 	return clone;
 }
 
 /**
- * Collects all marker IDs referenced via url(#...) in marker-start / marker-end style properties.
+ * Collects all marker IDs referenced via url(#...)
+ * in marker-start / marker-end style properties.
  */
 function collectMarkerIds(clone: SVGSVGElement): Set<string> {
-	// Match both url(#id) and url("...#id") - browsers expand relative urls to absolute in computed styles
+	// Match both url(#id) and url("...#id") - browsers expand
+	// relative urls to absolute in computed styles
 	const urlRe = /url\([^)]*#([^)"]+)[")]/g;
 	const ids = new Set<string>();
 	for(const el of Array.from(clone.querySelectorAll<SVGElement>("*"))) {
 		for(const attr of ["marker-start", "marker-end"] as const) {
-			const val = el.style.getPropertyValue(attr) || el.getAttribute(attr) || "";
+			const val =
+				el.style.getPropertyValue(attr) || el.getAttribute(attr) || "";
 			let m: RegExpExecArray | null;
 			urlRe.lastIndex = 0;
 			while((m = urlRe.exec(val)) !== null) ids.add(m[1]);
@@ -88,10 +106,14 @@ function collectMarkerIds(clone: SVGSVGElement): Set<string> {
 }
 
 /**
- * Clones a live marker element into the SVG's <defs>, inlines fill on its children,
+ * Clones a live marker element into the SVG's <defs>,
+ * inlines fill on its children,
  * and rewrites all references in the clone to use the new unique ID.
  */
-function inlineOneMarker(clone: SVGSVGElement, defs: Element, id: string, suffix: string, theme: string): void {
+function inlineOneMarker(
+	clone: SVGSVGElement, defs: Element, id: string,
+	suffix: string, theme: string
+): void {
 	const liveMarker = document.getElementById(id);
 	if(!liveMarker) return;
 	const markerClone = liveMarker.cloneNode(true) as Element;
@@ -101,7 +123,7 @@ function inlineOneMarker(clone: SVGSVGElement, defs: Element, id: string, suffix
 	// Resolve fill color under the correct theme using an off-screen container
 	const container = document.createElement("div");
 	container.dataset.bsTheme = theme;
-	container.style.cssText = "position:absolute;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;";
+	container.style.cssText = OFFSCREEN_CSS;
 	const fakeRoot = document.createElement("div");
 	if(theme != "light") fakeRoot.id = "root";
 	container.appendChild(fakeRoot);
@@ -109,7 +131,8 @@ function inlineOneMarker(clone: SVGSVGElement, defs: Element, id: string, suffix
 	fakeRoot.appendChild(markerCopy);
 	document.body.appendChild(container);
 	try {
-		for(const path of Array.from(markerClone.querySelectorAll<SVGElement>("path, polygon"))) {
+		const paths = markerClone.querySelectorAll<SVGElement>("path, polygon");
+		for(const path of Array.from(paths)) {
 			const live = markerCopy.querySelector(path.tagName);
 			if(live) {
 				const fill = getComputedStyle(live).getPropertyValue("fill");
@@ -136,9 +159,11 @@ function inlineOneMarker(clone: SVGSVGElement, defs: Element, id: string, suffix
 }
 
 /**
- * Finds all marker references (marker-start / marker-end with url(#...)) in the clone,
- * copies the corresponding <marker> elements from the live document into a <defs> block,
- * and rewrites the references to use unique IDs to avoid conflicts when multiple SVGs are combined.
+ * Finds all marker references (marker-start / marker-end with url(#...))
+ * in the clone, copies the corresponding <marker> elements
+ * from the live document into a <defs> block,
+ * and rewrites the references to use unique IDs
+ * to avoid conflicts when multiple SVGs are combined.
  */
 function inlineMarkers(clone: SVGSVGElement, theme: string): void {
 	const ids = collectMarkerIds(clone);
@@ -153,5 +178,7 @@ function inlineMarkers(clone: SVGSVGElement, theme: string): void {
 		clone.prepend(defs);
 	}
 
-	for(const id of Array.from(ids)) inlineOneMarker(clone, defs, id, suffix, theme);
+	for(const id of Array.from(ids)) {
+		inlineOneMarker(clone, defs, id, suffix, theme);
+	}
 }

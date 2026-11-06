@@ -16,7 +16,10 @@ interface CpPickerProps {
 	onConfirm: (selection: CpSelection) => void;
 }
 
-/** The button that opens the modal for selecting a point or a line from the crease pattern. */
+/**
+ * The button that opens the modal for selecting
+ * a point or a line from the crease pattern.
+ */
 export function CpPicker({ cp, selection, onConfirm }: CpPickerProps) {
 	const { t } = useTranslation();
 	const db = useDB();
@@ -47,7 +50,9 @@ export function CpPicker({ cp, selection, onConfirm }: CpPickerProps) {
 		Modal.getOrCreateInstance(ref.current!).show();
 	};
 
-	const errorKey = temp && getTargetError(getSelectionPoints(cp, temp), db, existingLines, settings.error);
+	const errorKey = temp && getTargetError(
+		getSelectionPoints(cp, temp), db, existingLines, settings.error
+	);
 
 	return <>
 		<button type="button" className="btn btn-primary" onClick={show}>

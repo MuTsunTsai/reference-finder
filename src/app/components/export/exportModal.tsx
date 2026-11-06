@@ -12,7 +12,9 @@ interface ExportModalProps {
 	onClose: () => void;
 }
 
-export function ExportModal({ blob, format, defaultName, onClose }: ExportModalProps) {
+export function ExportModal({
+	blob, format, defaultName, onClose,
+}: ExportModalProps) {
 	const { t } = useTranslation();
 	const ref = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -42,7 +44,10 @@ export function ExportModal({ blob, format, defaultName, onClose }: ExportModalP
 	const objectUrl = blob ? URL.createObjectURL(blob) : null;
 
 	const handleDownload = async () => {
-		if(!linkRef.current || !inputRef.current || !objectUrl || !format || !ref.current) return;
+		if(
+			!linkRef.current || !inputRef.current || !objectUrl ||
+			!format || !ref.current
+		) return;
 		const name = inputRef.current.value.trim() || defaultName;
 		linkRef.current.href = objectUrl;
 		linkRef.current.download = name + "." + format;

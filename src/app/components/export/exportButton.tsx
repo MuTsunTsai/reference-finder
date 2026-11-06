@@ -18,7 +18,11 @@ export function ExportButton({ cardBodyRef, solution }: ExportButtonProps) {
 	const { t } = useTranslation();
 	const settings = useSettings();
 	const [loading, setLoading] = useState(false);
-	const [exportState, setExportState] = useState<{ blob: Blob, format: ExportFormat, name: string } | null>(null);
+	const [exportState, setExportState] = useState<{
+		blob: Blob;
+		format: ExportFormat;
+		name: string;
+	} | null>(null);
 	const toggleRef = useRef<HTMLButtonElement>(null);
 
 	const handleExport = async (format: ExportFormat) => {

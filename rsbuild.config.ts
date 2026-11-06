@@ -92,8 +92,10 @@ export default defineConfig({
 	output: {
 		cleanDistPath: isProduction,
 		copy: [
-			// Uncomment these two lines for WASM debugging
-			// { from: "ref.wasm.map", context: "./src/lib/", to: "static/wasm/" },
+			// Uncomment these lines for WASM debugging
+			// {
+			// 	from: "ref.wasm.map", context: "./src/lib/", to: "static/wasm/",
+			// },
 			// { from: "core/**/*", context: "./src/", to: "static" },
 		],
 		dataUriLimit: 100,

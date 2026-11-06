@@ -5,7 +5,10 @@ import type { DbSettings, Solution } from "./store";
 
 export const idbSupported = typeof indexedDB !== "undefined";
 
-/** Name of the IndexedDB used by IDBFS; must match the mount point in core/utils.h. */
+/**
+ * Name of the IndexedDB used by IDBFS;
+ * must match the mount point in core/utils.h.
+ */
 export const IDB_NAME = "/reference-finder";
 
 let worker: Worker;
@@ -23,9 +26,12 @@ export enum Command {
 	statistics = 99,
 }
 
-export function startStatistics(trials: number, callback: typeof statisticsCallback) {
+export function startStatistics(
+	trials: number, callback: typeof statisticsCallback
+): void {
 	statisticsCallback = callback;
-	worker.postMessage([Command.statistics, trials, Math.floor(Math.random() * UINT_MAX)]);
+	const seed = Math.floor(Math.random() * UINT_MAX);
+	worker.postMessage([Command.statistics, trials, seed]);
 }
 
 function parseSolution(text: string) {
@@ -36,18 +42,25 @@ function parseSolution(text: string) {
 	const steps = solution.steps;
 	solution.steps = [];
 	for(const step of steps) {
-		if(step.axiom > 0 || step == steps[steps.length - 1]) solution.steps.push(step);
-		else solution.steps[solution.steps.length - 1].intersection = step;
+		if(step.axiom > 0 || step == steps[steps.length - 1]) {
+			solution.steps.push(step);
+		} else {
+			solution.steps[solution.steps.length - 1].intersection = step;
+		}
 	}
 	return solution;
 }
 
-export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
+export function resetWorker(
+	db: DbSettings, forceRebuildIfInitialized = true
+): void {
 	let forceRebuild = false;
 	if(worker) {
 		worker.terminate();
 		if(forceRebuildIfInitialized) forceRebuild = true;
-		useStore.setState({ running: false, ready: false, progress: null, coreError: null });
+		useStore.setState({
+			running: false, ready: false, progress: null, coreError: null,
+		});
 		console.log("Reset worker");
 	}
 	const startTime = performance.now();
@@ -55,19 +68,22 @@ export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
 	const settings = useSettings.getState();
 
 	// Get existing marks and lines from the store
-	const store = useStore.getState();
-	const existingMarks = store.existingMarks;
-	const existingLines = store.existingLines;
-	// The restriction lines depend only on the DB settings, so the saved database can still be used
+	const { existingMarks, existingLines } = useStore.getState();
+	// The restriction lines depend only on the DB settings,
+	// so the saved database can still be used
 	const coreLines = existingLines.concat(getRestrictionLines(db));
 
-	// Flatten existingMarks and existingLines into lists of numbers for sending to the core
+	// Flatten existingMarks and existingLines into lists of numbers
+	// for sending to the core
 	const existingMarksFlat = existingMarks.flatMap(e => [e[0], e[1]]);
-	const existingLinesFlat = coreLines.flatMap(e => [e[0][0], e[0][1], e[1][0], e[1][1]]);
+	const existingLinesFlat = coreLines.flatMap(
+		e => [e[0][0], e[0][1], e[1][0], e[1][1]]
+	);
 
 	// Send the message to the worker
 	worker.postMessage([
-		idbSupported && settings.useDB && existingMarks.length === 0 && existingLines.length === 0,
+		idbSupported && settings.useDB &&
+			existingMarks.length === 0 && existingLines.length === 0,
 		forceRebuild,
 		db.width,
 		db.height,
@@ -96,7 +112,9 @@ export function resetWorker(db: DbSettings, forceRebuildIfInitialized = true) {
 function createHandler(startTime: number) {
 	return (e: MessageEvent) => {
 		const msg = e.data;
-		const { running, ready, solutions, statisticsRunning } = useStore.getState();
+		const {
+			running, ready, solutions, statisticsRunning,
+		} = useStore.getState();
 		if(msg.text) {
 			const text = msg.text;
 			if(!ready) {

@@ -1,7 +1,10 @@
 /** File extensions accepted for crease patterns. */
 export const CP_ACCEPT = ".cp,.fold";
 
-/** Whether the browser supports opening files with the File System Access API. */
+/**
+ * Whether the browser supports opening files
+ * with the File System Access API.
+ */
 export const hasOpenFilePicker: boolean =
 	typeof window !== "undefined" && typeof (window as Window & { showOpenFilePicker?: unknown }).showOpenFilePicker === "function";
 

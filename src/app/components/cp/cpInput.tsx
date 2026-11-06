@@ -25,14 +25,22 @@ interface CpInputProps {
 
 const EXP_DIGITS = 10;
 
-/** The area for opening a crease pattern file and selecting the target from it. */
-export function CpInput({ cp, fitted, selection, error, onLoad, onSelect }: CpInputProps) {
+/**
+ * The area for opening a crease pattern file
+ * and selecting the target from it.
+ */
+export function CpInput(
+	{ cp, fitted, selection, error, onLoad, onSelect }: CpInputProps
+) {
 	const { t } = useTranslation();
 	const describe = useDescribeSelection(fitted);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [dragging, setDragging] = useState(false);
 	const [loadError, setLoadError] = useState<string | null>(null);
-	/** A pattern whose aspect ratio differs from the sheet, waiting for the confirmation. */
+	/**
+	 * A pattern whose aspect ratio differs from the sheet,
+	 * waiting for the confirmation.
+	 */
 	const [pending, setPending] = useState<CreasePattern | null>(null);
 
 	async function load(file: File) {
@@ -44,17 +52,24 @@ export function CpInput({ cp, fitted, selection, error, onLoad, onSelect }: CpIn
 			if(matchesAspectRatio(result, width, height)) onLoad(result);
 			else setPending(result);
 		} catch(e) {
-			setLoadError(t("cp.loadError", { message: (e as Error).message, interpolation: { escapeValue: false } }));
+			setLoadError(t("cp.loadError", {
+				message: (e as Error).message,
+				interpolation: { escapeValue: false },
+			}));
 		}
 	}
 
-	/** If confirmed, changes the sheet dimensions to match the pending pattern; otherwise the opening is cancelled. */
+	/**
+	 * If confirmed, changes the sheet dimensions to match the pending pattern;
+	 * otherwise the opening is cancelled.
+	 */
 	const answerAspect = useCallback((yes: boolean) => {
 		setPending(null);
 		if(!yes || !pending) return;
 		const db = useDB.getState();
 		const height = db.width / getAspectRatio(pending);
-		const newDb = { ...db, height, heightExp: String(Number(height.toPrecision(EXP_DIGITS))) };
+		const heightExp = String(Number(height.toPrecision(EXP_DIGITS)));
+		const newDb = { ...db, height, heightExp };
 		useDB.setState(newDb);
 		resetWorker(newDb);
 		onLoad(pending);
@@ -70,7 +85,8 @@ export function CpInput({ cp, fitted, selection, error, onLoad, onSelect }: CpIn
 			if(file) await load(file);
 		} catch(e) {
 			console.error(e);
-			inputRef.current!.click(); // Fallback, e.g. when the API is blocked in an iframe
+			// Fallback, e.g. when the API is blocked in an iframe
+			inputRef.current!.click();
 		}
 	}
 
@@ -98,14 +114,19 @@ export function CpInput({ cp, fitted, selection, error, onLoad, onSelect }: CpIn
 						onDragLeave={() => setDragging(false)}
 						onDrop={drop}
 					>
-						{/* Both states have the same layout, so that the height doesn't change after opening */}
+						{/*
+							Both states have the same layout,
+							so that the height doesn't change after opening
+						*/}
 						{cp ?
 							<>
-								<i className="fa-solid fa-file-lines"></i>&nbsp;<span className="fw-bold">{cp.name}</span>
+								<i className="fa-solid fa-file-lines"></i>&nbsp;
+								<span className="fw-bold">{cp.name}</span>
 								<div className="small text-muted">{t("cp.change")}</div>
 							</> :
 							<>
-								<i className="fa-solid fa-file-import"></i>&nbsp;<span className="fw-bold">{t("cp.open")}</span>
+								<i className="fa-solid fa-file-import"></i>&nbsp;
+								<span className="fw-bold">{t("cp.open")}</span>
 								<div className="small text-muted">{t("cp.formats")}</div>
 							</>
 						}
@@ -113,8 +134,14 @@ export function CpInput({ cp, fitted, selection, error, onLoad, onSelect }: CpIn
 				</div>
 				{fitted &&
 					<div className="col-12 col-sm d-flex align-items-center gap-2">
-						<CpPicker cp={fitted} selection={selection} onConfirm={onSelect} />
-						<span className={selection ? "" : "text-muted"}>{describe(selection) ?? t("cp.none")}</span>
+						<CpPicker
+							cp={fitted}
+							selection={selection}
+							onConfirm={onSelect}
+						/>
+						<span className={selection ? "" : "text-muted"}>
+							{describe(selection) ?? t("cp.none")}
+						</span>
 					</div>
 				}
 			</div>
@@ -131,7 +158,9 @@ export function CpInput({ cp, fitted, selection, error, onLoad, onSelect }: CpIn
 			/>
 			{loadError && <div className="text-danger small mt-1">{loadError}</div>}
 			{error && <div className="text-danger small mt-1">{error}</div>}
-			{fitted?.aspectMismatch && <div className="text-warning small mt-1">{t("cp.aspect")}</div>}
+			{fitted?.aspectMismatch &&
+				<div className="text-warning small mt-1">{t("cp.aspect")}</div>
+			}
 			<AspectConfirm cp={pending} onAnswer={answerAspect} />
 		</div>
 	);

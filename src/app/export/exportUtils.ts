@@ -97,9 +97,13 @@ interface WrappedLine {
  * CJK characters are treated as individual break units;
  * Latin words are kept together and break at spaces.
  * The very first line (the one with "N. " prefix) starts at x=0;
- * all subsequent lines (including first lines of continuation paragraphs) start at x=indent.
+ * all subsequent lines (including first lines of continuation paragraphs)
+ * start at x=indent.
  */
-/** Splits a paragraph into tokens: each CJK char is its own token; Latin words carry a leading space. */
+/**
+ * Splits a paragraph into tokens: each CJK char is its own token;
+ * Latin words carry a leading space.
+ */
 function tokenize(paragraph: string): string[] {
 	const tokens: string[] = [];
 	let latin = "";
@@ -128,7 +132,10 @@ function tokenize(paragraph: string): string[] {
 	return tokens;
 }
 
-function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, indent: number): WrappedLine[] {
+function wrapText(
+	ctx: CanvasRenderingContext2D, text: string,
+	maxWidth: number, indent: number
+): WrappedLine[] {
 	const lines: WrappedLine[] = [];
 	const contWidth = maxWidth - indent;
 	let isVeryFirst = true;
@@ -177,7 +184,8 @@ async function stepToCanvas(unit: StepUnit, transparent: boolean, theme?: "light
 			measureCtx.measureText(prefixMatch[1]).width : 0;
 		lines = wrapText(measureCtx, unit.text, CELL_W - TEXT_PAD * 2, indent);
 	}
-	const textH = lines.length > 0 ? TEXT_PAD + lines.length * LINE_H + TEXT_PAD : 0;
+	const textH = lines.length > 0 ?
+		TEXT_PAD + lines.length * LINE_H + TEXT_PAD : 0;
 
 	const canvas = document.createElement("canvas");
 	canvas.width = CELL_W;
@@ -195,14 +203,20 @@ async function stepToCanvas(unit: StepUnit, transparent: boolean, theme?: "light
 		ctx.font = FONT;
 		ctx.fillStyle = theme === "light" ? "#212529" : getComputedStyle(document.body).color || "#212529";
 		lines.forEach((line, i) => {
-			ctx.fillText(line.text, TEXT_PAD + line.x, DIAGRAM_PX + TEXT_PAD + (i + 1) * LINE_H);
+			ctx.fillText(
+				line.text,
+				TEXT_PAD + line.x,
+				DIAGRAM_PX + TEXT_PAD + (i + 1) * LINE_H
+			);
 		});
 	}
 
 	return canvas;
 }
 
-function compositeGrid(cells: HTMLCanvasElement[], transparent: boolean): HTMLCanvasElement {
+function compositeGrid(
+	cells: HTMLCanvasElement[], transparent: boolean
+): HTMLCanvasElement {
 	const cols = Math.min(GRID_COLS, cells.length);
 	const rows = Math.ceil(cells.length / cols);
 	const cellH = Math.max(...cells.map(c => c.height));
@@ -256,7 +270,8 @@ const SVG_MEASURE_SCALE = 3;
 function buildSvgTextLines(unit: StepUnit, g: SVGGElement, NS: string, fontFamily = "sans-serif"): void {
 	if(!unit.text) return;
 
-	// Use a temporary canvas to measure text widths in "px" equivalent of SVG units
+	// Use a temporary canvas to measure text widths
+	// in "px" equivalent of SVG units
 	const canvas = document.createElement("canvas");
 	const ctx = canvas.getContext("2d")!;
 	ctx.font = `${SVG_FONT_SIZE * SVG_MEASURE_SCALE}px sans-serif`;

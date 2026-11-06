@@ -24,5 +24,7 @@ export function Preview({ points }: PreviewProps) {
 		}
 	}
 
-	return Svg({ render, width, height, zoom: 1, padding: 0.05, lightbox: true });
+	return Svg({
+		render, width, height, zoom: 1, padding: 0.05, lightbox: true,
+	});
 }

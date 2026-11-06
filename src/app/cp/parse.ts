@@ -30,17 +30,25 @@ interface Box {
 	height: number;
 }
 
-/** A crease pattern transformed onto the sheet, with the origin at the lower-left corner. */
+/**
+ * A crease pattern transformed onto the sheet,
+ * with the origin at the lower-left corner.
+ */
 export interface FittedPattern {
 	lines: CpLine[];
 	vertices: IPoint[];
-	/** Whether the aspect ratio of the pattern differs from that of the sheet. */
+	/**
+	 * Whether the aspect ratio of the pattern differs from that of the sheet.
+	 */
 	aspectMismatch: boolean;
 }
 
 export interface CpSelection {
 	type: "point" | "line";
-	/** Index in {@link FittedPattern.vertices} or {@link FittedPattern.lines}. */
+	/**
+	 * Index in {@link FittedPattern.vertices}
+	 * or {@link FittedPattern.lines}.
+	 */
 	index: number;
 }
 
@@ -52,12 +60,15 @@ const ASPECT_TOLERANCE = 1e-6;
  * falling back to detecting JSON content.
  */
 export function parseCp(name: string, content: string): CreasePattern {
-	const isFold = /\.fold$/i.test(name) || !/\.cp$/i.test(name) && content.trimStart().startsWith("{");
+	const isFold = /\.fold$/i.test(name) ||
+		!/\.cp$/i.test(name) && content.trimStart().startsWith("{");
 	const lines = isFold ? parseFold(content) : parseOripa(content);
 	if(lines.length == 0) throw new Error("No lines found");
 	const vertices = collectVertices(lines);
 	const box = getBoundingBox(vertices);
-	if(!box.width || !box.height) throw new Error("The crease pattern has zero area");
+	if(!box.width || !box.height) {
+		throw new Error("The crease pattern has zero area");
+	}
 	return { name, lines, vertices, box };
 }
 
@@ -68,7 +79,9 @@ function parseOripa(content: string): CpLine[] {
 		const text = row.trim();
 		if(!text) continue;
 		const values = text.split(/\s+/).map(Number);
-		if(values.length < 5 || values.some(v => isNaN(v))) throw new Error("Invalid line: " + text);
+		if(values.length < 5 || values.some(v => isNaN(v))) {
+			throw new Error("Invalid line: " + text);
+		}
 		const [type, x1, y1, x2, y2] = values;
 		result.push({ type: toCreaseType(type), p1: [x1, y1], p2: [x2, y2] });
 	}
@@ -85,10 +98,14 @@ interface FoldFrame {
 /** @see https://github.com/edemaine/fold */
 function parseFold(content: string): CpLine[] {
 	let fold = JSON.parse(content) as FoldFrame;
-	if(!fold.vertices_coords && fold.file_frames?.length) fold = fold.file_frames[0];
+	if(!fold.vertices_coords && fold.file_frames?.length) {
+		fold = fold.file_frames[0];
+	}
 	const coords = fold.vertices_coords;
 	const edges = fold.edges_vertices;
-	if(!coords || !edges) throw new Error("Missing vertices_coords or edges_vertices");
+	if(!coords || !edges) {
+		throw new Error("Missing vertices_coords or edges_vertices");
+	}
 	return edges.map(([i, j], k) => {
 		if(!coords[i] || !coords[j]) throw new Error("Invalid edge: " + k);
 		return {
@@ -100,7 +117,8 @@ function parseFold(content: string): CpLine[] {
 }
 
 function toCreaseType(type: number): CreaseType {
-	return type >= CreaseType.border && type <= CreaseType.valley ? type : CreaseType.auxiliary;
+	return type >= CreaseType.border && type <= CreaseType.valley ?
+		type : CreaseType.auxiliary;
 }
 
 function fromAssignment(assignment: string | undefined): CreaseType {
@@ -130,21 +148,36 @@ function collectVertices(lines: CpLine[]): IPoint[] {
 
 /**
  * Maps the bounding box of the pattern onto the sheet.
- * Both .cp and .fold files (as exported by ORIPA, BP Studio, etc.) use screen coordinates
- * with the y-axis pointing down, so the y-axis is flipped here.
+ * Both .cp and .fold files (as exported by ORIPA, BP Studio, etc.)
+ * use screen coordinates with the y-axis pointing down,
+ * so the y-axis is flipped here.
  */
-export function fitToSheet(cp: CreasePattern, width: number, height: number): FittedPattern {
+export function fitToSheet(
+	cp: CreasePattern, width: number, height: number
+): FittedPattern {
 	const { minX, maxY, width: w, height: h } = cp.box;
-	const map = (p: IPoint): IPoint => [(p[0] - minX) / w * width, (maxY - p[1]) / h * height];
+	const map = (p: IPoint): IPoint => [
+		(p[0] - minX) / w * width,
+		(maxY - p[1]) / h * height,
+	];
 	return {
-		lines: cp.lines.map(l => ({ type: l.type, p1: map(l.p1), p2: map(l.p2) })),
+		lines: cp.lines.map(l => ({
+			type: l.type,
+			p1: map(l.p1),
+			p2: map(l.p2),
+		})),
 		vertices: cp.vertices.map(map),
 		aspectMismatch: !matchesAspectRatio(cp, width, height),
 	};
 }
 
-/** Whether the aspect ratio of the pattern is the same as that of the given sheet. */
-export function matchesAspectRatio(cp: CreasePattern, width: number, height: number): boolean {
+/**
+ * Whether the aspect ratio of the pattern
+ * is the same as that of the given sheet.
+ */
+export function matchesAspectRatio(
+	cp: CreasePattern, width: number, height: number
+): boolean {
 	const ratio = width / height;
 	return Math.abs(getAspectRatio(cp) - ratio) <= ASPECT_TOLERANCE * ratio;
 }
@@ -155,7 +188,8 @@ export function getAspectRatio(cp: CreasePattern): number {
 }
 
 function getBoundingBox(vertices: IPoint[]): Box {
-	// Not using Math.min(...xs), as large patterns could exceed the argument limit
+	// Not using Math.min(...xs),
+	// as large patterns could exceed the argument limit
 	let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
 	for(const [x, y] of vertices) {
 		minX = Math.min(minX, x);
@@ -167,7 +201,9 @@ function getBoundingBox(vertices: IPoint[]): Box {
 }
 
 /** Returns the points defining the selection on the sheet. */
-export function getSelectionPoints(fitted: FittedPattern, selection: CpSelection): IPoint[] {
+export function getSelectionPoints(
+	fitted: FittedPattern, selection: CpSelection
+): IPoint[] {
 	if(selection.type == "point") return [fitted.vertices[selection.index]];
 	const line = fitted.lines[selection.index];
 	return [line.p1, line.p2];

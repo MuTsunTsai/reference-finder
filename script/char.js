@@ -63,11 +63,15 @@ for(const file of LOCALES) {
 			}
 		}
 	}
-	const sorted = [...chars].sort((a, b) => a.codePointAt(0) - b.codePointAt(0));
+	const sorted = [...chars].sort(
+		(a, b) => a.codePointAt(0) - b.codePointAt(0)
+	);
 	console.log(`\n${file} (${sorted.length} chars):`);
 	console.log(FIXED + sorted.join(""));
 }
 
-const allSorted = [...allChars].sort((a, b) => a.codePointAt(0) - b.codePointAt(0));
+const allSorted = [...allChars].sort(
+	(a, b) => a.codePointAt(0) - b.codePointAt(0)
+);
 console.log(`\nTotal unique: ${FIXED}${allSorted.length}`);
 console.log(allSorted.join(""));

@@ -23,7 +23,8 @@ export const syncVer = async () => {
 			if(newContent === content) return null;
 
 			const now = new Date();
-			const today = now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate());
+			const today = now.getFullYear() +
+				pad(now.getMonth() + 1) + pad(now.getDate());
 			return newContent.replace(/(?<=VERSION_BUILD )\d+/, today);
 		}))
 		.pipe(gulp.dest("src/core"));

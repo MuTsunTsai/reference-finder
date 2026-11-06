@@ -4,12 +4,14 @@ import type { DbSettings } from "./store";
 function distanceToLine(p: IPoint, a: IPoint, b: IPoint): number {
 	const dx = b[0] - a[0];
 	const dy = b[1] - a[1];
-	return Math.abs(dx * (p[1] - a[1]) - dy * (p[0] - a[0])) / Math.hypot(dx, dy);
+	const cross = dx * (p[1] - a[1]) - dy * (p[0] - a[0]);
+	return Math.abs(cross) / Math.hypot(dx, dy);
 }
 
 /**
- * Additional lines (other than the edges) that are passed to the core as existing lines
- * when marks are restricted, as the core only allows marks on the edges and the existing lines.
+ * Additional lines (other than the edges) that are passed to the core
+ * as existing lines when marks are restricted, as the core only allows
+ * marks on the edges and the existing lines.
  */
 export function getRestrictionLines(db: DbSettings): ISegment[] {
 	const lines: ISegment[] = [];
@@ -23,10 +25,13 @@ export function getRestrictionLines(db: DbSettings): ISegment[] {
 
 /**
  * Checks if the target point can be found under the mark restriction,
- * i.e. it lies (within the tolerance) on an edge, a restriction line or an existing line.
+ * i.e. it lies (within the tolerance) on an edge, a restriction line
+ * or an existing line.
  * Must be consistent with ReferenceFinder::ValidateMark in the core.
  */
-export function isOnPinchLine(p: IPoint, db: DbSettings, existingLines: ISegment[], tolerance: number): boolean {
+export function isOnPinchLine(
+	p: IPoint, db: DbSettings, existingLines: ISegment[], tolerance: number
+): boolean {
 	if(!db.restrictMarks) return true;
 	const { width: w, height: h } = db;
 	const lines: ISegment[] = [
@@ -41,13 +46,16 @@ export function isOnPinchLine(p: IPoint, db: DbSettings, existingLines: ISegment
 }
 
 /**
- * Checks if the target (a point, or a line given by two points) can be searched under the mark restriction.
+ * Checks if the target (a point, or a line given by two points)
+ * can be searched under the mark restriction.
  * Returns the i18n key of the error message, or null if it's allowed.
  */
 export function getTargetError(
-	target: IPoint[], db: DbSettings, existingLines: ISegment[], tolerance: number
+	target: IPoint[], db: DbSettings,
+	existingLines: ISegment[], tolerance: number
 ): string | null {
 	if(!db.restrictMarks) return null;
 	if(target.length > 1) return "cp.lineRestricted";
-	return isOnPinchLine(target[0], db, existingLines, tolerance) ? null : "invalid.pointOnPinchLine";
+	return isOnPinchLine(target[0], db, existingLines, tolerance) ?
+		null : "invalid.pointOnPinchLine";
 }

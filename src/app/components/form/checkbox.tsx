@@ -10,7 +10,9 @@ interface CheckboxProps {
 	onInput: (v: boolean) => void;
 }
 
-export function Checkbox({ value, className, disabled, children, onInput }: CheckboxProps) {
+export function Checkbox({
+	value, className, disabled, children, onInput,
+}: CheckboxProps) {
 	const id = useId();
 	return (
 		<div className={"form-check " + className}>

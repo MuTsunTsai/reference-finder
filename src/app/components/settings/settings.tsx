@@ -26,7 +26,8 @@ export function Settings() {
 	const db = useDB();
 	const settings = useSettings();
 	const [open, setOpen] = useState(false);
-	const [cacheSettings, cacheTempSettings] = useState(structuredClone(settings));
+	const [cacheSettings, cacheTempSettings] =
+		useState(structuredClone(settings));
 	const [tempDb, setTempDb] = useState(structuredClone(db));
 	const ref = useRef(null);
 
@@ -49,7 +50,8 @@ export function Settings() {
 	};
 
 	const reset = () => {
-		// Settings are written in-place, so that it can be reflected on UI immediately
+		// Settings are written in-place,
+		// so that it can be reflected on UI immediately
 		useSettings.setState(structuredClone(defaultSettings));
 		setTempDb(structuredClone(defaultDB));
 	};
@@ -66,7 +68,9 @@ export function Settings() {
 				<div className="modal-dialog modal-dialog-centered">
 					<div className="modal-content">
 						{open &&
-							<SettingsContext.Provider value={{ tempDb, setTempDb }}>
+							<SettingsContext.Provider
+								value={{ tempDb, setTempDb }}
+							>
 								<Suspense fallback={<Loading />}>
 									<SettingsBody />
 								</Suspense>
@@ -108,9 +112,13 @@ export function Settings() {
 
 function hasChanged<T extends object>(oldV: T, newV: T): boolean {
 	for(const key in oldV) {
-		if(!(key in newV)) return true; // check if newV has attribute key; if not, return true (db has changed)
+		// check if newV has attribute key;
+		// if not, return true (db has changed)
+		if(!(key in newV)) return true;
 		if(Array.isArray(oldV[key])) {
-			if(hasChanged(oldV[key] as unknown[], newV[key] as unknown[])) return true;
+			if(hasChanged(oldV[key] as unknown[], newV[key] as unknown[])) {
+				return true;
+			}
 		} else {
 			if(oldV[key] !== newV[key]) return true;
 		}

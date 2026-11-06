@@ -23,7 +23,10 @@ function App() {
 
 	useEffect(() => {
 		let theme = Theme.light;
-		if(settings.theme == Theme.dark || settings.theme == Theme.system && systemDark) theme = Theme.dark;
+		if(
+			settings.theme == Theme.dark ||
+			settings.theme == Theme.system && systemDark
+		) theme = Theme.dark;
 		if(settings.theme == Theme.rabbit) theme = Theme.rabbit;
 		useStore.setState({ computedTheme: theme });
 		document.documentElement.dataset.bsTheme = Theme[theme];
@@ -32,8 +35,9 @@ function App() {
 	return <>
 		<div className="container px-4">
 			{
-				// We only need to define markers once in the entire application,
-				// and the container SVG needs to be visible all the time.
+				// We only need to define markers once in the entire
+				// application, and the container SVG needs to be visible
+				// all the time.
 			}
 			<svg className="markers">
 				<defs>
@@ -64,7 +68,8 @@ function App() {
 				<div className="text-danger mb-3">
 					{t("phrase.coreError", { message: store.coreError, interpolation: { escapeValue: false } })}
 				</div> ||
-				store.solutions.length == 0 && (!store.ready || !store.running) &&
+				store.solutions.length == 0 &&
+				(!store.ready || !store.running) &&
 				<div className="mb-3">
 					<div>{t("tip.title")}</div>
 					<ol>
@@ -85,8 +90,13 @@ function App() {
 									onClick={() => setSol(i)}
 									className={"w-100 p-1 btn btn-ld col solution-preview " + (sol == i ? "active" : "")}
 								>
-									<Diagram data={s.diagrams[s.diagrams.length - 1]} padding={0.1} />
-									<div>{formatSolution(s, settings.precision)}</div>
+									<Diagram
+										data={s.diagrams[s.diagrams.length - 1]}
+										padding={0.1}
+									/>
+									<div>
+										{formatSolution(s, settings.precision)}
+									</div>
 									<div><Exact err={s.err} />{t("phrase.error")} {s.err.toFixed(settings.precision)}</div>
 									<div>rank {s.rank}</div>
 								</button>
@@ -98,7 +108,12 @@ function App() {
 		</section>
 		<div className="container px-4 flex-grow-1">
 			{store.solutions.map((s, i) =>
-				<SolutionComponent key={i} data={s} show={sol == i} onSelect={() => setSol(i)} />
+				<SolutionComponent
+					key={i}
+					data={s}
+					show={sol == i}
+					onSelect={() => setSol(i)}
+				/>
 			)}
 		</div>
 		<Lightbox />

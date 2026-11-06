@@ -20,9 +20,13 @@ const TEXT_OFFSET = 0.12;
 /**
  * Spread out the labels from each other.
  */
-function getTextOffset(text: LabelElement, data: DiagramElement[], zoom: number): IPoint {
+function getTextOffset(
+	text: LabelElement, data: DiagramElement[], zoom: number
+): IPoint {
 	const offset = TEXT_OFFSET / zoom / zoom;
-	const otherLabels = data.filter(e => e && e.type == ElementType.label && e != text) as LabelElement[];
+	const otherLabels = data.filter(
+		e => e && e.type == ElementType.label && e != text
+	) as LabelElement[];
 	const pts = otherLabels.map(l => {
 		// Other labels that are closer have greater weights
 		const dx = text.pt[0] - l.pt[0];
@@ -38,7 +42,9 @@ function getTextOffset(text: LabelElement, data: DiagramElement[], zoom: number)
 	return [offset * avgX / norm, offset * avgY / norm];
 }
 
-export function Diagram({ data, last, padding, zoom = 1, lightbox }: DiagramProps) {
+export function Diagram({
+	data, last, padding, zoom = 1, lightbox,
+}: DiagramProps) {
 	const { width, height } = data[0] as PolyElement;
 
 	function render(renderer: Renderer) {

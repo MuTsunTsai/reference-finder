@@ -33,8 +33,14 @@ export class Renderer {
 	}
 
 	public init() {
-		this.root = this.svg.origami(ear.cp.rectangle(this.width * this.zoom, this.height * this.zoom));
-		this.root.setAttribute("transform", `translate(0 ${this.height * this.zoom}) scale(1 -1)`); // lower-left origin
+		this.root = this.svg.origami(
+			ear.cp.rectangle(this.width * this.zoom, this.height * this.zoom)
+		);
+		// lower-left origin
+		this.root.setAttribute(
+			"transform",
+			`translate(0 ${this.height * this.zoom}) scale(1 -1)`
+		);
 
 		// Draw existing references
 		const { existingRefs } = useStore.getState();
@@ -53,12 +59,15 @@ export class Renderer {
 	}
 
 	public clip(from: IPoint, to: IPoint): ear.Segment {
-		return ear.rect(0, 0, this.width, this.height).clip(ear.line.fromPoints(from, to));
+		return ear.rect(0, 0, this.width, this.height)
+			.clip(ear.line.fromPoints(from, to));
 	}
 
 	public line(from: IPoint, to: IPoint, className: string): void {
 		try {
-			const line = this.root.edges.line(scale(from, this.zoom), scale(to, this.zoom));
+			const line = this.root.edges.line(
+				scale(from, this.zoom), scale(to, this.zoom)
+			);
 			line.classList.add(className);
 		} catch {
 			// Ignore error if the two points are identical
@@ -70,7 +79,10 @@ export class Renderer {
 		circle.classList.add(className);
 	}
 
-	public arc(center: IPoint, radius: number, from: number, to: number, ccw: number, className: string): void {
+	public arc(
+		center: IPoint, radius: number, from: number, to: number,
+		ccw: number, className: string
+	): void {
 		if(!ccw) [from, to] = [to, from];
 
 		// Apply a slight offset to the arrow to make it look better
@@ -86,13 +98,19 @@ export class Renderer {
 		arc.classList.add(className);
 		if(ccw) arc.classList.add("reverse");
 		if(radius < 0.5) {
-			arc.style.strokeWidth = Math.max(0.005, 0.015 * radius / 0.5).toString();
+			arc.style.strokeWidth =
+				Math.max(0.005, 0.015 * radius / 0.5).toString();
 		}
 	}
 
-	public text(text: string, pt: IPoint, offset: IPoint, className: string): void {
+	public text(
+		text: string, pt: IPoint, offset: IPoint, className: string
+	): void {
 		const label = this.root.edges.text(text, scale(pt, this.zoom));
-		label.setAttribute("transform", `translate(${offset[0]} ${(2 * pt[1] * this.zoom - 0.05 + offset[1])}) scale(1 -1)`);
+		const y = 2 * pt[1] * this.zoom - 0.05 + offset[1];
+		label.setAttribute(
+			"transform", `translate(${offset[0]} ${y}) scale(1 -1)`
+		);
 		label.classList.add(className);
 	}
 }

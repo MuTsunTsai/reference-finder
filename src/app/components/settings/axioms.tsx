@@ -2,8 +2,11 @@ import { useTranslation } from "react-i18next";
 import { useContext } from "react";
 import {
 	DndContext,
-	useSensor, useSensors, MouseSensor, TouchSensor, // Needed to work properly on mobile devices
-	closestCenter // This helps prevent weird behavior near the boundary of the parent container
+	// Needed to work properly on mobile devices
+	useSensor, useSensors, MouseSensor, TouchSensor,
+	// This helps prevent weird behavior
+	// near the boundary of the parent container
+	closestCenter
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -81,7 +84,10 @@ export function Axioms() {
 	}
 
 	function move(oldIndex: number, newIndex: number) {
-		setTempDb({ ...tempDb, axiomPriority: arrayMove(tempDb.axiomPriority, oldIndex, newIndex) });
+		setTempDb({
+			...tempDb,
+			axiomPriority: arrayMove(tempDb.axiomPriority, oldIndex, newIndex),
+		});
 	}
 
 	return (
@@ -114,7 +120,11 @@ export function Axioms() {
 					)}
 				</div> :
 				<div>
-					<DndContext onDragEnd={handleDragEnd} sensors={sensors} collisionDetection={closestCenter}>
+					<DndContext
+						onDragEnd={handleDragEnd}
+						sensors={sensors}
+						collisionDetection={closestCenter}
+					>
 						<SortableContext items={tempDb.axiomPriority}>
 							{tempDb.axiomPriority.map((a, i) =>
 								<Item key={a} axiom={a} />

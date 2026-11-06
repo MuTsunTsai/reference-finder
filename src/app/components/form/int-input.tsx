@@ -12,13 +12,17 @@ export interface IntInputProps extends InputProps<number> {
 	min?: number;
 }
 
-export function IntInput({ max, min, value, disabled, onInput }: IntInputProps) {
+export function IntInput({
+	max, min, value, disabled, onInput,
+}: IntInputProps) {
 	const { t } = useTranslation();
 	if(min === undefined) min = 0;
 	const [temp, setTemp] = useState(value.toString());
 
 	function isValid(v = Number(temp)): boolean {
-		return Number.isSafeInteger(v) && v >= min! && (max === undefined || v <= max);
+		return Number.isSafeInteger(v) &&
+			v >= min! &&
+			(max === undefined || v <= max);
 	}
 
 	function input(exp: string): void {

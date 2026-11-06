@@ -20,17 +20,21 @@ export default function SettingsBody() {
 	useEffect(() => {
 		if(!settings.useDB) {
 			deleteDB(IDB_NAME);
-			// TODO: The old database name; this line can be removed after 2027-10.
+			// TODO: The old database name;
+			// this line can be removed after 2027-10.
 			deleteDB("/data");
 		}
 	}, [settings.useDB]);
 
 	const MAX_DIV = 65_000; // About the sqrt of max unsigned int
 	const MIN_OBJ = 10_000;
-	const MAX_OBJ = 18_500_000; // This is roughly the max number of references that can be generated under the 4GB limit
+	// This is roughly the max number of references
+	// that can be generated under the 4GB limit
+	const MAX_OBJ = 18_500_000;
 
 	// Disabling divisions works very poorly for ranks >= 6 in general,
-	// so we place this restriction to save our users the trouble of finding that fact themselves.
+	// so we place this restriction to save our users the trouble
+	// of finding that fact themselves.
 	const mustUseDivision = tempDb.maxRank > 5;
 	const disableDivisions = !mustUseDivision && !tempDb.useDivision;
 
@@ -53,14 +57,18 @@ export default function SettingsBody() {
 						<ExpInput
 							value={tempDb.width}
 							exp={tempDb.widthExp}
-							onInput={(v, exp) => setTempDb({ ...tempDb, width: v, widthExp: exp })}
+							onInput={(v, exp) => setTempDb({
+								...tempDb, width: v, widthExp: exp,
+							})}
 						/>
 					</SettingsRow>
 					<SettingsRow label={t("settings.basic.height")}>
 						<ExpInput
 							value={tempDb.height}
 							exp={tempDb.heightExp}
-							onInput={(v, exp) => setTempDb({ ...tempDb, height: v, heightExp: exp })}
+							onInput={(v, exp) => setTempDb({
+								...tempDb, height: v, heightExp: exp,
+							})}
 						/>
 					</SettingsRow>
 					<SettingsRow label={t("settings.basic.maxRank")} help={t("help.maxRank")}>
@@ -75,7 +83,9 @@ export default function SettingsBody() {
 							value={tempDb.maxLinesV1}
 							min={MIN_OBJ}
 							max={MAX_OBJ}
-							onInput={v => setTempDb({ ...tempDb, maxLinesV1: v })}
+							onInput={v => setTempDb({
+								...tempDb, maxLinesV1: v,
+							})}
 						/>
 					</SettingsRow>
 					<SettingsRow label={t("settings.basic.maxMarks")} help={t("help.maxMarks")}>
@@ -83,33 +93,43 @@ export default function SettingsBody() {
 							value={tempDb.maxMarksV1}
 							min={MIN_OBJ}
 							max={MAX_OBJ}
-							onInput={v => setTempDb({ ...tempDb, maxMarksV1: v })}
+							onInput={v => setTempDb({
+								...tempDb, maxMarksV1: v,
+							})}
 						/>
 					</SettingsRow>
 					<SettingsRow label={t("settings.basic.markRestriction._")} help={t("help.markRestriction")}>
 						<Checkbox
 							className="col-form-label"
 							value={tempDb.restrictMarks}
-							onInput={v => setTempDb({ ...tempDb, restrictMarks: v })}
+							onInput={v => setTempDb({
+								...tempDb, restrictMarks: v,
+							})}
 						>{t("settings.basic.markRestriction.restrict")}</Checkbox>
 						<div>
 							<Checkbox
 								className="form-check-inline"
 								value={tempDb.allowDiagonals}
 								disabled={!tempDb.restrictMarks}
-								onInput={v => setTempDb({ ...tempDb, allowDiagonals: v })}
+								onInput={v => setTempDb({
+									...tempDb, allowDiagonals: v,
+								})}
 							>{t("settings.basic.markRestriction.diagonals")}</Checkbox>
 							<Checkbox
 								className="form-check-inline"
 								value={tempDb.allowHorizontalFold}
 								disabled={!tempDb.restrictMarks}
-								onInput={v => setTempDb({ ...tempDb, allowHorizontalFold: v })}
+								onInput={v => setTempDb({
+									...tempDb, allowHorizontalFold: v,
+								})}
 							>{t("settings.basic.markRestriction.horizontal")}</Checkbox>
 							<Checkbox
 								className="form-check-inline"
 								value={tempDb.allowVerticalFold}
 								disabled={!tempDb.restrictMarks}
-								onInput={v => setTempDb({ ...tempDb, allowVerticalFold: v })}
+								onInput={v => setTempDb({
+									...tempDb, allowVerticalFold: v,
+								})}
 							>{t("settings.basic.markRestriction.vertical")}</Checkbox>
 						</div>
 					</SettingsRow>
@@ -166,14 +186,22 @@ export default function SettingsBody() {
 					<ExpInput
 						value={tempDb.minAspectRatio}
 						exp={tempDb.minAspectRatioExp}
-						onInput={(v, exp) => setTempDb({ ...tempDb, minAspectRatio: v, minAspectRatioExp: exp })}
+						onInput={(v, exp) => setTempDb({
+							...tempDb,
+							minAspectRatio: v,
+							minAspectRatioExp: exp,
+						})}
 					/>
 				</SettingsRow>
 				<SettingsRow label={t("settings.advanced.minAngleSine")} help={t("help.minAngle")}>
 					<ExpInput
 						value={tempDb.minAngleSine}
 						exp={tempDb.minAngleSineExp}
-						onInput={(v, exp) => setTempDb({ ...tempDb, minAngleSine: v, minAngleSineExp: exp })}
+						onInput={(v, exp) => setTempDb({
+							...tempDb,
+							minAngleSine: v,
+							minAngleSineExp: exp,
+						})}
 					/>
 				</SettingsRow>
 				<SettingsRow label={t("settings.advanced.visibility")} help={t("help.visibility")}>
@@ -188,7 +216,9 @@ export default function SettingsBody() {
 					<select
 						className="form-select"
 						value={settings.worstCaseError ? "1" : ""}
-						onChange={e => useSettings.setState({ worstCaseError: Boolean(e.currentTarget.value) })}
+						onChange={e => useSettings.setState({
+							worstCaseError: Boolean(e.currentTarget.value),
+						})}
 					>
 						<option value="1">{t("settings.advanced.lineError.worstCase")}</option>
 						<option value="">{t("settings.advanced.lineError.pythagorean")}</option>
@@ -198,7 +228,9 @@ export default function SettingsBody() {
 					<ExpInput
 						value={settings.error}
 						exp={settings.errorExp}
-						onInput={(v, exp) => useSettings.setState({ error: v, errorExp: exp })}
+						onInput={(v, exp) => useSettings.setState({
+							error: v, errorExp: exp,
+						})}
 					/>
 				</SettingsRow>
 				<SettingsRow label={t("settings.advanced.count")}>
@@ -216,7 +248,9 @@ export default function SettingsBody() {
 						<select
 							value={settings.theme}
 							className="form-select"
-							onChange={e => useSettings.setState({ theme: Number(e.currentTarget.value) })}
+							onChange={e => useSettings.setState({
+								theme: Number(e.currentTarget.value),
+							})}
 						>
 							<option value={Theme.system}>{t("settings.system.theme.system")}</option>
 							<option value={Theme.light}>{t("settings.system.theme.light")}</option>
@@ -229,7 +263,9 @@ export default function SettingsBody() {
 							min={1}
 							max={6}
 							value={settings.precision}
-							onInput={v => useSettings.setState({ precision: v })}
+							onInput={v => useSettings.setState({
+								precision: v,
+							})}
 						/>
 					</SettingsRow>
 				</div>
